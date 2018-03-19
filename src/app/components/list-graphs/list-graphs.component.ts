@@ -7,21 +7,18 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-list-graphs',
   templateUrl: './list-graphs.component.html',
-  styleUrls: [ './list-graphs.component.css' ]
+  styleUrls: ['./list-graphs.component.css']
 })
 export class ListGraphsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private router: Router
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  goBack(): void {
-  }
+  goBack(): void {}
 
   next() {
     this.router.navigate(['/selectData/']);

@@ -1,0 +1,10 @@
+#contendor-principal {
+  margin-bottom: 10px;
+  padding-top: 150px;
+}
+
+.cleanFloat {
+  clear: both;
+  width: 100%;
+  padding-left: 20px;
+}
