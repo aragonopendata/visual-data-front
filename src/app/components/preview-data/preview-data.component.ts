@@ -1,19 +1,18 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { ShareDataService } from '../data/shareData';
-import { CkanService } from '../data/ckan.service';
+import { ShareDataService } from '../../services/shareData.service';
+import { CkanService } from '../../services/ckan.service';
 import { DataTable } from 'primeng/primeng';
 
 @Component({
   selector: 'app-preview-data',
   templateUrl: './preview-data.component.html',
-  styleUrls: [ './preview-data.component.css' ]
+  styleUrls: ['./preview-data.component.css']
 })
-export class PreviewDataComponent implements OnInit, OnDestroy  {
-
+export class PreviewDataComponent implements OnInit, OnDestroy {
   properties: string[];
   data: any;
   checked: boolean[] = [];
@@ -37,7 +36,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy  {
     if (this.dataservice.type === 'CKAN') {
       this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
         this.data = data.result.results;
-        this.properties = Object.keys(this.data[0]).map((key) => key);
+        this.properties = Object.keys(this.data[0]).map(key => key);
         console.log(this.data);
       });
     }
@@ -57,7 +56,9 @@ export class PreviewDataComponent implements OnInit, OnDestroy  {
       for (let i = 0; i < this.properties.length; i++) {
         // console.log(this.properties[i]);
         if (this.checked[this.properties[i]]) {
-          union = Object.assign(union, {[this.properties[i]]: this.data[j][this.properties[i]]});
+          union = Object.assign(union, {
+            [this.properties[i]]: this.data[j][this.properties[i]]
+          });
           // arrayGenerated[i][j] = this.data[j][this.properties[i]];;
         }
       }

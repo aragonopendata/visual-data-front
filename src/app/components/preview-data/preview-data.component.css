@@ -1,41 +1,41 @@
 .fixed-size {
-    table-layout: fixed;
-    word-wrap: break-word;
+  table-layout: fixed;
+  word-wrap: break-word;
 }
 
 .col-format {
-    white-space: pre-wrap;
-    word-break: break-all;
-    width: 200px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  width: 200px;
 }
 
 .column1 {
-    float: left;
-    width: 20%;
+  float: left;
+  width: 20%;
 }
 
 .column2 {
-    float: left;
-    width: 80%;
-    padding-right: 5%;
+  float: left;
+  width: 80%;
+  padding-right: 5%;
 }
 
 /* Clear floats after the columns */
 .row:after {
-    content: "";
-    display: table;
-    clear: both;
+  content: '';
+  display: table;
+  clear: both;
 }
 
 .button {
-    background-color: #0066CC;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: poin
-} 
+  background-color: #0066cc;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: poin;
+}

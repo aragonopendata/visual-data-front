@@ -5,8 +5,8 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { AccordionModule } from 'ng2-accordion';
 import { AutoCompleteModule } from 'primeng/primeng';
-import { CkanService } from '../data/ckan.service';
-import { ShareDataService } from '../data/shareData';
+import { CkanService } from '../../services/ckan.service';
+import { ShareDataService } from '../../services/shareData.service';
 
 @Component({
   selector: 'app-select-data',

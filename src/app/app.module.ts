@@ -5,63 +5,68 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
-
+import {
+  Location,
+  LocationStrategy,
+  PathLocationStrategy
+} from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
 // Primeng
-import {DropdownModule, DataTableModule, AutoCompleteModule} from 'primeng/primeng';
-
+import {
+  DropdownModule,
+  DataTableModule,
+  AutoCompleteModule
+} from 'primeng/primeng';
 // Main
-import { AppComponent } from './zmain/app.component';
-import { AppRoutingModule } from './zmain/app-routing.module';
-import { Config } from './config';
-
-
+import { AppComponent } from './app.component';
 // Generic Component
-import { BlankComponent } from './blank/blank.component';
-import { CkanService } from './components/data/ckan.service';
-
+import { CkanService } from './services/ckan.service';
 // Data Components
-import { ShareDataService } from './components/data/shareData';
-
-// Layaouts
-// Layout Client
-import { HeaderComponent } from './_layout/header/header.component';
-import { LayoutComponent } from './_layout/layout/layout.component';
-import { FooterComponent } from './_layout/footer/footer.component';
-import { MigasComponent } from './_layout/migas/migas.component';
+import { ShareDataService } from './services/shareData.service';
+// Layouts
+import { HeaderComponent } from './components/layouts/header/header.component';
+import { FooterComponent } from './components/layouts/footer/footer.component';
+import { MigasComponent } from './components/layouts/migas/migas.component';
+// Constants
 import { Constants } from './app.constants';
-
 // Pages
 import { ListGraphsComponent } from './components/list-graphs/list-graphs.component';
 import { SelectDataComponent } from './components/select-data/select-data.component';
 import { PreviewDataComponent } from './components/preview-data/preview-data.component';
 import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
-import { DatasetsService } from './header-modules-components/datasets.service';
-
+import { DatasetsService } from './services/datasets.service';
 // Utils
-import {AccordionModule} from 'ng2-accordion';
+import { AccordionModule } from 'ng2-accordion';
 import { ChartsModule } from 'ng2-charts';
+
+const pathModifier = Constants.PATH_MODIFIER;
+const routes: Routes = [
+  { path: pathModifier + '', component: ListGraphsComponent, pathMatch: 'full' },
+  { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
+  { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
+  { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
+  { path: pathModifier + 'endGraphic', component: EndGraphComponent, pathMatch: 'full' }
+];
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     DropdownModule,
     AccordionModule,
     AutoCompleteModule,
     DataTableModule,
-    ChartsModule
+    ChartsModule,
+    RouterModule.forRoot(routes)
   ],
   declarations: [
-    LayoutComponent,
     HeaderComponent,
     FooterComponent,
     MigasComponent,
     AppComponent,
-    BlankComponent,
     ListGraphsComponent,
     SelectDataComponent,
     PreviewDataComponent,
@@ -70,11 +75,12 @@ import { ChartsModule } from 'ng2-charts';
   ],
   providers: [
     DatePipe,
-    Config ,
     Constants,
     DatasetsService,
     CkanService,
-    ShareDataService],
-  bootstrap: [ AppComponent ]
+    ShareDataService,
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

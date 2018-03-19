@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { ShareDataService } from '../data/shareData';
+import { ShareDataService } from '../../services/shareData.service';
 import { ChartsModule } from 'ng2-charts';
 
 @Component({
@@ -12,7 +12,6 @@ import { ChartsModule } from 'ng2-charts';
   styleUrls: ['./preview-graph.component.css']
 })
 export class PreviewGraphComponent implements OnInit {
-
   properties: string[];
   data: any;
   chartType: string;
@@ -29,22 +28,21 @@ export class PreviewGraphComponent implements OnInit {
     this.chartType = 'line';
     try {
       this.data = JSON.parse(JSON.stringify(this.dataservice.data));
-      this.properties = Object.keys(this.data[0]).map((key) => key);
+      this.properties = Object.keys(this.data[0]).map(key => key);
     } catch (error) {
       this.router.navigate(['/selectData/']);
     }
   }
 
   // lineChart
-  public lineChartData: Array<any> = [
-    { data: [100], label: 'Series A' }
-  ];
+  public lineChartData: Array<any> = [{ data: [100], label: 'Series A' }];
   public lineChartLabels: Array<any> = ['Select Data'];
   public lineChartOptions: any = {
     responsive: true
   };
   public lineChartColors: Array<any> = [
-    { // grey
+    {
+      // grey
       backgroundColor: 'rgba(148,159,177,0.2)',
       borderColor: 'rgba(148,159,177,1)',
       pointBackgroundColor: 'rgba(148,159,177,1)',
@@ -56,8 +54,7 @@ export class PreviewGraphComponent implements OnInit {
   public lineChartLegend = true;
   public lineChartType = 'line';
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   goBack(): void {
     this.location.back();
@@ -97,15 +94,17 @@ export class PreviewGraphComponent implements OnInit {
               aux[i][this.propertyDataSelected] = 1;
               NaN = true;
           }+*/
-          let i = 0, j;
+          let i = 0,
+            j;
           while (i < aux.length) {
             j = i + 1;
             while (j < aux.length) {
               const aux1 = aux[i][this.propertyLabelSelected];
               const aux2 = aux[j][this.propertyLabelSelected];
-              if (aux1 === aux2 || aux1 == null && aux2 == null) {
+              if (aux1 === aux2 || (aux1 == null && aux2 == null)) {
                 // if(NaN == true)
-                aux[i][this.propertyDataSelected] += aux[j][this.propertyDataSelected];
+                aux[i][this.propertyDataSelected] +=
+                  aux[j][this.propertyDataSelected];
                 aux.splice(j, 1);
                 j--;
               }
