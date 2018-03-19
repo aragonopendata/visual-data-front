@@ -1,0 +1,40 @@
+.button1 {
+  background-color: #0066CC;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  padding: 4px 4px;
+  display: inline-block;
+  margin-left: 10px;
+  cursor: pointer;
+} 
+
+.button2 {
+  background-color: #0066CC;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+} 
+
+.button3 {
+  background-color:none;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+} 
+
+ul {
+  list-style-type: none;
+}
+
+body .ui-autocomplete-dropdown{
+  padding-bottom: 4px;
+}

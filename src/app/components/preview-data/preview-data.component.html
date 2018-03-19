@@ -1,0 +1,38 @@
+<div class="row">
+        <div class="column1">
+                <ul>
+                        <li><strong>Seleccionar Columnas:</strong></li> 
+                        <ng-template ngFor let-property [ngForOf]="properties">
+                                <li><input type="checkbox" name=property value=property (change)="updateChecked(property, $event)" /> {{property}}</li>         
+                        </ng-template>
+                </ul>
+        </div>
+        <div class="column2">
+                <p-dataTable styleClass="fixed-size" scrollable="true" [value]="data" [rows]="10" [paginator]="true" #dt>
+                        <p-header>Dataset</p-header>
+                        <ng-template ngFor let-property [ngForOf]="properties">
+                                <p-column [style]="{'width':'220px', 'word-break':'break-all'}" field={{property}} header={{property}}>
+                                </p-column>
+                        </ng-template>
+                <!--<p-column field={{properties[0]}} header={{properties[0]}} [filter]="true" filterPlaceholder="Search"></p-column>--> <!--Esto funciona
+
+                *ngIf="nestedColumn(property)" 
+                                        
+                                <ng-template [ngIf]=nestedColumn(property) let-col let-property="rowData" let-ri="rowIndex" pTemplate="body">
+                                        <span>{{extractData(property, data)}} {{data}} <br/></span>
+                                </ng-template>
+
+
+                        <p-column field="locations" header="Locations" [sortable]="true">
+                                <ng-template let-col let-locations="rowData" let-ri="rowIndex" pTemplate="body">
+                                        <span *ngFor="let item of locations.location">{{item.name}} <br/></span>
+                                </ng-template>
+                        </p-column> 
+                                
+                                -->
+                </p-dataTable>
+        </div>
+</div>
+
+
+<button (click)="next()" class="button">Crear Grafica</button>

@@ -1,0 +1,27 @@
+#box {
+    -webkit-box-shadow: 5px 5px 15px 5px #444444; 
+    box-shadow: 5px 5px 15px 5px #444444;
+}
+td{
+    padding: 10px;
+}
+img{
+    display:block;
+    width: 100%;
+}
+
+.button {
+    background-color: #0066CC;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: poin
+} 
+.center {
+    text-align: center;
+}
