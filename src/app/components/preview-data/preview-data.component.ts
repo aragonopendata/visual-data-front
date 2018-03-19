@@ -1,18 +1,18 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit }        from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location }                 from '@angular/common';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ShareDataService } from '../data/shareData';
 import { CkanService } from '../data/ckan.service';
 import { DataTable } from 'primeng/primeng';
 
 @Component({
-  selector: 'preview-data',
+  selector: 'app-preview-data',
   templateUrl: './preview-data.component.html',
   styleUrls: [ './preview-data.component.css' ]
 })
-export class PreviewData implements OnInit {
+export class PreviewDataComponent implements OnInit, OnDestroy  {
 
   properties: string[];
   data: any;
@@ -24,68 +24,68 @@ export class PreviewData implements OnInit {
     private router: Router,
     public dataservice: ShareDataService,
     private ckanservice: CkanService
-  ) { 
+  ) {
     this.data = [];
-    this.properties = ["Cargando"];
+    this.properties = ['Cargando'];
 
-    //TODO: Borrar las dos siguientes lineas, usadas para debug
-    this.dataservice.type = "CKAN";
-    this.dataservice.data = "123456789-7";
+    // TODO: Borrar las dos siguientes lineas, usadas para debug
+    this.dataservice.type = 'CKAN';
+    this.dataservice.data = '123456789-7';
   }
 
   ngOnInit(): void {
-    if(this.dataservice.type == "CKAN"){
+    if (this.dataservice.type === 'CKAN') {
       this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
         this.data = data.result.results;
-        this.properties = Object.keys(this.data[0]).map((key)=>{ return key});
+        this.properties = Object.keys(this.data[0]).map((key) => key);
         console.log(this.data);
       });
     }
   }
 
-
   ngOnDestroy() {
-    //Count number of trues in checked list
+    // Count number of trues in checked list
     /*
     var myCount = this.checked.reduce(function(a,b){
       return b?a+1:a;
     },0);
     */
-    //var arrayGenerated:any[][] = [[myCount],[]];
-    var arrayGenerated = [];
-    for (var j = 0; j < this.data.length; j++) {
-      var union = {};
-      for (var i = 0; i < this.properties.length; i++) {
-        //console.log(this.properties[i]);
-        if(this.checked[this.properties[i]]){
+    // var arrayGenerated:any[][] = [[myCount],[]];
+    const arrayGenerated = [];
+    for (let j = 0; j < this.data.length; j++) {
+      let union = {};
+      for (let i = 0; i < this.properties.length; i++) {
+        // console.log(this.properties[i]);
+        if (this.checked[this.properties[i]]) {
           union = Object.assign(union, {[this.properties[i]]: this.data[j][this.properties[i]]});
-          //arrayGenerated[i][j] = this.data[j][this.properties[i]];;
+          // arrayGenerated[i][j] = this.data[j][this.properties[i]];;
         }
       }
       arrayGenerated.push(union);
-    } 
+    }
     this.dataservice.data = arrayGenerated;
     console.log(arrayGenerated);
   }
 
-  updateChecked(option :any, event : boolean) {
-    if(this.checked[option])
-      this.checked[option]=!this.checked[option];
-    else
+  updateChecked(option, event) {
+    if (this.checked[option]) {
+      this.checked[option] = !this.checked[option];
+    } else {
       this.checked[option] = true;
+    }
   }
 
   /*
   nestedColumn(column: string, data: string){
     console.log(column);
     console.log(data);
-    if(column == "resources")
+    if(column == 'resources')
       return false;
     return true;
   }
 
   extractData(property: any, data: any){
-    if(property == "resources"){
+    if(property == 'resources'){
 
     }
     else{
@@ -94,8 +94,8 @@ export class PreviewData implements OnInit {
   }
 */
 
-  next(){
-    this.router.navigate(['/previewGraph/']); 
+  next() {
+    this.router.navigate(['/previewGraph/']);
   }
 
   goBack(): void {

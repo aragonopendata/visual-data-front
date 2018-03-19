@@ -13,13 +13,13 @@ export class User {
     openid: string;
     name: string;
     email: string;
-    //ADMIN
+    // ADMIN
     description: string;
     password: string;
     role: Role[];
     signupDate: Date;
-    active: boolean = true;
+    active = true;
     fullname: string;
-    
+
     constructor() { }
 }

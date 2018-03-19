@@ -24,7 +24,7 @@ export class Organization {
     type: string;
     id: string;
     tags: Tag[];
-    name: string;  
+    name: string;
 
     constructor() { }
 }

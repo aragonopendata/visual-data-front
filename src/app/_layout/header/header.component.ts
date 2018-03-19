@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
     aragonParticipaWebUrl: string;
 
     constructor(private constants: Constants,
-            private datasetService: DatasetsService, private router: Router) {
+        private datasetService: DatasetsService, private router: Router) {
         this.aodBaseUrl = Constants.AOD_BASE_URL;
         this.presupuestosBaseUrl = Constants.PRESUPUESTOS_BASE_URL;
         this.transparenciaWebUrl = Constants.TRANSPARENCIA_WEB_URL;
@@ -60,8 +60,8 @@ export class HeaderComponent implements OnInit {
         this.routerLinkDataOrganizations = Constants.ROUTER_LINK_DATA_ORGANIZATIONS;
         this.routerLinkServicesAragopedia = Constants.ROUTER_LINK_SERVICES_ARAGOPEDIA;
         this.routerLinkServicesCras = Constants.ROUTER_LINK_SERVICES_CRAS;
-              this.routerLinkServicesSocialData = Constants.ROUTER_LINK_SERVICES_SOCIAL_DATA;
-              this.routerLinkServicesAnalytics = Constants.ROUTER_LINK_SERVICES_ANALYTICS;
+        this.routerLinkServicesSocialData = Constants.ROUTER_LINK_SERVICES_SOCIAL_DATA;
+        this.routerLinkServicesAnalytics = Constants.ROUTER_LINK_SERVICES_ANALYTICS;
         this.routerLinkInfoOpenData = Constants.ROUTER_LINK_INFORMATION_OPEN_DATA;
         this.routerLinkInfoApplications = Constants.ROUTER_LINK_INFORMATION_APPS;
         this.routerLinkInfoEventos = Constants.ROUTER_LINK_INFORMATION_EVENTS;
@@ -129,15 +129,15 @@ export class HeaderComponent implements OnInit {
     }
 
     search(title: string): void {
-		//Lectura cuando hay al menos 3 caracteres, (3 espacios produce error).
-		if (title.length >= Constants.DATASET_AUTOCOMPLETE_MIN_CHARS) {
-			this.datasetTitle.next(title);
-		} else {
-			this.datasetAutocomplete = null;
-		}
-	}
+        // Lectura cuando hay al menos 3 caracteres, (3 espacios produce error).
+        if (title.length >= Constants.DATASET_AUTOCOMPLETE_MIN_CHARS) {
+            this.datasetTitle.next(title);
+        } else {
+            this.datasetAutocomplete = null;
+        }
+    }
 
-	getAutocomplete(): void {
+    getAutocomplete(): void {
         /*
 		//Funciona la busqueda, falla al poner un caracter especial
 		this.datasetTitle
@@ -152,23 +152,23 @@ export class HeaderComponent implements OnInit {
 			}).subscribe(data =>
                 this.datasetAutocomplete = JSON.parse(data).result);
                 */
-	}
+    }
 
-    focusUserName(){
+    focusUserName() {
         document.getElementById('loginLink').blur();
     }
 
-    searchDatasetsByText(text: string){
-		this.router.navigate(['/' + this.routerLinkDataCatalog], { queryParams: { texto: text} });
+    searchDatasetsByText(text: string) {
+        this.router.navigate(['/' + this.routerLinkDataCatalog], { queryParams: { texto: text } });
     }
-    
-    onResize(event : string) {
+
+    onResize(event: string) {
         $('.overlay').css('top', $('#header').height());
-        if(this.menuActive==true){
+        if (this.menuActive === true) {
             $('#myNav').height($(window).height() - $('#header').height());
-            
+
         }
-    } 
+    }
 
     ngOnInit() {
         this.getAutocomplete();

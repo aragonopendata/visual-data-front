@@ -1,17 +1,16 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit }        from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Location }                 from '@angular/common';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'end-graph',
+  selector: 'app-end-graph',
   templateUrl: './end-graph.component.html',
   styleUrls: [ './end-graph.component.css' ]
 })
-export class EndGraph implements OnInit {
+export class EndGraphComponent implements OnInit {
 
-  
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -19,9 +18,7 @@ export class EndGraph implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   goBack(): void {
     this.location.back();

@@ -42,7 +42,7 @@ export class Dataset {
     license_url: string;
     organization: Organization;
     revision_id: string;
-    //ADMIN FIELDS ??
+    // ADMIN FIELDS ??
     acessos: number;
     topic: Topic;
     coberturaGeo: string;
@@ -55,14 +55,14 @@ export class Dataset {
     updateFrequency: SelectItem[];
     dataFiles: string[];
     checked: boolean;
-    
+
     constructor() { }
 
     public formatDate(date: Date) {
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let myFormatDate = day + '/' + month + '/' + year;
+        const day = date.getDate();
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        const myFormatDate = day + '/' + month + '/' + year;
         return myFormatDate;
     }
 }

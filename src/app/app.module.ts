@@ -31,11 +31,11 @@ import { MigasComponent } from './_layout/migas/migas.component';
 import { Constants } from './app.constants';
 
 // Pages
-import { ListGraphs } from './components/list-graphs/list-graphs.component';
-import { SelectData } from './components/select-data/select-data.component';
-import { PreviewData } from './components/preview-data/preview-data.component';
-import { PreviewGraph } from './components/preview-graph/preview-graph.component';
-import { EndGraph } from './components/end-graph/end-graph.component';
+import { ListGraphsComponent } from './components/list-graphs/list-graphs.component';
+import { SelectDataComponent } from './components/select-data/select-data.component';
+import { PreviewDataComponent } from './components/preview-data/preview-data.component';
+import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
+import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { DatasetsService } from './header-modules-components/datasets.service';
 
 // Utils
@@ -62,11 +62,11 @@ import { ChartsModule } from 'ng2-charts';
     MigasComponent,
     AppComponent,
     BlankComponent,
-    ListGraphs,
-    SelectData,
-    PreviewData,
-    PreviewGraph,
-    EndGraph
+    ListGraphsComponent,
+    SelectDataComponent,
+    PreviewDataComponent,
+    PreviewGraphComponent,
+    EndGraphComponent
   ],
   providers: [
     DatePipe,

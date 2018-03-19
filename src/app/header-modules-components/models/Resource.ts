@@ -27,6 +27,5 @@ export class Resource {
     idView: string;
 
     constructor() {
-        
     }
 }

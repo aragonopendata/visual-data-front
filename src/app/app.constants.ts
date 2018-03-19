@@ -1,14 +1,14 @@
 export class Constants {
-    //URLS
+    // URLS
     public static AOD_BASE_URL = 'http://miv-aodfront-01.aragon.local:7030';
     public static PRESUPUESTOS_BASE_URL = 'http://miv-aodfront-01.aragon.local:7031';
-    //public static AOD_ASSETS_BASE_URL = 'http://localhost:3000/assets';
+    // public static AOD_ASSETS_BASE_URL = 'http://localhost:3000/assets';
     public static AOD_ASSETS_BASE_URL = 'http://miv-aodfront-01.aragon.local:7030/static';
-    //public static AOD_API_WEB_BASE_URL = 'http://localhost:4200/aod/services/web';
+    // public static AOD_API_WEB_BASE_URL = 'http://localhost:4200/aod/services/web';
     public static AOD_API_WEB_BASE_URL = 'http://miv-aodfront-01.aragon.local:4200/aod/services/web';
-    //public static AOD_API_ADMIN_BASE_URL = 'http://localhost:4200/aod/services/admin';
+    // public static AOD_API_ADMIN_BASE_URL = 'http://localhost:4200/aod/services/admin';
     public static AOD_API_ADMIN_BASE_URL = 'http://miv-aodfront-01.aragon.local:4200/aod/services/admin';
-    //public static AOD_API_SECURITY_BASE_URL = 'http://localhost:4200/aod/services/security';
+    // public static AOD_API_SECURITY_BASE_URL = 'http://localhost:4200/aod/services/security';
     public static AOD_API_SECURITY_BASE_URL = 'http://miv-aodfront-01.aragon.local:4200/aod/services/security';
     public static AOD_API_CKAN_BASE_URL = 'http://miv-aodfront-01.aragon.local:5000';
     public static AOD_COLLABORATION_URL = 'https://aragon.uservoice.com/forums/192552-datos-que-me-gustar%C3%ADa-reutilizar';
@@ -43,26 +43,34 @@ export class Constants {
     public static CAMPUS_CONTENT_PLATFORM_LINK = 'Enlace';
     public static CAMPUS_CURSO_INICIACION = '/public/campus/curso/html/index.html';
 
-    //ERROR CONSTANTS
+    // ERROR CONSTANTS
     public static DATASET_LIST_ERROR_TITLE = 'Se ha producido un error';
-    public static DATASET_LIST_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static DATASET_LIST_ERROR_MESSAGE =
+     'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
     public static DATASET_LIST_ERROR_IFRAME_MESSAGE = 'Previsualización del conjunto de datos no disponible';
     public static CAMPUS_EVENTS_ERROR_TITLE = 'Se ha producido un error';
-    public static CAMPUS_EVENTS_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static CAMPUS_EVENTS_ERROR_MESSAGE =
+     'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
     public static OPEN_DATA_STATIC_CONTENT_ERROR_TITLE = 'Se ha producido un error';
-    public static OPEN_DATA_STATIC_CONTENT_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static OPEN_DATA_STATIC_CONTENT_ERROR_MESSAGE =
+     'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
     public static APPLICATIONS_STATIC_CONTENT_ERROR_TITLE = 'Se ha producido un error';
-    public static APPLICATIONS_STATIC_CONTENT_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static APPLICATIONS_STATIC_CONTENT_ERROR_MESSAGE =
+     'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
     public static EVENTS_STATIC_CONTENT_ERROR_TITLE = 'Se ha producido un error';
-    public static EVENTS_STATIC_CONTENT_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static EVENTS_STATIC_CONTENT_ERROR_MESSAGE =
+     'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
     public static DEVELOPERS_STATIC_CONTENT_ERROR_TITLE = 'Se ha producido un error';
-    public static DEVELOPERS_STATIC_CONTENT_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static DEVELOPERS_STATIC_CONTENT_ERROR_MESSAGE
+     = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
     public static APIS_STATIC_CONTENT_ERROR_TITLE = 'Se ha producido un error';
-    public static APIS_STATIC_CONTENT_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static APIS_STATIC_CONTENT_ERROR_MESSAGE =
+     'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
     public static SPARQL_STATIC_CONTENT_ERROR_TITLE = 'Se ha producido un error';
-    public static SPARQL_STATIC_CONTENT_ERROR_MESSAGE = 'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+    public static SPARQL_STATIC_CONTENT_ERROR_MESSAGE =
+     'Se ha producido un error en la carga de datos, vuelva a intentarlo y si el error persiste contacte con el administrador.';
 
-    //COMMON CONSTANTS
+    // COMMON CONSTANTS
     public static DATASET_LIST_ROWS_PER_PAGE = 20;
     public static DATASET_LIST_EMPTY = 'No se han encontrado datos';
     public static DATASET_LIST_SORT_COLUMN_NAME = 'name';
@@ -143,7 +151,8 @@ export class Constants {
     public static DATASET_LIST_DROPDOWN_GROUPS_SECTORPUBLICO = { label: 'Sector Público. Elecciones', value: '15' };
 
     public static DATASET_LIST_DROPDOWN_SUBGROUPS_ALL = { label: 'Todos los subgrupos', value: '' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_TERRITORIO_ESPACIO_FISICO = { label: 'Espacio físico. Características geográficas', value: '0101' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_TERRITORIO_ESPACIO_FISICO = { label: 'Espacio físico. Características geográficas'
+    , value: '0101' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TERRITORIO_USOS_SUELO = { label: 'Usos del suelo', value: '0102' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TERRITORIO_NOMENCLATURAS = { label: 'Nomenclaturas territoriales', value: '0103' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TERRITORIO_INFRAESTRUCTURAS = { label: 'Infraestructuras', value: '0104' };
@@ -151,22 +160,27 @@ export class Constants {
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TERRITORIO_COMARCAS = { label: 'Comarcas', value: '0106' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TERRITORIO_ZONAS_SECTORIALES = { label: 'Zonas sectoriales', value: '0107' };
 
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_DEMOGRAFIA_CIFRAS_POBLACION = { label: 'Cifras de población y Censos demográficos', value: '0201' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_DEMOGRAFIA_CIFRAS_POBLACION = { label: 'Cifras de población y Censos demográficos'
+    , value: '0201' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_DEMOGRAFIA_INDICADORES_DEMOGRAFICOS = { label: 'Indicadores demográficos', value: '0202' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_DEMOGRAFIA_ESTUDIOS_DEMOGRAFICOS = { label: 'Estudios demográficos', value: '0203' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_DEMOGRAFIA_MIGRACIONES = { label: 'Migraciones', value: '0204' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_DEMOGRAFIA_MOVIMIENTO_NATURAL = { label: 'Movimiento Natural de Población', value: '0205' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_DEMOGRAFIA_MOVIMIENTO_NATURAL = { label: 'Movimiento Natural de Población'
+    , value: '0205' };
 
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_ENSENANZA_NO_UNIVERSITARIA = { label: 'Enseñanza no universitaria', value: '0301' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_ENSENANZA_NO_UNIVERSITARIA =
+    { label: 'Enseñanza no universitaria', value: '0301' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_ENSENANZA_UNIVERSITARIA = { label: 'Enseñanza universitaria', value: '0302' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_GASTO_PUBLICO = { label: 'Gasto público en educación', value: '0303' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_BECAS = { label: 'Becas y ayudas', value: '0304' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_TRANSICION = { label: 'Transición Educativa-Laboral', value: '0305' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_ENCUESTA = { label: 'Encuesta sobre la participación de la población adulta en las actividades de aprendizaje', value: '0306' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_ENCUESTA =
+    { label: 'Encuesta sobre la participación de la población adulta en las actividades de aprendizaje', value: '0306' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_EDUCACION_NIVEL = { label: 'Nivel educativo de la población', value: '0307' };
 
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_ESPERANZA = { label: 'Esperanza de vida en salud', value: '0401' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_POBLACION = { label: 'Población y pirámides de población por zonas de salud', value: '0402' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_POBLACION = { label: 'Población y pirámides de población por zonas de salud'
+    , value: '0402' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_TARJETAS = { label: 'Tarjetas Sanitarias', value: '0403' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_ENCUESTA = { label: 'Encuesta Nacional de Salud', value: '0404' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_SECTORES = { label: 'Sectores sanitarios y zonas de salud', value: '0405' };
@@ -176,11 +190,13 @@ export class Constants {
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_MORBILIDAD = { label: 'Morbilidad Hospitalaria', value: '0409' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_DEFUNCIONES = { label: 'Defunciones según la causa de muerte', value: '0410' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_ESTADISTICAS = { label: 'Estadísticas de Donación y Trasplantes', value: '0411' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_INTERRUPCION = { label: 'Interrupción Voluntaria del Embarazo (IVE\'s)', value: '0412' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_INTERRUPCION = { label: 'Interrupción Voluntaria del Embarazo (IVE\'s)'
+    , value: '0412' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SALUD_OTRAS = { label: 'Otras estadísticas de Salud', value: '0413' };
 
     public static DATASET_LIST_DROPDOWN_SUBGROUP_NIVELCALIDADVIDA_CONDICIONES = { label: 'Condiciones de vida y pobreza', value: '0501' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_NIVELCALIDADVIDA_PRESUPUESTOS = { label: 'Presupuestos Familiares, Gastos e Ingresos', value: '0502' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_NIVELCALIDADVIDA_PRESUPUESTOS = { label: 'Presupuestos Familiares, Gastos e Ingresos'
+    , value: '0502' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_NIVELCALIDADVIDA_OTRAS = { label: 'Otras Estadísticas de Hogares', value: '0503' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_NIVELCALIDADVIDA_INDICE = { label: 'índice de Precios al Consumo', value: '0504' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_NIVELCALIDADVIDA_PENSIONES = { label: 'Pensiones y Prestaciones Sociales', value: '0505' };
@@ -203,13 +219,18 @@ export class Constants {
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_RELACIONES = { label: 'Relaciones Laborales', value: '0705' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_COSTES = { label: 'Costes Laborales', value: '0706' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_SALARIOS = { label: 'Salarios', value: '0707' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_PRESTACIONES = { label: 'Prestaciones por desempleo y otras', value: '0708' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_ACCIDENTES = { label: 'Accidentes y Enfermedades profesionales', value: '0709' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_ACTIVIDAD = { label: 'Actividad laboral según los Censos de Población', value: '0710' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_PRINCIPALES = { label: 'Principales Indicadores del mercado laboral', value: '0711' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_PRESTACIONES = { label: 'Prestaciones por desempleo y otras'
+    , value: '0708' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_ACCIDENTES = { label: 'Accidentes y Enfermedades profesionales'
+    , value: '0709' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_ACTIVIDAD = { label: 'Actividad laboral según los Censos de Población'
+    , value: '0710' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_PRINCIPALES = { label: 'Principales Indicadores del mercado laboral'
+    , value: '0711' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_TRABAJOSALARIOS_HERRAMIENTAS = { label: 'Herramientas de apoyo', value: '0712' };
 
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_AGRICULTURA_AGRICULTURA = { label: 'Agricultura, ganadería, selvicultura y pesca', value: '0801' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_AGRICULTURA_AGRICULTURA = { label: 'Agricultura, ganadería, selvicultura y pesca'
+    , value: '0801' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_AGRICULTURA_INDUSTRIA = { label: 'Industria manufacturera y extractiva', value: '0802' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_AGRICULTURA_CONSTRUCCION = { label: 'Construcción', value: '0803' };
 
@@ -236,20 +257,28 @@ export class Constants {
     public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_EFECTOS = { label: 'Efectos de comercio devueltos impagados', value: '1202' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_HIPOTECAS = { label: 'Hipotecas', value: '1203' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_SOCIEDADES = { label: 'Sociedades mercantiles', value: '1204' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_ESTADOS = { label: 'Estados contables de las empresas Aragonesas', value: '1205' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_SUSPENSIONES = { label: 'Suspensiones de pagos y declaraciones de quiebras', value: '1206' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_ESTADISTICA = { label: 'Estadística de procedimiento concursal', value: '1207' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_ESTADOS = { label: 'Estados contables de las empresas Aragonesas'
+    , value: '1205' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_SUSPENSIONES = { label: 'Suspensiones de pagos y declaraciones de quiebras'
+    , value: '1206' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_ESTADISTICA = { label: 'Estadística de procedimiento concursal'
+    , value: '1207' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_FINANCIERAS_INFORMACION = { label: 'Información tributaria', value: '1208' };
 
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_IDITIC_INVESTIGACION = { label: 'Investigación y Desarrollo (I+D) e Innovación', value: '1301' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_IDITIC_TECNOLOGIAS = { label: 'Tecnologías de la Información y Comunicación', value: '1302' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_IDITIC_INVESTIGACION = { label: 'Investigación y Desarrollo (I+D) e Innovación'
+    , value: '1301' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_IDITIC_TECNOLOGIAS = { label: 'Tecnologías de la Información y Comunicación'
+    , value: '1302' };
 
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_SECTORES = { label: 'Sectores Productivos y Medio ambiente', value: '14' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_AGUA = { label: 'Agua', value: '1401' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_CALIDAD_AIRE = { label: 'Calidad del aire / Contaminación atmosférica', value: '1402' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_CAMBIO_CLIMATICO = { label: 'Cambio climático / Emisiones a la atmósfera', value: '1403' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_CALIDAD_AIRE = { label: 'Calidad del aire / Contaminación atmosférica'
+    , value: '1402' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_CAMBIO_CLIMATICO = { label: 'Cambio climático / Emisiones a la atmósfera'
+    , value: '1403' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_CLIMA = { label: 'Clima / Datos climatológicos', value: '1404' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_GASTO = { label: 'Gasto en Medio Ambiente y Cuentas Ambientales', value: '1405' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_GASTO = { label: 'Gasto en Medio Ambiente y Cuentas Ambientales'
+    , value: '1405' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_HOGARES = { label: 'Hogares y Medio Ambiente', value: '1406' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_MEDIO_AMBIENTE = { label: 'Medio ambiente urbano', value: '1407' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_NATURALEZA = { label: 'Naturaleza y biodiversidad', value: '1408' };
@@ -259,12 +288,15 @@ export class Constants {
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_SUELOS = { label: 'Suelos y Usos del suelo', value: '1412' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_TRIBUTOS = { label: 'Tributos ambientales', value: '1413' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_UTILIZACION = { label: 'Utilización de recursos naturales', value: '1414' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_DESARROLLO = { label: 'Medio ambiente y desarrollo sostenible', value: '1415' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_DICCIONARIO = { label: 'Diccionario de términos medioambientales', value: '1416' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_DESARROLLO = { label: 'Medio ambiente y desarrollo sostenible'
+    , value: '1415' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_DICCIONARIO = { label: 'Diccionario de términos medioambientales'
+    , value: '1416' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_MEDIOAMBIENTE_ENERGIA = { label: 'Energía', value: '1417' };
 
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SECTORPUBLICO_EMPLEO = { label: 'Empleo Público', value: '1501' };
-    public static DATASET_LIST_DROPDOWN_SUBGROUP_SECTORPUBLICO_PRESUPUESTOS = { label: 'Presupuestos de la Administración Pública', value: '1502' };
+    public static DATASET_LIST_DROPDOWN_SUBGROUP_SECTORPUBLICO_PRESUPUESTOS = { label: 'Presupuestos de la Administración Pública'
+    , value: '1502' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SECTORPUBLICO_ACTIVIDADES = { label: 'Actividades del Sector Público', value: '1503' };
     public static DATASET_LIST_DROPDOWN_SUBGROUP_SECTORPUBLICO_ELECCIONES = { label: 'Elecciones', value: '1504' };
 
@@ -295,14 +327,14 @@ export class Constants {
     public static DATASET_EXTRA_TYPE_ARAGOPEDIA = 'typeAragopedia';
     public static DATASET_EXTRA_URI_ARAGOPEDIA = 'uriAragopedia';
     public static DATASET_EXTRA_SPATIAL = 'Spatial';
-    public static DATASET_EXTRA_LANG_ES= 'langES';
-    public static DATASET_EXTRA_LANG_EN= 'langEN';
-    public static DATASET_EXTRA_LANG_FR= 'langFR';
-    public static DATASET_EXTRA_LANG_ARG= 'langARG';
-    public static DATASET_EXTRA_LANG_OTHER= 'langOtherValue';
-    public static DATASET_DETAIL_CKAN_PREVIEW_URL_PARAM_DATASET= '/dataset/';
-    public static DATASET_DETAIL_CKAN_PREVIEW_URL_PARAM_RESOURCE= '/resource/';
-    public static DATASET_DETAIL_CKAN_PREVIEW_URL_PARAM_VIEW= '/view/';
+    public static DATASET_EXTRA_LANG_ES = 'langES';
+    public static DATASET_EXTRA_LANG_EN = 'langEN';
+    public static DATASET_EXTRA_LANG_FR = 'langFR';
+    public static DATASET_EXTRA_LANG_ARG = 'langARG';
+    public static DATASET_EXTRA_LANG_OTHER = 'langOtherValue';
+    public static DATASET_DETAIL_CKAN_PREVIEW_URL_PARAM_DATASET = '/dataset/';
+    public static DATASET_DETAIL_CKAN_PREVIEW_URL_PARAM_RESOURCE = '/resource/';
+    public static DATASET_DETAIL_CKAN_PREVIEW_URL_PARAM_VIEW = '/view/';
 
     public static DATASET_EXTRA_IAEST_TEMA_ESTADISTICO = '01_IAEST_Tema estadístico';
     public static DATASET_EXTRA_IAEST_UNIDAD_ESTADISTICA = '02_IAEST_Unidad Estadística';
@@ -314,8 +346,8 @@ export class Constants {
     public static DATASET_EXTRA_IAEST_TRATAMIENTO_ESTADISTICO = '11_IAEST_Tratamiento estadístico';
     public static DATASET_EXTRA_IAEST_LEGISLACION_UE = '15_IAEST_Legislación UE';
 
-    public static DATASET_RDF_FORMAT_OPTIONS_RDF = 'application/rdf+xml;charset=utf-8;'
-    public static DATASET_RDF_FILE_EXTENSION_RDF = '.rdf'
+    public static DATASET_RDF_FORMAT_OPTIONS_RDF = 'application/rdf+xml;charset=utf-8;';
+    public static DATASET_RDF_FILE_EXTENSION_RDF = '.rdf';
 
     public static STATIC_INFO_OPEN_DATA_SECTION_OPEN_DATA = 'open-data';
     public static STATIC_INFO_OPEN_DATA_SECTION_REUTILIZATION = 'reutilizacion';
@@ -327,25 +359,25 @@ export class Constants {
     public static STATIC_INFO_OPEN_DATA_SECTION_PARTICIPATION = 'participacion';
     public static STATIC_INFO_OPEN_DATA_SECTION_ARAGON_SERVICES = 'servicios-aragon-open-data';
     public static STATIC_INFO_OPEN_DATA_SECTION_DOCUMENTATION = 'documentacion';
-    public static STATIC_INFO_OPEN_DATA_SECTION_TERMS = 'terminos-licencias'; 
+    public static STATIC_INFO_OPEN_DATA_SECTION_TERMS = 'terminos-licencias';
     public static STATIC_INFO_OPEN_DATA_SECTION_CONDITIONS = 'condiciones-social-data';
     public static STATIC_INFO_EVENTS_SECTION_JACATHON = 'jacathon';
     public static STATIC_INFO_DEVELOPERS_SECTION_INTEROPERABILITY = 'interoperabilidad';
     public static STATIC_INFO_DEVELOPERS_SECTION_TECHNOLOGY = 'tecnologia-utilizada';
     public static STATIC_INFO_DEVELOPERS_SECTION_DIRECT_DOWNLOAD = 'descarga-directa';
-    public static STATIC_INFO_DEVELOPERS_SECTION_METADATES = 'metadatos'; 
+    public static STATIC_INFO_DEVELOPERS_SECTION_METADATES = 'metadatos';
     public static STATIC_INFO_DEVELOPERS_SECTION_TOOLS = 'herramientas';
     public static STATIC_INFO_APIS_SECTION_CKAN = 'api-ckan';
     public static STATIC_INFO_APIS_SECTION_SOCIAL_DATA = 'api-social-data';
-    public static STATIC_INFO_APIS_SECTION_ARAGOPEDIA = 'api-aragopedia'; 
+    public static STATIC_INFO_APIS_SECTION_ARAGOPEDIA = 'api-aragopedia';
     public static STATIC_INFO_APIS_SECTION_ARAGODBPEDIA_1 = 'api-aragodbpedia-1';
     public static STATIC_INFO_APIS_SECTION_ARAGODBPEDIA_2 = 'api-aragodbpedia-2';
     public static STATIC_INFO_APIS_SECTION_GA_OD_CORE = 'api-ga-od-core';
     public static STATIC_INFO_SPARQL_SECTION_CONTENT = 'contenidoSparql';
 
-    public static UNDEFINED = "undefined";
+    public static UNDEFINED = 'undefined';
 
-    //OPEN DATA ADMIN
+    // OPEN DATA ADMIN
     public static ADMIN_USERS_LIST_ROWS_PER_PAGE = 10;
     public static ADMIN_USERS_LIST_SORT_COLUMN_NAME = 'name';
     public static ADMIN_USERS_LIST_SORT_COLUMN_EMAIL = 'email';
@@ -355,16 +387,18 @@ export class Constants {
 
     public static DATASET_RECOMMENDED_IMAGE_URL = 'public/ckan/temas/';
 
-    //ADMIN COMMON PARAMS
+    // ADMIN COMMON PARAMS
     public static DATASET_ADMIN_LIST_ROWS_PER_PAGE = 20;
     public static ADMIN_SERVER_API_LINK_PARAM_SORT_DEFAULT_VALUE = 'relevance,-metadata_modified';
     public static ADMIN_DATASET_EDIT_LICENSE_ID_DEFAULT = 'CC-BY-4.0';
     public static ADMIN_DATASET_EDIT_LICENSE_TITLE_DEFAULT = 'Creative Commons Attribution 4.0';
     public static ADMIN_DATASET_EDIT_LICENSE_URL_DEFAULT = 'https://creativecommons.org/licenses/by/4.0/';
 
-    //ADMIN DROPDOWNS
-    public static ADMIN_DATASET_EDIT_DROPDOWN_RESOURCE_ACCESS_TYPES_URL_PUBLIC_FILE = { label: 'Enlace a archivo público', value: 'urlPublicFile' };
-    public static ADMIN_DATASET_EDIT_DROPDOWN_RESOURCE_ACCESS_TYPES_DATABASE_VIEW = { label: 'Vista de base de datos', value: 'databaseView' };
+    // ADMIN DROPDOWNS
+    public static ADMIN_DATASET_EDIT_DROPDOWN_RESOURCE_ACCESS_TYPES_URL_PUBLIC_FILE = { label: 'Enlace a archivo público'
+    , value: 'urlPublicFile' };
+    public static ADMIN_DATASET_EDIT_DROPDOWN_RESOURCE_ACCESS_TYPES_DATABASE_VIEW = { label: 'Vista de base de datos'
+    , value: 'databaseView' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_RESOURCE_ACCESS_TYPES_FILE = { label: 'Fichero', value: 'file' };
 
     public static ADMIN_DATASET_EDIT_DROPDOWN_FREQUENCY_ANUAL = { label: 'Anual', value: 'Anual' };
@@ -387,7 +421,6 @@ export class Constants {
     public static ADMIN_DATASET_EDIT_DROPDOWN_VIEWS_SIMBOLOS = { label: 'Símbolos', value: '1' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_VIEWS_PLENO_MUNICIPIO = { label: 'Pleno municipio', value: '2' };
 
-    
     public static ADMIN_DATASET_EDIT_DROPDOWN_FORMATS_CSV = { label: 'CSV', value: '1' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_FORMATS_DGN = { label: 'DGN', value: '2' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_FORMATS_DWG = { label: 'DWG', value: '3' };
@@ -414,8 +447,7 @@ export class Constants {
     public static ADMIN_DATASET_EDIT_DROPDOWN_FORMATS_XLSX = { label: 'XLSX', value: '24' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_FORMATS_XML = { label: 'XML', value: '25' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_FORMATS_ZIP = { label: 'ZIP', value: '26' };
-    
-    
+
     public static ADMIN_DATASET_EDIT_DROPDOWN_ACCESS_MODES_CSV = { label: 'CSV', value: '1' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_ACCESS_MODES_DGN = { label: 'DGN', value: '2' };
     public static ADMIN_DATASET_EDIT_DROPDOWN_ACCESS_MODES_DWG = { label: 'DWG', value: '3' };
@@ -444,14 +476,14 @@ export class Constants {
     public static ADMIN_DATASET_EDIT_DROPDOWN_ACCESS_MODES_ZIP = { label: 'ZIP', value: '26' };
 
     public static ADMIN_DATASET_ERR_LOAD_DATASET = '200 - undefined';
-    
-    //ADMIN USER
+
+    // ADMIN USER
     public static ADMIN_USER_ROL_GLOBAL_ADMIN = 'global_adm';
     public static ADMIN_USER_ROL_ORGANIZATION_ADMIN = 'org_adm';
     public static ADMIN_USER_ROL_ORGANIZATION_EDITOR = 'org_editor';
-    public static ADMIN_USER_ROL_ORGANIZATION_MEMBER = 'org_member'; 
+    public static ADMIN_USER_ROL_ORGANIZATION_MEMBER = 'org_member';
 
-    //ADMIN ORGANIZATION
+    // ADMIN ORGANIZATION
     public static GROWL_SEVERITY_SUCCESS = 'success';
     public static GROWL_SEVERITY_INFO = 'info';
     public static GROWL_SEVERITY_ERROR = 'error';
@@ -468,12 +500,12 @@ export class Constants {
     public static ERROR_ORGANIZATION_GET_EMAIL = 'Error: getEmail() - organizations-admin-edit.component.ts';
     public static ERROR_ORGANIZATION_GET_ORG = 'Error: loadOrganization() - organizations-admin-edit.component.ts';
 
-    //ADMIN LOGIN
-    public static LOGIN_DATA_PARAM_TYPE_ORGANIZATION = 'org';
-    public static LOGIN_DATA_PARAM_TYPE_DATASET = 'dataset'; 
+    // ADMIN LOGIN
+    public static LOGIN_DATA_PARAM_TYPE_ORGANIZATION = 'org';
+    public static LOGIN_DATA_PARAM_TYPE_DATASET = 'dataset';
 
 
-    //ROUTING
+    // ROUTING
     public static ROUTER_LINK_DATA = 'datos';
     public static ROUTER_LINK_DATA_CATALOG_OLD = 'catalogo';
     public static ROUTER_LINK_DATA_CATALOG = 'datos/catalogo';
@@ -556,7 +588,7 @@ export class Constants {
     public static ROUTER_LINK_SERVICES_PRESUPUESTOS = 'servicios/presupuestos';
     public static ROUTER_LINK_SERVICES_CRAS = 'servicios/cras';
     public static ROUTER_LINK_SERVICES_SOCIAL_DATA = 'servicios/open-social-data';
-    public static ROUTER_LINK_SERVICES_ANALYTICS = 'servicios/analytics'
+    public static ROUTER_LINK_SERVICES_ANALYTICS = 'servicios/analytics';
     public static ROUTER_LINK_DATA_PARAM_DATASET_NAME = 'datasetName';
     public static ROUTER_LINK_DATA_PARAM_DATASET_HOMER_NAME = 'datasetHomerName';
     public static ROUTER_LINK_DATA_PARAM_TOPIC_NAME = 'topicName';
@@ -569,15 +601,15 @@ export class Constants {
     public static ROUTER_LINK_DATA_CAMPUS_PARAM_TYPE = 'type';
     public static ROUTER_LINK_DATA_CAMPUS_PARAM_TEXT = 'text';
     public static ROUTER_LINK_TOOLS_CAMPUS_EVENT_NAME = 'eventName';
-    public static ROUTER_LINK_DATA_PARAM_DATA_LOGIN = 'data';
-    public static ROUTER_LINK_DATA_PARAM_EDIT_DATA = 'dataName'; 
+    public static ROUTER_LINK_DATA_PARAM_DATA_LOGIN = 'data';
+    public static ROUTER_LINK_DATA_PARAM_EDIT_DATA = 'dataName';
     public static ROUTER_LINK_STATIC_CONTENT_OPEN_DATA_SECTION_REDIRECT = '/informacion/open-data#';
     public static ROUTER_LINK_STATIC_CONTENT_EVENTS_SECTION_REDIRECT = '/informacion/eventos#';
     public static ROUTER_LINK_STATIC_CONTENT_DEVELOPERS_SECTION_REDIRECT = '/herramientas/desarrolladores#';
     public static ROUTER_LINK_STATIC_CONTENT_APIS_SECTION_REDIRECT = '/herramientas/apis#';
     public static ROUTER_LINK_STATIC_CONTENT_SPARQL_SECTION_REDIRECT = '/herramientas/sparql#';
 
-    //SERVER API URLS
+    // SERVER API URLS
     public static SERVER_API_LINK_AUTHENTICATE = '/authenticate';
     public static SERVER_API_LINK_DATASETS = '/datasets';
     public static SERVER_API_LINK_DATASETS_TOPIC = '/datasets/topic';
@@ -595,7 +627,7 @@ export class Constants {
     public static SERVER_API_LINK_TOPICS = '/topics';
     public static SERVER_API_LINK_TAGS = '/tags';
     public static SERVER_API_LINK_ORGANIZATIONS = '/organizations';
-    public static SERVER_API_LINK_ORGANIZATION = '/organization'; 
+    public static SERVER_API_LINK_ORGANIZATION = '/organization';
     public static SERVER_API_LINK_STATIC_CONTENT_INFO = '/static-content/info';
     public static SERVER_API_LINK_STATIC_CONTENT_INFO_OPEN_DATA = '/open-data';
     public static SERVER_API_LINK_STATIC_CONTENT_INFO_APPLICATIONS = '/applications';
@@ -610,7 +642,7 @@ export class Constants {
     public static SERVER_API_LINK_CAMPUS_EVENTS = '/campus/events';
     public static SERVER_API_LINK_CAMPUS_EVENT = '/campus/event';
     public static SERVER_API_LINK_CAMPUS_CONTENTS = '/campus/contents';
-    public static SERVER_API_URL_CAMPUS_CONTENT= '/campus/content';
+    public static SERVER_API_URL_CAMPUS_CONTENT = '/campus/content';
     public static SERVER_API_LINK_CAMPUS_TYPES = '/campus/types';
     public static SERVER_API_LINK_CAMPUS_SPEAKERS = '/campus/speakers';
     public static SERVER_API_LINK_CAMPUS_TOPICS = '/campus/topics';
@@ -681,11 +713,11 @@ export class Constants {
     public static SPARQL_CLIENT_FORMAT_FILE_EXTENSION_RDF = '.rdf';
     public static SPARQL_CLIENT_FORMAT_FILE_EXTENSION_CSV = '.csv';
 
-    public static KIBANA_URL = Constants.AOD_BASE_URL + "/elastic/app/kibana#/dashboard/e6433860-d68c-11e7-a49d-f956d0989e2c";
-    public static KIBANA_URL_SEVEN = Constants.AOD_BASE_URL + "/elastic/app/kibana#/dashboard/6b50d7f0-e589-11e7-bac3-69701294f3ab";
+    public static KIBANA_URL = Constants.AOD_BASE_URL + '/elastic/app/kibana#/dashboard/e6433860-d68c-11e7-a49d-f956d0989e2c';
+    public static KIBANA_URL_SEVEN = Constants.AOD_BASE_URL + '/elastic/app/kibana#/dashboard/6b50d7f0-e589-11e7-bac3-69701294f3ab';
 
-    public static ELASTIC_BROWSERS = Constants.AOD_BASE_URL + "/gapi/get_browsers_elastic";
-    public static ELASTIC_FILES = Constants.AOD_BASE_URL + "/gapi/get_files_elastic";
-    public static ELASTIC_PAGES = Constants.AOD_BASE_URL + "/gapi/get_pages_elastic";
-    public static ELASTIC_COUNTRIES = Constants.AOD_BASE_URL + "/gapi/get_countries_elastic";
+    public static ELASTIC_BROWSERS = Constants.AOD_BASE_URL + '/gapi/get_browsers_elastic';
+    public static ELASTIC_FILES = Constants.AOD_BASE_URL + '/gapi/get_files_elastic';
+    public static ELASTIC_PAGES = Constants.AOD_BASE_URL + '/gapi/get_pages_elastic';
+    public static ELASTIC_COUNTRIES = Constants.AOD_BASE_URL + '/gapi/get_countries_elastic';
 }

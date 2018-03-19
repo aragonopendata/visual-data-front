@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'layout',
+  selector: 'app-ayout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })

@@ -2,7 +2,7 @@ import { SelectItem } from 'primeng/primeng';
 
 
 export class DatasetHomer {
-    //WEB FIELDS
+    // WEB FIELDS
     metadata_origin: string;
     portal: string;
     package_id: string;
@@ -15,6 +15,6 @@ export class DatasetHomer {
     author: string[];
     concept: string[];
     tag: string[];
-    
+
     constructor() { }
 }

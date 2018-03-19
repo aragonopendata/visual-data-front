@@ -24,12 +24,12 @@ export class Topic {
     type: string;
     id: string;
     tags: Tag[];
-    name: string;  
+    name: string;
 
     constructor() { }
 
     public formatImageUrl(image_url: string) {
-        let myFormatImageUrl = image_url.slice(14, image_url.length - 4);
+        const myFormatImageUrl = image_url.slice(14, image_url.length - 4);
         return myFormatImageUrl;
     }
 }

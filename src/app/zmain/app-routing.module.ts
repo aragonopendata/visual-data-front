@@ -1,40 +1,40 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-//Components
+// Components
 import { BlankComponent } from '../blank/blank.component';
-import { ListGraphs } from '../components/list-graphs/list-graphs.component';
-import { SelectData } from '../components/select-data/select-data.component';
-import { PreviewData } from '../components/preview-data/preview-data.component';
-import { PreviewGraph } from '../components/preview-graph/preview-graph.component';
-import { EndGraph } from '../components/end-graph/end-graph.component';
+import { ListGraphsComponent } from '../components/list-graphs/list-graphs.component';
+import { SelectDataComponent } from '../components/select-data/select-data.component';
+import { PreviewDataComponent } from '../components/preview-data/preview-data.component';
+import { PreviewGraphComponent } from '../components/preview-graph/preview-graph.component';
+import { EndGraphComponent } from '../components/end-graph/end-graph.component';
 
-//Layouts
+// Layouts
 import { LayoutComponent } from '../_layout/layout/layout.component';
 
-const pathModifier = "";
+const pathModifier = '';
 
-//All the routes for the app
+// All the routes for the app
 const routes: Routes = [
-  
-  //no layout routes
-  { path: pathModifier +'blank', component: BlankComponent},
+
+  // no layout routes
+  { path: pathModifier + 'blank', component: BlankComponent},
 
   // Client routes goes here here
-  { 
+  {
       path: '',
-      component: LayoutComponent, 
+      component: LayoutComponent,
       children: [
-        { path: pathModifier +'', component: ListGraphs},
-        { path: pathModifier +'selectData', component: SelectData},
-        { path: pathModifier +'previewData', component: PreviewData},
-        { path: pathModifier +'previewGraph', component: PreviewGraph},
-        { path: pathModifier +'endGraphic', component: EndGraph}
+        { path: pathModifier + '', component: ListGraphsComponent},
+        { path: pathModifier + 'selectData', component: SelectDataComponent},
+        { path: pathModifier + 'previewData', component: PreviewDataComponent},
+        { path: pathModifier + 'previewGraph', component: PreviewGraphComponent},
+        { path: pathModifier + 'endGraphic', component: EndGraphComponent}
       ]
   },
 
-  //Default
-  { path: '**', redirectTo: pathModifier +'noAccess' }
+  // Default
+  { path: '**', redirectTo: pathModifier + 'noAccess' }
 ];
 
 @NgModule({
