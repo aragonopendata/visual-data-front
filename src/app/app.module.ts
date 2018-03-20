@@ -24,9 +24,9 @@ import { CkanService } from './services/ckan.service';
 // Data Components
 import { ShareDataService } from './services/shareData.service';
 // Layouts
-import { HeaderComponent } from './components/layouts/header/header.component';
-import { FooterComponent } from './components/layouts/footer/footer.component';
-import { MigasComponent } from './components/layouts/migas/migas.component';
+import { HeaderComponent } from './components/common/header/header.component';
+import { FooterComponent } from './components/common/footer/footer.component';
+import { MigasComponent } from './components/common/migas/migas.component';
 // Constants
 import { Constants } from './app.constants';
 // Pages
@@ -39,6 +39,7 @@ import { DatasetsService } from './services/datasets.service';
 // Utils
 import { AccordionModule } from 'ng2-accordion';
 import { ChartsModule } from 'ng2-charts';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 const pathModifier = Constants.PATH_MODIFIER;
 const routes: Routes = [
@@ -60,6 +61,7 @@ const routes: Routes = [
     AutoCompleteModule,
     DataTableModule,
     ChartsModule,
+    ColorPickerModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [

@@ -1,55 +1,78 @@
 <div class="row">
-      <div class="col-md-6" style="margin-bottom: 10px">
-          <p-dataTable styleClass="fixed-size" scrollable="true" [value]="data" [rows]="10" [paginator]="true" #dt>
-              <p-header>Dataset</p-header>
-              <ng-template ngFor let-property [ngForOf]="properties">
-                      <p-column [style]="{'width':'220px', 'word-break':'break-all'}" field={{property}} header={{property}}>
-                      </p-column>
-              </ng-template>
-          </p-dataTable>
+    <div class="col-md-6" style="margin-bottom: 10px">
+        <p-dataTable styleClass="fixed-size" scrollable="true" [value]="data" [rows]="10" [paginator]="true" #dt>
+            <p-header>Dataset</p-header>
+            <ng-template ngFor let-property [ngForOf]="properties">
+                <p-column [style]="{'width':'220px', 'word-break':'break-all'}" field={{property}} header={{property}}>
+                </p-column>
+            </ng-template>
+            <p-column [style]="{'width':'50px', 'word-break':'break-all'}" header=Color>
+                <ng-template ngFor let-i pTemplate>
+                    <span>hola {{i}}</span>
+                    <button type="button" class="btn btn-light" data-toggle="modal" (click)="saveIndex($event)" data-target="#exampleModal">
+                            <i class="fa fa-adjust"></i>
+                    </button>
+                </ng-template>
+            </p-column>
+        </p-dataTable>
 
         <div class="col-md-6">
-          <ul>
-              <li><strong>Seleccionar Label:</strong></li> 
-              <ng-template ngFor let-property [ngForOf]="properties">
-                      <li><input type="radio" name=1 value=property (change)="select(property, 0, $event)" /> {{property}}</li>         
-              </ng-template>
+            <ul>
+                <li><strong>Seleccionar Label:</strong></li>
+                <ng-template ngFor let-property [ngForOf]="properties">
+                    <li><input type="radio" name=1 value=property (change)="select(property, 0, $event)" /> {{property}}</li>
+                </ng-template>
             </ul>
         </div>
         <div class="col-md-6">
             <ul>
-                <li><strong>Seleccionar datos:</strong></li> 
+                <li><strong>Seleccionar datos:</strong></li>
                 <ng-template ngFor let-property [ngForOf]="properties">
-                        <li><input type="radio" name=2 value=property (change)="select(property, 1, $event)" /> {{property}}</li>         
+                    <li *ngIf="property != propertyLabelSelected"><input type="radio" name=2 value=property (change)="select(property, 1, $event)" /> {{property}}</li>
                 </ng-template>
-              </ul>
-        </div>
-        <div class="col-md-12" style="text-align:center;">
-            <ul>
-                <li><strong>Agrupar</strong></li> 
-                <li><input type="checkbox" (change)="groupBy($event)" /> Realizar Agrupaci&oacute;n</li>         
             </ul>
         </div>
         <div class="col-md-12" style="text-align:center;">
-            <button (click)="changeChart(0)" class="button" ><i class="fa fa-line-chart"></i></button>
-            <button (click)="changeChart(1)" class="button" ><i class="fa fa-bar-chart"></i></button>
-            <button (click)="changeChart(2)" class="button" ><i class="fa fa-pie-chart"></i></button>
+            <ul>
+                <li><strong>Agrupar</strong></li>
+                <li><input type="checkbox" (change)="groupBy($event)" [(ngModel)]="groupValue" /> Realizar Agrupaci&oacute;n</li>
+            </ul>
         </div>
         <div class="col-md-12" style="text-align:center;">
-            <button (click)="next()" class="button" >Finalizar</button>
+            <button (click)="changeChart(0)" class="button"><i class="fa fa-line-chart"></i></button>
+            <button (click)="changeChart(1)" class="button"><i class="fa fa-bar-chart"></i></button>
+            <button (click)="changeChart(2)" class="button"><i class="fa fa-pie-chart"></i></button>
+        </div>
+        <div class="col-md-12" style="text-align:center;">
+            <button (click)="next()" class="button">Finalizar</button>
         </div>
     </div>
     <div class="col-md-6">
         <div style="display: block;">
-            <canvas baseChart width="400" height="400"
-                        [datasets]="lineChartData"
-                        [labels]="lineChartLabels"
-                        [options]="lineChartOptions"
-                        [colors]="lineChartColors"
-                        [legend]="lineChartLegend"
-                        [chartType]=chartType></canvas>
+            <canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+                [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]=chartType></canvas>
         </div>
-        
+
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="padding-left:30%">
+                <input type="hidden" [cpToggle]="true" [cpOutputFormat]="'rgba'" [cpDialogDisplay]="'inline'" [cpCancelButton]="false" [(colorPicker)]="color" [style.background]="color"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" (click)="saveColor()" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
