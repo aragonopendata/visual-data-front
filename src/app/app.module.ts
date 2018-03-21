@@ -23,6 +23,7 @@ import { AppComponent } from './app.component';
 import { CkanService } from './services/ckan.service';
 // Data Components
 import { ShareDataService } from './services/shareData.service';
+import { DatasetsService } from './services/datasets.service';
 // Layouts
 import { HeaderComponent } from './components/common/header/header.component';
 import { FooterComponent } from './components/common/footer/footer.component';
@@ -30,24 +31,41 @@ import { MigasComponent } from './components/common/migas/migas.component';
 // Constants
 import { Constants } from './app.constants';
 // Pages
+import { BodyComponent } from './components/common/body/body.component';
 import { ListGraphsComponent } from './components/list-graphs/list-graphs.component';
 import { SelectDataComponent } from './components/select-data/select-data.component';
 import { PreviewDataComponent } from './components/preview-data/preview-data.component';
 import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
-import { DatasetsService } from './services/datasets.service';
+import { EmbedGraphComponent } from './components/embedGraph/embedGraph.component';
+import { NoEmbedGraphComponent } from './components/noEmbedGraph/noEmbedGraph.component';
 // Utils
 import { AccordionModule } from 'ng2-accordion';
 import { ChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 const pathModifier = Constants.PATH_MODIFIER;
+
+// All the routes for the app
 const routes: Routes = [
-  { path: pathModifier + '', component: ListGraphsComponent, pathMatch: 'full' },
-  { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
-  { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
-  { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
-  { path: pathModifier + 'endGraphic', component: EndGraphComponent, pathMatch: 'full' }
+  // Embed Routes
+  { path: pathModifier + 'charts/embed/:id', component: EmbedGraphComponent},
+
+  // No Embed routes
+  {
+      path: pathModifier + '',
+      component: BodyComponent,
+      children: [
+        { path: pathModifier + '', component: ListGraphsComponent, pathMatch: 'full' },
+        { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
+        { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
+        { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
+        { path: pathModifier + 'endGraphic', component: EndGraphComponent, pathMatch: 'full' },
+        { path: pathModifier + 'charts/:id', component: NoEmbedGraphComponent, pathMatch: 'full' }
+      ]
+  },
+  // Default
+  { path: '**', redirectTo: pathModifier + '' }
 ];
 
 @NgModule({
@@ -68,12 +86,15 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     MigasComponent,
+    BodyComponent,
     AppComponent,
     ListGraphsComponent,
     SelectDataComponent,
     PreviewDataComponent,
     PreviewGraphComponent,
-    EndGraphComponent
+    EndGraphComponent,
+    EmbedGraphComponent,
+    NoEmbedGraphComponent
   ],
   providers: [
     DatePipe,
