@@ -6,10 +6,9 @@
                 <p-column [style]="{'width':'220px', 'word-break':'break-all'}" field={{property}} header={{property}}>
                 </p-column>
             </ng-template>
-            <p-column [style]="{'width':'50px', 'word-break':'break-all'}" header=Color>
-                <ng-template ngFor let-i pTemplate>
-                    <span>hola {{i}}</span>
-                    <button type="button" class="btn btn-light" data-toggle="modal" (click)="saveIndex($event)" data-target="#exampleModal">
+            <p-column *ngIf="chartType == 'pie'" [style]="{'width':'50px', 'word-break':'break-all'}" header=Color>
+                <ng-template let-i="rowIndex" pTemplate>
+                    <button type="button" class="btn btn-light" data-toggle="modal" (click)="saveIndex(i)" data-target="#exampleModal">
                             <i class="fa fa-adjust"></i>
                     </button>
                 </ng-template>
@@ -67,7 +66,7 @@
               </button>
             </div>
             <div class="modal-body" style="padding-left:30%">
-                <input type="hidden" [cpToggle]="true" [cpOutputFormat]="'rgba'" [cpDialogDisplay]="'inline'" [cpCancelButton]="false" [(colorPicker)]="color" [style.background]="color"/>
+                <input type="hidden" [cpToggle]="true" [cpOutputFormat]="'hex'" [cpDialogDisplay]="'inline'" [cpCancelButton]="false" [(colorPicker)]="color" [style.background]="color"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

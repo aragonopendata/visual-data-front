@@ -37,35 +37,24 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
         this.data = data.result.results;
         this.properties = Object.keys(this.data[0]).map(key => key);
-        console.log(this.data);
       });
     }
   }
 
   ngOnDestroy() {
-    // Count number of trues in checked list
-    /*
-    var myCount = this.checked.reduce(function(a,b){
-      return b?a+1:a;
-    },0);
-    */
-    // var arrayGenerated:any[][] = [[myCount],[]];
     const arrayGenerated = [];
     for (let j = 0; j < this.data.length; j++) {
       let union = {};
       for (let i = 0; i < this.properties.length; i++) {
-        // console.log(this.properties[i]);
         if (this.checked[this.properties[i]]) {
           union = Object.assign(union, {
             [this.properties[i]]: this.data[j][this.properties[i]]
           });
-          // arrayGenerated[i][j] = this.data[j][this.properties[i]];;
         }
       }
       arrayGenerated.push(union);
     }
     this.dataservice.data = arrayGenerated;
-    console.log(arrayGenerated);
   }
 
   updateChecked(option, event) {
@@ -75,25 +64,6 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       this.checked[option] = true;
     }
   }
-
-  /*
-  nestedColumn(column: string, data: string){
-    console.log(column);
-    console.log(data);
-    if(column == 'resources')
-      return false;
-    return true;
-  }
-
-  extractData(property: any, data: any){
-    if(property == 'resources'){
-
-    }
-    else{
-      return data;
-    }
-  }
-*/
 
   next() {
     this.router.navigate(['/previewGraph/']);

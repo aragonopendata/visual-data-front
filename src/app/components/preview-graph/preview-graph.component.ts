@@ -1,9 +1,10 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ShareDataService } from '../../services/shareData.service';
+//import { ShareEndDataService } from '../../services/shareEndData.service';
 import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 @Component({
@@ -11,36 +12,50 @@ import { BaseChartDirective } from 'ng2-charts/ng2-charts';
     templateUrl: './preview-graph.component.html',
     styleUrls: ['./preview-graph.component.css']
 })
-export class PreviewGraphComponent implements OnInit {
+export class PreviewGraphComponent implements OnInit, OnDestroy {
     @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
+    // Data
     properties: string[];
-    color: string;
-    defaultColor = 'rgba(148,159,177';
-    indexChangeColor = -1;
     data: any;
-    chartType: string;
-    propertyDataSelected: string;
-    propertyLabelSelected: string;
-    groupValue: boolean;
-    indexArray: any;
 
-        // lineChart
-    public lineChartData: Array<any> = [
-        { data: [100], label: 'Series A' }
+    // Default variables
+    public defaultLineColor: Array<any> = [
+        { // grey
+        backgroundColor: 'rgba(148,159,177,0.2)',
+        borderColor: 'rgba(148,159,177,1)',
+        pointBackgroundColor: 'rgba(148,159,177,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+        }
     ];
-    public lineChartLabels: Array<any> = ['Select Data'];
+    public defaultPieColors: Array<any> = [];
+    public lineChartLegend = true;
     public lineChartOptions: any = {
         responsive: true
     };
-    public lineChartColors: Array<any> = [];
-    public lineChartLegend = true;
-    public lineChartType = 'line';
+
+    // Share Info HTML, functions
+    color: string;
+    indexChangeColor = -1;
+    propertyDataSelected: string;
+    propertyLabelSelected: string;
+    groupValue: boolean;
+
+    // lineChart
+    public lineChartData: Array<any> = [
+        { data: [0], label: 'Series A' }
+    ];
+    public lineChartLabels: Array<any> = ['Select Data'];
+    public lineChartColors: Array<any> = this.defaultLineColor;
+    chartType: string;
 
     constructor(
         private route: ActivatedRoute,
         private location: Location,
         public dataservice: ShareDataService,
+        // public endDataService: ShareEndDataService,
         private router: Router
     ) {
         this.groupValue = false;
@@ -49,8 +64,7 @@ export class PreviewGraphComponent implements OnInit {
         try {
             this.data = JSON.parse(JSON.stringify(this.dataservice.data));
             this.properties = Object.keys(this.data[0]).map((key) => key);
-            this.createIndex();
-             this.createColorArray();
+            this.createColorArray();
         } catch (error) {
             this.router.navigate(['/selectData/']);
         }
@@ -64,16 +78,10 @@ export class PreviewGraphComponent implements OnInit {
     }
 
     createColorArray() {
-        this.lineChartColors = [];
-        for (let index = 0; index < this.properties.length; index++) {
-            this.lineChartColors.push({
-                backgroundColor: this.defaultColor + ',0,2)',
-                borderColor: this.defaultColor + ',1)',
-                pointBackgroundColor: this.defaultColor + ', 1)',
-                pointHoverBorderColor: this.defaultColor + ',0.8)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff'
-            });
+       this.defaultPieColors = [{backgroundColor: []}];
+        for (let index = 0; index < this.data.length; index++) {
+            this.defaultPieColors[0].backgroundColor.push('#' + '0123456789abcdef'.split('').map(function(v, i, a) {
+                return i > 5 ? null : a[Math.floor(Math.random() * 16)]; }).join(''));
         }
     }
 
@@ -170,47 +178,35 @@ export class PreviewGraphComponent implements OnInit {
 
     changeChart(chart) {
         if (chart === 0) {
+            this.lineChartColors = this.defaultLineColor;
             this.chartType = 'line';
         } else if (chart === 1) {
+            this.lineChartColors = this.defaultLineColor;
             this.chartType = 'bar';
         } else if (chart === 2) {
+            this.lineChartColors = this.defaultPieColors;
             this.chartType = 'pie';
         }
     }
 
-    createIndex() {
-        const aux = [];
-        for (let index = 0; index < this.properties.length; index++) {
-            aux.push(index);
-        }
-        this.indexArray = aux;
-    }
-
     saveIndex(i) {
         this.indexChangeColor = i;
-        console.log(i);
     }
 
     saveColor() {
-        console.log('Dentro');
-        const copy = this.color;
-        this.color.split('rgb(');
-        this.color.split(')');
-        const aux = 'rgba(' + this.color;
-
-        this.lineChartColors[this.indexChangeColor] = {
-                backgroundColor: aux + ',0,2)',
-                borderColor: aux + ',1)',
-                pointBackgroundColor: aux + ', 1)',
-                pointHoverBorderColor: aux + ',0.8)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff'
-            };
-        this.color = copy;
+        this.lineChartColors[0].backgroundColor[this.indexChangeColor] = this.color;
+        this.updateGraph();
     }
 
     next() {
-        console.log(this.color);
+        this.router.navigate(['/previewGraph/']);
+    }
+
+    ngOnDestroy() {
+       /* this.endDataService.ChartData = this.lineChartData;
+        this.endDataService.ChartLabels = this.lineChartLabels;
+        this.endDataService.ChartColors = this.defaultLineColor;
+        this.endDataService.ChartType = this.chartType;*/
     }
 }
 
