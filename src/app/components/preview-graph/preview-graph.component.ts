@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ShareDataService } from '../../services/shareData.service';
-//import { ShareEndDataService } from '../../services/shareEndData.service';
+// import { ShareEndDataService } from '../../services/shareEndData.service';
 import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 @Component({

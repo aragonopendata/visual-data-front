@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-embedGraph',
-  templateUrl: './embedGraph.component.html',
-  styleUrls: ['./embedGraph.component.css']
+  selector: 'app-embed-graph',
+  templateUrl: './embed-graph.component.html',
+  styleUrls: ['./embed-graph.component.css']
 })
 export class EmbedGraphComponent implements OnInit {
 

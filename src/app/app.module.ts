@@ -37,8 +37,9 @@ import { SelectDataComponent } from './components/select-data/select-data.compon
 import { PreviewDataComponent } from './components/preview-data/preview-data.component';
 import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
-import { EmbedGraphComponent } from './components/embedGraph/embedGraph.component';
-import { NoEmbedGraphComponent } from './components/noEmbedGraph/noEmbedGraph.component';
+import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
+import { NoEmbedGraphComponent } from './components/no-embed-graph/no-embed-graph.component';
+import { ListGraphService } from './services/list-graph.service';
 // Utils
 import { AccordionModule } from 'ng2-accordion';
 import { ChartsModule } from 'ng2-charts';
@@ -102,6 +103,7 @@ const routes: Routes = [
     DatasetsService,
     CkanService,
     ShareDataService,
+    ListGraphService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

@@ -8,7 +8,7 @@ import { Constants } from '../app.constants';
 export class CkanService {
   serverURL: string;
   constructor(private router: Router, private http: Http) {
-    this.serverURL = Constants.SERVER_URL;
+    this.serverURL = Constants.VISUAL_BACK_SERVER_URL;
   }
 
   // Make the call to get the list of all packages
