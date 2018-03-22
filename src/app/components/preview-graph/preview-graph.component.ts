@@ -4,9 +4,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { ShareDataService } from '../../services/shareData.service';
-// import { ShareEndDataService } from '../../services/shareEndData.service';
 import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
+import { GraphService } from '../../services/graph.service';
 @Component({
     selector: 'app-preview-graph',
     templateUrl: './preview-graph.component.html',
@@ -55,8 +55,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private location: Location,
         public dataservice: ShareDataService,
-        // public endDataService: ShareEndDataService,
-        private router: Router
+        private router: Router,
+        private graphservice: GraphService
     ) {
         this.groupValue = false;
         window.scrollTo(0, 0);
@@ -92,7 +92,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                 this.propertyLabelSelected = option;
                 this.lineChartLabels = this.getDataArray(option);
                 this.propertyDataSelected = undefined;
-                this.lineChartData = [{ data: [100], label: 'Series A' }];
+                this.lineChartData = [{ data: [0], label: 'Series A' }];
                 this.groupValue = false;
                 this.data = JSON.parse(JSON.stringify(this.dataservice.data));
                 this.updateGraph();
@@ -100,14 +100,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                 // If 1 then is a data
                 this.propertyDataSelected = option;
                 this.lineChartData = [
-                    { data: this.getDataArray(option), label: 'Series A' }
+                    { data: this.getDataArray(option), label: this.propertyLabelSelected }
                 ];
             }
         } else {
             if (sel === 0) {
                 this.lineChartLabels = ['Select Data'];
             } else if (sel === 1) {
-                this.lineChartData = [{ data: [100], label: 'Series A' }];
+                this.lineChartData = [{ data: [0], label: 'Series A' }];
             }
         }
     }
@@ -164,7 +164,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         });
 
         this.lineChartData = [
-            { data: this.getDataArray(this.propertyDataSelected), label: 'Series A' }
+            { data: this.getDataArray(this.propertyDataSelected), label: this.propertyLabelSelected }
         ];
     }
 
@@ -199,14 +199,13 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        this.router.navigate(['/previewGraph/']);
+        this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData, this.defaultLineColor).subscribe(data => {
+            console.log(data);
+        });
+        this.router.navigate(['/endGraphic/']);
     }
 
     ngOnDestroy() {
-       /* this.endDataService.ChartData = this.lineChartData;
-        this.endDataService.ChartLabels = this.lineChartLabels;
-        this.endDataService.ChartColors = this.defaultLineColor;
-        this.endDataService.ChartType = this.chartType;*/
     }
 }
 

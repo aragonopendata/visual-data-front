@@ -19,8 +19,9 @@ import {
 } from 'primeng/primeng';
 // Main
 import { AppComponent } from './app.component';
-// Generic Component
+// Service Component
 import { CkanService } from './services/ckan.service';
+import { GraphService } from './services/graph.service';
 // Data Components
 import { ShareDataService } from './services/shareData.service';
 import { DatasetsService } from './services/datasets.service';
@@ -38,12 +39,12 @@ import { PreviewDataComponent } from './components/preview-data/preview-data.com
 import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
-import { NoEmbedGraphComponent } from './components/no-embed-graph/no-embed-graph.component';
-import { ListGraphService } from './services/list-graph.service';
 // Utils
 import { AccordionModule } from 'ng2-accordion';
 import { ChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { NgxCarouselModule } from 'ngx-carousel';
+import 'hammerjs';
 
 const pathModifier = Constants.PATH_MODIFIER;
 
@@ -62,7 +63,7 @@ const routes: Routes = [
         { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
         { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
         { path: pathModifier + 'endGraphic', component: EndGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'charts/:id', component: NoEmbedGraphComponent, pathMatch: 'full' }
+        { path: pathModifier + 'charts/:id', component: EndGraphComponent, pathMatch: 'full' }
       ]
   },
   // Default
@@ -81,6 +82,7 @@ const routes: Routes = [
     DataTableModule,
     ChartsModule,
     ColorPickerModule,
+    NgxCarouselModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
@@ -94,8 +96,7 @@ const routes: Routes = [
     PreviewDataComponent,
     PreviewGraphComponent,
     EndGraphComponent,
-    EmbedGraphComponent,
-    NoEmbedGraphComponent
+    EmbedGraphComponent
   ],
   providers: [
     DatePipe,
@@ -103,7 +104,7 @@ const routes: Routes = [
     DatasetsService,
     CkanService,
     ShareDataService,
-    ListGraphService,
+    GraphService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

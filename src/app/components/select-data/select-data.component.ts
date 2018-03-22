@@ -69,7 +69,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/']);
+    // this.location.back();
   }
 
   whoIsOpen(n: string) {
