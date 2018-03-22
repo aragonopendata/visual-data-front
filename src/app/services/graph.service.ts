@@ -27,7 +27,7 @@ export class GraphService {
             { 'type': '"' + type + '"', 'labels': '"' + labels + '"', 'data': '"' + data + '"', 'color': '"' + color + '"' }
         );
         return this.http
-          .post(Constants.SAVE_CHART_PATH, body, {
+          .post(Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_CHART_PATH, body, {
             headers: headers
           })
           .map(res => {
