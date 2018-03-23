@@ -1,0 +1,27 @@
+.column1 {
+    padding-right: 5%;
+    float: left;
+    width: 70%;
+  }
+
+.column2 {
+    float: left;
+    width: 30%;
+}
+  
+/* Clear floats after the columns */
+.row:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+#box {
+    width: 400px;
+    margin: 0 auto;
+    overflow: auto;
+    border: 1px solid #0f0;
+    padding: 2px;
+    text-align: justify;
+    background: transparent;
+}

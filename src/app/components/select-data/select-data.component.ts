@@ -26,6 +26,12 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   results: string[];
 
+  data: any;
+
+  mData: any;
+
+  properties: string[];
+
   constructor(
     private ckanservice: CkanService,
     private route: ActivatedRoute,
@@ -36,6 +42,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.opened = '';
     this.list = ['Cargando Espere'];
     this.ckanPackages = [];
+    this.properties = ['Cargando'];
   }
 
   ngOnInit(): void {
@@ -55,6 +62,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     const exist = this.list.find(x => x === this.myData);
     if (exist && this.ckanPackages.length === 0) {
       this.ckanPackages.push(this.myData);
+      this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
+        this.data = data.result.results;
+        console.log(data);
+        this.properties = Object.keys(this.data[0]).map(key => key);
+      });
     }
   }
 
@@ -66,6 +78,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   deletePackage() {
     this.ckanPackages.pop();
+    this.data = undefined;
   }
 
   goBack(): void {
@@ -76,6 +89,18 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   whoIsOpen(n: string) {
     console.log('Detectado Apertura de ' + n);
     this.opened = n;
+  }
+
+
+  parseInfo(data) {
+    if (data !== '""' && data.toString() !== '[]') {
+        data = data.replace(/^\"|\"$/g, '');
+        return data;
+    }
+  }
+
+  manteinData(data) {
+    this.mData = data;
   }
 
   next() {

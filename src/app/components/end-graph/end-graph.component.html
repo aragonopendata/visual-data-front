@@ -1,5 +1,17 @@
-<div *ngIf="chart!==undefined" style="display: block;">
-    <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
-        [chartType]="chart.type">
-    </canvas>
+<div class="row">
+    <div class="column1">
+        <div *ngIf="chart!==undefined" style="display: block;">
+            <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
+                [chartType]="chart.type">
+            </canvas>
+        </div>
+    </div>
+    <div class="column2">
+        <div>
+            <h4>URL de la grafica embebida</h4>
+            <code>
+                <pre><p><a href={{routeEmbed}} title="URL Grafica">{{routeEmbed}}</a></p></pre>
+            </code>
+        </div>
+    </div>
 </div>

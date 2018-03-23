@@ -3,29 +3,28 @@
         <accordion-group heading="API CKAN" (onOpen)="whoIsOpen('CKAN')">
             <div style="float:left">
                 <div>
-                        <!--<input  ngui-auto-complete max-num-list=5 [(ngModel)]="myData" [source]="list" />-->
-                        <p-autoComplete size="30%" minQueryLength="0" [dropdown]="true"
-                        [(ngModel)]="myData" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+                    <!--<input  ngui-auto-complete max-num-list=5 [(ngModel)]="myData" [source]="list" />-->
+                    <p-autoComplete size="30%" minQueryLength="0" [dropdown]="true" [(ngModel)]="myData" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
                 </div>
             </div>
             <div style="float:left">
-                <button type="button" class="button1" (click)="selectPackage()" >Añadir Datos</button>
+                <button type="button" class="button1" (click)="selectPackage()">Añadir Datos</button>
             </div>
             <div style="float:left ;margin-left: 5%;">
                 <ul>
-                        <li *ngFor="let data of ckanPackages">
-                        <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3" ><i class="fa fa-remove"></i></button>
-                        </li>
+                    <li *ngFor="let data of ckanPackages">
+                        <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
+                    </li>
                 </ul>
             </div>
         </accordion-group>
-        <accordion-group heading="Contacts"  (onOpen)="whoIsOpen('Contacts')">
+        <accordion-group heading="Contacts" (onOpen)="whoIsOpen('Contacts')">
             This is content of the contacts
         </accordion-group>
-        <accordion-group heading="Map"  (onOpen)="whoIsOpen('Map')">
+        <accordion-group heading="Map" (onOpen)="whoIsOpen('Map')">
             Content of the Map
         </accordion-group>
-        <accordion-group  (onOpen)="whoIsOpen('Custom')">
+        <accordion-group (onOpen)="whoIsOpen('Custom')">
             <accordion-heading>
                 Custom heading
             </accordion-heading>
@@ -33,6 +32,48 @@
         </accordion-group>
     </accordion>
 
+    <span *ngIf="data">
+        <p-dataTable [tableStyle]="{'table-layout':'auto'}" scrollable="true" [value]="data" [rows]="6" [paginator]="true" #dt>
+            <p-header>Dataset</p-header>
+            <ng-template ngFor let-property [ngForOf]="properties">
+                <p-column [style]="{'min-width':'200px'}" field={{property}} header={{property}}>
+                    <ng-template let-entry="rowData" pTemplate="body">
+                        <span class="row" *ngIf='((entry[property] | json).length <= 80) && entry[property] != null && (entry[property] | json) != null'>
+                                    {{parseInfo(entry[property] | json)}}
+                            </span>
+                        <span class="row" *ngIf="((entry[property] | json).length > 80)">
+                                    <button type="button" class="btn btn-light" data-toggle="modal" (click)="manteinData((entry[property]))" data-target="#exampleModal">
+                                            <i class="fa fa-info"></i>
+                                    </button>
+                            </span>
+                    </ng-template>
+                </p-column>
+            </ng-template>
+        </p-dataTable>
+    </span>
+
     <button (click)="next()" class="button2">Crear Grafica</button>
     <button (click)="goBack()" class="button2">Volver</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Despliegue de Infromaci&oacute;n</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+            </div>
+            <div class="modal-body">
+                <code>
+                        <pre>{{mData| json}}</pre>
+                    </code>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
