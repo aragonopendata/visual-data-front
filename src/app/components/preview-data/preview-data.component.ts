@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ShareDataService } from '../../services/shareData.service';
 import { CkanService } from '../../services/ckan.service';
 import { DataTable } from 'primeng/primeng';
-
+import { JsonPipe } from '@angular/common';
 @Component({
   selector: 'app-preview-data',
   templateUrl: './preview-data.component.html',
@@ -16,6 +16,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   properties: string[];
   data: any;
   checked: boolean[] = [];
+  mData: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +64,17 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     } else {
       this.checked[option] = true;
     }
+  }
+
+  parseInfo(data) {
+    if (data !== '""' && data.toString() !== '[]') {
+        data = data.replace(/^\"|\"$/g, '');
+        return data;
+    }
+  }
+
+  manteinData(data) {
+    this.mData = data;
   }
 
   next() {
