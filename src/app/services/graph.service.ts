@@ -24,8 +24,10 @@ export class GraphService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         const body = JSON.stringify(
-            { 'type': '"' + type + '"', 'labels': '"' + labels + '"', 'data': '"' + data + '"', 'color': '"' + color + '"' }
+            { 'type': type, 'labels': JSON.stringify(labels) , 'data':
+            JSON.stringify(data), 'colors': JSON.stringify(color) }
         );
+        console.log(body);
         return this.http
           .post(Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_CHART_PATH, body, {
             headers: headers
