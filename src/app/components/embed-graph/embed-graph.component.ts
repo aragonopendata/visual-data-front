@@ -26,8 +26,10 @@ export class EmbedGraphComponent implements OnInit {
     this.graphservice
       .getChart(this.activatedRoute.snapshot.url[2])
       .subscribe(data => {
+        if (data.type === 'pie') {
+            data.colors[0].backgroundColor = data.colors[0].backgroundColor.split(',');
+        }
         this.chart = data;
-        console.log(data);
       });
   }
 }

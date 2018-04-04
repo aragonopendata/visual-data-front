@@ -43,8 +43,13 @@ export class ListGraphsComponent implements OnInit {
       };
 
     this.listGraphService.getCharts().subscribe(data => {
-      this.carouselData = data.charts;
-      console.log(this.carouselData);
+        const aux = data.charts;
+        for (let i = 0; i < Object.keys(aux).length; i ++) {
+            if (data.charts[i].type === 'pie') {
+                data.charts[i].colors[0].backgroundColor = data.charts[i].colors[0].backgroundColor.split(',');
+            }
+        }
+        this.carouselData = data.charts;
     });
   }
 

@@ -23,11 +23,20 @@ export class GraphService {
     saveGraph(type, labels, data, color) {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
+
+        color[0].backgroundColor = color[0].backgroundColor.toString();
+
+        for (let index = 0; index < labels.length; index++) {
+            if (!labels[index]) {
+                labels[index] = 'undefined';
+            }
+        }
+        console.log(labels);
         const body = JSON.stringify(
-            { 'type': type, 'labels': JSON.stringify(labels) , 'data':
-            JSON.stringify(data), 'colors': JSON.stringify(color) }
+            { 'type': type, 'labels': labels , 'data':
+            data, 'colors': color }
         );
-        console.log(body);
+
         return this.http
           .post(Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_CHART_PATH, body, {
             headers: headers

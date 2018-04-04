@@ -37,6 +37,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     if (this.dataservice.type === 'CKAN') {
       this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
         this.data = data.result.results;
+        console.log(this.data);
         this.properties = Object.keys(this.data[0]).map(key => key);
       });
     }

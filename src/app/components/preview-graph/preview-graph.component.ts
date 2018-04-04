@@ -199,10 +199,9 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData, this.defaultLineColor).subscribe(data => {
-            console.log(data);
+        this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData, this.lineChartColors).subscribe(data => {
+            this.router.navigate(['/endGraphic/' + data.response]);
         });
-        this.router.navigate(['/endGraphic/']);
     }
 
     ngOnDestroy() {

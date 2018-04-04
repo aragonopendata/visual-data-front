@@ -62,7 +62,7 @@ const routes: Routes = [
         { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
         { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
         { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'endGraphic', component: EndGraphComponent, pathMatch: 'full' },
+        { path: pathModifier + 'endGraphic/:id', component: EndGraphComponent, pathMatch: 'full' },
         { path: pathModifier + 'charts/:id', component: EndGraphComponent, pathMatch: 'full' }
       ]
   },

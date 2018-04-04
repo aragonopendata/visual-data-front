@@ -37,7 +37,15 @@ export class EndGraphComponent implements OnInit {
 
     this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
     this.graphservice.getChart(id).subscribe(data => {
-      this.chart = data;
+        if (!data) {
+            this.router.navigate(['/']);
+        }
+
+        if (data.type === 'pie') {
+            data.colors[0].backgroundColor = data.colors[0].backgroundColor.split(',');
+        }
+
+        this.chart = data;
     });
   }
 

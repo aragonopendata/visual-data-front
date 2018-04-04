@@ -13,10 +13,10 @@
             <ng-template ngFor let-property [ngForOf]="properties">
                 <p-column [style]="{'min-width':'200px'}" field={{property}} header={{property}}>
                     <ng-template let-entry="rowData" pTemplate="body">
-                        <span class="row" *ngIf='((entry[property] | json).length <= 80) && entry[property] != null && (entry[property] | json) != null'>
+                        <span class="row" *ngIf='(entry[property] != null && entry[property] != undefined && (entry[property] | json) != null &&(entry[property] | json).length <= 80)'>
                                 {{parseInfo(entry[property] | json)}}
                         </span>
-                        <span class="row" *ngIf="((entry[property] | json).length > 80)">
+                        <span class="row" *ngIf="(entry[property] != null && entry[property] != undefined && (entry[property] | json).length > 80)">
                                 <button type="button" class="btn btn-light" data-toggle="modal" (click)="manteinData((entry[property]))" data-target="#exampleModal">
                                         <i class="fa fa-info"></i>
                                 </button>
