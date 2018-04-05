@@ -62,7 +62,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         window.scrollTo(0, 0);
         this.chartType = 'line';
         try {
-            this.data = JSON.parse(JSON.stringify(this.dataservice.data));
+            this.data = JSON.parse(JSON.stringify(this.dataservice.columnsGraph));
             this.properties = Object.keys(this.data[0]).map((key) => key);
             this.createColorArray();
         } catch (error) {
@@ -94,7 +94,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                 this.propertyDataSelected = undefined;
                 this.lineChartData = [{ data: [0], label: 'Series A' }];
                 this.groupValue = false;
-                this.data = JSON.parse(JSON.stringify(this.dataservice.data));
+                this.data = JSON.parse(JSON.stringify(this.dataservice.columnsGraph));
                 this.updateGraph();
             } else if (sel === 1) {
                 // If 1 then is a data
@@ -147,7 +147,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                     this.createColorArray();
                 }
             } else {
-                this.data = JSON.parse(JSON.stringify(this.dataservice.data));
+                this.data = JSON.parse(JSON.stringify(this.dataservice.columnsGraph));
                 this.updateGraph();
                 this.createColorArray();
             }
@@ -199,9 +199,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData, this.lineChartColors).subscribe(data => {
-            this.router.navigate(['/endGraphic/' + data.response]);
-        });
+            this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData, 
+                this.lineChartColors).subscribe(dataLink => {
+                this.graphservice.saveProcess(this.dataservice.type, this.dataservice.dataset, this.dataservice.columnsGraph,
+                    this.chartType, this.propertyLabelSelected, this.propertyDataSelected,
+                    this.groupValue, dataLink.response).subscribe(data => {
+                        this.router.navigate(['/endGraphic/' + dataLink.response]);
+                });
+            });
     }
 
     ngOnDestroy() {

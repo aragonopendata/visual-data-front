@@ -19,7 +19,7 @@ export class GraphService {
           .map((res: Response) => res.json());
     }
 
-    // Make the call to get all the package iniformation
+    // Make the call to save the info of the graph
     saveGraph(type, labels, data, color) {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -39,6 +39,28 @@ export class GraphService {
 
         return this.http
           .post(Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_CHART_PATH, body, {
+            headers: headers
+          })
+          .map(res => {
+            return res.json();
+          });
+    }
+
+    // Make the call to save the process of graph generation
+    saveProcess(typeOfData, dataset, columnsGraph, chartType, propertyLabelSelected, propertyDataSelected, groupValue, chartDataId) {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        const body = JSON.stringify(
+            { 'typeOfData': typeOfData, 'dataset': dataset , 'chartType': chartType,
+            'columnLabels': propertyLabelSelected, 'columnData': propertyDataSelected, 'groupValue': groupValue,
+            'chartDataId': chartDataId}
+        );
+
+        console.log(body);
+
+        return this.http
+          .post(Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_PROCESS_PATH, body, {
             headers: headers
           })
           .map(res => {

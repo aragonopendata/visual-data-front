@@ -30,12 +30,12 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
     // TODO: Borrar las dos siguientes lineas, usadas para debug
     this.dataservice.type = 'CKAN';
-    this.dataservice.data = '123456789-7';
+    this.dataservice.dataset = '123456789-7';
   }
 
   ngOnInit(): void {
     if (this.dataservice.type === 'CKAN') {
-      this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
+      this.ckanservice.getPackageInfo(this.dataservice.dataset).subscribe(data => {
         this.data = data.result.results;
         console.log(this.data);
         this.properties = Object.keys(this.data[0]).map(key => key);
@@ -56,7 +56,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       }
       arrayGenerated.push(union);
     }
-    this.dataservice.data = arrayGenerated;
+    this.dataservice.columnsGraph = arrayGenerated;
   }
 
   updateChecked(option, event) {

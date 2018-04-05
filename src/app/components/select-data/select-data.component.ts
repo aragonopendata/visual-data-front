@@ -54,7 +54,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.opened === 'CKAN') {
       this.dataservice.type = 'CKAN';
-      this.dataservice.data = this.ckanPackages;
+      this.dataservice.dataset = this.ckanPackages;
     }
   }
 
