@@ -62,7 +62,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     const exist = this.list.find(x => x === this.myData);
     if (exist && this.ckanPackages.length === 0) {
       this.ckanPackages.push(this.myData);
-      this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
+      this.ckanservice.getPackageInfo(this.dataservice.dataset).subscribe(data => {
         this.data = data.result.results;
         console.log(data);
         this.properties = Object.keys(this.data[0]).map(key => key);

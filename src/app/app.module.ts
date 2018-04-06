@@ -44,6 +44,7 @@ import { AccordionModule } from 'ng2-accordion';
 import { ChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxCarouselModule } from 'ngx-carousel';
+import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
 
 const pathModifier = Constants.PATH_MODIFIER;
@@ -83,6 +84,7 @@ const routes: Routes = [
     ChartsModule,
     ColorPickerModule,
     NgxCarouselModule,
+    DragulaModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [

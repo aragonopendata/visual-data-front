@@ -7,6 +7,7 @@ import { ShareDataService } from '../../services/shareData.service';
 import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
+import { DragulaService } from 'ng2-dragula';
 @Component({
     selector: 'app-preview-graph',
     templateUrl: './preview-graph.component.html',
@@ -17,56 +18,103 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     // Data
     properties: string[];
+    propertiesType: string[];
     data: any;
+    chartType: string;
 
-    // Default variables
-    public defaultLineColor: Array<any> = [
-        { // grey
-        backgroundColor: 'rgba(148,159,177,0.2)',
-        borderColor: 'rgba(148,159,177,1)',
-        pointBackgroundColor: 'rgba(148,159,177,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-        }
+    public columnsData: Array<string> = [];
+    public columnsLabel: Array<string> = [];
+
+
+    // Line Chart
+    //////////////////////////////////////
+    public lineChartData: Array<any> = [
+        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
+        { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
     ];
-    public defaultPieColors: Array<any> = [];
-    public lineChartLegend = true;
+    public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
     public lineChartOptions: any = {
         responsive: true
     };
+    public lineChartLegend = true;
+    public lineChartType = 'line';
 
-    // Share Info HTML, functions
-    color: string;
-    indexChangeColor = -1;
-    propertyDataSelected: string;
-    propertyLabelSelected: string;
-    groupValue: boolean;
-
-    // lineChart
-    public lineChartData: Array<any> = [
-        { data: [0], label: 'Series A' }
-    ];
-    public lineChartLabels: Array<any> = ['Select Data'];
-    public lineChartColors: Array<any> = this.defaultLineColor;
-    chartType: string;
+    //////////////////////////////////////
 
     constructor(
         private route: ActivatedRoute,
         private location: Location,
         public dataservice: ShareDataService,
         private router: Router,
-        private graphservice: GraphService
+        private graphservice: GraphService,
+        private dragulaService: DragulaService
     ) {
-        this.groupValue = false;
         window.scrollTo(0, 0);
-        this.chartType = 'line';
+
+        try {
+            dragulaService.drop.subscribe((value) => {
+                this.onDrop(value.slice(1));
+              });
+            dragulaService.setOptions('another-bag', {
+                copy: function (el, source) {
+                    return source.id === 'no-drop';
+                },
+                accepts: function (el, target, source, sibling) {
+                    return target.id !== 'no-drop'; // elements can be dropped in any of the `containers` by default
+                }
+            });
+        } catch (error) {
+        }
+
         try {
             this.data = JSON.parse(JSON.stringify(this.dataservice.columnsGraph));
-            this.properties = Object.keys(this.data[0]).map((key) => key);
-            this.createColorArray();
+            this.properties = Object.keys(this.data[0]).map(key => key);
+            this.propertiesType = Object.keys(this.data[0]).map(key => this.data[0][key].constructor.name);
+            console.log(this.data);
         } catch (error) {
-            this.router.navigate(['/selectData/']);
+            // this.router.navigate(['/selectData/']);
+            this.properties = ['The', 'possibilities', 'are', 'endless!'];
+            this.propertiesType = ['String', 'String', 'String', 'String'];
+        }
+    }
+
+    private onDrop(args) {
+        // TODO: Comprobar data que entra como undefined siendo que se han cargado los datos y actualizar datos tabla
+        console.log(this.columnsData);
+        if (!this.data) {
+            console.log(this.data);
+            console.log('Cargar Datos');
+            return;
+        }
+        // this.lineChartLabels = [];
+        // this.lineChartData = [];
+        if (this.columnsData && this.columnsData.length !== 0) {
+            this.columnsData.forEach(element => {
+                console.log(this.columnsData);
+                let aux = [];
+                this.data.forEach(d => {
+                    //console.log(d);
+                    aux = Object.keys(d).map(key => d[key]);
+                });
+                console.log(aux);
+                // this.lineChartLabels.push({ data: [, label: 'Series A'});
+                /*for (let index = 0; index < this.data.length; index++) {
+                }*/
+            });
+        }
+        if (this.columnsLabel && this.columnsLabel.length !== 0) {
+            console.log('aqui');
+        }
+        // do something
+      }
+
+    deleteElement(buffer, index) {
+        if (buffer === 1) {
+            this.columnsData.splice(index, 1);
+        } else if (buffer === 2) {
+            this.columnsLabel.splice(index, 1);
         }
     }
 
@@ -77,129 +125,19 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
-    createColorArray() {
-       this.defaultPieColors = [{backgroundColor: []}];
-        for (let index = 0; index < this.data.length; index++) {
-            this.defaultPieColors[0].backgroundColor.push('#' + '0123456789abcdef'.split('').map(function(v, i, a) {
-                return i > 5 ? null : a[Math.floor(Math.random() * 16)]; }).join(''));
-        }
-    }
-
-    select(option: any, sel: any, event: any) {
-        // If 0 then is a label data
-        if (event === true || event.target.checked === true) {
-            if (sel === 0) {
-                this.propertyLabelSelected = option;
-                this.lineChartLabels = this.getDataArray(option);
-                this.propertyDataSelected = undefined;
-                this.lineChartData = [{ data: [0], label: 'Series A' }];
-                this.groupValue = false;
-                this.data = JSON.parse(JSON.stringify(this.dataservice.columnsGraph));
-                this.updateGraph();
-            } else if (sel === 1) {
-                // If 1 then is a data
-                this.propertyDataSelected = option;
-                this.lineChartData = [
-                    { data: this.getDataArray(option), label: this.propertyLabelSelected }
-                ];
-            }
-        } else {
-            if (sel === 0) {
-                this.lineChartLabels = ['Select Data'];
-            } else if (sel === 1) {
-                this.lineChartData = [{ data: [0], label: 'Series A' }];
-            }
-        }
-    }
-
-    groupBy(event: any) {
-        if (this.propertyLabelSelected !== undefined) {
-            if (event.target.checked === true) {
-                if (this.data.length > 1) {
-                    const aux = Object.assign([], this.data);
-                    let i = 0, j;
-                    while (i < aux.length) {
-                        let NaNs = false;
-                        const aux3 = aux[i][this.propertyDataSelected];
-                        if (isNaN(Number(aux3)) || aux3 === true || aux3 === false) {
-                            aux[i][this.propertyDataSelected] = 1;
-                            NaNs = true;
-                        }
-                        j = i + 1;
-                        while (j < aux.length) {
-                            const aux1 = aux[i][this.propertyLabelSelected];
-                            const aux2 = aux[j][this.propertyLabelSelected];
-                            if (aux1 === aux2 || aux1 == null && aux2 == null) {
-                                if ( NaNs !== true) {
-                                    aux[i][this.propertyDataSelected] += aux[j][this.propertyDataSelected];
-                                } else {
-                                    aux[i][this.propertyDataSelected]++;
-                                }
-                                aux.splice(j, 1);
-                                j--;
-                            }
-                            j++;
-                        }
-                        i++;
-                    }
-                    this.data = Object.assign([], aux);
-                    this.updateGraph();
-                    this.createColorArray();
-                }
-            } else {
-                this.data = JSON.parse(JSON.stringify(this.dataservice.columnsGraph));
-                this.updateGraph();
-                this.createColorArray();
-            }
-        }
-    }
-
-    updateGraph() {
-        this.lineChartLabels = this.getDataArray(this.propertyLabelSelected);
-        setTimeout(() => {
-        if (this.chart && this.chart.chart && this.chart.chart.config) {
-            this.chart.chart.config.data.labels = this.lineChartLabels;
-            this.chart.chart.update();
-            }
-        });
-
-        this.lineChartData = [
-            { data: this.getDataArray(this.propertyDataSelected), label: this.propertyLabelSelected }
-        ];
-    }
-
-    getDataArray(property: any) {
-        const aux = [];
-        for (let i = 0; i < this.data.length; i++) {
-            aux.push(this.data[i][property]);
-        }
-        return aux;
-    }
-
     changeChart(chart) {
         if (chart === 0) {
-            this.lineChartColors = this.defaultLineColor;
             this.chartType = 'line';
         } else if (chart === 1) {
-            this.lineChartColors = this.defaultLineColor;
             this.chartType = 'bar';
         } else if (chart === 2) {
-            this.lineChartColors = this.defaultPieColors;
             this.chartType = 'pie';
         }
     }
 
-    saveIndex(i) {
-        this.indexChangeColor = i;
-    }
-
-    saveColor() {
-        this.lineChartColors[0].backgroundColor[this.indexChangeColor] = this.color;
-        this.updateGraph();
-    }
-
     next() {
-            this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData, 
+        /*
+            this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData,
                 this.lineChartColors).subscribe(dataLink => {
                 this.graphservice.saveProcess(this.dataservice.type, this.dataservice.dataset, this.dataservice.columnsGraph,
                     this.chartType, this.propertyLabelSelected, this.propertyDataSelected,
@@ -207,6 +145,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                         this.router.navigate(['/endGraphic/' + dataLink.response]);
                 });
             });
+            */
     }
 
     ngOnDestroy() {

@@ -34,3 +34,23 @@
   margin: 4px 2px;
   cursor: poin;
 }
+
+ul {
+    list-style-type: none;
+}
+
+label {
+    position:relative;   
+    cursor:pointer;
+}
+
+label [type="checkbox"] {
+    
+}
+[type="checkbox"] + span {
+    display:inline-block;
+}
+:checked + span {
+    background:#a8d1ff;
+    display:inline-block;    
+}
