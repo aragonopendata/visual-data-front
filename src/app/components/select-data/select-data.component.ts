@@ -20,7 +20,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   list: String[];
 
-  myData: String;
+  ckanPackagesInfo: String;
 
   ckanPackages: String[];
 
@@ -59,13 +59,17 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   selectPackage() {
-    const exist = this.list.find(x => x === this.myData);
+    const exist = this.list.find(x => x === this.ckanPackagesInfo);
     if (exist && this.ckanPackages.length === 0) {
-      this.ckanPackages.push(this.myData);
-      this.ckanservice.getPackageInfo(this.dataservice.dataset).subscribe(data => {
+      this.ckanPackages.push(this.ckanPackagesInfo);
+      console.log(this.ckanPackagesInfo);
+      this.ckanservice.getPackageInfo(this.ckanPackagesInfo).subscribe(data => {
+          console.log('TODO');
+          /*
         this.data = data.result.results;
         console.log(data);
         this.properties = Object.keys(this.data[0]).map(key => key);
+        */
       });
     }
   }

@@ -75,28 +75,31 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             console.log(this.data);
         } catch (error) {
             // this.router.navigate(['/selectData/']);
-            this.properties = ['The', 'possibilities', 'are', 'endless!'];
+            this.properties = ['Need', 'to', 'load', 'data!'];
             this.propertiesType = ['String', 'String', 'String', 'String'];
         }
     }
 
-    private onDrop(args) {
+    onDrop(args) {
         // TODO: Comprobar data que entra como undefined siendo que se han cargado los datos y actualizar datos tabla
-        console.log(this.columnsData);
+
         if (!this.data) {
             console.log(this.data);
             console.log('Cargar Datos');
             return;
         }
+        console.log('Pasado');
+        console.log(this.columnsData);
+        console.log(this.columnsData.length);
         // this.lineChartLabels = [];
         // this.lineChartData = [];
         if (this.columnsData && this.columnsData.length !== 0) {
-            this.columnsData.forEach(element => {
-                console.log(this.columnsData);
+            console.log('Dentro antes');
+            this.columnsData.forEach(key => {
+                console.log('Dentro drop');
                 let aux = [];
                 this.data.forEach(d => {
-                    //console.log(d);
-                    aux = Object.keys(d).map(key => d[key]);
+                    aux = Object.keys(d).map(dt => console.log(dt[key]));
                 });
                 console.log(aux);
                 // this.lineChartLabels.push({ data: [, label: 'Series A'});
