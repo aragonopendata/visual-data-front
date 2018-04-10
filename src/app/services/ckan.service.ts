@@ -24,20 +24,17 @@ export class CkanService {
   }
 
   // Make the call to get all the package iniformation
-  getPackageInfo(data: String) {
+  getPackageInfo(data: String[]) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const body = JSON.stringify({ package: '"' + data + '"' });
+    const body = JSON.stringify({ packages:  data  });
     return this.http
       .post(this.serverURL + '/services/ckan/packageInfo', body, {
         headers: headers
       })
       .map(res => {
-          try {
-            return res.json();
-          } catch (error) {
-            return res;
-          }
+          console.log(res.text().toString());
+        return JSON.parse(res.text().toString());
       });
   }
 }

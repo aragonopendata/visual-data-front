@@ -3,6 +3,7 @@ import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { Http } from '@angular/http';
 import { AccordionModule } from 'ng2-accordion';
 import { AutoCompleteModule } from 'primeng/primeng';
 import { CkanService } from '../../services/ckan.service';
@@ -37,7 +38,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     private router: Router,
-    public dataservice: ShareDataService
+    public dataservice: ShareDataService,
+    private http: Http
   ) {
     this.opened = '';
     this.list = ['Cargando Espere'];
@@ -63,15 +65,16 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     if (exist && this.ckanPackages.length === 0) {
       this.ckanPackages.push(this.ckanPackagesInfo);
       console.log(this.ckanPackagesInfo);
-      this.ckanservice.getPackageInfo(this.ckanPackagesInfo).subscribe(data => {
-          console.log('TODO');
+      this.ckanservice.getPackageInfo(this.ckanPackages).subscribe(data => {
+            console.log('TODO');
+            console.log(data);
           /*
         this.data = data.result.results;
         console.log(data);
         this.properties = Object.keys(this.data[0]).map(key => key);
         */
       });
-    }
+      }
   }
 
   search(event: any) {
