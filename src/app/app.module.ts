@@ -21,6 +21,7 @@ import {
 import { AppComponent } from './app.component';
 // Service Component
 import { CkanService } from './services/ckan.service';
+import { GaodcService } from './services/gaodc.service';
 import { GraphService } from './services/graph.service';
 // Data Components
 import { ShareDataService } from './services/shareData.service';
@@ -105,6 +106,7 @@ const routes: Routes = [
     Constants,
     DatasetsService,
     CkanService,
+    GaodcService,
     ShareDataService,
     GraphService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }

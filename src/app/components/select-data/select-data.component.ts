@@ -7,6 +7,7 @@ import { Http } from '@angular/http';
 import { AccordionModule } from 'ng2-accordion';
 import { AutoCompleteModule } from 'primeng/primeng';
 import { CkanService } from '../../services/ckan.service';
+import { GaodcService } from '../../services/gaodc.service';
 import { ShareDataService } from '../../services/shareData.service';
 
 @Component({
@@ -19,11 +20,17 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   opened: string;
 
-  list: String[];
+  listCkan: String[];
+
+  listGaodc: String[];
 
   ckanPackagesInfo: String;
 
+  gaodcPackagesInfo: String;
+
   ckanPackages: String[];
+
+  gaodcPackages: String[];
 
   results: string[];
 
@@ -35,6 +42,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   constructor(
     private ckanservice: CkanService,
+    private gaodcservice: GaodcService,
     private route: ActivatedRoute,
     private location: Location,
     private router: Router,
@@ -42,14 +50,22 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     private http: Http
   ) {
     this.opened = '';
-    this.list = ['Cargando Espere'];
+    this.listCkan = ['Cargando Espere'];
+    this.listGaodc = ['Cargando Espere'];
     this.ckanPackages = [];
+    this.gaodcPackages = [];
     this.properties = ['Cargando'];
   }
 
   ngOnInit(): void {
     this.ckanservice.getPackageList().subscribe(data => {
-      this.list = data.result;
+      this.listCkan = data.result;
+    });
+    this.gaodcservice.getPackageList().subscribe(data => {
+        this.listGaodc = [];
+        data.forEach(element => {
+            this.listGaodc.push(element[1]);
+        });
     });
   }
 
@@ -61,30 +77,49 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   selectPackage() {
-    const exist = this.list.find(x => x === this.ckanPackagesInfo);
-    if (exist && this.ckanPackages.length === 0) {
-      this.ckanPackages.push(this.ckanPackagesInfo);
-      console.log(this.ckanPackagesInfo);
-      this.ckanservice.getPackageInfo(this.ckanPackages).subscribe(data => {
-            console.log('TODO');
-            console.log(data);
-          /*
-        this.data = data.result.results;
-        console.log(data);
-        this.properties = Object.keys(this.data[0]).map(key => key);
-        */
-      });
-      }
+    if (this.opened === 'CKAN') {
+        const exist = this.listCkan.find(x => x === this.ckanPackagesInfo);
+        if (exist && this.ckanPackages.length === 0) {
+            this.ckanPackages.push(this.ckanPackagesInfo);
+            console.log(this.ckanPackagesInfo);
+            this.ckanservice.getPackageInfo(this.ckanPackages).subscribe(data => {
+                    console.log('TODO');
+                    console.log(data);
+                /*
+                this.data = data.result.results;
+                console.log(data);
+                this.properties = Object.keys(this.data[0]).map(key => key);
+                */
+            });
+        }
+    } else if (this.opened === 'GAODC') {
+        const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
+        if (exist > -1 && this.ckanPackages.length === 0) {
+            this.gaodcPackages.push(this.gaodcPackagesInfo);
+            console.log(this.gaodcPackagesInfo);
+            this.gaodcservice.getPackageInfo(exist + 1).subscribe(data => {
+                console.log('TODO');
+                console.log(data);
+            });
+        }
+    }
   }
 
   search(event: any) {
-    this.results = Object.assign([], this.list).filter(
-      item => item.indexOf(event.query) > -1
-    );
+    if (this.opened === 'CKAN') {
+        this.results = Object.assign([], this.listCkan).filter(
+        item => item.indexOf(event.query) > -1
+        );
+    } else if (this.opened === 'GAODC') {
+        this.results = Object.assign([], this.listGaodc).filter(
+            item => item.indexOf(event.query) > -1
+        );
+    }
   }
 
   deletePackage() {
     this.ckanPackages.pop();
+    this.gaodcPackages.pop();
     this.data = undefined;
   }
 
@@ -95,6 +130,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   whoIsOpen(n: string) {
     console.log('Detectado Apertura de ' + n);
+    this.ckanPackages.pop();
+    this.gaodcPackages.pop();
     this.opened = n;
   }
 
