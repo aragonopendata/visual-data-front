@@ -8,81 +8,81 @@ import { CkanService } from '../../services/ckan.service';
 import { DataTable } from 'primeng/primeng';
 import { JsonPipe } from '@angular/common';
 @Component({
-  selector: 'app-preview-data',
-  templateUrl: './preview-data.component.html',
-  styleUrls: ['./preview-data.component.css']
+    selector: 'app-preview-data',
+    templateUrl: './preview-data.component.html',
+    styleUrls: ['./preview-data.component.css']
 })
 export class PreviewDataComponent implements OnInit, OnDestroy {
-  properties: string[];
-  data: any;
-  checked: boolean[] = [];
-  mData: any;
+    checked: boolean[] = [];
+    dataTable: any;
+    headerTable: string[];
+    mData: any;
 
-  constructor(
-    private route: ActivatedRoute,
-    private location: Location,
-    private router: Router,
-    public dataservice: ShareDataService,
-    private ckanservice: CkanService
-  ) {
-    this.data = [];
-    this.properties = ['Cargando'];
-
-    // TODO: Borrar las dos siguientes lineas, usadas para debug
-    this.dataservice.type = 'CKAN';
-    this.dataservice.dataset = '123456789-7';
-  }
-
-  ngOnInit(): void {
-    if (this.dataservice.type === 'CKAN') {
-      this.ckanservice.getPackageInfo(this.dataservice.dataset).subscribe(data => {
-        this.data = data.result.results;
-        console.log(this.data);
-        this.properties = Object.keys(this.data[0]).map(key => key);
-      });
+    constructor(
+        private route: ActivatedRoute,
+        private location: Location,
+        private router: Router,
+        public dataservice: ShareDataService,
+        private ckanservice: CkanService
+    ) {
+        window.scrollTo(0, 0);
     }
-  }
 
-  ngOnDestroy() {
-    const arrayGenerated = [];
-    for (let j = 0; j < this.data.length; j++) {
-      let union = {};
-      for (let i = 0; i < this.properties.length; i++) {
-        if (this.checked[this.properties[i]]) {
-          union = Object.assign(union, {
-            [this.properties[i]]: this.data[j][this.properties[i]]
-          });
+    ngOnInit(): void {
+        this.headerTable = this.dataservice.datasetHeader;
+        this.dataTable = this.dataservice.dataset;
+    }
+
+    ngOnDestroy() {
+        if (this.headerTable) {
+            const headersSelected = [];
+            const dataSelected = [];
+            for (let i = 0; i < this.headerTable.length; i++) {
+                if (this.checked[this.headerTable[i]]) {
+                    headersSelected.push(this.headerTable[i]);
+                    const auxArray = [];
+                    for (let index = 0; index < this.dataTable.length; index++) {
+                        auxArray.push(this.dataTable[index][i]);
+                    }
+                    dataSelected.push(auxArray);
+                }
+            }
+            this.dataservice.headerSelected = headersSelected;
+            this.dataservice.dataSelected = dataSelected;
+        }
+    }
+
+    updateChecked(option, event) {
+        if (this.checked[option]) {
+            this.checked[option] = !this.checked[option];
+        } else {
+            this.checked[option] = true;
+        }
+    }
+
+    maxCharacters(data, i) {
+        if (data[i]) {
+            if (typeof data[i] === 'number') {
+                return false;
+            } else {
+                if (data[i].length <= 80) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         }
       }
-      arrayGenerated.push(union);
+
+    manteinData(data) {
+        this.mData = data;
     }
-    this.dataservice.columnsGraph = arrayGenerated;
-  }
 
-  updateChecked(option, event) {
-    if (this.checked[option]) {
-      this.checked[option] = !this.checked[option];
-    } else {
-      this.checked[option] = true;
+    next() {
+        this.router.navigate(['/previewGraph/']);
     }
-  }
 
-  parseInfo(data) {
-    if (data !== '""' && data.toString() !== '[]') {
-        data = data.replace(/^\"|\"$/g, '');
-        return data;
+    goBack(): void {
+        this.location.back();
     }
-  }
-
-  manteinData(data) {
-    this.mData = data;
-  }
-
-  next() {
-    this.router.navigate(['/previewGraph/']);
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
 }

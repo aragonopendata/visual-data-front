@@ -2,25 +2,25 @@
     <div class="column1">
         <ul>
             <li><strong>Seleccionar Columnas:</strong></li>
-            <ng-template ngFor let-property [ngForOf]="properties">
+            <ng-template ngFor let-property [ngForOf]="headerTable">
                 <li><label><input type="checkbox" name=property value=property (change)="updateChecked(property, $event)" /> <span>{{property}}</span></label></li>
             </ng-template>
         </ul>
     </div>
     <div class="column2">
-        <p-dataTable [tableStyle]="{'table-layout':'auto'}" scrollable="true" [value]="data" [rows]="6" [paginator]="true" #dt>
+        <p-dataTable [tableStyle]="{'table-layout':'auto'}" scrollable="true" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
-            <ng-template ngFor let-property [ngForOf]="properties">
+            <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                 <p-column [style]="{'min-width':'200px'}" field={{property}} header={{property}}>
                     <ng-template let-entry="rowData" pTemplate="body">
-                        <span class="row" *ngIf='(entry[property] != null && entry[property] != undefined && (entry[property] | json) != null &&(entry[property] | json).length <= 80)'>
-                                {{parseInfo(entry[property] | json)}}
-                        </span>
-                        <span class="row" *ngIf="(entry[property] != null && entry[property] != undefined && (entry[property] | json).length > 80)">
-                                <button type="button" class="btn btn-light" data-toggle="modal" (click)="manteinData((entry[property]))" data-target="#exampleModal">
-                                        <i class="fa fa-info"></i>
-                                </button>
-                        </span>
+                            <span class="row" *ngIf='!maxCharacters(entry,i)'>
+                                    {{entry[i]}}
+                            </span>
+                            <span class="row" *ngIf="maxCharacters(entry,i)">
+                                    <button type="button" class="btn btn-light" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
+                                            <i class="fa fa-info"></i>
+                                    </button>
+                            </span>
                     </ng-template>
                 </p-column>
             </ng-template>

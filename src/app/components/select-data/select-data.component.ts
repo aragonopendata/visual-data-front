@@ -34,11 +34,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   results: string[];
 
-  data: any;
+  dataTable: any;
+
+  headerTable: string[];
+
+  loading: boolean[];
 
   mData: any;
 
-  properties: string[];
+  nextStep: boolean;
 
   constructor(
     private ckanservice: CkanService,
@@ -54,35 +58,40 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.listGaodc = ['Cargando Espere'];
     this.ckanPackages = [];
     this.gaodcPackages = [];
-    this.properties = ['Cargando'];
+    this.headerTable = ['Cargando'];
+    this.loading = [true, true]; // CKAN, GAODC
+    this.nextStep = true;
   }
 
   ngOnInit(): void {
     this.ckanservice.getPackageList().subscribe(data => {
       this.listCkan = data.result;
+      this.loading[0] = false;
     });
     this.gaodcservice.getPackageList().subscribe(data => {
         this.listGaodc = [];
         data.forEach(element => {
             this.listGaodc.push(element[1]);
         });
+        this.loading[1] = false;
     });
   }
 
   ngOnDestroy() {
-    if (this.opened === 'CKAN') {
-      this.dataservice.type = 'CKAN';
-      this.dataservice.dataset = this.ckanPackages;
-    }
+    this.dataservice.type = this.opened;
+    this.dataservice.datasetHeader = this.headerTable;
+    this.dataservice.dataset = this.dataTable;
   }
 
   selectPackage() {
     if (this.opened === 'CKAN') {
         const exist = this.listCkan.find(x => x === this.ckanPackagesInfo);
         if (exist && this.ckanPackages.length === 0) {
+            this.loading[0] = true;
             this.ckanPackages.push(this.ckanPackagesInfo);
             console.log(this.ckanPackagesInfo);
             this.ckanservice.getPackageInfo(this.ckanPackages).subscribe(data => {
+                this.loading[0] = false;
                     console.log('TODO');
                     console.log(data);
                 /*
@@ -95,11 +104,14 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     } else if (this.opened === 'GAODC') {
         const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
         if (exist > -1 && this.ckanPackages.length === 0) {
+            this.loading[1] = true;
             this.gaodcPackages.push(this.gaodcPackagesInfo);
-            console.log(this.gaodcPackagesInfo);
             this.gaodcservice.getPackageInfo(exist + 1).subscribe(data => {
-                console.log('TODO');
-                console.log(data);
+                this.headerTable = data[0];
+                data.splice(0, 1);
+                this.dataTable = data;
+                console.log(this.dataTable);
+                this.loading[1] = false;
             });
         }
     }
@@ -120,7 +132,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   deletePackage() {
     this.ckanPackages.pop();
     this.gaodcPackages.pop();
-    this.data = undefined;
+    this.dataTable = undefined;
   }
 
   goBack(): void {
@@ -136,10 +148,17 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
 
-  parseInfo(data) {
-    if (data !== '""' && data.toString() !== '[]') {
-        data = data.replace(/^\"|\"$/g, '');
-        return data;
+  maxCharacters(data, i) {
+    if (data[i]) {
+        if (typeof data[i] === 'number') {
+            return false;
+        } else {
+            if (data[i].length <= 80) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
   }
 
@@ -148,6 +167,10 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    this.router.navigate(['/previewData/']);
+    if (this.loading.every(elem => elem === false) && this.dataTable) {
+        this.router.navigate(['/previewData/']);
+    } else {
+        this.nextStep = false;
+    }
   }
 }

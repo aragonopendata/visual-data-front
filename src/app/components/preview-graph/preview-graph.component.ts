@@ -17,9 +17,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
     // Data
-    properties: string[];
-    propertiesType: string[];
     data: any;
+    columns: string[];
+
+    // Drag
+    columnsType: string[];
     chartType: string;
 
     public columnsData: Array<string> = [];
@@ -29,11 +31,9 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     // Line Chart
     //////////////////////////////////////
     public lineChartData: Array<any> = [
-        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-        { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-        { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
+        { data: [0], label: 'A' }
     ];
-    public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+    public lineChartLabels: Array<any> = ['No data'];
 
     public lineChartOptions: any = {
         responsive: true
@@ -52,11 +52,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         private dragulaService: DragulaService
     ) {
         window.scrollTo(0, 0);
-
+        this.chartType = 'line';
         try {
-            dragulaService.drop.subscribe((value) => {
+            dragulaService.dragend.subscribe((value) => {
                 this.onDrop(value.slice(1));
-              });
+            });
             dragulaService.setOptions('another-bag', {
                 copy: function (el, source) {
                     return source.id === 'no-drop';
@@ -65,53 +65,71 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                     return target.id !== 'no-drop'; // elements can be dropped in any of the `containers` by default
                 }
             });
-        } catch (error) {
-        }
+        } catch (error) { }
 
-        try {
-            this.data = JSON.parse(JSON.stringify(this.dataservice.columnsGraph));
-            this.properties = Object.keys(this.data[0]).map(key => key);
-            this.propertiesType = Object.keys(this.data[0]).map(key => this.data[0][key].constructor.name);
-            console.log(this.data);
-        } catch (error) {
+        if (this.dataservice.dataSelected) {
+            this.columnsType = [];
+            this.data = this.dataservice.dataSelected;
+            this.columns = this.dataservice.headerSelected;
+
+            this.data.forEach(element => {
+                let exit = true;
+                let newIndex = 0;
+
+                do {
+                    exit = true;
+
+                    if (element.length > newIndex) {
+                        if (!element[newIndex]) {
+                            exit = false;
+                            newIndex++;
+                        } else {
+                            this.columnsType.push(element[newIndex].constructor.name);
+                        }
+                    } else {
+                        this.columnsType.push('undefined');
+                    }
+                } while (!exit);
+            });
+        } else {
             // this.router.navigate(['/selectData/']);
-            this.properties = ['Need', 'to', 'load', 'data!'];
-            this.propertiesType = ['String', 'String', 'String', 'String'];
+            this.columns = ['Need', 'to', 'load', 'data!'];
+            this.columnsType = ['String', 'String', 'String', 'String'];
         }
     }
 
     onDrop(args) {
         // TODO: Comprobar data que entra como undefined siendo que se han cargado los datos y actualizar datos tabla
-
-        if (!this.data) {
-            console.log(this.data);
-            console.log('Cargar Datos');
-            return;
-        }
-        console.log('Pasado');
-        console.log(this.columnsData);
-        console.log(this.columnsData.length);
-        // this.lineChartLabels = [];
-        // this.lineChartData = [];
-        if (this.columnsData && this.columnsData.length !== 0) {
-            console.log('Dentro antes');
-            this.columnsData.forEach(key => {
-                console.log('Dentro drop');
-                let aux = [];
-                this.data.forEach(d => {
-                    aux = Object.keys(d).map(dt => console.log(dt[key]));
+        /*
+        public lineChartData: Array<any> = [
+            { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+            { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
+            { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
+        ];
+        */
+        if (this.columnsData && this.columnsData.length !== 0 && this.data) {
+            console.log('Dentro de Datos');
+            if (this.chartType === 'line' ) {
+                this.lineChartData = [];
+                this.columnsData.forEach(element => {
+                    const indexData = this.columns.findIndex(x => x === element);
+                    this.lineChartData.push({ data: this.data[indexData], label: indexData});
                 });
-                console.log(aux);
-                // this.lineChartLabels.push({ data: [, label: 'Series A'});
-                /*for (let index = 0; index < this.data.length; index++) {
-                }*/
-            });
+            }
         }
+
         if (this.columnsLabel && this.columnsLabel.length !== 0) {
-            console.log('aqui');
+            console.log('Dentro de Etiquetas');
+            if (this.chartType === 'line' ) {
+                this.lineChartLabels = [];
+                this.columnsLabel.forEach(element => {
+                    const indexData = this.columns.findIndex(x => x === element);
+                    this.lineChartLabels.push(this.data[indexData]);
+                });
+            }
         }
-        // do something
-      }
+        console.log(this.lineChartData);
+    }
 
     deleteElement(buffer, index) {
         if (buffer === 1) {
