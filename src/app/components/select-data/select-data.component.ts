@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
-import { AccordionModule } from 'ng2-accordion';
+import { AccordionModule } from 'ngx-accordion';
 import { AutoCompleteModule } from 'primeng/primeng';
 import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';

@@ -15,7 +15,8 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   DropdownModule,
   DataTableModule,
-  AutoCompleteModule
+  AutoCompleteModule,
+  SpinnerModule
 } from 'primeng/primeng';
 // Main
 import { AppComponent } from './app.component';
@@ -41,7 +42,7 @@ import { PreviewGraphComponent } from './components/preview-graph/preview-graph.
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
 // Utils
-import { AccordionModule } from 'ng2-accordion';
+import { AccordionModule } from 'ngx-accordion';
 import { ChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxCarouselModule } from 'ngx-carousel';
@@ -82,6 +83,7 @@ const routes: Routes = [
     AccordionModule,
     AutoCompleteModule,
     DataTableModule,
+    SpinnerModule,
     ChartsModule,
     ColorPickerModule,
     NgxCarouselModule,

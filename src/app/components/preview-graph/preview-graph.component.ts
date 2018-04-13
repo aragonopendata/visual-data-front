@@ -8,6 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
+import {SpinnerModule} from 'primeng/primeng';
 @Component({
     selector: 'app-preview-graph',
     templateUrl: './preview-graph.component.html',
@@ -28,18 +29,24 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     public columnsLabel: Array<string> = [];
 
 
-    // Line Chart
+    // Charts
     //////////////////////////////////////
-    public lineChartData: Array<any> = [
+    public chartData: Array<any> = [
         { data: [0], label: 'A' }
     ];
-    public lineChartLabels: Array<any> = ['No data'];
+    public chartLabels: string [] = ['No data'];
 
-    public lineChartOptions: any = {
+    public chartOptions: any = {    
+        scaleShowVerticalLines: false,
         responsive: true
     };
-    public lineChartLegend = true;
-    public lineChartType = 'line';
+    public chartLegend = true;
+
+    public legend: Array<any>;
+
+    public changeNumberData: number;
+
+    public widthGraph: number;
 
     //////////////////////////////////////
 
@@ -53,6 +60,13 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     ) {
         window.scrollTo(0, 0);
         this.chartType = 'line';
+        this.changeNumberData = 0;
+
+        this.widthGraph = ((window.screen.width/2) - 100);
+        if(this.widthGraph < 300){
+            this.widthGraph = 300;
+        }
+
         try {
             dragulaService.dragend.subscribe((value) => {
                 this.onDrop(value.slice(1));
@@ -67,6 +81,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             });
         } catch (error) { }
 
+        if (!this.dataservice.dataSelected) {
+            this.dataservice.headerSelected = ["TR","D","PPK"];
+            this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40],[20, 2, 3, 81, 4, 55, 5],["HTP","ASD","RDX","SAS","PACK","AA","DD"]];
+        }
         if (this.dataservice.dataSelected) {
             this.columnsType = [];
             this.data = this.dataservice.dataSelected;
@@ -90,45 +108,58 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                         this.columnsType.push('undefined');
                     }
                 } while (!exit);
+
             });
         } else {
-            // this.router.navigate(['/selectData/']);
-            this.columns = ['Need', 'to', 'load', 'data!'];
-            this.columnsType = ['String', 'String', 'String', 'String'];
+            this.router.navigate(['/selectData/']);
         }
     }
 
     onDrop(args) {
-        // TODO: Comprobar data que entra como undefined siendo que se han cargado los datos y actualizar datos tabla
-        /*
-        public lineChartData: Array<any> = [
-            { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-            { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-            { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' }
-        ];
-        */
-        if (this.columnsData && this.columnsData.length !== 0 && this.data) {
-            console.log('Dentro de Datos');
-            if (this.chartType === 'line' ) {
-                this.lineChartData = [];
-                this.columnsData.forEach(element => {
-                    const indexData = this.columns.findIndex(x => x === element);
-                    this.lineChartData.push({ data: this.data[indexData], label: indexData});
-                });
-            }
-        }
+        if(this.changeNumberData != this.columnsData.length){
+            this.legend  = [];
+            this.columnsData.forEach(element => {
+                const indexData = this.columns.findIndex(x => x === element);
+                this.legend.push({label : indexData});
+            });
+            this.changeNumberData = this.columnsData.length;
+        } 
 
         if (this.columnsLabel && this.columnsLabel.length !== 0) {
-            console.log('Dentro de Etiquetas');
-            if (this.chartType === 'line' ) {
-                this.lineChartLabels = [];
+                this.chartLabels = [];
                 this.columnsLabel.forEach(element => {
                     const indexData = this.columns.findIndex(x => x === element);
-                    this.lineChartLabels.push(this.data[indexData]);
+                    this.chartLabels = this.data[indexData];
                 });
-            }
+        }else{
+            this.defaultsChats(0);
         }
-        console.log(this.lineChartData);
+
+        if (this.columnsData && this.columnsData.length !== 0 && this.data) {
+                this.chartData = [];
+                let i = 0;
+                this.columnsData.forEach(element => {
+                    const indexData = this.columns.findIndex(x => x === element);
+                    this.chartData.push({ data: this.data[indexData], label: this.legend[i++].label});
+                });
+        }else{
+            // Default Values
+            this.defaultsChats(1);
+        }
+
+        if (this.chart !== undefined && this.chart.chart != undefined) {
+            this.chart.chart.destroy();
+            this.chart.chart = 0;
+     
+            this.chart.chartType = this.chartType;
+            this.chart.datasets = this.chartData;
+            this.chart.labels = this.chartLabels;
+            this.chart.ngOnInit();
+         }    
+    }
+
+    onEditComplete(event){
+        this.onDrop("refresh");
     }
 
     deleteElement(buffer, index) {
@@ -137,6 +168,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         } else if (buffer === 2) {
             this.columnsLabel.splice(index, 1);
         }
+        this.onDrop("refresh");
     }
 
     ngOnInit(): void {
@@ -146,14 +178,24 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
+    defaultsChats(type){
+        if( type === 0 ){
+            this.chartLabels = ['No Data'];
+        }else{
+            this.chartData = [{ data: [0], label: 'A' }];
+            this.chartLabels = ['No data'];
+        }
+    }
+
     changeChart(chart) {
         if (chart === 0) {
-            this.chartType = 'line';
+            this.chartType = 'line';    
         } else if (chart === 1) {
             this.chartType = 'bar';
         } else if (chart === 2) {
             this.chartType = 'pie';
         }
+        this.onDrop("refresh");
     }
 
     next() {
