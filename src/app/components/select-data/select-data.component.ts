@@ -28,6 +28,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   gaodcPackagesInfo: String;
 
+  packagesInfo: String;
+
   ckanPackages: String[];
 
   gaodcPackages: String[];
@@ -79,6 +81,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.dataservice.type = this.opened;
+    this.dataservice.datasetSelected = this.packagesInfo;
     this.dataservice.datasetHeader = this.headerTable;
     this.dataservice.dataset = this.dataTable;
   }
@@ -91,9 +94,12 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.ckanPackages.push(this.ckanPackagesInfo);
             console.log(this.ckanPackagesInfo);
             this.ckanservice.getPackageInfo(this.ckanPackages).subscribe(data => {
+                this.packagesInfo = this.ckanPackagesInfo;
+
+                console.log('TODO');
+                console.log(data);
+
                 this.loading[0] = false;
-                    console.log('TODO');
-                    console.log(data);
                 /*
                 this.data = data.result.results;
                 console.log(data);
@@ -110,7 +116,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 this.headerTable = data[0];
                 data.splice(0, 1);
                 this.dataTable = data;
-                console.log(this.dataTable);
+                this.packagesInfo = this.gaodcPackagesInfo;
                 this.loading[1] = false;
             });
         }

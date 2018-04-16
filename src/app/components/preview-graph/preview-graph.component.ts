@@ -206,7 +206,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     next() {
         this.graphservice.saveGraph(this.chartType, this.chartLabels, this.chartData,
             this.legend , this.widthGraph).subscribe(dataLink => {
-                this.graphservice.saveProcess(this.dataservice.type, this.dataservice.dataset,
+                this.graphservice.saveProcess(this.dataservice.type, this.dataservice.datasetSelected,
                     this.chartType, this.columnsLabel, this.columnsData,
                     this.legend, this.widthGraph, dataLink.id).subscribe(data => {
                         this.router.navigate(['/endGraphic/' + dataLink.id]);

@@ -5,6 +5,7 @@ export class ShareDataService {
   public type: any;
   public datasetHeader: any;
   public dataset: any;
+  public datasetSelected: any;
 
   public columnsGraph: any;
 

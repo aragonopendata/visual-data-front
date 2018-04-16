@@ -23,7 +23,7 @@ export class GraphService {
     saveGraph(type, labels, data, legend, width) {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        console.log(legend);
+        
         const body = JSON.stringify(
             { 'type': type, 'labels': labels , 'data':
             data, 'legend': legend , 'width': width}
@@ -54,7 +54,6 @@ export class GraphService {
             headers: headers
           })
           .map(res => {
-              console.log(res);
             return JSON.parse(res.text());
           });
     }
