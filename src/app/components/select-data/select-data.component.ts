@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { AccordionModule } from 'ngx-accordion';
-import { AutoCompleteModule } from 'primeng/primeng';
+import { AutoCompleteModule, InputTextModule } from 'primeng/primeng';
 import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { ShareDataService } from '../../services/shareData.service';
@@ -28,11 +28,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   gaodcPackagesInfo: String;
 
+  urlPackagesInfo: String;
+
   packagesInfo: String;
 
   ckanPackages: String[];
 
   gaodcPackages: String[];
+
+  urlPackages: String[];
 
   results: string[];
 
@@ -60,8 +64,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.listGaodc = ['Cargando Espere'];
     this.ckanPackages = [];
     this.gaodcPackages = [];
+    this.urlPackages = [];
     this.headerTable = ['Cargando'];
-    this.loading = [true, true]; // CKAN, GAODC
+    this.loading = [true, true, false]; // CKAN, GAODC
     this.nextStep = true;
   }
 
@@ -116,9 +121,44 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 this.headerTable = data[0];
                 data.splice(0, 1);
                 this.dataTable = data;
-                this.packagesInfo = this.gaodcPackagesInfo;
+                this.packagesInfo = "" + (exist + 1);
                 this.loading[1] = false;
             });
+        }
+    } else if (this.opened === 'URL') {
+        this.loading[2] = true;
+        let exist = 0;
+        // TODO: Check All URLs
+        const url_ToCkeck = "https://opendata.aragon.es/GA_OD_Core/preview?view_id=";
+
+        //GAODC Test URL
+        if ( this.urlPackagesInfo.substr(0, 54 ) === url_ToCkeck ) {
+            exist = 1;
+        }else{
+            exist = -1;
+        }
+        
+        //TODO: clean this to function
+        //GAODC
+        if (exist == 1) {
+            const n_package = Number(this.urlPackagesInfo.substr(54, this.urlPackagesInfo.length - 1));
+            
+            if( n_package.toString() !== 'NaN' ){
+                //Correct link
+                this.urlPackages.push(this.urlPackagesInfo);
+                this.gaodcservice.getPackageInfo(n_package).subscribe(data => {
+                    this.headerTable = data[0];
+                    data.splice(0, 1);
+                    this.dataTable = data;
+
+                    //TODO: opened to 'GAODC'
+                    
+                    this.packagesInfo = n_package.toString();;
+                    this.loading[2] = false;
+                });
+            }
+            }else{
+            this.loading[2] = false;
         }
     }
   }
@@ -138,6 +178,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   deletePackage() {
     this.ckanPackages.pop();
     this.gaodcPackages.pop();
+    this.urlPackages.pop();
     this.dataTable = undefined;
   }
 

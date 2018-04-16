@@ -39,7 +39,23 @@
             </div>
         </accordion-group>
         <accordion-group heading="URL" (onOpen)="whoIsOpen('URL')">
-            Content of the Map
+            <div style="float:left">
+                <div class="ui-float-label">
+                    <input id="float-input" type="text" size="50" [(ngModel)]="urlPackagesInfo" pInputText> 
+                    <label for="float-input">Página Web</label>
+                </div>
+            </div>
+            <div style="float:left">
+                <button type="button" class="button1" (click)="selectPackage()">Añadir Datos</button>
+            </div>
+            <div *ngIf="loading[2]" class="loader" style="float:left; margin-left: 2%"></div>
+            <div style="float:left ;margin-left: 5%;">
+                <ul>
+                    <li *ngFor="let data of urlPackages">
+                        <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
+                    </li>
+                </ul>
+            </div>
         </accordion-group>
         <accordion-group (onOpen)="whoIsOpen('Custom')">
             <accordion-heading>

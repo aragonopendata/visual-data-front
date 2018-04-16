@@ -16,7 +16,8 @@ import {
   DropdownModule,
   DataTableModule,
   AutoCompleteModule,
-  SpinnerModule
+  SpinnerModule,
+  InputTextModule
 } from 'primeng/primeng';
 // Main
 import { AppComponent } from './app.component';
@@ -88,6 +89,7 @@ const routes: Routes = [
     ColorPickerModule,
     NgxCarouselModule,
     DragulaModule,
+    InputTextModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
