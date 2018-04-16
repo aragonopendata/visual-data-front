@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
-import {SpinnerModule} from 'primeng/primeng';
+import { SpinnerModule } from 'primeng/primeng';
 @Component({
     selector: 'app-preview-graph',
     templateUrl: './preview-graph.component.html',
@@ -23,32 +23,35 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     // Drag
     columnsType: string[];
-    chartType: string;
-
     public columnsData: Array<string> = [];
     public columnsLabel: Array<string> = [];
 
-
     // Charts
     //////////////////////////////////////
-    public chartData: Array<any> = [
-        { data: [0], label: 'A' }
-    ];
-    public chartLabels: string [] = ['No data'];
-
-    public chartOptions: any = {    
+    public chartOptions: any = {
         scaleShowVerticalLines: false,
         responsive: true
     };
     public chartLegend = true;
 
-    public legend: Array<any>;
+    // To save Data
 
-    public changeNumberData: number;
+    chartType: string;
+
+    public legend: Array<any>;
 
     public widthGraph: number;
 
+    public chartData: Array<any> = [
+        { data: [0], label: 'A' }
+    ];
+    public chartLabels: string[] = ['No data'];
+
+
     //////////////////////////////////////
+
+
+    public changeNumberData: number;
 
     constructor(
         private route: ActivatedRoute,
@@ -62,8 +65,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.chartType = 'line';
         this.changeNumberData = 0;
 
-        this.widthGraph = ((window.screen.width/2) - 100);
-        if(this.widthGraph < 300){
+        this.widthGraph = ((window.screen.width / 2) - 100);
+        if (this.widthGraph < 300) {
             this.widthGraph = 300;
         }
 
@@ -82,8 +85,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         } catch (error) { }
 
         if (!this.dataservice.dataSelected) {
-            this.dataservice.headerSelected = ["TR","D","PPK"];
-            this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40],[20, 2, 3, 81, 4, 55, 5],["HTP","ASD","RDX","SAS","PACK","AA","DD"]];
+            this.dataservice.type = "TEST";
+            this.dataservice.dataset = "TEST";
+            this.dataservice.headerSelected = ["Datos", "de", "prueba"];
+            this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40], [20, 2, 3, 81, 4, 55, 5], ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD"]];
         }
         if (this.dataservice.dataSelected) {
             this.columnsType = [];
@@ -116,33 +121,33 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     onDrop(args) {
-        if(this.changeNumberData != this.columnsData.length){
-            this.legend  = [];
+        if (this.changeNumberData != this.columnsData.length) {
+            this.legend = [];
             this.columnsData.forEach(element => {
                 const indexData = this.columns.findIndex(x => x === element);
-                this.legend.push({label : indexData});
+                this.legend.push({ label: indexData });
             });
             this.changeNumberData = this.columnsData.length;
-        } 
+        }
 
         if (this.columnsLabel && this.columnsLabel.length !== 0) {
-                this.chartLabels = [];
-                this.columnsLabel.forEach(element => {
-                    const indexData = this.columns.findIndex(x => x === element);
-                    this.chartLabels = this.data[indexData];
-                });
-        }else{
+            this.chartLabels = [];
+            this.columnsLabel.forEach(element => {
+                const indexData = this.columns.findIndex(x => x === element);
+                this.chartLabels = this.data[indexData];
+            });
+        } else {
             this.defaultsChats(0);
         }
 
         if (this.columnsData && this.columnsData.length !== 0 && this.data) {
-                this.chartData = [];
-                let i = 0;
-                this.columnsData.forEach(element => {
-                    const indexData = this.columns.findIndex(x => x === element);
-                    this.chartData.push({ data: this.data[indexData], label: this.legend[i++].label});
-                });
-        }else{
+            this.chartData = [];
+            let i = 0;
+            this.columnsData.forEach(element => {
+                const indexData = this.columns.findIndex(x => x === element);
+                this.chartData.push({ data: this.data[indexData], label: this.legend[i++].label });
+            });
+        } else {
             // Default Values
             this.defaultsChats(1);
         }
@@ -150,15 +155,15 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         if (this.chart !== undefined && this.chart.chart != undefined) {
             this.chart.chart.destroy();
             this.chart.chart = 0;
-     
+
             this.chart.chartType = this.chartType;
             this.chart.datasets = this.chartData;
             this.chart.labels = this.chartLabels;
             this.chart.ngOnInit();
-         }    
+        }
     }
 
-    onEditComplete(event){
+    onEditComplete(event) {
         this.onDrop("refresh");
     }
 
@@ -178,10 +183,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.location.back();
     }
 
-    defaultsChats(type){
-        if( type === 0 ){
+    defaultsChats(type) {
+        if (type === 0) {
             this.chartLabels = ['No Data'];
-        }else{
+        } else {
             this.chartData = [{ data: [0], label: 'A' }];
             this.chartLabels = ['No data'];
         }
@@ -189,7 +194,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     changeChart(chart) {
         if (chart === 0) {
-            this.chartType = 'line';    
+            this.chartType = 'line';
         } else if (chart === 1) {
             this.chartType = 'bar';
         } else if (chart === 2) {
@@ -199,16 +204,15 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        /*
-            this.graphservice.saveGraph(this.chartType, this.lineChartLabels, this.lineChartData,
-                this.lineChartColors).subscribe(dataLink => {
-                this.graphservice.saveProcess(this.dataservice.type, this.dataservice.dataset, this.dataservice.columnsGraph,
-                    this.chartType, this.propertyLabelSelected, this.propertyDataSelected,
-                    this.groupValue, dataLink.response).subscribe(data => {
-                        this.router.navigate(['/endGraphic/' + dataLink.response]);
+        this.graphservice.saveGraph(this.chartType, this.chartLabels, this.chartData,
+            this.legend , this.widthGraph).subscribe(dataLink => {
+                this.graphservice.saveProcess(this.dataservice.type, this.dataservice.dataset,
+                    this.chartType, this.columnsLabel, this.columnsData,
+                    this.legend, this.widthGraph, dataLink.id).subscribe(data => {
+                        this.router.navigate(['/endGraphic/' + dataLink.id]);
                 });
+                    
             });
-            */
     }
 
     ngOnDestroy() {

@@ -20,21 +20,13 @@ export class GraphService {
     }
 
     // Make the call to save the info of the graph
-    saveGraph(type, labels, data, color) {
+    saveGraph(type, labels, data, legend, width) {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
-
-        color[0].backgroundColor = color[0].backgroundColor.toString();
-
-        for (let index = 0; index < labels.length; index++) {
-            if (!labels[index]) {
-                labels[index] = 'undefined';
-            }
-        }
-        console.log(labels);
+        console.log(legend);
         const body = JSON.stringify(
             { 'type': type, 'labels': labels , 'data':
-            data, 'colors': color }
+            data, 'legend': legend , 'width': width}
         );
 
         return this.http
@@ -42,29 +34,28 @@ export class GraphService {
             headers: headers
           })
           .map(res => {
-            return res.json();
+            return JSON.parse(res.text());
           });
     }
 
     // Make the call to save the process of graph generation
-    saveProcess(typeOfData, dataset, columnsGraph, chartType, propertyLabelSelected, propertyDataSelected, groupValue, chartDataId) {
+    saveProcess(typeOfData, dataset, chartType, columnsLabel, columnsData, legend, widthGraph, chartDataId) {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
         const body = JSON.stringify(
-            { 'typeOfData': typeOfData, 'dataset': dataset , 'chartType': chartType,
-            'columnLabels': propertyLabelSelected, 'columnData': propertyDataSelected, 'groupValue': groupValue,
-            'chartDataId': chartDataId}
+            { 'chartDataId': chartDataId, 'typeOfData': typeOfData, 'dataset': dataset , 'chartType': chartType,
+            'columnsLabel': columnsLabel, 'columnsData': columnsData, 'legend': legend,
+            'widthGraph': widthGraph }
         );
-
-        console.log(body);
 
         return this.http
           .post(Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_PROCESS_PATH, body, {
             headers: headers
           })
           .map(res => {
-            return res.json();
+              console.log(res);
+            return JSON.parse(res.text());
           });
     }
 }
