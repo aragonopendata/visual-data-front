@@ -13,7 +13,7 @@
             <div *ngIf="loading[0]" class="loader" style="float:left; margin-left: 2%"></div>
             <div style="float:left ;margin-left: 5%;">
                 <ul>
-                    <li *ngFor="let data of ckanPackages">
+                    <li *ngFor="let data of packagesList">
                         <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
                     </li>
                 </ul>
@@ -32,7 +32,7 @@
             <div *ngIf="loading[1]" class="loader" style="float:left; margin-left: 2%"></div>
             <div style="float:left ;margin-left: 5%;">
                 <ul>
-                    <li *ngFor="let data of gaodcPackages">
+                    <li *ngFor="let data of packagesList">
                         <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
                     </li>
                 </ul>
@@ -51,7 +51,10 @@
             <div *ngIf="loading[2]" class="loader" style="float:left; margin-left: 2%"></div>
             <div style="float:left ;margin-left: 5%;">
                 <ul>
-                    <li *ngFor="let data of urlPackages">
+                    <li *ngIf="urlError" style="color: #DF3A01; padding-top: 5px">
+                        <strong>URL invalida:</strong> Por favor cargue una URL valida
+                    </li>
+                    <li *ngFor="let data of packagesList">
                         <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
                     </li>
                 </ul>

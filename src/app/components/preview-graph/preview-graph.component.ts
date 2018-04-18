@@ -8,7 +8,8 @@ import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
-import { SpinnerModule } from 'primeng/primeng';
+import { SpinnerModule, InputTextModule } from 'primeng/primeng';
+
 @Component({
     selector: 'app-preview-graph',
     templateUrl: './preview-graph.component.html',
@@ -47,6 +48,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     ];
     public chartLabels: string[] = ['No data'];
 
+    public title: string;
+
 
     //////////////////////////////////////
 
@@ -64,6 +67,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         window.scrollTo(0, 0);
         this.chartType = 'line';
         this.changeNumberData = 0;
+        this.title = this.dataservice.type;
 
         this.widthGraph = ((window.screen.width / 2) - 100);
         if (this.widthGraph < 300) {
@@ -73,6 +77,13 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         try {
             dragulaService.dragend.subscribe((value) => {
                 this.onDrop(value.slice(1));
+            });
+            dragulaService.drop.subscribe((value) => {
+                if(value[2] && value[2].id === 'move-2'){
+                    if(this.columnsLabel && this.columnsLabel.length  > 0){
+                        this.columnsLabel.splice(0,1);
+                    }
+                }
             });
             dragulaService.setOptions('another-bag', {
                 copy: function (el, source) {
@@ -88,39 +99,44 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.dataservice.type = "TEST";
             this.dataservice.dataset = "TEST";
             this.dataservice.headerSelected = ["Datos", "de", "prueba"];
-            this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40], [20, 2, 3, 81, 4, 55, 5], ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD"]];
+            this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40, 100 ,100], [20, 2, 3, 81, 4, 55, 5, 20, 40], ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD", "SAS", "AA"]];
         }
         if (this.dataservice.dataSelected) {
-            this.columnsType = [];
-            this.data = this.dataservice.dataSelected;
-            this.columns = this.dataservice.headerSelected;
-
-            this.data.forEach(element => {
-                let exit = true;
-                let newIndex = 0;
-
-                do {
-                    exit = true;
-
-                    if (element.length > newIndex) {
-                        if (!element[newIndex]) {
-                            exit = false;
-                            newIndex++;
-                        } else {
-                            this.columnsType.push(element[newIndex].constructor.name);
-                        }
-                    } else {
-                        this.columnsType.push('undefined');
-                    }
-                } while (!exit);
-
-            });
+            this.columnsTypeData();
         } else {
             this.router.navigate(['/selectData/']);
         }
     }
 
+    columnsTypeData(){
+        this.columnsType = [];
+        this.data = this.dataservice.dataSelected;
+        this.columns = this.dataservice.headerSelected;
+
+        this.data.forEach(element => {
+            let exit = true;
+            let newIndex = 0;
+
+            do {
+                exit = true;
+
+                if (element.length > newIndex) {
+                    if (!element[newIndex]) {
+                        exit = false;
+                        newIndex++;
+                    } else {
+                        this.columnsType.push(element[newIndex].constructor.name);
+                    }
+                } else {
+                    this.columnsType.push('undefined');
+                }
+            } while (!exit);
+
+        });
+    }
+
     onDrop(args) {
+        // Generate new Legend Array if there are new elements in Data array
         if (this.changeNumberData != this.columnsData.length) {
             this.legend = [];
             this.columnsData.forEach(element => {
@@ -130,6 +146,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.changeNumberData = this.columnsData.length;
         }
 
+        // Prepare the labels for the chart with the data indicate int columnsLabel
         if (this.columnsLabel && this.columnsLabel.length !== 0) {
             this.chartLabels = [];
             this.columnsLabel.forEach(element => {
@@ -140,6 +157,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.defaultsChats(0);
         }
 
+        // Prepare the Data for the chart with the data indicate in columnsData
         if (this.columnsData && this.columnsData.length !== 0 && this.data) {
             this.chartData = [];
             let i = 0;
@@ -151,7 +169,16 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             // Default Values
             this.defaultsChats(1);
         }
+        
+        // Group Data
+        if (this.columnsData && this.columnsLabel && this.columnsData.length > 0 && this.columnsLabel.length > 0) {
+            const aux = JSON.parse(JSON.stringify(this.data));
+            this.removeDuplicates();
+            this.data = aux;
+        }
+        //
 
+        //The next code is for updating the chart DONT TOUCH
         if (this.chart !== undefined && this.chart.chart != undefined) {
             this.chart.chart.destroy();
             this.chart.chart = 0;
@@ -162,6 +189,25 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.chart.ngOnInit();
         }
     }
+
+    removeDuplicates (){
+        const duplicates = this.chartLabels.filter(function(value,index,self){ return (self.indexOf(value) !== index )});
+        
+        duplicates.forEach(element => {
+            const findFirst = this.chartLabels.indexOf(element);
+            for (let i = findFirst + 1; i < this.chartLabels.length; i++) {
+                if(element === this.chartLabels[i]){
+                    //Duplicate Data
+                    this.chartData.forEach((d, index) => {
+                        d.data[findFirst] += d.data[i];
+                        d.data.splice(i,1);                      
+                    });
+
+                    this.chartLabels.splice(i,1);
+                }
+            }
+        });
+    };
 
     onEditComplete(event) {
         this.onDrop("refresh");
@@ -204,14 +250,13 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        this.graphservice.saveGraph(this.chartType, this.chartLabels, this.chartData,
+        this.graphservice.saveGraph(this.chartType, this.chartLabels, this.chartData, this.title,
             this.legend , this.widthGraph).subscribe(dataLink => {
                 this.graphservice.saveProcess(this.dataservice.type, this.dataservice.datasetSelected,
-                    this.chartType, this.columnsLabel, this.columnsData,
+                    this.chartType, this.columnsLabel, this.columnsData, this.title,
                     this.legend, this.widthGraph, dataLink.id).subscribe(data => {
                         this.router.navigate(['/endGraphic/' + dataLink.id]);
                 });
-                    
             });
     }
 

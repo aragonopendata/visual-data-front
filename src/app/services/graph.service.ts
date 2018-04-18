@@ -20,13 +20,13 @@ export class GraphService {
     }
 
     // Make the call to save the info of the graph
-    saveGraph(type, labels, data, legend, width) {
+    saveGraph(type, labels, data, title, legend, width) {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         
         const body = JSON.stringify(
             { 'type': type, 'labels': labels , 'data':
-            data, 'legend': legend , 'width': width}
+            data, 'title': title, 'legend': legend , 'width': width}
         );
 
         return this.http
@@ -39,13 +39,13 @@ export class GraphService {
     }
 
     // Make the call to save the process of graph generation
-    saveProcess(typeOfData, dataset, chartType, columnsLabel, columnsData, legend, widthGraph, chartDataId) {
+    saveProcess(typeOfData, dataset, chartType, columnsLabel, columnsData, title, legend, widthGraph, chartDataId) {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
         const body = JSON.stringify(
             { 'chartDataId': chartDataId, 'typeOfData': typeOfData, 'dataset': dataset , 'chartType': chartType,
-            'columnsLabel': columnsLabel, 'columnsData': columnsData, 'legend': legend,
+            'columnsLabel': columnsLabel, 'columnsData': columnsData, 'title': title, 'legend': legend,
             'widthGraph': widthGraph }
         );
 

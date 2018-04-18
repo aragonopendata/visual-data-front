@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Constants } from '../app.constants';
+import { Observable } from 'rxjs/Observable';
 
+// Observable class extensions
+import 'rxjs/add/operator/catch';
 // This Injectable make the calls to the api
 @Injectable()
 export class CkanService {
@@ -34,6 +37,13 @@ export class CkanService {
       })
       .map(res => {
         return JSON.parse(res.text().toString());
-      });
+      })
+      .catch(this.handleError);
+  }
+
+  handleError(error: any) {
+    let errMsg = 'Server error';
+    console.error(errMsg);
+    return errMsg;
   }
 }

@@ -11,213 +11,245 @@ import { GaodcService } from '../../services/gaodc.service';
 import { ShareDataService } from '../../services/shareData.service';
 
 @Component({
-  selector: 'app-select-data',
-  templateUrl: './select-data.component.html',
-  styleUrls: ['./select-data.component.css'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-select-data',
+    templateUrl: './select-data.component.html',
+    styleUrls: ['./select-data.component.css'],
+    encapsulation: ViewEncapsulation.None
 })
 export class SelectDataComponent implements OnInit, OnDestroy {
 
-  opened: string;
+    // Identify what dataset are we using
+    opened: string;
 
-  listCkan: String[];
+    openedWithURL: string;
 
-  listGaodc: String[];
+    results: string[];
 
-  ckanPackagesInfo: String;
+    dataTable: any;
 
-  gaodcPackagesInfo: String;
+    headerTable: string[];
 
-  urlPackagesInfo: String;
+    // Loading dataset
 
-  packagesInfo: String;
+    loading: boolean[];
 
-  ckanPackages: String[];
+    //Modal Data if the text is too long
 
-  gaodcPackages: String[];
+    mData: any;
 
-  urlPackages: String[];
+    //Error mensaje if the data are not load or dont exist
 
-  results: string[];
+    nextStep: boolean;
+    urlError: boolean;
 
-  dataTable: any;
+    // Dropbox Init List
 
-  headerTable: string[];
+    listCkan: string[];
 
-  loading: boolean[];
+    listGaodc: string[];
 
-  mData: any;
+    // Select packages and List packages
 
-  nextStep: boolean;
+    ckanPackagesInfo: string;
 
-  constructor(
-    private ckanservice: CkanService,
-    private gaodcservice: GaodcService,
-    private route: ActivatedRoute,
-    private location: Location,
-    private router: Router,
-    public dataservice: ShareDataService,
-    private http: Http
-  ) {
-    this.opened = '';
-    this.listCkan = ['Cargando Espere'];
-    this.listGaodc = ['Cargando Espere'];
-    this.ckanPackages = [];
-    this.gaodcPackages = [];
-    this.urlPackages = [];
-    this.headerTable = ['Cargando'];
-    this.loading = [true, true, false]; // CKAN, GAODC
-    this.nextStep = true;
-  }
+    gaodcPackagesInfo: string;
 
-  ngOnInit(): void {
-    this.ckanservice.getPackageList().subscribe(data => {
-      this.listCkan = data.result;
-      this.loading[0] = false;
-    });
-    this.gaodcservice.getPackageList().subscribe(data => {
-        this.listGaodc = [];
-        data.forEach(element => {
-            this.listGaodc.push(element[1]);
+    urlPackagesInfo: string;
+
+    packagesInfo: String;
+
+    packagesList: String[];
+
+    constructor(
+        private ckanservice: CkanService,
+        private gaodcservice: GaodcService,
+        private route: ActivatedRoute,
+        private location: Location,
+        private router: Router,
+        public dataservice: ShareDataService,
+        private http: Http
+    ) {
+        this.opened = '';
+        this.listCkan = ['Cargando Espere'];
+        this.listGaodc = ['Cargando Espere'];
+        this.packagesList = [];
+        this.headerTable = ['Cargando'];
+        this.loading = [true, true, false]; // CKAN, GAODC
+        this.nextStep = true;
+        this.urlError = false;
+    }
+
+    ngOnInit(): void {
+        this.ckanservice.getPackageList().subscribe(data => {
+            this.listCkan = data.result;
+            this.loading[0] = false;
         });
-        this.loading[1] = false;
-    });
-  }
-
-  ngOnDestroy() {
-    this.dataservice.type = this.opened;
-    this.dataservice.datasetSelected = this.packagesInfo;
-    this.dataservice.datasetHeader = this.headerTable;
-    this.dataservice.dataset = this.dataTable;
-  }
-
-  selectPackage() {
-    if (this.opened === 'CKAN') {
-        const exist = this.listCkan.find(x => x === this.ckanPackagesInfo);
-        if (exist && this.ckanPackages.length === 0) {
-            this.loading[0] = true;
-            this.ckanPackages.push(this.ckanPackagesInfo);
-            console.log(this.ckanPackagesInfo);
-            this.ckanservice.getPackageInfo(this.ckanPackages).subscribe(data => {
-                this.packagesInfo = this.ckanPackagesInfo;
-
-                console.log('TODO');
-                console.log(data);
-
-                this.loading[0] = false;
-                /*
-                this.data = data.result.results;
-                console.log(data);
-                this.properties = Object.keys(this.data[0]).map(key => key);
-                */
+        this.gaodcservice.getPackageList().subscribe(data => {
+            this.listGaodc = [];
+            data.forEach(element => {
+                this.listGaodc.push(element[1]);
             });
+            this.loading[1] = false;
+        });
+    }
+
+    ngOnDestroy() {
+        if(this.opened !== 'URL'){
+            this.dataservice.type = this.opened;
+        }else{
+            this.dataservice.type = this.openedWithURL;
         }
-    } else if (this.opened === 'GAODC') {
-        const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
-        if (exist > -1 && this.ckanPackages.length === 0) {
-            this.loading[1] = true;
-            this.gaodcPackages.push(this.gaodcPackagesInfo);
-            this.gaodcservice.getPackageInfo(exist + 1).subscribe(data => {
-                this.headerTable = data[0];
-                data.splice(0, 1);
-                this.dataTable = data;
-                this.packagesInfo = "" + (exist + 1);
-                this.loading[1] = false;
-            });
+        this.dataservice.datasetSelected = this.packagesInfo;
+        this.dataservice.datasetHeader = this.headerTable;
+        this.dataservice.dataset = this.dataTable;
+    }
+
+    selectPackage() {
+        if (this.opened === 'CKAN') {
+            const exist = this.listCkan.find(x => x === this.ckanPackagesInfo);
+            if (exist && this.packagesList.length === 0) {
+                this.loading[0] = true;
+
+                this.ckanCall(this.ckanPackagesInfo);
+            }
+        } else if (this.opened === 'GAODC') {
+            const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
+            if (exist > -1 && this.packagesList.length === 0) {
+                this.loading[1] = true;
+
+                this.gaodcCall(this.gaodcPackagesInfo, exist + 1);
+            }
+        } else if (this.opened === 'URL') {
+            this.urlError = false;
+            this.loading[2] = true;
+
+            //GAODC Check
+            const checker = this.checkURL();
+            if (checker >= 0) {
+                    //Correct link
+                    this.gaodcCall(this.urlPackagesInfo, checker);
+            } else if(checker == -2){
+                this.ckanCall(this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1));
+            } else {
+                this.urlError = true;
+                this.loading[2] = false;
+            }
         }
-    } else if (this.opened === 'URL') {
-        this.loading[2] = true;
+    }
+
+    // Function that return -1 if the url is invalid,
+    // if the url correspond to GAODC, return the number of the pakage
+    // if the url correspond to CKAN, return -2
+    checkURL() {
         let exist = 0;
         // TODO: Check All URLs
-        const url_ToCkeck = "https://opendata.aragon.es/GA_OD_Core/preview?view_id=";
+        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id=", 
+                             "https://opendata.aragon.es/datos/catalogo/dataset/"];
 
         //GAODC Test URL
-        if ( this.urlPackagesInfo.substr(0, 54 ) === url_ToCkeck ) {
-            exist = 1;
-        }else{
-            exist = -1;
-        }
-        
-        //TODO: clean this to function
-        //GAODC
-        if (exist == 1) {
+        if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]) {
             const n_package = Number(this.urlPackagesInfo.substr(54, this.urlPackagesInfo.length - 1));
-            
-            if( n_package.toString() !== 'NaN' ){
-                //Correct link
-                this.urlPackages.push(this.urlPackagesInfo);
-                this.gaodcservice.getPackageInfo(n_package).subscribe(data => {
-                    this.headerTable = data[0];
-                    data.splice(0, 1);
-                    this.dataTable = data;
 
-                    //TODO: opened to 'GAODC'
-                    
-                    this.packagesInfo = n_package.toString();;
-                    this.loading[2] = false;
-                });
-            }
+            if (n_package.toString() !== 'NaN') {
+                return n_package;
             }else{
-            this.loading[2] = false;
+                return -1;
+            }
+        } else if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]) { //CKAN Test URL
+            return -2;
+        } else{
+            return -1;
         }
     }
-  }
 
-  search(event: any) {
-    if (this.opened === 'CKAN') {
-        this.results = Object.assign([], this.listCkan).filter(
-        item => item.indexOf(event.query) > -1
-        );
-    } else if (this.opened === 'GAODC') {
-        this.results = Object.assign([], this.listGaodc).filter(
-            item => item.indexOf(event.query) > -1
-        );
+    ckanCall(namePackage: string){
+        this.packagesList.push(namePackage);
+        this.ckanPackagesInfo = namePackage;
+        console.log(this.ckanPackagesInfo);
+        this.ckanservice.getPackageInfo(this.packagesList).subscribe(data => {
+            this.packagesInfo = namePackage;
+
+            console.log('TODO');
+            console.log(data);
+
+            this.loading[0] = false;
+            this.loading[2] = false;
+            /*
+            this.data = data.result.results;
+            console.log(data);
+            this.properties = Object.keys(this.data[0]).map(key => key);
+            */
+        });
     }
-  }
-
-  deletePackage() {
-    this.ckanPackages.pop();
-    this.gaodcPackages.pop();
-    this.urlPackages.pop();
-    this.dataTable = undefined;
-  }
-
-  goBack(): void {
-    this.router.navigate(['/']);
-    // this.location.back();
-  }
-
-  whoIsOpen(n: string) {
-    console.log('Detectado Apertura de ' + n);
-    this.ckanPackages.pop();
-    this.gaodcPackages.pop();
-    this.opened = n;
-  }
 
 
-  maxCharacters(data, i) {
-    if (data[i]) {
-        if (typeof data[i] === 'number') {
-            return false;
-        } else {
-            if (data[i].length <= 80) {
+    gaodcCall(name: String, numberPackage : number){
+        this.packagesList.push(name);
+        this.gaodcservice.getPackageInfo(numberPackage).subscribe(data => {
+            this.headerTable = data[0];
+            data.splice(0, 1);
+            this.dataTable = data;
+
+            this.openedWithURL = 'GAODC';
+
+            this.packagesInfo = numberPackage.toString();
+            this.loading[1] = false;
+            this.loading[2] = false;
+        });
+    }
+
+    search(event: any) {
+        if (this.opened === 'CKAN') {
+            this.results = Object.assign([], this.listCkan).filter(
+                item => item.indexOf(event.query) > -1
+            );
+        } else if (this.opened === 'GAODC') {
+            this.results = Object.assign([], this.listGaodc).filter(
+                item => item.indexOf(event.query) > -1
+            );
+        }
+    }
+
+    deletePackage() {
+        this.packagesList.pop();
+        this.dataTable = undefined;
+    }
+
+    goBack(): void {
+        this.router.navigate(['/']);
+        // this.location.back();
+    }
+
+    whoIsOpen(n: string) {
+        console.log('Detectado Apertura de ' + n);
+        this.deletePackage()
+        this.opened = n;
+    }
+
+
+    maxCharacters(data, i) {
+        if (data[i]) {
+            if (typeof data[i] === 'number') {
                 return false;
             } else {
-                return true;
+                if (data[i].length <= 80) {
+                    return false;
+                } else {
+                    return true;
+                }
             }
         }
     }
-  }
 
-  manteinData(data) {
-    this.mData = data;
-  }
-
-  next() {
-    if (this.loading.every(elem => elem === false) && this.dataTable) {
-        this.router.navigate(['/previewData/']);
-    } else {
-        this.nextStep = false;
+    manteinData(data) {
+        this.mData = data;
     }
-  }
+
+    next() {
+        if (this.loading.every(elem => elem === false) && this.dataTable) {
+            this.router.navigate(['/previewData/']);
+        } else {
+            this.nextStep = false;
+        }
+    }
 }

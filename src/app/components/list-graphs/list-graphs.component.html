@@ -5,6 +5,12 @@
 <ngx-carousel [inputs]="carouselTileTwo">
     <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
         <div class="wBg">
+            <div class="col-md-10" style="text-align: center; padding-left: 20%" >
+                <span>T&iacute;tulo: {{chart.title}}</span>
+            </div>
+            <div class="col-md-2">
+                <button (click)="openChart(chart.id)" class="button3"><i class="fa fa-retweet"></i></button>
+            </div>
             <div class="tile" style="display: block;">
                  <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
                         [colors]="chart.colors" [legend]="chartLegend" [chartType]=chart.type></canvas>
