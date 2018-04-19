@@ -9,6 +9,8 @@ import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
 import { SpinnerModule, InputTextModule } from 'primeng/primeng';
+import { removeDuplicates } from '../exportedFunctions/lib';
+
 
 @Component({
     selector: 'app-preview-graph',
@@ -140,8 +142,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         if (this.changeNumberData != this.columnsData.length) {
             this.legend = [];
             this.columnsData.forEach(element => {
-                const indexData = this.columns.findIndex(x => x === element);
-                this.legend.push({ label: indexData });
+                this.legend.push({ label: element });
             });
             this.changeNumberData = this.columnsData.length;
         }
@@ -173,7 +174,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         // Group Data
         if (this.columnsData && this.columnsLabel && this.columnsData.length > 0 && this.columnsLabel.length > 0) {
             const aux = JSON.parse(JSON.stringify(this.data));
-            this.removeDuplicates();
+            removeDuplicates(this.chartLabels, this.chartData);
             this.data = aux;
         }
         //
@@ -189,25 +190,6 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.chart.ngOnInit();
         }
     }
-
-    removeDuplicates (){
-        const duplicates = this.chartLabels.filter(function(value,index,self){ return (self.indexOf(value) !== index )});
-        
-        duplicates.forEach(element => {
-            const findFirst = this.chartLabels.indexOf(element);
-            for (let i = findFirst + 1; i < this.chartLabels.length; i++) {
-                if(element === this.chartLabels[i]){
-                    //Duplicate Data
-                    this.chartData.forEach((d, index) => {
-                        d.data[findFirst] += d.data[i];
-                        d.data.splice(i,1);                      
-                    });
-
-                    this.chartLabels.splice(i,1);
-                }
-            }
-        });
-    };
 
     onEditComplete(event) {
         this.onDrop("refresh");
@@ -251,7 +233,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     next() {
         this.graphservice.saveGraph(this.chartType, this.chartLabels, this.chartData, this.title,
-            this.legend , this.widthGraph).subscribe(dataLink => {
+            this.widthGraph).subscribe(dataLink => {
                 this.graphservice.saveProcess(this.dataservice.type, this.dataservice.datasetSelected,
                     this.chartType, this.columnsLabel, this.columnsData, this.title,
                     this.legend, this.widthGraph, dataLink.id).subscribe(data => {
