@@ -6,7 +6,9 @@ import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
-import { gaodcReloadChart } from '../exportedFunctions/updateChartsLib';
+import { gaodcReloadChart } from '../exportedFunctions/updateChats';
+
+declare var jQuery:any;
 
 @Component({
   selector: 'app-list-graphs',
@@ -46,15 +48,11 @@ export class ListGraphsComponent implements OnInit {
       touch: true
     };
 
+    this.loadCarousel();
+  }
+
+  loadCarousel(){
     this.listGraphService.getCharts().subscribe(data => {
-      /*
-      const aux = data.charts;
-      for (let i = 0; i < Object.keys(aux).length; i ++) {
-          if (data.charts[i].type === 'pie') {
-              data.charts[i].colors[0].backgroundColor = data.charts[i].colors[0].backgroundColor.split(',');
-          }
-      }
-      */
       console.log(data.charts);
       this.carouselData = data.charts;
     });
@@ -73,11 +71,19 @@ export class ListGraphsComponent implements OnInit {
   updateChart(id) {
     console.log('Update');
     this.listGraphService.downloadProcess(id).subscribe(dataProcess => {
-      console.log(dataProcess);
-
       if (dataProcess.typeOfData == 'GAODC') {
         //gaodcReloadChart(dataProcess, this.gaodcService, this.listGraphService);
-        gaodcReloadChart(dataProcess, this.gaodcService, this.listGraphService);
+        this.gaodcService.getPackageInfo(Number(dataProcess.dataset)).subscribe(dataTable => {
+          var chartLabels; 
+          var chartData; 
+          gaodcReloadChart(dataProcess, dataTable, chartLabels, chartData);
+
+          this.listGraphService.updateProcess(dataProcess.chartDataId, dataProcess.chartType,
+            chartLabels, chartData, dataProcess.title, dataProcess.widthGraph).subscribe(response => {
+              this.loadCarousel();
+              jQuery("#listModal").modal("hide");
+            });
+        });
       }
     });
   }

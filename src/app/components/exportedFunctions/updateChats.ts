@@ -1,10 +1,6 @@
 import { removeDuplicates } from './lib';
-import { GraphService } from '../../services/graph.service';
-import { GaodcService } from '../../services/gaodc.service';
-import { Observable } from 'rxjs/Observable';
 
-export function gaodcReloadChart(dataProcess, gaodcService: GaodcService,  graphService: GraphService){
-  gaodcService.getPackageInfo(Number(dataProcess.dataset)).subscribe(dataTable => {
+  export function gaodcReloadChart(dataProcess, dataTable, chartLabels, chartData) {
     const headerTable = dataTable[0];
     let checkedData = [];
     dataTable.splice(0, 1);
@@ -24,26 +20,16 @@ export function gaodcReloadChart(dataProcess, gaodcService: GaodcService,  graph
     });
 
     // Prepare the two arrays of data and add the labels
-    let chartLabels = dataSelected[0];
+    chartLabels = dataSelected[0];
     dataSelected.splice(0, 1);
 
     dataSelected.forEach((element, index) => {
       dataSelected[index] = { data: dataSelected[index], label: dataProcess.legend[index] };
     });
 
-    let chartData = dataSelected;
+    chartData = dataSelected;
 
     //Delete duplicate values
 
     removeDuplicates(chartLabels, chartData);
-
-    // Send Update
-
-    graphService.updateProcess(dataProcess.chartDataId, dataProcess.chartType,
-      chartLabels, chartData, dataProcess.title, dataProcess.widthGraph).subscribe(response => {
-        console.log(response);
-        return response;
-    });
-  });
-  console.log("Aqui");
 }

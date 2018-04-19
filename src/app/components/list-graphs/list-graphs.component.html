@@ -9,7 +9,7 @@
                 <span>T&iacute;tulo: {{chart.title}}</span>
             </div>
             <div class="col-md-2">
-                <button (click)="updateChart(chart.id)" class="button3"><i class="fa fa-retweet"></i></button>
+                <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-retweet"></i></button>
             </div>
             <div class="tile" style="display: block;">
                  <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
@@ -24,3 +24,12 @@
     <button NgxCarouselPrev class="leftRs">&lt;</button>
     <button NgxCarouselNext class="rightRs">&gt;</button>
 </ngx-carousel>
+
+<!-- Modal -->
+<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div style="text-align: center; padding-top: 50%">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
