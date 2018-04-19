@@ -4,7 +4,10 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
+import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
+import { gaodcReloadChart } from '../exportedFunctions/updateChartsLib';
+
 @Component({
   selector: 'app-list-graphs',
   templateUrl: './list-graphs.component.html',
@@ -16,47 +19,48 @@ export class ListGraphsComponent implements OnInit {
   public carouselTileTwo: NgxCarousel;
   public chartLegend = true;
   public chartOptions: any = {
-      responsive: true
+    responsive: true
   };
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private router: Router,
-    private listGraphService: GraphService
+    private listGraphService: GraphService,
+    private gaodcService: GaodcService
   ) {
   }
 
   ngOnInit() {
     this.carouselTileTwo = {
-        /*
-        xs - mobile, sm - tablet, md - desktop, lg - large desktops, all - fixed width (When you use all make others 0 and vise versa)
-         */
-        grid: { xs: 1, sm: 3, md: 4, lg: 6, all: 470 },
-        // speed: 600,
-        // interval: 3000,
-        point: {
-          visible: true
-        },
-        load: 2,
-        touch: true
-      };
+      /*
+      xs - mobile, sm - tablet, md - desktop, lg - large desktops, all - fixed width (When you use all make others 0 and vise versa)
+       */
+      grid: { xs: 1, sm: 3, md: 4, lg: 6, all: 470 },
+      // speed: 600,
+      // interval: 3000,
+      point: {
+        visible: true
+      },
+      load: 2,
+      touch: true
+    };
 
     this.listGraphService.getCharts().subscribe(data => {
-        /*
-        const aux = data.charts;
-        for (let i = 0; i < Object.keys(aux).length; i ++) {
-            if (data.charts[i].type === 'pie') {
-                data.charts[i].colors[0].backgroundColor = data.charts[i].colors[0].backgroundColor.split(',');
-            }
-        }
-        */
-       console.log(data.charts);
-        this.carouselData = data.charts;
+      /*
+      const aux = data.charts;
+      for (let i = 0; i < Object.keys(aux).length; i ++) {
+          if (data.charts[i].type === 'pie') {
+              data.charts[i].colors[0].backgroundColor = data.charts[i].colors[0].backgroundColor.split(',');
+          }
+      }
+      */
+      console.log(data.charts);
+      this.carouselData = data.charts;
     });
   }
 
-  goBack() {}
+  goBack() { }
 
   openChart(id) {
     this.router.navigate(['/charts/' + id]);
@@ -64,6 +68,18 @@ export class ListGraphsComponent implements OnInit {
 
   openEmbedChart(id) {
     this.router.navigate(['/charts/embed/' + id]);
+  }
+
+  updateChart(id) {
+    console.log('Update');
+    this.listGraphService.downloadProcess(id).subscribe(dataProcess => {
+      console.log(dataProcess);
+
+      if (dataProcess.typeOfData == 'GAODC') {
+        //gaodcReloadChart(dataProcess, this.gaodcService, this.listGraphService);
+        gaodcReloadChart(dataProcess, this.gaodcService, this.listGraphService);
+      }
+    });
   }
 
   next() {

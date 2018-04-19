@@ -3,6 +3,7 @@ export class Constants {
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
   public static SAVE_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/save_chart';
   public static SAVE_PROCESS_PATH = Constants.LIST_ALL_CHARTS_PATH + '/save_process';
+  public static DOWNLOAD_PROCESS_PATH = Constants.LIST_ALL_CHARTS_PATH + '/download_process/';
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';
   public static PATH_MODIFIER = '';
   // URLS

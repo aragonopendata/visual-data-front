@@ -40,11 +40,6 @@ export class EndGraphComponent implements OnInit {
         if (!data) {
             this.router.navigate(['/']);
         }
-
-        if (data.type === 'pie') {
-            data.colors[0].backgroundColor = data.colors[0].backgroundColor.split(',');
-        }
-
         this.chart = data;
     });
   }
