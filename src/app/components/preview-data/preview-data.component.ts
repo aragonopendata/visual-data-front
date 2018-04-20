@@ -29,8 +29,14 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.headerTable = this.dataservice.datasetHeader;
-        this.dataTable = this.dataservice.dataset;
+        if(this.dataservice.datasetHeader){
+            this.headerTable = this.dataservice.datasetHeader;
+            this.dataTable = this.dataservice.dataset;
+        }else{
+            // TODO: Change to return fisrt page
+            this.headerTable = ['Datos','De','Prueba']
+            this.dataTable = [["Prueba",3,4],["Prueba",2,3]]
+        }
     }
 
     ngOnDestroy() {

@@ -32,6 +32,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     // Loading dataset
 
     loading: boolean[];
+    errorResponse: boolean[];
 
     //Modal Data if the text is too long
 
@@ -75,6 +76,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.packagesList = [];
         this.headerTable = ['Cargando'];
         this.loading = [true, true, false]; // CKAN, GAODC
+        this.errorResponse = [false, false, false]; // CKAN, GAODC
         this.nextStep = true;
         this.urlError = false;
     }
@@ -83,14 +85,22 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.ckanservice.getPackageList().subscribe(data => {
             this.listCkan = data.result;
             this.loading[0] = false;
-        });
+        },
+        error => {
+           this.loading[0] = false;
+           this.errorResponse[0] = true;
+        },);
         this.gaodcservice.getPackageList().subscribe(data => {
             this.listGaodc = [];
             data.forEach(element => {
                 this.listGaodc.push(element[1]);
             });
             this.loading[1] = false;
-        });
+        },
+        error => {
+            this.loading[1] = false;
+            this.errorResponse[1] = true;
+        },);
     }
 
     ngOnDestroy() {

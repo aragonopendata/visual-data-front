@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Constants } from '../app.constants';
 import { Observable } from 'rxjs/Observable';
-
 // Observable class extensions
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 // This Injectable make the calls to the api
 @Injectable()
 export class CkanService {
@@ -23,6 +23,8 @@ export class CkanService {
       .get(this.serverURL + '/services/ckan/packageList', { headers: headers })
       .map(res => {
         return res.json();
+      }).catch((err) => { 
+        return Observable.throw("errorConexion");
       });
   }
 
@@ -37,13 +39,8 @@ export class CkanService {
       })
       .map(res => {
         return JSON.parse(res.text().toString());
-      })
-      .catch(this.handleError);
-  }
-
-  handleError(error: any) {
-    let errMsg = 'Server error';
-    console.error(errMsg);
-    return errMsg;
+      }).catch((err) => { 
+        return Observable.throw("errorConexion");
+      });
   }
 }

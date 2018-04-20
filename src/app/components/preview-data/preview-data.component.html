@@ -3,8 +3,12 @@
         <ul>
             <li><strong>Seleccionar Columnas:</strong></li>
             <ng-template ngFor let-property [ngForOf]="headerTable">
-                <li><label><input type="checkbox" name=property value=property (change)="updateChecked(property, $event)" /> <span>{{property}}</span></label></li>
-            </ng-template>
+                <li>
+                    <label class="container">{{property}}
+                        <input type="checkbox"name=property value=property (change)="updateChecked(property, $event)">
+                        <span class="checkmark"></span>
+                    </label>
+           </ng-template>
         </ul>
     </div>
     <div class="column2">

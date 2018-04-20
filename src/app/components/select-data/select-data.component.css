@@ -52,3 +52,7 @@ body .ui-autocomplete-dropdown {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.cross {
+  font-size: 40px; color: #d00; font-weight: bold; font-family: helvetica,arial; line-height: 1;
+}

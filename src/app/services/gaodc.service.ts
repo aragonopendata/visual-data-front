@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Constants } from '../app.constants';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import { Observable } from 'rxjs/Observable';
 
 // This Injectable make the calls to the api
 @Injectable()
@@ -20,6 +23,8 @@ export class GaodcService {
       .get(this.serverURL + '/services/gaodc/packageList', { headers: headers })
       .map(res => {
         return res.json();
+      }).catch((err) => { 
+        return Observable.throw("errorConexion");
       });
   }
 
@@ -34,6 +39,8 @@ export class GaodcService {
       })
       .map(res => {
         return JSON.parse(res.text().toString());
+      }).catch((err) => { 
+        return Observable.throw("errorConexion");
       });
   }
 }

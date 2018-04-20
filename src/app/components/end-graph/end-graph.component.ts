@@ -34,14 +34,17 @@ export class EndGraphComponent implements OnInit {
   ngOnInit(): void {
     let id;
     id = this.activatedRoute.snapshot.url[1];
-
-    this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
-    this.graphservice.getChart(id).subscribe(data => {
-        if (!data) {
-            this.router.navigate(['/']);
-        }
-        this.chart = data;
-    });
+    if(id.path != ""){
+      this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
+      this.graphservice.getChart(id).subscribe(data => {
+          if (!data || data.status == 'notFound' ) {
+              this.router.navigate(['/']);
+          }
+          this.chart = data;
+      });
+    }else{
+      this.router.navigate(['/charts/' + id]);
+    }
   }
 
   goBack(): void {

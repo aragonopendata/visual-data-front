@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Constants } from '../app.constants';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class GraphService {
@@ -10,13 +13,17 @@ export class GraphService {
   public getCharts() {
     return this.http
       .get(Constants.VISUAL_BACK_SERVER_URL + Constants.LIST_ALL_CHARTS_PATH)
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json()).catch((err) => { 
+        return Observable.throw("errorConexion");
+      });
   }
 
   public getChart(id) {
     return this.http
       .get(Constants.VISUAL_BACK_SERVER_URL + Constants.GET_CHART_PATH + id)
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json()).catch((err) => { 
+        return Observable.throw("errorConexion");
+      });
   }
 
   // Make the call to save the info of the graph
@@ -37,6 +44,8 @@ export class GraphService {
       })
       .map(res => {
         return JSON.parse(res.text());
+      }).catch((err) => { 
+        return Observable.throw("errorConexion");
       });
   }
 
@@ -59,6 +68,8 @@ export class GraphService {
       })
       .map(res => {
         return JSON.parse(res.text());
+      }).catch((err) => { 
+        return Observable.throw("errorConexion");
       });
   }
 
@@ -66,7 +77,9 @@ export class GraphService {
   downloadProcess(chartId) {
     return this.http
       .get(Constants.VISUAL_BACK_SERVER_URL + Constants.DOWNLOAD_PROCESS_PATH + chartId)
-      .map((res: Response) => res.json());
+      .map((res: Response) => res.json()).catch((err) => { 
+        return Observable.throw("errorConexion");
+      });
   }
 
   // Make the call to save the process of graph generation
@@ -87,6 +100,8 @@ export class GraphService {
       })
       .map(res => {
         return JSON.parse(res.text());
+      }).catch((err) => { 
+        return Observable.throw("errorConexion");
       });
   }
 }

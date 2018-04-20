@@ -23,10 +23,12 @@ export class EmbedGraphComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.graphservice
-      .getChart(this.activatedRoute.snapshot.url[2])
-      .subscribe(data => {
-        this.chart = data;
-      });
+    if(this.activatedRoute.snapshot.url[2].path != ""){
+      this.graphservice
+        .getChart(this.activatedRoute.snapshot.url[2])
+        .subscribe(data => {
+          this.chart = data;
+        });
+    }
   }
 }
