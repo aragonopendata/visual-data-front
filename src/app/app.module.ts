@@ -49,6 +49,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxCarouselModule } from 'ngx-carousel';
 import { DragulaModule } from 'ng2-dragula';
 import 'hammerjs';
+import { UpdateGraphService } from './components/list-graphs/updateChats.util';
 
 const pathModifier = Constants.PATH_MODIFIER;
 
@@ -113,6 +114,7 @@ const routes: Routes = [
     GaodcService,
     ShareDataService,
     GraphService,
+    UpdateGraphService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

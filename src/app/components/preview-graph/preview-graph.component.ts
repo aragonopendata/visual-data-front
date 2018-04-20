@@ -110,6 +110,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         }
     }
 
+    //Get All the element of the first column to the user to move
     columnsTypeData(){
         this.columnsType = [];
         this.data = this.dataservice.dataSelected;
@@ -195,6 +196,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.onDrop("refresh");
     }
 
+    //Delete the drag and drop label of the specify column
     deleteElement(buffer, index) {
         if (buffer === 1) {
             this.columnsData.splice(index, 1);

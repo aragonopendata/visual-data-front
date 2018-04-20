@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
-import { gaodcReloadChart } from '../exportedFunctions/updateChats';
+import { UpdateGraphService } from './updateChats.util';
 
 declare var jQuery:any;
 
@@ -29,8 +29,15 @@ export class ListGraphsComponent implements OnInit {
     private location: Location,
     private router: Router,
     private listGraphService: GraphService,
-    private gaodcService: GaodcService
+    private updateGraphService: UpdateGraphService
   ) {
+    // Event that disable the loading screen and update the carousel
+    this.updateGraphService.loading.subscribe(value => {
+      if(value == false){
+        this.loadCarousel();
+        jQuery("#listModal").modal("hide");
+      }
+    })
   }
 
   ngOnInit() {
@@ -53,7 +60,6 @@ export class ListGraphsComponent implements OnInit {
 
   loadCarousel(){
     this.listGraphService.getCharts().subscribe(data => {
-      console.log(data.charts);
       this.carouselData = data.charts;
     });
   }
@@ -69,21 +75,9 @@ export class ListGraphsComponent implements OnInit {
   }
 
   updateChart(id) {
-    console.log('Update');
     this.listGraphService.downloadProcess(id).subscribe(dataProcess => {
       if (dataProcess.typeOfData == 'GAODC') {
-        //gaodcReloadChart(dataProcess, this.gaodcService, this.listGraphService);
-        this.gaodcService.getPackageInfo(Number(dataProcess.dataset)).subscribe(dataTable => {
-          var chartLabels; 
-          var chartData; 
-          gaodcReloadChart(dataProcess, dataTable, chartLabels, chartData);
-
-          this.listGraphService.updateProcess(dataProcess.chartDataId, dataProcess.chartType,
-            chartLabels, chartData, dataProcess.title, dataProcess.widthGraph).subscribe(response => {
-              this.loadCarousel();
-              jQuery("#listModal").modal("hide");
-            });
-        });
+          this.updateGraphService.gaodcReloadChart(dataProcess);
       }
     });
   }
