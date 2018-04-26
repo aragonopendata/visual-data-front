@@ -74,7 +74,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.listCkan = ['Cargando Espere'];
         this.listGaodc = ['Cargando Espere'];
         this.packagesList = [];
-        this.headerTable = ['Cargando'];
+        this.headerTable = [];
         this.loading = [true, true, false]; // CKAN, GAODC
         this.errorResponse = [false, false, false]; // CKAN, GAODC
         this.nextStep = true;

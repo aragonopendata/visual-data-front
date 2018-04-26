@@ -97,13 +97,16 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             });
         } catch (error) { }
 
-        if (!this.dataservice.dataSelected) {
+        // TODO: Delete the next IF
+        if (!this.dataservice.dataSelected || this.dataservice.dataSelected.length == 0) {
+            //this.router.navigate(['/selectData/']);
             this.dataservice.type = "TEST";
             this.dataservice.dataset = "TEST";
             this.dataservice.headerSelected = ["Datos", "de", "prueba"];
             this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40, 100 ,100], [20, 2, 3, 81, 4, 55, 5, 20, 40], ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD", "SAS", "AA"]];
+            this.dataservice.dataSelected.lenght = 3;
         }
-        if (this.dataservice.dataSelected) {
+        if (this.dataservice.dataSelected && this.dataservice.dataSelected.length != 0) {
             this.columnsTypeData();
         } else {
             this.router.navigate(['/selectData/']);

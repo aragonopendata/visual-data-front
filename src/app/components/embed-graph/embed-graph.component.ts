@@ -15,6 +15,7 @@ export class EmbedGraphComponent implements OnInit {
   };
 
   public chart: any;
+  public widthGraph: any;
 
   constructor(
     private router: Router,
@@ -28,6 +29,7 @@ export class EmbedGraphComponent implements OnInit {
         .getChart(this.activatedRoute.snapshot.url[2])
         .subscribe(data => {
           this.chart = data;
+          this.widthGraph = data.width;
         });
     }
   }

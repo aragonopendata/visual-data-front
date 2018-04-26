@@ -20,6 +20,7 @@ export class EndGraphComponent implements OnInit {
   public chart: any;
   public routeEmbed: any;
   public fullRoute: any;
+  public width: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,6 +29,7 @@ export class EndGraphComponent implements OnInit {
     private graphservice: GraphService,
     @Inject(DOCUMENT) document: any
   ) {
+    this.width=100;
     this.fullRoute = document.location.protocol + '//' + document.location.hostname + ':' + document.location.port;
   }
 
@@ -40,8 +42,12 @@ export class EndGraphComponent implements OnInit {
           if (!data || data.status == 'notFound' ) {
               this.router.navigate(['/']);
           }
+          this.width = data.width;
           this.chart = data;
-      });
+      },
+      error => {
+          this.router.navigate(['/']);
+      },);
     }else{
       this.router.navigate(['/charts/' + id]);
     }

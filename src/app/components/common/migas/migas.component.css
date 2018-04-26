@@ -9,6 +9,7 @@
   border-right: 20px solid #0066cc;
   border-bottom: 20px solid #0066cc;
   border-left: 20px solid transparent;
+  cursor: pointer;
 }
 .rarrowleft:before {
   content: '';
@@ -40,6 +41,18 @@
   top: -0.6em;
   left: 22px;
   width: 150px;
+}
+.rarrow:hover{
+  border-top: 20px solid #027cf5;
+  border-right: 20px solid #027cf5;
+  border-bottom: 20px solid #027cf5;
+  border-left: 20px solid transparent;
+}
+.rarrow:hover:before {
+  border-left: 20px solid #027cf5;
+}
+.rarrow:hover:after {
+  border-left: 20px solid #027cf5;
 }
 .rarrowseleccion {
   margin-left: 20px;

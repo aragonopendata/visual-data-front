@@ -42,12 +42,14 @@ import { PreviewDataComponent } from './components/preview-data/preview-data.com
 import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
+import { NestJSONComponent } from './components/nest-json/nest-json.component';
 // Utils
 import { AccordionModule } from 'ngx-accordion';
 import { ChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxCarouselModule } from 'ngx-carousel';
 import { DragulaModule } from 'ng2-dragula';
+import { TreeModule } from 'angular-tree-component';
 import 'hammerjs';
 import { UpdateGraphService } from './components/list-graphs/updateChats.util';
 
@@ -68,7 +70,8 @@ const routes: Routes = [
         { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
         { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
         { path: pathModifier + 'endGraphic/:id', component: EndGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'charts/:id', component: EndGraphComponent, pathMatch: 'full' }
+        { path: pathModifier + 'charts/:id', component: EndGraphComponent, pathMatch: 'full' },
+        { path: pathModifier + 'nest-json', component: NestJSONComponent, pathMatch: 'full' }
       ]
   },
   // Default
@@ -91,6 +94,7 @@ const routes: Routes = [
     NgxCarouselModule,
     DragulaModule,
     InputTextModule,
+    TreeModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
@@ -104,7 +108,8 @@ const routes: Routes = [
     PreviewDataComponent,
     PreviewGraphComponent,
     EndGraphComponent,
-    EmbedGraphComponent
+    EmbedGraphComponent,
+    NestJSONComponent
   ],
   providers: [
     DatePipe,

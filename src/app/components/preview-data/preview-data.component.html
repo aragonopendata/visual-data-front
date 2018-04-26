@@ -1,15 +1,18 @@
 <div class="row">
     <div class="column1">
-        <ul>
-            <li><strong>Seleccionar Columnas:</strong></li>
-            <ng-template ngFor let-property [ngForOf]="headerTable">
-                <li>
-                    <label class="container">{{property}}
-                        <input type="checkbox"name=property value=property (change)="updateChecked(property, $event)">
-                        <span class="checkmark"></span>
-                    </label>
-           </ng-template>
-        </ul>
+        <strong style="padding-left: 25px;">Seleccionar Columnas:</strong>
+        <div style="overflow:auto;height: 500px;">
+            <ul>
+                <ng-template ngFor let-property [ngForOf]="headerTable">
+                    <li>
+                        <label class="container">{{property}}
+                            <input type="checkbox"name=property value=property (change)="updateChecked(property, $event)">
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                </ng-template>
+            </ul>
+        </div>
     </div>
     <div class="column2">
         <p-dataTable [tableStyle]="{'table-layout':'auto'}" scrollable="true" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
