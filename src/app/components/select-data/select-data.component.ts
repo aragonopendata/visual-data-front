@@ -175,23 +175,76 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     ckanCall(namePackage: string){
         this.packagesList.push(namePackage);
         this.ckanPackagesInfo = namePackage;
-        console.log(this.ckanPackagesInfo);
         this.ckanservice.getPackageInfo(this.packagesList).subscribe(data => {
             this.packagesInfo = namePackage;
 
             console.log('TODO');
             console.log(data);
 
+            if (data.result[0].format == "PX") {
+                this.parsePXFile(data.result[0].data);
+            }
+
             this.loading[0] = false;
             this.loading[2] = false;
-            /*
-            this.data = data.result.results;
-            console.log(data);
-            this.properties = Object.keys(this.data[0]).map(key => key);
-            */
-        });
+        },
+        error => {
+           this.packagesList.pop();
+           this.loading[0] = false;
+           this.loading[2] = false;
+           this.errorResponse[0] = true;
+        },);
     }
 
+
+    parsePXFile(data){
+        var headers = [];
+        var dataTable = [];
+        var parse = "init";
+        data = data.replace(/\s+/g, ' ').trim();
+
+        //GET all header of the px file
+        while(parse != null){
+            parse = data.match(/VALUES\(.*?\)=[.\s\S]*?;/);
+            if(parse != null){
+                parse = parse[0].split("=").pop().slice(0, -1);
+                
+                var aux2 = parse.replace(/",\s?\S?"/g,"\"############\"").split('############');
+                aux2.forEach((element,index) => {
+                    aux2[index] = element.replace(/"/g, '').replace(/^\s+/g, '');
+                });
+                headers.push(aux2);
+                
+                data = data.split(parse).pop();
+            }
+        }
+        console.log(headers);
+        this.headerTable = headers[headers.length-1];
+
+        //Prepare Table Data
+        parse = data.match(/DATA=[.\s\S]*?;/);
+        parse = parse[0].split("= ").pop().slice(0, -1);
+        var aux = parse.split(" "); 
+
+        aux.forEach((element,index) => {
+            if(element == "\".\"")
+                aux[index] = null;
+        });
+
+        dataTable = this.chuck(aux, headers[headers.length - 1].length);
+
+        console.log(dataTable);
+        this.dataTable = dataTable;
+    }
+
+    // split array into chucks of the size parameter
+    chuck(array, size) {
+        var results = [];
+        while (array.length) {
+          results.push(array.splice(0, size));
+        }
+        return results;
+    };
 
     gaodcCall(name: String, numberPackage : number){
         this.packagesList.push(name);
@@ -205,7 +258,12 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.packagesInfo = numberPackage.toString();
             this.loading[1] = false;
             this.loading[2] = false;
-        });
+        },
+        error => {
+           this.loading[1] = false;
+           this.loading[2] = false;
+           this.errorResponse[1] = true;
+        },);
     }
 
     search(event: any) {
