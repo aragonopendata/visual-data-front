@@ -5,9 +5,10 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { AccordionModule } from 'ngx-accordion';
-import { AutoCompleteModule, InputTextModule } from 'primeng/primeng';
+import { AutoCompleteModule, InputTextModule, InputTextareaModule } from 'primeng/primeng';
 import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';
+import { VirtuosoService } from '../../services/virtuoso.service';
 import { ShareDataService } from '../../services/shareData.service';
 
 @Component({
@@ -42,6 +43,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     nextStep: boolean;
     urlError: boolean;
+    querryError: boolean;
 
     // Dropbox Init List
 
@@ -57,6 +59,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     urlPackagesInfo: string;
 
+    virtuosoPackagesInfo: string;
+
     packagesInfo: String;
 
     packagesList: String[];
@@ -64,6 +68,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     constructor(
         private ckanservice: CkanService,
         private gaodcservice: GaodcService,
+        private virtuososervice: VirtuosoService,
         private route: ActivatedRoute,
         private location: Location,
         private router: Router,
@@ -75,10 +80,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.listGaodc = ['Cargando Espere'];
         this.packagesList = [];
         this.headerTable = [];
-        this.loading = [true, true, false]; // CKAN, GAODC
-        this.errorResponse = [false, false, false]; // CKAN, GAODC
+        this.loading = [true, true, false, false]; // CKAN, GAODC, URL, VIRTUOSO
+        this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
         this.nextStep = true;
         this.urlError = false;
+        this.querryError = false;
     }
 
     ngOnInit(): void {
@@ -144,6 +150,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 this.urlError = true;
                 this.loading[2] = false;
             }
+        } else if (this.opened === 'VIRTUOSO') {
+            this.querryError = false;
+            this.loading[3] = true;
+        
+            this.virtuosoCall(this.virtuosoPackagesInfo);
         }
     }
 
@@ -198,28 +209,43 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
 
     parsePXFile(data){
-        var headers = [];
+        var headersNames = [];
+        var headersOrder = [];
+        var values = [];
         var dataTable = [];
         var parse = "init";
         data = data.replace(/\s+/g, ' ').trim();
 
-        //GET all header of the px file
+        //Prepare the Headers Names
+        parse = data.match(/HEADING=[.\s\S]*?;/);
+        parse = parse[0].split("=").pop().slice(0, -1);
+        headersNames = parse.replace(/",\s?\S?"/g,"\"############\"").split('############');
+        headersNames.forEach((element,index) => {
+            headersNames[index] = element.replace(/"/g, '').replace(/^\s+/g, '');
+        });
+
+        //GET all Headers AND Descriptions of the px file
         while(parse != null){
             parse = data.match(/VALUES\(.*?\)=[.\s\S]*?;/);
             if(parse != null){
-                parse = parse[0].split("=").pop().slice(0, -1);
+                parse = parse[0].slice(7, -1);
+                var aux3 = parse.match(/[.\s\S]*?\)/).toString();
+                aux3 = aux3.slice(0, aux3.length-1);
+                aux3 = aux3.replace(/"/g, '').replace(/^\s+/g, '');
+                headersOrder.push(aux3);
+                parse = parse.split("=").pop().slice(0, -1);
                 
                 var aux2 = parse.replace(/",\s?\S?"/g,"\"############\"").split('############');
                 aux2.forEach((element,index) => {
                     aux2[index] = element.replace(/"/g, '').replace(/^\s+/g, '');
                 });
-                headers.push(aux2);
+                values.push(aux2);
                 
                 data = data.split(parse).pop();
             }
         }
-        console.log(headers);
-        this.headerTable = headers[headers.length-1];
+
+        this.headerTable = values[values.length-1];
 
         //Prepare Table Data
         parse = data.match(/DATA=[.\s\S]*?;/);
@@ -231,8 +257,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 aux[index] = null;
         });
 
-        dataTable = this.chuck(aux, headers[headers.length - 1].length);
+        dataTable = this.chuck(aux, values[values.length - 1].length);
 
+        console.log("Nombres de cabecera");
+        console.log(headersNames);
+        console.log("Orden de datos extraidos con respecto a cabecera"); // TODO: no se parsea aun bien el headerORder
+        console.log(headersOrder);
+        console.log("Cabecera");
+        console.log(values);
+        console.log("Datos de la tabla");
         console.log(dataTable);
         this.dataTable = dataTable;
     }
@@ -263,6 +296,30 @@ export class SelectDataComponent implements OnInit, OnDestroy {
            this.loading[1] = false;
            this.loading[2] = false;
            this.errorResponse[1] = true;
+        },);
+    }
+
+    virtuosoCall(namePackage: string){
+        this.packagesList.push(this.virtuosoPackagesInfo);
+
+        this.virtuososervice.getPackageInfo(this.packagesList).subscribe(data => {
+            this.headerTable = data.head.vars;
+            this.dataTable = [];
+            data.results.bindings.forEach(element => {
+                var aux2 = [];
+                this.headerTable.forEach(elementHeader => {
+                    aux2.push(element[elementHeader].value);  
+                });
+                this.dataTable.push(aux2);
+            });
+            
+            this.loading[3] = false;
+        },
+        error => {
+            this.packagesList.pop();
+            this.querryError = true;
+            this.loading[3] = false;
+            console.log("Error");
         },);
     }
 

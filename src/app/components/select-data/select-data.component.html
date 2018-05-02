@@ -63,11 +63,27 @@
                 </ul>
             </div>
         </accordion-group>
-        <accordion-group (onOpen)="whoIsOpen('VIRTUOSO')">
-            <accordion-heading>
-                VIRTUOSO
-            </accordion-heading>
-            WIP
+        <accordion-group heading="VIRTUOSO" (onOpen)="whoIsOpen('VIRTUOSO')">
+            <div style="float:left">
+                <div class="ui-float-label">
+                    <textarea pInputTextarea [(ngModel)]="virtuosoPackagesInfo"></textarea>
+                </div>
+            </div>
+            <div style="float:left">
+                <button type="button" class="button1" (click)="selectPackage()">Añadir Datos</button>
+            </div>
+            <div *ngIf="loading[3]" class="loader" style="float:left; margin-left: 2%"></div>
+            <div *ngIf="errorResponse[3]" class="cross" style="float:left; margin-left: 2%">&times;</div>
+            <div style="float:left ;margin-left: 5%;">
+                <ul>
+                    <li *ngIf="querryError" style="color: #DF3A01; padding-top: 5px">
+                        <strong>Querry invalida:</strong> Por favor cargue una URL valida
+                    </li>
+                    <li *ngFor="let data of packagesList">
+                        <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
+                    </li>
+                </ul>
+            </div>
         </accordion-group>
     </accordion>
 
@@ -75,7 +91,7 @@
         <p-dataTable [tableStyle]="{'table-layout':'auto'}" scrollable="true" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
             <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
-                <p-column [style]="{'min-width':'200px'}" field={{property}} header={{property}}>
+                <p-column [style]="{'min-width':'200px','max-width':'350px','word-break':'break-word'}" field={{property}} header={{property}}>
                     <ng-template let-entry="rowData" pTemplate="body">
                             <span class="row" *ngIf='!maxCharacters(entry,i)'>
                                     {{entry[i]}}
