@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
-import { UpdateGraphService } from './updateChats.util';
+import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 
 declare var jQuery:any;
 
@@ -17,10 +17,14 @@ declare var jQuery:any;
 })
 export class ListGraphsComponent implements OnInit {
   imgags: string[];
-  public carouselData: Array<any> = [];
-  public carouselTileTwo: NgxCarousel;
-  public chartLegend = true;
-  public chartOptions: any = {
+
+  private dataProcess:any;
+  private dataset:any;
+
+  private carouselData: Array<any> = [];
+  private carouselTileTwo: NgxCarousel;
+  private chartLegend = true;
+  private chartOptions: any = {
     responsive: true
   };
 
@@ -29,10 +33,10 @@ export class ListGraphsComponent implements OnInit {
     private location: Location,
     private router: Router,
     private listGraphService: GraphService,
-    private updateGraphService: UpdateGraphService
+    private utilsGraphService: UtilsGraphService
   ) {
     // Event that disable the loading screen and update the carousel
-    this.updateGraphService.loading.subscribe(value => {
+    this.utilsGraphService.loading.subscribe(value => {
       if(value == false){
         this.loadCarousel();
         jQuery("#listModal").modal("hide");
@@ -77,9 +81,21 @@ export class ListGraphsComponent implements OnInit {
   updateChart(id) {
     this.listGraphService.downloadProcess(id).subscribe(dataProcess => {
       if (dataProcess.typeOfData == 'GAODC') {
-          this.updateGraphService.gaodcReloadChart(dataProcess);
+          this.utilsGraphService.gaodcReloadChart(dataProcess);
+      }else if (dataProcess.typeOfData == 'VIRTUOSO') {
+        jQuery("#listModal").modal("hide");
+        // Prepare Dataset
+        this.dataProcess = dataProcess;
+        this.dataset = dataProcess.dataset;
+        jQuery("#virtuosoModal").modal('show');
       }
     });
+  }
+
+  callUpdateVirtuoso(){
+    jQuery("#listModal").modal("show");
+    this.dataProcess.dataset = this.dataset;
+    this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
   }
 
   next() {

@@ -10,6 +10,7 @@ import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { VirtuosoService } from '../../services/virtuoso.service';
 import { ShareDataService } from '../../services/shareData.service';
+import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 
 @Component({
     selector: 'app-select-data',
@@ -73,6 +74,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         private location: Location,
         private router: Router,
         public dataservice: ShareDataService,
+        public utilsGraphService: UtilsGraphService,
         private http: Http
     ) {
         this.opened = '';
@@ -305,21 +307,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.virtuososervice.getPackageInfo(this.packagesList).subscribe(data => {
             this.headerTable = data.head.vars;
             this.dataTable = [];
-            data.results.bindings.forEach(element => {
-                var aux2 = [];
-                this.headerTable.forEach(elementHeader => {
-                    aux2.push(element[elementHeader].value);  
-                });
-                this.dataTable.push(aux2);
-            });
+            this.utilsGraphService.virtuosoPInitialTable(data,this.headerTable,this.dataTable);
             
+            this.packagesInfo = this.virtuosoPackagesInfo;
             this.loading[3] = false;
         },
         error => {
             this.packagesList.pop();
             this.querryError = true;
             this.loading[3] = false;
-            console.log("Error");
         },);
     }
 

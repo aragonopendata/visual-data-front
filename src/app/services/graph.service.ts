@@ -27,12 +27,12 @@ export class GraphService {
   }
 
   // Make the call to save the info of the graph
-  saveGraph(type, labels, data, title, width) {
+  saveGraph(id: string, type: string, labels: object, data: object, title: string, width: number) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
-      {
+      { 'id': id,
         'type': type, 'labels': labels, 'data':
           data, 'title': title, 'width': width
       }
@@ -50,17 +50,18 @@ export class GraphService {
   }
 
   // Make the call to save the process of graph generation
-  saveProcess(typeOfData, dataset, chartType, columnsLabel, columnsData, title, legend, widthGraph, chartDataId) {
+  saveProcess(id, typeOfData, dataset, chartType, columnsLabel, columnsData, title, legend, widthGraph, chartDataId) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
       {
-        'chartDataId': chartDataId, 'typeOfData': typeOfData, 'dataset': dataset, 'chartType': chartType,
+        'id': id, 'chartDataId': chartDataId, 'typeOfData': typeOfData, 'dataset': dataset, 'chartType': chartType,
         'columnsLabel': columnsLabel, 'columnsData': columnsData, 'title': title, 'legend': legend,
         'widthGraph': widthGraph
       }
     );
+
 
     return this.http
       .post(Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_PROCESS_PATH, body, {
@@ -83,13 +84,13 @@ export class GraphService {
   }
 
   // Make the call to save the process of graph generation
-  updateProcess(chartId, type, labels, data, title, width) {
+  updateProcess(chartId, type, dataset, labels, data, title, width) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
       {
-        'id': chartId, 'type': type, 'labels': labels, 'data':
+        'id': chartId, 'type': type, 'dataset': dataset, 'labels': labels, 'data':
           data, 'title': title, 'width': width
       }
     );   

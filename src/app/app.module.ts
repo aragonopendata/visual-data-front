@@ -52,7 +52,7 @@ import { NgxCarouselModule } from 'ngx-carousel';
 import { DragulaModule } from 'ng2-dragula';
 import { TreeModule } from 'angular-tree-component';
 import 'hammerjs';
-import { UpdateGraphService } from './components/list-graphs/updateChats.util';
+import { UtilsGraphService } from './components/exportedFunctions/utilsChats.util';
 
 const pathModifier = Constants.PATH_MODIFIER;
 
@@ -121,7 +121,7 @@ const routes: Routes = [
     VirtuosoService,
     ShareDataService,
     GraphService,
-    UpdateGraphService,
+    UtilsGraphService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
