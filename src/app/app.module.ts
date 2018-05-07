@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 // Service Component
 import { CkanService } from './services/ckan.service';
 import { GaodcService } from './services/gaodc.service';
+import { URLService } from './services/url.service';
 import { VirtuosoService } from './services/virtuoso.service';
 import { GraphService } from './services/graph.service';
 // Data Components
@@ -121,6 +122,7 @@ const routes: Routes = [
     VirtuosoService,
     ShareDataService,
     GraphService,
+    URLService,
     UtilsGraphService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],

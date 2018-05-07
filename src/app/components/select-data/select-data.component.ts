@@ -10,7 +10,10 @@ import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { VirtuosoService } from '../../services/virtuoso.service';
 import { ShareDataService } from '../../services/shareData.service';
+import { URLService } from '../../services/url.service';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
+import { parsePXFile } from '../exportedFunctions/lib';
+
 
 @Component({
     selector: 'app-select-data',
@@ -70,6 +73,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         private ckanservice: CkanService,
         private gaodcservice: GaodcService,
         private virtuososervice: VirtuosoService,
+        private urlservice: URLService,
         private route: ActivatedRoute,
         private location: Location,
         private router: Router,
@@ -142,15 +146,12 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.loading[2] = true;
 
             //GAODC Check
-            const checker = this.checkURL();
+            var checker = this.checkURL();
             if (checker >= 0) {
-                    //Correct link
-                    this.gaodcCall(this.urlPackagesInfo, checker);
+                //Correct link
+                this.gaodcCall(this.urlPackagesInfo, checker);
             } else if(checker == -2){
-                this.ckanCall(this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1));
-            } else {
-                this.urlError = true;
-                this.loading[2] = false;
+                this.urlCall(this.urlPackagesInfo);
             }
         } else if (this.opened === 'VIRTUOSO') {
             this.querryError = false;
@@ -165,9 +166,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     // if the url correspond to CKAN, return -2
     checkURL() {
         let exist = 0;
-        // TODO: Check All URLs
-        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id=", 
-                             "https://opendata.aragon.es/datos/catalogo/dataset/"];
+        // Check All URLs
+        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id="];
 
         //GAODC Test URL
         if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]) {
@@ -178,10 +178,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             }else{
                 return -1;
             }
-        } else if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]) { //CKAN Test URL
+        } else { //OTher URL
             return -2;
-        } else{
-            return -1;
         }
     }
 
@@ -191,15 +189,21 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.ckanservice.getPackageInfo(this.packagesList).subscribe(data => {
             this.packagesInfo = namePackage;
 
-            console.log('TODO');
-            console.log(data);
+            if(data.result.length != 0){
+                if (data.result[0].format == "PX") {
+                    var result = parsePXFile(data.result[0].data);
+                    this.headerTable = result[0];
+                    this.dataTable = result[1];
+                }
 
-            if (data.result[0].format == "PX") {
-                this.parsePXFile(data.result[0].data);
+                this.loading[0] = false;
+                this.loading[2] = false;
+            }else{
+                this.packagesList.pop();
+                this.loading[0] = false;
+                this.loading[2] = false;
+                this.errorResponse[0] = true;
             }
-
-            this.loading[0] = false;
-            this.loading[2] = false;
         },
         error => {
            this.packagesList.pop();
@@ -209,77 +213,36 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         },);
     }
 
-
-    parsePXFile(data){
-        var headersNames = [];
-        var headersOrder = [];
-        var values = [];
-        var dataTable = [];
-        var parse = "init";
-        data = data.replace(/\s+/g, ' ').trim();
-
-        //Prepare the Headers Names
-        parse = data.match(/HEADING=[.\s\S]*?;/);
-        parse = parse[0].split("=").pop().slice(0, -1);
-        headersNames = parse.replace(/",\s?\S?"/g,"\"############\"").split('############');
-        headersNames.forEach((element,index) => {
-            headersNames[index] = element.replace(/"/g, '').replace(/^\s+/g, '');
-        });
-
-        //GET all Headers AND Descriptions of the px file
-        while(parse != null){
-            parse = data.match(/VALUES\(.*?\)=[.\s\S]*?;/);
-            if(parse != null){
-                parse = parse[0].slice(7, -1);
-                var aux3 = parse.match(/[.\s\S]*?\)/).toString();
-                aux3 = aux3.slice(0, aux3.length-1);
-                aux3 = aux3.replace(/"/g, '').replace(/^\s+/g, '');
-                headersOrder.push(aux3);
-                parse = parse.split("=").pop().slice(0, -1);
-                
-                var aux2 = parse.replace(/",\s?\S?"/g,"\"############\"").split('############');
-                aux2.forEach((element,index) => {
-                    aux2[index] = element.replace(/"/g, '').replace(/^\s+/g, '');
-                });
-                values.push(aux2);
-                
-                data = data.split(parse).pop();
+    urlCall(namePackage: string){
+        this.packagesList.push(namePackage);
+        this.ckanPackagesInfo = namePackage;
+        this.urlservice.getPackageInfo(this.packagesList[0]).subscribe(data => {
+            this.packagesInfo = namePackage;
+            console.log(data);
+            if(data.result.length != 0){
+                if (data.result[0].format == "PX") {
+                    var result = parsePXFile(data.result[0].data);
+                    this.headerTable = result[0];
+                    this.dataTable = result[1];
+                    this.loading[0] = false;
+                    this.loading[2] = false;
+                }else if(data.result[0].format == "CSV") {
+                    console.log("CSV FILE WIP");
+                }
+            }else{
+                this.packagesList.pop();
+                this.loading[0] = false;
+                this.loading[2] = false;
+                this.errorResponse[0] = true;
             }
-        }
-
-        this.headerTable = values[values.length-1];
-
-        //Prepare Table Data
-        parse = data.match(/DATA=[.\s\S]*?;/);
-        parse = parse[0].split("= ").pop().slice(0, -1);
-        var aux = parse.split(" "); 
-
-        aux.forEach((element,index) => {
-            if(element == "\".\"")
-                aux[index] = null;
-        });
-
-        dataTable = this.chuck(aux, values[values.length - 1].length);
-
-        console.log("Nombres de cabecera");
-        console.log(headersNames);
-        console.log("Orden de datos extraidos con respecto a cabecera"); // TODO: no se parsea aun bien el headerORder
-        console.log(headersOrder);
-        console.log("Cabecera");
-        console.log(values);
-        console.log("Datos de la tabla");
-        console.log(dataTable);
-        this.dataTable = dataTable;
+        },
+        error => {
+           this.packagesList.pop();
+           this.loading[0] = false;
+           this.loading[2] = false;
+           this.errorResponse[0] = true;
+        },);
     }
-
-    // split array into chucks of the size parameter
-    chuck(array, size) {
-        var results = [];
-        while (array.length) {
-          results.push(array.splice(0, size));
-        }
-        return results;
-    };
 
     gaodcCall(name: String, numberPackage : number){
         this.packagesList.push(name);
