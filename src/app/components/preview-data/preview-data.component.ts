@@ -6,100 +6,91 @@ import { Router } from '@angular/router';
 import { ShareDataService } from '../../services/shareData.service';
 import { CkanService } from '../../services/ckan.service';
 import { DataTable } from 'primeng/primeng';
-
+import { JsonPipe } from '@angular/common';
 @Component({
-  selector: 'app-preview-data',
-  templateUrl: './preview-data.component.html',
-  styleUrls: ['./preview-data.component.css']
+    selector: 'app-preview-data',
+    templateUrl: './preview-data.component.html',
+    styleUrls: ['./preview-data.component.css']
 })
 export class PreviewDataComponent implements OnInit, OnDestroy {
-  properties: string[];
-  data: any;
-  checked: boolean[] = [];
+    checked: boolean[] = [];
+    dataTable: any;
+    headerTable: string[];
+    mData: any;
 
-  constructor(
-    private route: ActivatedRoute,
-    private location: Location,
-    private router: Router,
-    public dataservice: ShareDataService,
-    private ckanservice: CkanService
-  ) {
-    this.data = [];
-    this.properties = ['Cargando'];
-
-    // TODO: Borrar las dos siguientes lineas, usadas para debug
-    this.dataservice.type = 'CKAN';
-    this.dataservice.data = '123456789-7';
-  }
-
-  ngOnInit(): void {
-    if (this.dataservice.type === 'CKAN') {
-      this.ckanservice.getPackageInfo(this.dataservice.data).subscribe(data => {
-        this.data = data.result.results;
-        this.properties = Object.keys(this.data[0]).map(key => key);
-        console.log(this.data);
-      });
+    constructor(
+        private route: ActivatedRoute,
+        private location: Location,
+        private router: Router,
+        public dataservice: ShareDataService,
+        private ckanservice: CkanService
+    ) {
+        window.scrollTo(0, 0);
     }
-  }
 
-  ngOnDestroy() {
-    // Count number of trues in checked list
-    /*
-    var myCount = this.checked.reduce(function(a,b){
-      return b?a+1:a;
-    },0);
-    */
-    // var arrayGenerated:any[][] = [[myCount],[]];
-    const arrayGenerated = [];
-    for (let j = 0; j < this.data.length; j++) {
-      let union = {};
-      for (let i = 0; i < this.properties.length; i++) {
-        // console.log(this.properties[i]);
-        if (this.checked[this.properties[i]]) {
-          union = Object.assign(union, {
-            [this.properties[i]]: this.data[j][this.properties[i]]
-          });
-          // arrayGenerated[i][j] = this.data[j][this.properties[i]];;
+    ngOnInit(): void {
+        if(this.dataservice.datasetHeader && this.dataservice.datasetHeader.length != undefined && this.dataservice.datasetHeader.length > 0){
+            this.headerTable = this.dataservice.datasetHeader;
+            this.dataTable = this.dataservice.dataset;
+        }else{
+            // TODO: Change to return fisrt page
+            //this.router.navigate(['/selectData/']);
+            this.headerTable = ['Datos','De','Prueba']
+            this.dataTable = [["Prueba",3,4],["Prueba",2,3]]
+            
+        }
+    }
+
+    ngOnDestroy() {
+        if (this.headerTable) {
+            const headersSelected = [];
+            const dataSelected = [];
+            for (let i = 0; i < this.headerTable.length; i++) {
+                if (this.checked[this.headerTable[i]]) {
+                    headersSelected.push(this.headerTable[i]);
+                    const auxArray = [];
+                    for (let index = 0; index < this.dataTable.length; index++) {
+                        auxArray.push(this.dataTable[index][i]);
+                    }
+                    dataSelected.push(auxArray);
+                }
+            }
+            this.dataservice.headerSelected = headersSelected;
+            this.dataservice.dataSelected = dataSelected;
+        }
+    }
+
+    updateChecked(option, event) {
+        if (this.checked[option]) {
+            this.checked[option] = !this.checked[option];
+        } else {
+            this.checked[option] = true;
+        }
+    }
+
+    maxCharacters(data, i) {
+        if (data[i]) {
+            if (typeof data[i] === 'number') {
+                return false;
+            } else {
+                if (data[i].length <= 80) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         }
       }
-      arrayGenerated.push(union);
+
+    manteinData(data) {
+        this.mData = data;
     }
-    this.dataservice.data = arrayGenerated;
-    console.log(arrayGenerated);
-  }
 
-  updateChecked(option, event) {
-    if (this.checked[option]) {
-      this.checked[option] = !this.checked[option];
-    } else {
-      this.checked[option] = true;
+    next() {
+        this.router.navigate(['/previewGraph/']);
     }
-  }
 
-  /*
-  nestedColumn(column: string, data: string){
-    console.log(column);
-    console.log(data);
-    if(column == 'resources')
-      return false;
-    return true;
-  }
-
-  extractData(property: any, data: any){
-    if(property == 'resources'){
-
+    goBack(): void {
+        this.location.back();
     }
-    else{
-      return data;
-    }
-  }
-*/
-
-  next() {
-    this.router.navigate(['/previewGraph/']);
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
 }

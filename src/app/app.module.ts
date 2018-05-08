@@ -15,38 +15,69 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   DropdownModule,
   DataTableModule,
-  AutoCompleteModule
+  AutoCompleteModule,
+  SpinnerModule,
+  InputTextModule
 } from 'primeng/primeng';
 // Main
 import { AppComponent } from './app.component';
-// Generic Component
+// Service Component
 import { CkanService } from './services/ckan.service';
+import { GaodcService } from './services/gaodc.service';
+import { URLService } from './services/url.service';
+import { VirtuosoService } from './services/virtuoso.service';
+import { GraphService } from './services/graph.service';
 // Data Components
 import { ShareDataService } from './services/shareData.service';
+import { DatasetsService } from './services/datasets.service';
 // Layouts
-import { HeaderComponent } from './components/layouts/header/header.component';
-import { FooterComponent } from './components/layouts/footer/footer.component';
-import { MigasComponent } from './components/layouts/migas/migas.component';
+import { HeaderComponent } from './components/common/header/header.component';
+import { FooterComponent } from './components/common/footer/footer.component';
+import { MigasComponent } from './components/common/migas/migas.component';
 // Constants
 import { Constants } from './app.constants';
 // Pages
+import { BodyComponent } from './components/common/body/body.component';
 import { ListGraphsComponent } from './components/list-graphs/list-graphs.component';
 import { SelectDataComponent } from './components/select-data/select-data.component';
 import { PreviewDataComponent } from './components/preview-data/preview-data.component';
 import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
-import { DatasetsService } from './services/datasets.service';
+import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
+import { NestJSONComponent } from './components/nest-json/nest-json.component';
 // Utils
-import { AccordionModule } from 'ng2-accordion';
+import { AccordionModule } from 'ngx-accordion';
 import { ChartsModule } from 'ng2-charts';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { NgxCarouselModule } from 'ngx-carousel';
+import { DragulaModule } from 'ng2-dragula';
+import { TreeModule } from 'angular-tree-component';
+import 'hammerjs';
+import { UtilsGraphService } from './components/exportedFunctions/utilsChats.util';
 
 const pathModifier = Constants.PATH_MODIFIER;
+
+// All the routes for the app
 const routes: Routes = [
-  { path: pathModifier + '', component: ListGraphsComponent, pathMatch: 'full' },
-  { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
-  { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
-  { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
-  { path: pathModifier + 'endGraphic', component: EndGraphComponent, pathMatch: 'full' }
+  // Embed Routes
+  { path: pathModifier + 'charts/embed/:id', component: EmbedGraphComponent},
+
+  // No Embed routes
+  {
+      path: pathModifier + '',
+      component: BodyComponent,
+      children: [
+        { path: pathModifier + '', component: ListGraphsComponent, pathMatch: 'full' },
+        { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
+        { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
+        { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
+        { path: pathModifier + 'endGraphic/:id', component: EndGraphComponent, pathMatch: 'full' },
+        { path: pathModifier + 'charts/:id', component: EndGraphComponent, pathMatch: 'full' },
+        { path: pathModifier + 'nest-json', component: NestJSONComponent, pathMatch: 'full' }
+      ]
+  },
+  // Default
+  { path: '**', redirectTo: pathModifier + '' }
 ];
 
 @NgModule({
@@ -59,26 +90,40 @@ const routes: Routes = [
     AccordionModule,
     AutoCompleteModule,
     DataTableModule,
+    SpinnerModule,
     ChartsModule,
+    ColorPickerModule,
+    NgxCarouselModule,
+    DragulaModule,
+    InputTextModule,
+    TreeModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
     HeaderComponent,
     FooterComponent,
     MigasComponent,
+    BodyComponent,
     AppComponent,
     ListGraphsComponent,
     SelectDataComponent,
     PreviewDataComponent,
     PreviewGraphComponent,
-    EndGraphComponent
+    EndGraphComponent,
+    EmbedGraphComponent,
+    NestJSONComponent
   ],
   providers: [
     DatePipe,
     Constants,
     DatasetsService,
     CkanService,
+    GaodcService,
+    VirtuosoService,
     ShareDataService,
+    GraphService,
+    URLService,
+    UtilsGraphService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

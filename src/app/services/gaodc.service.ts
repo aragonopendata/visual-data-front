@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Constants } from '../app.constants';
-import { Observable } from 'rxjs/Observable';
-// Observable class extensions
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { Observable } from 'rxjs/Observable';
+
 // This Injectable make the calls to the api
 @Injectable()
-export class CkanService {
+export class GaodcService {
   serverURL: string;
   constructor(private router: Router, private http: Http) {
     this.serverURL = Constants.VISUAL_BACK_SERVER_URL;
@@ -20,7 +20,7 @@ export class CkanService {
     // headers.append('Access-Control-Allow-Origin','*');
     headers.append('Content-Type', 'application/json');
     return this.http
-      .get(this.serverURL + '/services/ckan/packageList', { headers: headers })
+      .get(this.serverURL + '/services/gaodc/packageList', { headers: headers })
       .map(res => {
         return res.json();
       }).catch((err) => { 
@@ -29,12 +29,12 @@ export class CkanService {
   }
 
   // Make the call to get all the package iniformation
-  getPackageInfo(data: String[]) {
+  getPackageInfo(data: number) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     const body = JSON.stringify({ packages:  data  });
     return this.http
-      .post(this.serverURL + '/services/ckan/packageInfo', body, {
+      .post(this.serverURL + '/services/gaodc/packageInfo', body, {
         headers: headers
       })
       .map(res => {

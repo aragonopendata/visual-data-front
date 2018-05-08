@@ -1,8 +1,10 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { GraphService } from '../../services/graph.service';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-end-graph',
@@ -10,13 +12,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./end-graph.component.css']
 })
 export class EndGraphComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private location: Location,
-    private router: Router
-  ) {}
+  public chartLegend = true;
+  public chartOptions: any = {
+    responsive: true
+  };
 
-  ngOnInit(): void {}
+  public chart: any;
+  public routeEmbed: any;
+  public fullRoute: any;
+  public width: number;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private location: Location,
+    private router: Router,
+    private graphservice: GraphService,
+    @Inject(DOCUMENT) document: any
+  ) {
+    this.width=100;
+    this.fullRoute = document.location.protocol + '//' + document.location.hostname + ':' + document.location.port;
+  }
+
+  ngOnInit(): void {
+    let id;
+    id = this.activatedRoute.snapshot.url[1];
+    if(id.path != ""){
+      this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
+      this.graphservice.getChart(id).subscribe(data => {
+          if (!data || data.status == 'notFound' ) {
+              this.router.navigate(['/']);
+          }
+          this.width = data.width;
+          this.chart = data;
+      },
+      error => {
+          this.router.navigate(['/']);
+      },);
+    }else{
+      this.router.navigate(['/charts/' + id]);
+    }
+  }
 
   goBack(): void {
     this.location.back();

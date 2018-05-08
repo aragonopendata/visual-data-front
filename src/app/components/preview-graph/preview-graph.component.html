@@ -1,55 +1,73 @@
 <div class="row">
-      <div class="col-md-6" style="margin-bottom: 10px">
-          <p-dataTable styleClass="fixed-size" scrollable="true" [value]="data" [rows]="10" [paginator]="true" #dt>
-              <p-header>Dataset</p-header>
-              <ng-template ngFor let-property [ngForOf]="properties">
-                      <p-column [style]="{'width':'220px', 'word-break':'break-all'}" field={{property}} header={{property}}>
-                      </p-column>
-              </ng-template>
-          </p-dataTable>
-
-        <div class="col-md-6">
-          <ul>
-              <li><strong>Seleccionar Label:</strong></li> 
-              <ng-template ngFor let-property [ngForOf]="properties">
-                      <li><input type="radio" name=1 value=property (change)="select(property, 0, $event)" /> {{property}}</li>         
-              </ng-template>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <ul>
-                <li><strong>Seleccionar datos:</strong></li> 
-                <ng-template ngFor let-property [ngForOf]="properties">
-                        <li><input type="radio" name=2 value=property (change)="select(property, 1, $event)" /> {{property}}</li>         
-                </ng-template>
-              </ul>
-        </div>
+    <div class="col-md-12" style="margin-bottom: 10px">
+        <p><strong>Seleccionar tipo de gr&aacute;fica</strong></p>
         <div class="col-md-12" style="text-align:center;">
-            <ul>
-                <li><strong>Agrupar</strong></li> 
-                <li><input type="checkbox" (change)="groupBy($event)" /> Realizar Agrupaci&oacute;n</li>         
-            </ul>
-        </div>
-        <div class="col-md-12" style="text-align:center;">
-            <button (click)="changeChart(0)" class="button" ><i class="fa fa-line-chart"></i></button>
-            <button (click)="changeChart(1)" class="button" ><i class="fa fa-bar-chart"></i></button>
-            <button (click)="changeChart(2)" class="button" ><i class="fa fa-pie-chart"></i></button>
-        </div>
-        <div class="col-md-12" style="text-align:center;">
-            <button (click)="next()" class="button" >Finalizar</button>
+            <button (click)="changeChart(0)" class="button"><i class="fa fa-line-chart"></i></button>
+            <button (click)="changeChart(1)" class="button"><i class="fa fa-bar-chart"></i></button>
+            <button (click)="changeChart(2)" class="button"><i class="fa fa-pie-chart"></i></button>
         </div>
     </div>
-    <div class="col-md-6">
-        <div style="display: block;">
-            <canvas baseChart width="400" height="400"
-                        [datasets]="lineChartData"
-                        [labels]="lineChartLabels"
-                        [options]="lineChartOptions"
-                        [colors]="lineChartColors"
-                        [legend]="lineChartLegend"
-                        [chartType]=chartType></canvas>
+    <div class="col-md-12" style="margin-bottom: 10px">
+        <p><strong>Mapear Datos</strong></p>
+        <div class="col-md-12" style="margin-bottom: 10px">
+            <div class="col-md-4" style="margin-bottom: 10px">
+                <span class="titleMapper">Columnas</span>
+                <div id='no-drop' class='container' [dragula]='"another-bag"' [dragulaModel]='columns'>
+                    <div *ngFor='let text of columns; let i = index'>
+                        {{text}} <span style="float: right; color:rgb(194, 194, 194);">({{columnsType[i]}})</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4" style="margin-bottom: 10px">
+                <span class="titleMapper">Datos columnas</span> <span style="font-size: 11; float: right">(Arraster tipo: Number)</span>
+                <div id='move-1' class='container' [dragula]='"another-bag"' [dragulaModel]='columnsData'>
+                    <div *ngFor='let text of columnsData; let i = index'>
+                        {{text}} <span class='handleClose' (click)="deleteElement(1, i)">x</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="margin-bottom: 10px">
+                <span class="titleMapper">Etiquetas columnas</span> <span style="font-size: 11; float: right">(Arraster tipo: Number, String)</span>
+                <div id='move-2' class='container' [dragula]='"another-bag"' [dragulaModel]='columnsLabel'>
+                    <div *ngFor='let text of columnsLabel; let i = index'>
+                        {{text}} <span class='handleClose' (click)="deleteElement(2, i)">x</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        
+    </div>
+    <div class="col-md-12">
+        <div class="col-md-4" style="margin-bottom: 10px;">
+            <p><strong>Configuraci&oacute;n</strong></p>
+
+            <div style="margin-top:20px">
+                <p><strong> - T&iacute;tulo</strong></p>
+                <input type="text" style="width: 100%" [(ngModel)]="title" pInputText> 
+            </div>
+
+            <div *ngIf="chartType != 'pie'" style="margin-top:20px">
+                <p><strong> - Legenda</strong></p>
+                <p-dataTable [value]="legend" [editable]="true" (onEditComplete)="onEditComplete($event)">
+                    <p-column field="label" header="Legenda (Clickar)" [editable]="true"></p-column>
+                </p-dataTable>
+            </div>
+
+            <div style="margin-top:20px">
+                <p><strong> - Tama&ntilde;o Gr&aacute;fica</strong></p>
+                <p-spinner class="ui-fluid" [(ngModel)]="widthGraph"></p-spinner>
+            </div>
+        </div>
+
+        <div class="col-md-8" style="margin-bottom: 10px;"  [style.width.px]="widthGraph">
+            <p><strong>Gr&aacute;fica</strong></p>
+            <div style="display: block;">
+                <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"
+                    [chartType]="chartType"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" style="text-align:center;">
+        <button (click)="next()" class="button">Finalizar</button>
     </div>
 </div>
-
