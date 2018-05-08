@@ -12,6 +12,7 @@ import { VirtuosoService } from '../../services/virtuoso.service';
 import { ShareDataService } from '../../services/shareData.service';
 import { URLService } from '../../services/url.service';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
+import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
 
 
@@ -119,7 +120,13 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         if(this.opened !== 'URL'){
             this.dataservice.type = this.opened;
         }else{
-            this.dataservice.type = this.openedWithURL;
+            if(this.openedWithURL === 'GAODC'){
+                this.dataservice.type = this.openedWithURL;
+            }else{
+                this.dataservice.type = 'URL';
+                this.dataservice.url = this.ckanPackagesInfo;
+                console.log(this.dataservice.url);
+            }
         }
         this.dataservice.datasetSelected = this.packagesInfo;
         this.dataservice.datasetHeader = this.headerTable;
@@ -188,16 +195,26 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.ckanPackagesInfo = namePackage;
         this.ckanservice.getPackageInfo(this.packagesList).subscribe(data => {
             this.packagesInfo = namePackage;
-
+            this.errorResponse[0] = false;
             if(data.result.length != 0){
                 if (data.result[0].format == "PX") {
                     var result = parsePXFile(data.result[0].data);
                     this.headerTable = result[0];
                     this.dataTable = result[1];
+                    this.loading[0] = false;
+                    this.loading[2] = false;
+                }else if(data.result[0].format == "CSV") {
+                    var result = parseCSVFile(data.result[0].data);
+                    this.headerTable = result[0];
+                    this.dataTable = result[1];
+                    this.loading[0] = false;
+                    this.loading[2] = false;
+                }else{
+                    this.packagesList.pop();
+                    this.loading[0] = false;
+                    this.loading[2] = false;
+                    this.errorResponse[0] = true;
                 }
-
-                this.loading[0] = false;
-                this.loading[2] = false;
             }else{
                 this.packagesList.pop();
                 this.loading[0] = false;
@@ -218,7 +235,6 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.ckanPackagesInfo = namePackage;
         this.urlservice.getPackageInfo(this.packagesList[0]).subscribe(data => {
             this.packagesInfo = namePackage;
-            console.log(data);
             if(data.result.length != 0){
                 if (data.result[0].format == "PX") {
                     var result = parsePXFile(data.result[0].data);
@@ -227,7 +243,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                     this.loading[0] = false;
                     this.loading[2] = false;
                 }else if(data.result[0].format == "CSV") {
-                    console.log("CSV FILE WIP");
+                    var result = parseCSVFile(data.result[0].data);
+                    this.headerTable = result[0];
+                    this.dataTable = result[1];
+                    this.loading[0] = false;
+                    this.loading[2] = false;
                 }
             }else{
                 this.packagesList.pop();

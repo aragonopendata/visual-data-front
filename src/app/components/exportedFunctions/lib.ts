@@ -25,6 +25,24 @@ export function removeDuplicates (chartLabels, chartData){
     });
 };
 
+
+export function parseCSVFile(data){
+    var keys = [];
+    for (var key in data[0]) {
+        keys.push(key); 
+    }
+    var rows = [];
+    data.forEach(element => {
+        var aux = [];
+        for (var key in element ) {
+            aux.push(element[key])
+        }
+        rows.push(aux);
+    });
+
+    return [keys, rows];
+}
+
 export function parsePXFile(data){
     var headersNames = [];
     var headersOrder = [];
@@ -117,6 +135,9 @@ export function parsePXFile(data){
 
     //Indicate where to cut on the array and create the respective chucks
     dataTable = chuck(auxDataTable, headerTable.length);
+    if(dataTable[ dataTable.length -1 ][0] == null && dataTable[ dataTable.length -1 ].length <= 1){
+        dataTable.pop();
+    }
 
     ///////////////////////////////////////////////////////////
     // Prepare the Labels/STUB
@@ -144,7 +165,7 @@ export function parsePXFile(data){
         }else{
             var clone = element.slice(0);
             var aux = [];
-            for (let index = 0; index < (dataTable.length/clone.length); index++) {
+            for (let index = 0; index < Math.floor(dataTable.length/clone.length); index++) {
                 aux = aux.concat(clone);           
             }
             pointersLabels[index] = aux;

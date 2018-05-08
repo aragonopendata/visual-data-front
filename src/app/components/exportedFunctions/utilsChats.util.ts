@@ -2,8 +2,12 @@ import { removeDuplicates } from '../exportedFunctions/lib';
 import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
 import { GraphService } from '../../services/graph.service';
+import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { VirtuosoService } from '../../services/virtuoso.service';
+import { URLService } from '../../services/url.service';
+import { parseCSVFile } from '../exportedFunctions/lib';
+import { parsePXFile } from '../exportedFunctions/lib';
 
 @Injectable()
 export class UtilsGraphService {
@@ -12,8 +16,10 @@ export class UtilsGraphService {
 
   constructor(
     private listGraphService: GraphService,
+    private ckanService: CkanService,
     private gaodcService: GaodcService,
-    private virtuosoService: VirtuosoService
+    private virtuosoService: VirtuosoService,
+    private urlService: URLService,
   ) { }
 
   //Process to update all the charts
@@ -51,7 +57,7 @@ export class UtilsGraphService {
           
           this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, chartLabels, chartData, dataProcess.title,
             dataProcess.widthGraph).subscribe(dataLink => {
-                this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.dataset,
+                this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.url, dataProcess.dataset,
                   dataProcess.chartType, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.title,
                   dataProcess.legend, dataProcess.widthGraph, dataLink.id).subscribe(data => {
                       this.loading.next(false);
@@ -64,6 +70,29 @@ export class UtilsGraphService {
               this.loading.next(false);
             },);
             
+  }
+
+  //Update the Chart of the CKAN
+  ckanReloadChart(dataProcess) {
+    this.ckanService.getPackageInfo([dataProcess.dataset]).subscribe(data => {
+
+      this.loading.next(true);
+
+      var headerTable;
+      var dataTable;
+      if(data.result.length != 0){
+          if (data.result[0].format == "PX") {
+            var result = parsePXFile(data.result[0].data);
+            headerTable = result[0];
+            dataTable = result[1];
+          }else if(data.result[0].format == "CSV") {
+            var result = parseCSVFile(data.result[0].data);
+            headerTable = result[0];
+            dataTable = result[1];
+          }          
+        this.prepareAndSave(dataProcess, headerTable, dataTable);
+      }
+    });
   }
 
   //Update the Chart of the GAODC
@@ -110,4 +139,29 @@ export class UtilsGraphService {
       this.loading.next(false);
     },);
   }
+
+    //Update the Chart of Virtuoso
+    urlReloadChart(dataProcess) {
+      this.urlService.getPackageInfo(dataProcess.url).subscribe(data => {      
+        this.loading.next(true);
+        var headerTable = [];
+        var dataTable = [];
+        if(data.result.length != 0){
+          if (data.result[0].format == "PX") {
+              var result = parsePXFile(data.result[0].data);
+              headerTable = result[0];
+              dataTable = result[1];
+          }else if(data.result[0].format == "CSV") {
+              var result = parseCSVFile(data.result[0].data);
+              headerTable = result[0];
+              dataTable = result[1];
+          }
+          this.prepareAndSave(dataProcess, headerTable, dataTable);
+        }
+      },
+      error => {
+        this.loading.next(false);
+      },);
+    }
+
 }

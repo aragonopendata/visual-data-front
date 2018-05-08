@@ -80,8 +80,12 @@ export class ListGraphsComponent implements OnInit {
 
   updateChart(id) {
     this.listGraphService.downloadProcess(id).subscribe(dataProcess => {
-      if (dataProcess.typeOfData == 'GAODC') {
+      if (dataProcess.typeOfData == 'CKAN') {
+        this.utilsGraphService.ckanReloadChart(dataProcess);
+      }else if (dataProcess.typeOfData == 'GAODC') {
           this.utilsGraphService.gaodcReloadChart(dataProcess);
+      }else if (dataProcess.typeOfData == 'URL') {
+            this.utilsGraphService.urlReloadChart(dataProcess);
       }else if (dataProcess.typeOfData == 'VIRTUOSO') {
         jQuery("#listModal").modal("hide");
         // Prepare Dataset
