@@ -186,7 +186,9 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             const aux = JSON.parse(JSON.stringify(this.data));
             var result = removeDuplicates(this.chartLabels, this.chartData);
             this.chartLabels = result[0];
+            console.log(this.chartLabels);
             this.chartData = result[1];
+            console.log(this.chartData);
             this.data = aux;
         }
         //

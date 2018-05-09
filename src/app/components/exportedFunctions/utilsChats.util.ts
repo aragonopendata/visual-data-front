@@ -81,16 +81,23 @@ export class UtilsGraphService {
       var headerTable;
       var dataTable;
       if(data.result.length != 0){
-          if (data.result[0].format == "PX") {
-            var result = parsePXFile(data.result[0].data);
-            headerTable = result[0];
-            dataTable = result[1];
-          }else if(data.result[0].format == "CSV") {
-            var result = parseCSVFile(data.result[0].data);
-            headerTable = result[0];
-            dataTable = result[1];
-          }          
-        this.prepareAndSave(dataProcess, headerTable, dataTable);
+          data.result.forEach((element, index) => {
+            if(index == 0){
+                headerTable =[];
+                dataTable =[];
+            }
+
+            if (element.format == "PX") {
+                var result = parsePXFile(element.data);
+                headerTable = result[0];
+                dataTable = result[1];
+            }else if(element.format == "CSV") {
+                var result = parseCSVFile(element.data, index);
+                headerTable = result[0];
+                dataTable = dataTable.concat(result[1]);
+            }         
+        });      
+      this.prepareAndSave(dataProcess, headerTable, dataTable);
       }
     });
   }
@@ -152,7 +159,7 @@ export class UtilsGraphService {
               headerTable = result[0];
               dataTable = result[1];
           }else if(data.result[0].format == "CSV") {
-              var result = parseCSVFile(data.result[0].data);
+              var result = parseCSVFile(data.result[0].data,0);
               headerTable = result[0];
               dataTable = result[1];
           }

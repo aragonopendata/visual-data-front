@@ -1,10 +1,10 @@
 <div>
     <accordion>
-        <accordion-group heading="API CKAN" (onOpen)="whoIsOpen('CKAN')">
+        <accordion-group heading="Cat&aacute;logo de datos abiertos" (onOpen)="whoIsOpen('CKAN')">
             <div style="float:left">
                 <div>
                     <!--<input  ngui-auto-complete max-num-list=5 [(ngModel)]="myData" [source]="list" />-->
-                    <p-autoComplete size="30%" minQueryLength="0" [dropdown]="true" [(ngModel)]="ckanPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+                    <p-autoComplete size="70%" minQueryLength="0" [dropdown]="true" [(ngModel)]="ckanPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
                 </div>
             </div>
             <div style="float:left">
@@ -24,7 +24,7 @@
             <div style="float:left">
                 <div>
                     <!--<input  ngui-auto-complete max-num-list=5 [(ngModel)]="myData" [source]="list" />-->
-                    <p-autoComplete size="30%" minQueryLength="0" [dropdown]="true" [(ngModel)]="gaodcPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+                    <p-autoComplete size="70%" minQueryLength="0" [dropdown]="true" [(ngModel)]="gaodcPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
                 </div>
             </div>
             <div style="float:left">

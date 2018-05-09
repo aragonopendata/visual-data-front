@@ -197,24 +197,33 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.packagesInfo = namePackage;
             this.errorResponse[0] = false;
             if(data.result.length != 0){
-                if (data.result[0].format == "PX") {
-                    var result = parsePXFile(data.result[0].data);
-                    this.headerTable = result[0];
-                    this.dataTable = result[1];
-                    this.loading[0] = false;
-                    this.loading[2] = false;
-                }else if(data.result[0].format == "CSV") {
-                    var result = parseCSVFile(data.result[0].data);
-                    this.headerTable = result[0];
-                    this.dataTable = result[1];
-                    this.loading[0] = false;
-                    this.loading[2] = false;
-                }else{
-                    this.packagesList.pop();
-                    this.loading[0] = false;
-                    this.loading[2] = false;
-                    this.errorResponse[0] = true;
-                }
+                console.log(data);
+                data.result.forEach((element, index) => {
+                    if(index == 0){
+                        this.headerTable =[];
+                        this.dataTable =[];
+                    }
+
+                    if (element.format == "PX") {
+                        var result = parsePXFile(element.data);
+                        this.headerTable = result[0];
+                        this.dataTable = result[1];
+                        this.loading[0] = false;
+                        this.loading[2] = false;
+                    }else if(element.format == "CSV") {
+                        var result = parseCSVFile(element.data, index);
+                        this.headerTable = result[0];
+                        this.dataTable = this.dataTable.concat(result[1]);
+                        this.loading[0] = false;
+                        this.loading[2] = false;
+                    }else{
+                        this.packagesList.pop();
+                        this.loading[0] = false;
+                        this.loading[2] = false;
+                        this.errorResponse[0] = true;
+                    }                
+                });
+
             }else{
                 this.packagesList.pop();
                 this.loading[0] = false;
@@ -243,7 +252,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                     this.loading[0] = false;
                     this.loading[2] = false;
                 }else if(data.result[0].format == "CSV") {
-                    var result = parseCSVFile(data.result[0].data);
+                    var result = parseCSVFile(data.result[0].data, 0);
                     this.headerTable = result[0];
                     this.dataTable = result[1];
                     this.loading[0] = false;

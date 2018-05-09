@@ -1,6 +1,7 @@
 export function removeDuplicates (chartLabels, chartData){
     const duplicates = chartLabels.filter(function(value,index,self){ return (self.indexOf(value) !== index )});
-    
+    var unique = chartLabels.filter((v, i, a) => a.indexOf(v) === i); 
+        
     // Test if the data is a string and if it is, transform the array into number of ones
     chartData.forEach(element => {
         if(typeof element.data[0] == "string"){
@@ -23,10 +24,10 @@ export function removeDuplicates (chartLabels, chartData){
             }
         }
     });
-    return [duplicates, chartData];
+    return [unique, chartData];
 };
 
-export function parseCSVFile(data){
+export function parseCSVFile(data, index){
     var keys = [];
     for (var key in data[0]) {
         keys.push(key); 
