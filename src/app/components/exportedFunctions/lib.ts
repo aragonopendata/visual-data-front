@@ -23,8 +23,8 @@ export function removeDuplicates (chartLabels, chartData){
             }
         }
     });
+    return [duplicates, chartData];
 };
-
 
 export function parseCSVFile(data){
     var keys = [];

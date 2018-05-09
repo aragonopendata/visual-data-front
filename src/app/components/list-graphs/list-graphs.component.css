@@ -101,3 +101,31 @@ img {
     border-radius: 999px;
     right: 0;
 }
+
+.pagina {
+  max-width: 80vw;
+  min-width: 320px;
+  margin: auto;
+  padding-right: 0;
+  font-family: RobotoLight,sans-serif;
+  line-height: 1.2;
+  color: #594c4f;
+  margin-bottom: 60px;
+}
+
+.pagina h1 {
+  font-family: RobotoLight,sans-serif;
+  line-height: 1;
+  margin: 2px 0 20px;
+  letter-spacing: .1em;
+  color: #5ea2ba;
+  font-weight: 300;
+  font-size: 2.5rem;
+}
+
+.carousel{
+  max-width: 80vw;
+  min-width: 320px;
+  margin: auto;
+  padding-right: 0;
+}

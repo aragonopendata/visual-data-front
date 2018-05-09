@@ -102,8 +102,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             //this.router.navigate(['/selectData/']);
             this.dataservice.type = "TEST";
             this.dataservice.dataset = "TEST";
-            this.dataservice.headerSelected = ["Datos", "de", "prueba"];
-            this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40, 100 ,100], [20, 2, 3, 81, 4, 55, 5, 20, 40], ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD", "SAS", "AA"]];
+            this.dataservice.headerSelected = ["Datos", "de", "prueba", "Año", "Ciudad"];
+            this.dataservice.dataSelected = [
+                                            [65, 59, 80, 81, 56, 55, 40, 100 ,100], 
+                                            [20, 2, 3, 81, 4, 55, 5, 20, 40], 
+                                            ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD", "SAS", "AA"],
+                                            ["1992", "1992", "1992", "1993", "1992", "1992", "1993", "1993", "1993"],
+                                            ["Teruel", "Teruel", "Teruel", "Zaragoza", "Zaragoza", "Zaragoza", "Teruel", "Teruel", "Zaragoza"]
+                                        ];
             this.dataservice.dataSelected.lenght = 3;
         }
         if (this.dataservice.dataSelected && this.dataservice.dataSelected.length != 0) {
@@ -178,7 +184,9 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         // Group Data
         if (this.columnsData && this.columnsLabel && this.columnsData.length > 0 && this.columnsLabel.length > 0) {
             const aux = JSON.parse(JSON.stringify(this.data));
-            removeDuplicates(this.chartLabels, this.chartData);
+            var result = removeDuplicates(this.chartLabels, this.chartData);
+            this.chartLabels = result[0];
+            this.chartData = result[1];
             this.data = aux;
         }
         //

@@ -1,29 +1,39 @@
+
+<div class="pagina">
+	<h1 >Open Visual data</h1>
+	<div >
+		Open Visual Data te permite crear gráficos y visualizaciones con los datos disponibles en Aragón Open Data.
+	</div>
+</div>
+
 <div class="center">
     <button (click)="next()" class="button">Crear nueva gr&aacute;fica</button>
 </div>
 
-<ngx-carousel [inputs]="carouselTileTwo">
-    <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
-        <div class="wBg">
-            <div class="col-md-10" style="text-align: center; padding-left: 20%" >
-                <span>T&iacute;tulo: {{chart.title}}</span>
+<div class="carousel" >
+    <ngx-carousel [inputs]="carouselTileTwo">
+        <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
+            <div class="wBg">
+                <div class="col-md-10" style="text-align: center; padding-left: 20%" >
+                    <span>T&iacute;tulo: {{chart.title}}</span>
+                </div>
+                <div class="col-md-2">
+                    <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-retweet"></i></button>
+                </div>
+                <div class="tile" style="display: block;">
+                    <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
+                            [chartType]=chart.type></canvas>
+                </div>
+                <div style="text-align: center">
+                        <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
+                        <!--<button (click)="openEmbedChart(chart.id)" class="button2">Embed</button>-->
+                </div>
             </div>
-            <div class="col-md-2">
-                <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-retweet"></i></button>
-            </div>
-            <div class="tile" style="display: block;">
-                 <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
-                        [chartType]=chart.type></canvas>
-            </div>
-            <div style="text-align: center">
-                    <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
-                    <!--<button (click)="openEmbedChart(chart.id)" class="button2">Embed</button>-->
-            </div>
-        </div>
-    </ngx-tile>
-    <button NgxCarouselPrev class="leftRs">&lt;</button>
-    <button NgxCarouselNext class="rightRs">&gt;</button>
-</ngx-carousel>
+        </ngx-tile>
+        <button NgxCarouselPrev class="leftRs">&lt;</button>
+        <button NgxCarouselNext class="rightRs">&gt;</button>
+    </ngx-carousel>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
