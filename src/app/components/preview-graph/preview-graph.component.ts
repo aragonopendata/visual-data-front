@@ -241,7 +241,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         } else if (chart === 1) {
             this.chartType = 'bar';
         } else if (chart === 2) {
-            this.chartType = 'pie';
+            this.chartType = 'doughnut';
         }
         this.onDrop("refresh");
     }

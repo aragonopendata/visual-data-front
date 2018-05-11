@@ -1,6 +1,7 @@
 <div class="row">
     <div class="column1">
-        <strong style="padding-left: 25px;">Seleccionar Columnas:</strong>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Nombre Columnas</button>
+        <strong style="padding-left: 25px;">Seleccionar Columnas:</strong>       
         <div style="overflow:auto;height: 500px;">
             <ul>
                 <ng-template ngFor let-property [ngForOf]="headerTable">
@@ -12,13 +13,13 @@
                     </li>
                 </ng-template>
             </ul>
-        </div>
-    </div>
+       </div>
+   </div>
     <div class="column2">
-        <p-dataTable resizableColumns="true" responsive="true" scrollable="true" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
+        <p-dataTable resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
             <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
-                <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
+                <p-column [style]="{width: '200px'}" field={{property}} header={{property}} [sortable]="true">
                     <ng-template let-entry="rowData" pTemplate="body">
                             <span class="row" *ngIf='!maxCharacters(entry,i)'>
                                     {{entry[i]}}
@@ -34,7 +35,6 @@
         </p-dataTable>
     </div>
 </div>
-
 
 <button (click)="next()" class="button">Crear Grafica</button>
 
@@ -54,6 +54,28 @@
                 </code>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="editColumn" tabindex="-1" role="dialog" aria-labelledby="editColumnLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Columnas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <p-dataTable [value]="columnsHeaders" [editable]="true">
+                <p-column field="col" header="Columnas" [editable]="true"></p-column>
+            </p-dataTable>
+            
+            <div class="modal-footer">
+                <button type="button" (click)="changeColumnsName()" class="btn btn-secondary" data-dismiss="modal">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

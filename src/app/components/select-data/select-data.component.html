@@ -88,7 +88,7 @@
         <p-dataTable resizableColumns="true" responsive="true" [scrollable]="true" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
             <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
-                <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
+                <p-column [style]="{width: '200px'}" field={{property}} header={{property}} [sortable]="true">
                     <ng-template let-entry="rowData" pTemplate="body">
                             <span class="row" *ngIf='!maxCharacters(entry,i)'>
                                     {{entry[i]}}
