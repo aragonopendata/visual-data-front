@@ -25,3 +25,36 @@
     text-align: justify;
     background: transparent;
 }
+
+.row {
+    max-width: 80vw;
+    min-width: 320px;
+    margin: auto;
+    padding-right: 0;
+    font-family: RobotoLight,sans-serif;
+    line-height: 1.2;
+    color: #594c4f;
+    margin-bottom: 60px;
+  }
+
+  .title {
+    font-family: RobotoLight,sans-serif;
+    line-height: 1;
+    text-align: center;
+    letter-spacing: .1em;
+    color: #5ea2ba;
+    font-weight: 300;
+    font-size: 2.5rem;
+  }
+
+  .button {
+    background-color: #9B9B9B;
+    border: none;
+    color: white;
+    padding: 10px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+  }

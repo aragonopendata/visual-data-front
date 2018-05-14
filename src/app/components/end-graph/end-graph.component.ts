@@ -22,6 +22,9 @@ export class EndGraphComponent implements OnInit {
   public fullRoute: any;
   public width: number;
 
+
+  public hideEmbed: boolean;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
@@ -29,6 +32,7 @@ export class EndGraphComponent implements OnInit {
     private graphservice: GraphService,
     @Inject(DOCUMENT) document: any
   ) {
+    this.hideEmbed = true;
     this.width=100;
     this.fullRoute = document.location.protocol + '//' + document.location.hostname + ':' + document.location.port;
   }
@@ -55,5 +59,9 @@ export class EndGraphComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  hideEmbedButton(){
+    this.hideEmbed = false;
   }
 }

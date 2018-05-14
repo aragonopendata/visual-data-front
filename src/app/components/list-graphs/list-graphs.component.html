@@ -15,18 +15,23 @@
         <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
             <div class="wBg">
                 <div class="col-md-10" style="text-align: center; padding-left: 20%" >
-                    <span>T&iacute;tulo: {{chart.title}}</span>
+                    <span>{{chart.title}}</span>
                 </div>
                 <div class="col-md-2">
-                    <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-retweet"></i></button>
+                    <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-refresh"></i></button>
                 </div>
                 <div class="tile" style="display: block;">
                     <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
                             [chartType]=chart.type></canvas>
                 </div>
-                <div style="text-align: center">
-                        <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
-                        <!--<button (click)="openEmbedChart(chart.id)" class="button2">Embed</button>-->
+                <div style="height: 50px; ">
+                    <div style="float: left; margin-left: 5%;">
+                            <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
+                            <!--<button (click)="openEmbedChart(chart.id)" class="button2">Embed</button>-->
+                    </div>
+                    <div id="logoAragonGraph">
+                        <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
+                    </div>
                 </div>
             </div>
         </ngx-tile>

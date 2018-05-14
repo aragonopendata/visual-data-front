@@ -20,7 +20,7 @@
             </div>
 
             <div class="col-md-4" style="margin-bottom: 10px">
-                <span class="titleMapper">Datos columnas</span> <span style="font-size: 11; float: right">(Arraster tipo: Number)</span>
+                <span class="titleMapper">Eje Y</span> <span style="font-size: 11; float: right">(Arraster tipo: Number)</span>
                 <div id='move-1' class='container' [dragula]='"another-bag"' [dragulaModel]='columnsData'>
                     <div *ngFor='let text of columnsData; let i = index'>
                         {{text}} <span class='handleClose' (click)="deleteElement(1, i)">x</span>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="col-md-4" style="margin-bottom: 10px">
-                <span class="titleMapper">Etiquetas columnas</span> <span style="font-size: 11; float: right">(Arraster tipo: Number, String)</span>
+                <span class="titleMapper">Eje X</span> <span style="font-size: 11; float: right">(Arraster tipo: Number, String)</span>
                 <div id='move-2' class='container' [dragula]='"another-bag"' [dragulaModel]='columnsLabel'>
                     <div *ngFor='let text of columnsLabel; let i = index'>
                         {{text}} <span class='handleClose' (click)="deleteElement(2, i)">x</span>

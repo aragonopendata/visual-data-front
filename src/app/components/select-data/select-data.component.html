@@ -60,7 +60,7 @@
                 </ul>
             </div>
         </accordion-group>
-        <accordion-group heading="VIRTUOSO" (onOpen)="whoIsOpen('VIRTUOSO')">
+        <accordion-group heading="SPARQL endpoint" (onOpen)="whoIsOpen('VIRTUOSO')">
             <div style="float:left">
                 <div class="ui-float-label">
                     <textarea pInputTextarea style="width: 400px; height: 150px" [(ngModel)]="virtuosoPackagesInfo"></textarea>
@@ -74,7 +74,7 @@
             <div style="float:left ;margin-left: 5%; word-break: break-all;">
                 <ul>
                     <li *ngIf="querryError" style="color: #DF3A01; padding-top: 5px">
-                        <strong>Querry invalida:</strong> Por favor cargue una URL valida
+                        <strong>Consulta inválida:</strong> por favor realice una consulta válida
                     </li>
                     <li *ngFor="let data of packagesList">
                         <strong>DataSet seleccionado:</strong> {{data}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
@@ -104,7 +104,7 @@
         </p-dataTable>
     </span>
     <div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar un dataset o esperar a terminar la carga</div>
-    <button (click)="next()" class="button2">Crear Grafica</button>
+    <button (click)="next()" class="button2">Siguiente</button>
     <button (click)="goBack()" class="button2">Volver</button>
 </div>
 
