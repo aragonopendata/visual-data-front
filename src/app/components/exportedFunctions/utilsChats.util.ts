@@ -55,10 +55,10 @@ export class UtilsGraphService {
     
           // Update the chart with the new data
           
-          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, chartLabels, chartData, dataProcess.title,
+          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, dataProcess.title,
             dataProcess.widthGraph).subscribe(dataLink => {
                 this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.url, dataProcess.dataset,
-                  dataProcess.chartType, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.title,
+                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.title,
                   dataProcess.legend, dataProcess.widthGraph, dataLink.id).subscribe(data => {
                       this.loading.next(false);
                 },

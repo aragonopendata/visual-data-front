@@ -20,10 +20,14 @@
                 <div class="col-md-2">
                     <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-refresh"></i></button>
                 </div>
-                <div class="tile" style="display: block;">
+                <div class="tile" *ngIf="chart!==undefined && !chart.isMap" style="display: block;">
                     <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
                             [chartType]=chart.type></canvas>
                 </div>
+                <div class="tile" style="width:405px; margin-left:30px;" *ngIf="chart.isMap">
+                    <app-map style="height: 5px;" [points]="mapsPoints[i]" zoom="2"></app-map>
+                </div>
+
                 <div style="height: 50px; ">
                     <div style="float: left; margin-left: 5%;">
                             <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
@@ -39,7 +43,7 @@
         <button NgxCarouselNext class="rightRs">&gt;</button>
     </ngx-carousel>
 </div>
-
+<!--<app-map points="createPoints(carouselData[1].data[0].data, carouselData[1].labels)"></app-map>-->
 <!-- Modal -->
 <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

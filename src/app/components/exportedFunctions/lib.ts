@@ -27,6 +27,23 @@ export function removeDuplicates (chartLabels, chartData){
     return [unique, chartData];
 };
 
+export function prepareArrayXY(data, labels){
+    var aux: Array<{ x: number; y: number; }> = [];
+    data.forEach((element, index) => {
+        var long = Number(labels[index]);
+        var lat = Number(element);
+        if (!isNaN(long) && !isNaN(long)) {
+            if (long <= 180 && long >= -180 && lat <= 90 && lat >= -90) {
+            aux.push({
+                x: long,
+                y: lat
+            });
+            }
+        }
+    });
+    return aux;
+}
+
 export function parseCSVFile(data, index){
     var keys = [];
     for (var key in data[0]) {

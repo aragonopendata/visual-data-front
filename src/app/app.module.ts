@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
+import {AngularOpenlayersModule} from 'ngx-openlayers';
 import {
   Location,
   LocationStrategy,
@@ -45,6 +46,7 @@ import { PreviewGraphComponent } from './components/preview-graph/preview-graph.
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
 import { NestJSONComponent } from './components/nest-json/nest-json.component';
+import { MapComponent } from './components/common/map/map.component';
 // Utils
 import { AccordionModule } from 'ngx-accordion';
 import { ChartsModule } from 'ng2-charts';
@@ -97,6 +99,7 @@ const routes: Routes = [
     DragulaModule,
     InputTextModule,
     TreeModule,
+    AngularOpenlayersModule,
     RouterModule.forRoot(routes)
   ],
   declarations: [
@@ -111,7 +114,8 @@ const routes: Routes = [
     PreviewGraphComponent,
     EndGraphComponent,
     EmbedGraphComponent,
-    NestJSONComponent
+    NestJSONComponent,
+    MapComponent
   ],
   providers: [
     DatePipe,

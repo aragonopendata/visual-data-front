@@ -7,6 +7,7 @@ import { GraphService } from '../../services/graph.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
+import { prepareArrayXY } from '../exportedFunctions/lib';
 
 declare var jQuery:any;
 
@@ -27,6 +28,9 @@ export class ListGraphsComponent implements OnInit {
   private chartOptions: any = {
     responsive: true
   };
+  public isMap: boolean;
+  public points: any;
+  public mapsPoints : any;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +39,7 @@ export class ListGraphsComponent implements OnInit {
     private listGraphService: GraphService,
     private utilsGraphService: UtilsGraphService
   ) {
+    this.mapsPoints = [];
     // Event that disable the loading screen and update the carousel
     this.utilsGraphService.loading.subscribe(value => {
       if(value == false){
@@ -65,6 +70,10 @@ export class ListGraphsComponent implements OnInit {
   loadCarousel(){
     this.listGraphService.getCharts().subscribe(data => {
       this.carouselData = data.charts;
+      data.charts.forEach((chart, index) => {
+        if(chart.isMap)
+          this.mapsPoints[index] = prepareArrayXY(chart.data[0].data, chart.labels);
+      });
     });
   }
 
