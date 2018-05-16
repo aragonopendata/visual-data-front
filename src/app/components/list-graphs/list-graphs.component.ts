@@ -30,7 +30,10 @@ export class ListGraphsComponent implements OnInit {
   };
   public isMap: boolean;
   public points: any;
-  public mapsPoints : any;
+  public mapsPoints = [];
+  public pagination = 0;
+
+  public n_graphs = 9;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +42,6 @@ export class ListGraphsComponent implements OnInit {
     private listGraphService: GraphService,
     private utilsGraphService: UtilsGraphService
   ) {
-    this.mapsPoints = [];
     // Event that disable the loading screen and update the carousel
     this.utilsGraphService.loading.subscribe(value => {
       if(value == false){
@@ -68,11 +70,12 @@ export class ListGraphsComponent implements OnInit {
   }
 
   loadCarousel(){
-    this.listGraphService.getCharts().subscribe(data => {
+    this.listGraphService.getCharts( this.pagination, this.n_graphs).subscribe(data => {
       this.carouselData = data.charts;
       data.charts.forEach((chart, index) => {
-        if(chart.isMap)
+        if(chart.isMap){
           this.mapsPoints[index] = prepareArrayXY(chart.data[0].data, chart.labels);
+        }
       });
     });
   }
@@ -109,6 +112,13 @@ export class ListGraphsComponent implements OnInit {
     jQuery("#listModal").modal("show");
     this.dataProcess.dataset = this.dataset;
     this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
+  }
+
+  pageGraphs(n){
+    if( (this.pagination + n) >= 0 && (this.carouselData.length == this.n_graphs || n == -1)){
+      this.pagination += n;
+      this.loadCarousel();
+    }
   }
 
   next() {

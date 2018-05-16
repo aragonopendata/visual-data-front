@@ -24,7 +24,7 @@
                     <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
                             [chartType]=chart.type></canvas>
                 </div>
-                <div class="tile" style="width:405px; margin-left:30px;" *ngIf="chart.isMap">
+                <div class="tile" style="width:405px; margin-left:30px;" *ngIf="mapsPoints[i] && chart.isMap">
                     <app-map style="height: 5px;" [points]="mapsPoints[i]" zoom="2"></app-map>
                 </div>
 
@@ -42,6 +42,10 @@
         <button NgxCarouselPrev class="leftRs">&lt;</button>
         <button NgxCarouselNext class="rightRs">&gt;</button>
     </ngx-carousel>
+</div>
+<div class="paginator">
+    <button class="button4" style="float:left" (click)="pageGraphs(-1)" >&lt;</button>
+    <button class="button4" style="float:right" (click)="pageGraphs(1)" >&gt;</button>
 </div>
 <!--<app-map points="createPoints(carouselData[1].data[0].data, carouselData[1].labels)"></app-map>-->
 <!-- Modal -->

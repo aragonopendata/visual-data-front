@@ -10,9 +10,9 @@ export class GraphService {
 
   constructor(private http: Http) { }
 
-  public getCharts() {
+  public getCharts(pages, sizeOfPAges) {
     return this.http
-      .get(Constants.VISUAL_BACK_SERVER_URL + Constants.LIST_ALL_CHARTS_PATH)
+      .get(Constants.VISUAL_BACK_SERVER_URL + Constants.LIST_ALL_CHARTS_PATH + "/?page=" + pages + "&size=" + sizeOfPAges)
       .map((res: Response) => res.json()).catch((err) => { 
         return Observable.throw("errorConexion");
       });
