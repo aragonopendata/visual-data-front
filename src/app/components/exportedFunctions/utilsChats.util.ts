@@ -50,8 +50,8 @@ export class UtilsGraphService {
           var chartData = dataSelected;
     
           //Delete duplicate values
-    
-          removeDuplicates(chartLabels, chartData);
+          if(!dataProcess.isMap)
+            removeDuplicates(chartLabels, chartData);
     
           // Update the chart with the new data
           
@@ -149,7 +149,7 @@ export class UtilsGraphService {
 
     //Update the Chart of Virtuoso
     urlReloadChart(dataProcess) {
-      this.urlService.getPackageInfo(dataProcess.url).subscribe(data => {      
+      this.urlService.getPackageInfo(dataProcess.dataset).subscribe(data => {      
         this.loading.next(true);
         var headerTable = [];
         var dataTable = [];
