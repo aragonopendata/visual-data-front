@@ -1,6 +1,7 @@
 export function removeDuplicates (chartLabels, chartData){
     const duplicates = chartLabels.filter(function(value,index,self){ return (self.indexOf(value) !== index )});
-    
+    var unique = chartLabels.filter((v, i, a) => a.indexOf(v) === i); 
+        
     // Test if the data is a string and if it is, transform the array into number of ones
     chartData.forEach(element => {
         if(typeof element.data[0] == "string"){
@@ -23,10 +24,27 @@ export function removeDuplicates (chartLabels, chartData){
             }
         }
     });
+    return [unique, chartData];
 };
 
+export function prepareArrayXY(data, labels){
+    var aux: Array<{ x: number; y: number; }> = [];
+    data.forEach((element, index) => {
+        var long = Number(labels[index]);
+        var lat = Number(element);
+        if (!isNaN(long) && !isNaN(long)) {
+            if (long <= 180 && long >= -180 && lat <= 90 && lat >= -90) {
+            aux.push({
+                x: long,
+                y: lat
+            });
+            }
+        }
+    });
+    return aux;
+}
 
-export function parseCSVFile(data){
+export function parseCSVFile(data, index){
     var keys = [];
     for (var key in data[0]) {
         keys.push(key); 

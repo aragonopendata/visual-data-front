@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
 import { DOCUMENT } from '@angular/platform-browser';
+import { prepareArrayXY } from '../exportedFunctions/lib';
 
 @Component({
   selector: 'app-end-graph',
@@ -18,9 +19,15 @@ export class EndGraphComponent implements OnInit {
   };
 
   public chart: any;
+  public points: any;
   public routeEmbed: any;
   public fullRoute: any;
   public width: number;
+  public isMap: boolean;
+  public title: any;
+
+
+  public hideEmbed: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,31 +36,45 @@ export class EndGraphComponent implements OnInit {
     private graphservice: GraphService,
     @Inject(DOCUMENT) document: any
   ) {
-    this.width=100;
+    this.isMap = false;
+    this.hideEmbed = true;
+    this.width = 100;
     this.fullRoute = document.location.protocol + '//' + document.location.hostname + ':' + document.location.port;
   }
 
   ngOnInit(): void {
     let id;
     id = this.activatedRoute.snapshot.url[1];
-    if(id.path != ""){
+    if (id.path != "") {
       this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
-      this.graphservice.getChart(id).subscribe(data => {
-          if (!data || data.status == 'notFound' ) {
-              this.router.navigate(['/']);
-          }
-          this.width = data.width;
-          this.chart = data;
-      },
-      error => {
+      this.graphservice.getChart(id).subscribe(chart => {
+        if (!chart || chart.status == 'notFound') {
           this.router.navigate(['/']);
-      },);
-    }else{
+        }
+        this.width = chart.width;
+
+        if (!chart.isMap) {
+          this.chart = chart;
+        } else {
+          this.isMap = chart.isMap;
+          this.title = chart.title;
+          
+          this.points = prepareArrayXY(chart.data[0].data, chart.labels);
+        }
+      },
+        error => {
+          this.router.navigate(['/']);
+        }, );
+    } else {
       this.router.navigate(['/charts/' + id]);
     }
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  hideEmbedButton() {
+    this.hideEmbed = false;
   }
 }

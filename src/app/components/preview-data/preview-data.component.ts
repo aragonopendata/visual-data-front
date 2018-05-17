@@ -7,6 +7,7 @@ import { ShareDataService } from '../../services/shareData.service';
 import { CkanService } from '../../services/ckan.service';
 import { DataTable } from 'primeng/primeng';
 import { JsonPipe } from '@angular/common';
+import { forEach } from '@angular/router/src/utils/collection';
 @Component({
     selector: 'app-preview-data',
     templateUrl: './preview-data.component.html',
@@ -17,6 +18,12 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     dataTable: any;
     headerTable: string[];
     mData: any;
+    columnsHeaders: any;
+
+
+    // SortTable
+    sortF: any;
+    sortO: any;
 
     constructor(
         private route: ActivatedRoute,
@@ -37,7 +44,19 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
             //this.router.navigate(['/selectData/']);
             this.headerTable = ['Datos','De','Prueba']
             this.dataTable = [["Prueba",3,4],["Prueba",2,3]]
-            
+        }
+    }
+
+    changeSort(event) {
+
+        this.dataTable = this.dataTable.sort(this.Comparator(this.headerTable.findIndex(element => element == event.field), event.order));
+    }
+
+    Comparator(index, order) {
+        return function(a, b) {
+            if (a[index] < b[index]) return (order == 1) ? 1 : -1;
+            if (a[index] > b[index]) return (order == 1) ? -1 : 1;
+            return 0;
         }
     }
 
@@ -92,5 +111,19 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         this.location.back();
+    }
+
+    generateColumns(){
+        this.columnsHeaders = [];
+        this.headerTable.forEach(element => {
+            this.columnsHeaders.push({col:element});
+        });
+    }
+
+    changeColumnsName(){
+        this.headerTable=[];
+        this.columnsHeaders.forEach(element => {
+            this.headerTable.push(element.col);
+        });
     }
 }

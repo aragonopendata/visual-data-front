@@ -10,6 +10,7 @@ import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
 import { SpinnerModule, InputTextModule } from 'primeng/primeng';
 import { removeDuplicates } from '../exportedFunctions/lib';
+import { prepareArrayXY } from '../exportedFunctions/lib';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     // To save Data
 
     chartType: string;
+    chartMap: boolean;
 
     public legend: Array<any>;
 
@@ -55,6 +57,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     //////////////////////////////////////
 
+    points: Array<{ x: number; y: number; }> = [];
 
     public changeNumberData: number;
 
@@ -66,10 +69,12 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         private graphservice: GraphService,
         private dragulaService: DragulaService
     ) {
+
         window.scrollTo(0, 0);
         this.chartType = 'line';
         this.changeNumberData = 0;
         this.title = this.dataservice.type;
+        this.chartMap = false;
 
         this.widthGraph = ((window.screen.width / 2) - 100);
         if (this.widthGraph < 300) {
@@ -102,8 +107,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             //this.router.navigate(['/selectData/']);
             this.dataservice.type = "TEST";
             this.dataservice.dataset = "TEST";
-            this.dataservice.headerSelected = ["Datos", "de", "prueba"];
-            this.dataservice.dataSelected = [[65, 59, 80, 81, 56, 55, 40, 100 ,100], [20, 2, 3, 81, 4, 55, 5, 20, 40], ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD", "SAS", "AA"]];
+            this.dataservice.headerSelected = ["Datos", "de", "prueba", "Año", "Ciudad"];
+            this.dataservice.dataSelected = [
+                                            [-65, 59, 80, 81, 56, 55, 40, 100 ,100], 
+                                            [20, 2, 3, 81, 4, 55, 5, 20, 40], 
+                                            ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD", "SAS", "AA"],
+                                            ["1992", "1992", "1992", "1993", "1992", "1992", "1993", "1993", "1993"],
+                                            ["Teruel", "Teruel", "Teruel", "Zaragoza", "Zaragoza", "Zaragoza", "Teruel", "Teruel", "Zaragoza"]
+                                        ];
             this.dataservice.dataSelected.lenght = 3;
         }
         if (this.dataservice.dataSelected && this.dataservice.dataSelected.length != 0) {
@@ -177,14 +188,20 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         
         // Group Data
         if (this.columnsData && this.columnsLabel && this.columnsData.length > 0 && this.columnsLabel.length > 0) {
-            const aux = JSON.parse(JSON.stringify(this.data));
-            removeDuplicates(this.chartLabels, this.chartData);
-            this.data = aux;
+            if(this.chartMap){
+                this.points = prepareArrayXY(this.chartData[0].data, this.chartLabels);
+            }else{
+                const aux = JSON.parse(JSON.stringify(this.data));
+                var result = removeDuplicates(this.chartLabels, this.chartData);
+                this.chartLabels = result[0];
+                this.chartData = result[1];
+                this.data = aux;
+            }
         }
         //
 
         //The next code is for updating the chart DONT TOUCH
-        if (this.chart !== undefined && this.chart.chart != undefined) {
+        if (this.chart !== undefined && this.chart.chart != undefined && !this.chartMap) {
             this.chart.chart.destroy();
             this.chart.chart = 0;
 
@@ -201,6 +218,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     //Delete the drag and drop label of the specify column
     deleteElement(buffer, index) {
+        this.points= [];
         if (buffer === 1) {
             this.columnsData.splice(index, 1);
         } else if (buffer === 2) {
@@ -226,21 +244,24 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     changeChart(chart) {
+        this.chartMap = false;
         if (chart === 0) {
             this.chartType = 'line';
         } else if (chart === 1) {
             this.chartType = 'bar';
         } else if (chart === 2) {
-            this.chartType = 'pie';
+            this.chartType = 'doughnut';
+        } else if (chart === 3) {
+            this.chartMap = true;
         }
         this.onDrop("refresh");
     }
 
     next() {
-        this.graphservice.saveGraph(null, this.chartType, this.chartLabels, this.chartData, this.title,
+        this.graphservice.saveGraph(null, this.chartType, this.chartMap, this.chartLabels, this.chartData, this.title,
             this.widthGraph).subscribe(dataLink => {
                 this.graphservice.saveProcess(null, this.dataservice.type, this.dataservice.url, this.dataservice.datasetSelected,
-                    this.chartType, this.columnsLabel, this.columnsData, this.title,
+                    this.chartType, this.chartMap, this.columnsLabel, this.columnsData, this.title,
                     this.legend, this.widthGraph, dataLink.id).subscribe(data => {
                         this.router.navigate(['/endGraphic/' + dataLink.id]);
                 });
@@ -250,4 +271,3 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 }
-

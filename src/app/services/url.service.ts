@@ -16,6 +16,7 @@ export class URLService {
 
   // Make the call to get all the package iniformation
   getPackageInfo(data: String) {
+    console.log("URL")
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     const body = JSON.stringify({ packages:  data  });

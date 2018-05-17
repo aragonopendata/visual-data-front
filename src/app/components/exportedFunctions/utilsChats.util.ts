@@ -50,15 +50,15 @@ export class UtilsGraphService {
           var chartData = dataSelected;
     
           //Delete duplicate values
-    
-          removeDuplicates(chartLabels, chartData);
+          if(!dataProcess.isMap)
+            removeDuplicates(chartLabels, chartData);
     
           // Update the chart with the new data
           
-          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, chartLabels, chartData, dataProcess.title,
+          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, dataProcess.title,
             dataProcess.widthGraph).subscribe(dataLink => {
                 this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.url, dataProcess.dataset,
-                  dataProcess.chartType, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.title,
+                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.title,
                   dataProcess.legend, dataProcess.widthGraph, dataLink.id).subscribe(data => {
                       this.loading.next(false);
                 },
@@ -81,16 +81,23 @@ export class UtilsGraphService {
       var headerTable;
       var dataTable;
       if(data.result.length != 0){
-          if (data.result[0].format == "PX") {
-            var result = parsePXFile(data.result[0].data);
-            headerTable = result[0];
-            dataTable = result[1];
-          }else if(data.result[0].format == "CSV") {
-            var result = parseCSVFile(data.result[0].data);
-            headerTable = result[0];
-            dataTable = result[1];
-          }          
-        this.prepareAndSave(dataProcess, headerTable, dataTable);
+          data.result.forEach((element, index) => {
+            if(index == 0){
+                headerTable =[];
+                dataTable =[];
+            }
+
+            if (element.format == "PX") {
+                var result = parsePXFile(element.data);
+                headerTable = result[0];
+                dataTable = result[1];
+            }else if(element.format == "CSV") {
+                var result = parseCSVFile(element.data, index);
+                headerTable = result[0];
+                dataTable = dataTable.concat(result[1]);
+            }         
+        });      
+      this.prepareAndSave(dataProcess, headerTable, dataTable);
       }
     });
   }
@@ -142,7 +149,7 @@ export class UtilsGraphService {
 
     //Update the Chart of Virtuoso
     urlReloadChart(dataProcess) {
-      this.urlService.getPackageInfo(dataProcess.url).subscribe(data => {      
+      this.urlService.getPackageInfo(dataProcess.dataset).subscribe(data => {      
         this.loading.next(true);
         var headerTable = [];
         var dataTable = [];
@@ -152,7 +159,7 @@ export class UtilsGraphService {
               headerTable = result[0];
               dataTable = result[1];
           }else if(data.result[0].format == "CSV") {
-              var result = parseCSVFile(data.result[0].data);
+              var result = parseCSVFile(data.result[0].data,0);
               headerTable = result[0];
               dataTable = result[1];
           }

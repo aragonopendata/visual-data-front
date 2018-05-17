@@ -4,7 +4,7 @@
   margin-bottom: 20px;
   position: relative;
   height: 0px;
-  width: 170px;
+  width: 230px; /*Center Rectangle width*/
   border-top: 20px solid #0066cc;
   border-right: 20px solid #0066cc;
   border-bottom: 20px solid #0066cc;
@@ -31,7 +31,7 @@
   border-left: 20px solid #0066cc;
   position: absolute;
   top: -20px;
-  left: 150px;
+  left: 210px; /*Right Arrow Position*/ 
 }
 .rarrow span {
   color: #fff;
@@ -40,7 +40,7 @@
   position: absolute;
   top: -0.6em;
   left: 22px;
-  width: 150px;
+  width: 200px;  /*Text Lenght*/
 }
 .rarrow:hover{
   border-top: 20px solid #027cf5;
@@ -59,7 +59,7 @@
   margin-bottom: 20px;
   position: relative;
   height: 0px;
-  width: 170px;
+  width: 230px; /*Center Rectangle width*/ 
   border-top: 20px solid green;
   border-right: 20px solid green;
   border-bottom: 20px solid green;
@@ -87,7 +87,7 @@
   border-left: 20px solid green;
   position: absolute;
   top: -20px;
-  left: 150px;
+  left: 210px; /*Right Arrow Position*/ 
   z-index: 1;
 }
 .rarrowseleccion span {
@@ -97,6 +97,6 @@
   position: absolute;
   top: -0.6em;
   left: 22px;
-  width: 150px;
+  width: 200px; /*Text Lenght*/
   z-index: 1;
 }

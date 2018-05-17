@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GraphService } from '../../services/graph.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { prepareArrayXY } from '../exportedFunctions/lib';
 
 @Component({
   selector: 'app-embed-graph',
@@ -16,6 +17,8 @@ export class EmbedGraphComponent implements OnInit {
 
   public chart: any;
   public widthGraph: any;
+  public isMap: any;
+  public points: any;
 
   constructor(
     private router: Router,
@@ -27,9 +30,17 @@ export class EmbedGraphComponent implements OnInit {
     if(this.activatedRoute.snapshot.url[2].path != ""){
       this.graphservice
         .getChart(this.activatedRoute.snapshot.url[2])
-        .subscribe(data => {
-          this.chart = data;
-          this.widthGraph = data.width;
+        .subscribe(chart => {
+          this.chart = chart;
+          this.widthGraph = chart.width;
+
+          if (!chart.isMap) {
+            this.chart = chart;
+          } else {
+            this.isMap = chart.isMap;
+            
+            this.points = prepareArrayXY(chart.data[0].data, chart.labels);
+          }
         });
     }
   }

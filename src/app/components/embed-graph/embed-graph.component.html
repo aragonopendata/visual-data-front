@@ -1,5 +1,13 @@
-<div *ngIf="chart!==undefined" style="display: block;">
-    <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
-        [chartType]="chart.type">
-    </canvas>
+<div class="row">
+    <div *ngIf="chart!==undefined && !isMap" style="display: block;">
+        <div class="title">
+            <span>{{chart.title}}</span>
+        </div>
+        <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
+            [chartType]="chart.type">
+        </canvas>
+    </div>
+    <div *ngIf="points!==undefined && isMap">
+        <app-map [points]="points" zoom="4"></app-map>
+    </div>
 </div>

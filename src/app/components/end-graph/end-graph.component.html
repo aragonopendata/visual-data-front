@@ -1,17 +1,27 @@
 <div class="row">
-    <div class="column1">
-        <div *ngIf="chart!==undefined" style="display: block;">
-            <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
-                [chartType]="chart.type">
-            </canvas>
+    <div *ngIf="chart!==undefined && !isMap" style="display: block;">
+        <div class="title">
+            <span>{{chart.title}}</span>
         </div>
+        <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
+            [chartType]="chart.type">
+        </canvas>
     </div>
-    <div class="column2">
-        <div>
-            <h4>URL de la grafica embebida</h4>
+    <div *ngIf="points!==undefined && isMap">
+        <div class="title">
+            <span>{{title}}</span>
+        </div>
+        <app-map [points]="points" zoom="3"></app-map>
+    </div>
+    <div style="text-align: center">
+        <h4>Reutiliza el gráfico</h4>
+        <span *ngIf="hideEmbed">
+            <button (click)="hideEmbedButton()" class="button">Mostrar</button>
+        </span>
+        <span *ngIf="!hideEmbed">
             <code>
                 <pre><p>&lt;iframe src="{{routeEmbed}}" width="{{width}}" height="{{(width)/2}}"&gt;&lt;/iframe&gt;</p></pre>
             </code>
-        </div>
+        </span>
     </div>
 </div>

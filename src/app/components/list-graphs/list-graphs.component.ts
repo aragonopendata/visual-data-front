@@ -7,6 +7,7 @@ import { GraphService } from '../../services/graph.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
+import { prepareArrayXY } from '../exportedFunctions/lib';
 
 declare var jQuery:any;
 
@@ -27,6 +28,12 @@ export class ListGraphsComponent implements OnInit {
   private chartOptions: any = {
     responsive: true
   };
+  public isMap: boolean;
+  public points: any;
+  public mapsPoints = [];
+  public pagination = 0;
+
+  public n_graphs = 9;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,8 +70,13 @@ export class ListGraphsComponent implements OnInit {
   }
 
   loadCarousel(){
-    this.listGraphService.getCharts().subscribe(data => {
+    this.listGraphService.getCharts( this.pagination, this.n_graphs).subscribe(data => {
       this.carouselData = data.charts;
+      data.charts.forEach((chart, index) => {
+        if(chart.isMap){
+          this.mapsPoints[index] = prepareArrayXY(chart.data[0].data, chart.labels);
+        }
+      });
     });
   }
 
@@ -100,6 +112,13 @@ export class ListGraphsComponent implements OnInit {
     jQuery("#listModal").modal("show");
     this.dataProcess.dataset = this.dataset;
     this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
+  }
+
+  pageGraphs(n){
+    if( (this.pagination + n) >= 0 && (this.carouselData.length == this.n_graphs || n == -1)){
+      this.pagination += n;
+      this.loadCarousel();
+    }
   }
 
   next() {

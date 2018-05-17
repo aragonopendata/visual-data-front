@@ -1,32 +1,55 @@
+
+<div class="pagina">
+	<h1 >Open Visual data</h1>
+	<div >
+		Open Visual Data te permite crear gráficos y visualizaciones con los datos disponibles en Aragón Open Data.
+	</div>
+</div>
+
 <div class="center">
     <button (click)="next()" class="button">Crear nueva gr&aacute;fica</button>
 </div>
 
-<ngx-carousel [inputs]="carouselTileTwo">
-    <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
-        <div class="wBg">
-            <div class="col-md-10" style="text-align: center; padding-left: 20%" >
-                <span>T&iacute;tulo: {{chart.title}}</span>
-            </div>
-            <div class="col-md-2">
-                <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-retweet"></i></button>
-            </div>
-            <div class="tile" style="display: block;">
-                 <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
-                        [chartType]=chart.type></canvas>
-            </div>
-            <div style="text-align: center">
-                    <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
-                    <!--<button (click)="openEmbedChart(chart.id)" class="button2">Embed</button>-->
-            </div>
-        </div>
-    </ngx-tile>
-    <button NgxCarouselPrev class="leftRs">&lt;</button>
-    <button NgxCarouselNext class="rightRs">&gt;</button>
-</ngx-carousel>
+<div class="carousel" >
+    <ngx-carousel [inputs]="carouselTileTwo">
+        <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
+            <div class="wBg">
+                <div class="col-md-10" style="text-align: center; padding-left: 20%" >
+                    <span>{{chart.title}}</span>
+                </div>
+                <div class="col-md-2">
+                    <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-refresh"></i></button>
+                </div>
+                <div class="tile" *ngIf="chart!==undefined && !chart.isMap" style="display: block;">
+                    <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
+                            [chartType]=chart.type></canvas>
+                </div>
+                <div class="tile" style="width:405px; margin-left:30px;" *ngIf="mapsPoints[i] && chart.isMap">
+                    <app-map style="height: 5px;" [points]="mapsPoints[i]" zoom="2"></app-map>
+                </div>
 
+                <div style="height: 50px; ">
+                    <div style="float: left; margin-left: 5%;">
+                            <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
+                            <!--<button (click)="openEmbedChart(chart.id)" class="button2">Embed</button>-->
+                    </div>
+                    <div id="logoAragonGraph">
+                        <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
+                    </div>
+                </div>
+            </div>
+        </ngx-tile>
+        <button NgxCarouselPrev class="leftRs">&lt;</button>
+        <button NgxCarouselNext class="rightRs">&gt;</button>
+    </ngx-carousel>
+</div>
+<div class="paginator">
+    <button class="button4" style="float:left" (click)="pageGraphs(-1)" >&lt;</button>
+    <button class="button4" style="float:right" (click)="pageGraphs(1)" >&gt;</button>
+</div>
+<!--<app-map points="createPoints(carouselData[1].data[0].data, carouselData[1].labels)"></app-map>-->
 <!-- Modal -->
-<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div style="text-align: center; padding-top: 50%; padding-left: 50%;">
             <div class="loader"></div>

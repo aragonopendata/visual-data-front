@@ -10,9 +10,9 @@ export class GraphService {
 
   constructor(private http: Http) { }
 
-  public getCharts() {
+  public getCharts(pages, sizeOfPAges) {
     return this.http
-      .get(Constants.VISUAL_BACK_SERVER_URL + Constants.LIST_ALL_CHARTS_PATH)
+      .get(Constants.VISUAL_BACK_SERVER_URL + Constants.LIST_ALL_CHARTS_PATH + "/?page=" + pages + "&size=" + sizeOfPAges)
       .map((res: Response) => res.json()).catch((err) => { 
         return Observable.throw("errorConexion");
       });
@@ -27,13 +27,13 @@ export class GraphService {
   }
 
   // Make the call to save the info of the graph
-  saveGraph(id: string, type: string, labels: object, data: object, title: string, width: number) {
+  saveGraph(id: string, type: string, isMap: boolean, labels: object, data: object, title: string, width: number) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
       { 'id': id,
-        'type': type, 'labels': labels, 'data':
+        'type': type, 'isMap': isMap, 'labels': labels, 'data':
           data, 'title': title, 'width': width
       }
     );
@@ -50,14 +50,14 @@ export class GraphService {
   }
 
   // Make the call to save the process of graph generation
-  saveProcess(id, typeOfData, url, dataset, chartType, columnsLabel, columnsData, title, legend, widthGraph, chartDataId) {
+  saveProcess(id, typeOfData, url, dataset, chartType, isMap, columnsLabel, columnsData, title, legend, widthGraph, chartDataId) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
       {
-        'id': id, 'chartDataId': chartDataId, 'url': url, 'typeOfData': typeOfData, 'dataset': dataset, 'chartType': chartType,
-        'columnsLabel': columnsLabel, 'columnsData': columnsData, 'title': title, 'legend': legend,
+        'id': id, 'chartDataId': chartDataId, 'url': url, 'typeOfData': typeOfData, 'dataset': dataset, 'chartType': chartType, 
+        'isMap': isMap, 'columnsLabel': columnsLabel, 'columnsData': columnsData, 'title': title, 'legend': legend,
         'widthGraph': widthGraph
       }
     );

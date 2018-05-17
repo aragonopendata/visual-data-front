@@ -149,22 +149,26 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 this.gaodcCall(this.gaodcPackagesInfo, exist + 1);
             }
         } else if (this.opened === 'URL') {
-            this.urlError = false;
-            this.loading[2] = true;
+            if (this.packagesList.length === 0) {
+                this.urlError = false;
+                this.loading[2] = true;
 
-            //GAODC Check
-            var checker = this.checkURL();
-            if (checker >= 0) {
-                //Correct link
-                this.gaodcCall(this.urlPackagesInfo, checker);
-            } else if(checker == -2){
-                this.urlCall(this.urlPackagesInfo);
+                //GAODC Check
+                var checker = this.checkURL();
+                if (checker >= 0) {
+                    //Correct link
+                    this.gaodcCall(this.urlPackagesInfo, checker);
+                } else if(checker == -2){
+                    this.urlCall(this.urlPackagesInfo);
+                }
             }
         } else if (this.opened === 'VIRTUOSO') {
-            this.querryError = false;
-            this.loading[3] = true;
-        
-            this.virtuosoCall(this.virtuosoPackagesInfo);
+            if (this.packagesList.length === 0) {
+                this.querryError = false;
+                this.loading[3] = true;
+            
+                this.virtuosoCall(this.virtuosoPackagesInfo);
+            }
         }
     }
 
@@ -197,42 +201,46 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.packagesInfo = namePackage;
             this.errorResponse[0] = false;
             if(data.result.length != 0){
-                if (data.result[0].format == "PX") {
-                    var result = parsePXFile(data.result[0].data);
-                    this.headerTable = result[0];
-                    this.dataTable = result[1];
-                    this.loading[0] = false;
-                    this.loading[2] = false;
-                }else if(data.result[0].format == "CSV") {
-                    var result = parseCSVFile(data.result[0].data);
-                    this.headerTable = result[0];
-                    this.dataTable = result[1];
-                    this.loading[0] = false;
-                    this.loading[2] = false;
-                }else{
-                    this.packagesList.pop();
-                    this.loading[0] = false;
-                    this.loading[2] = false;
-                    this.errorResponse[0] = true;
-                }
+                data.result.forEach((element, index) => {
+                    if(index == 0){
+                        this.headerTable =[];
+                        this.dataTable =[];
+                    }
+
+                    if (element.format == "PX") {
+                        var result = parsePXFile(element.data);
+                        this.headerTable = result[0];
+                        this.dataTable = result[1];
+                        this.loading[0] = false;
+                    }else if(element.format == "CSV") {
+                        var result = parseCSVFile(element.data, index);
+                        this.headerTable = result[0];
+                        this.dataTable = this.dataTable.concat(result[1]);
+                        this.loading[0] = false;
+                    }else{
+                        this.packagesList.pop();
+                        this.loading[0] = false;
+                        this.errorResponse[0] = true;
+                    }                
+                });
+
             }else{
                 this.packagesList.pop();
                 this.loading[0] = false;
-                this.loading[2] = false;
                 this.errorResponse[0] = true;
             }
         },
         error => {
            this.packagesList.pop();
            this.loading[0] = false;
-           this.loading[2] = false;
            this.errorResponse[0] = true;
         },);
     }
 
     urlCall(namePackage: string){
+        this.errorResponse[2] = false;
         this.packagesList.push(namePackage);
-        this.ckanPackagesInfo = namePackage;
+        this.urlPackagesInfo = namePackage;
         this.urlservice.getPackageInfo(this.packagesList[0]).subscribe(data => {
             this.packagesInfo = namePackage;
             if(data.result.length != 0){
@@ -240,27 +248,26 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                     var result = parsePXFile(data.result[0].data);
                     this.headerTable = result[0];
                     this.dataTable = result[1];
-                    this.loading[0] = false;
                     this.loading[2] = false;
                 }else if(data.result[0].format == "CSV") {
-                    var result = parseCSVFile(data.result[0].data);
+                    var result = parseCSVFile(data.result[0].data, 0);
                     this.headerTable = result[0];
                     this.dataTable = result[1];
-                    this.loading[0] = false;
                     this.loading[2] = false;
+                }else if(data.result[0].format == "Error") {
+                    this.loading[2] = false;
+                    this.errorResponse[2] = true;
                 }
             }else{
                 this.packagesList.pop();
-                this.loading[0] = false;
                 this.loading[2] = false;
-                this.errorResponse[0] = true;
+                this.errorResponse[2] = true;
             }
         },
         error => {
            this.packagesList.pop();
-           this.loading[0] = false;
            this.loading[2] = false;
-           this.errorResponse[0] = true;
+           this.errorResponse[2] = true;
         },);
     }
 
@@ -350,7 +357,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        if (this.loading.every(elem => elem === false) && this.dataTable) {
+        if ((this.loading.every(elem => elem === false) || this.opened === 'URL' || this.opened === 'VIRTUOSO') && this.dataTable) {
             this.router.navigate(['/previewData/']);
         } else {
             this.nextStep = false;
