@@ -96,7 +96,10 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.ckanservice.getPackageList().subscribe(data => {
-            this.listCkan = data.result;
+            data.result.results.forEach(element => {
+                this.listCkan.push(element.name);
+            });
+            this.listCkan.shift();
             this.loading[0] = false;
         },
         error => {
