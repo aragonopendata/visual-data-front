@@ -357,7 +357,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        if ((this.loading.every(elem => elem === false) || this.opened === 'URL' || this.opened === 'VIRTUOSO') && this.dataTable) {
+        if (((this.opened === 'CKAN' && !this.loading[0]) || (this.opened === 'GAODC' && !this.loading[1])  || 
+            (this.opened === 'URL' && !this.loading[2]) || this.opened === 'VIRTUOSO' && !this.loading[3])
+            && this.dataTable) {
             this.router.navigate(['/previewData/']);
         } else {
             this.nextStep = false;

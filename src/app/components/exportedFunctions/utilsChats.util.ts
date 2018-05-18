@@ -8,6 +8,7 @@ import { VirtuosoService } from '../../services/virtuoso.service';
 import { URLService } from '../../services/url.service';
 import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
+import { Comparator } from '../exportedFunctions/lib';
 
 @Injectable()
 export class UtilsGraphService {
@@ -27,6 +28,7 @@ export class UtilsGraphService {
           const dataSelected = [];
           let checkedData = [];
           checkedData = dataProcess.columnsLabel.concat(dataProcess.columnsData);
+          dataTable= dataTable.sort(Comparator(headerTable.findIndex(element => element == dataProcess.fieldOrder), dataProcess.sortOrder));
           //Preparing the initial table with the correct columns and order
           checkedData.forEach(element => {
             var i = headerTable.indexOf(element);
@@ -58,7 +60,7 @@ export class UtilsGraphService {
           this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, dataProcess.title,
             dataProcess.widthGraph).subscribe(dataLink => {
                 this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.url, dataProcess.dataset,
-                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.title,
+                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.fieldOrder, dataProcess.sortOrder, dataProcess.title,
                   dataProcess.legend, dataProcess.widthGraph, dataLink.id).subscribe(data => {
                       this.loading.next(false);
                 },
@@ -71,6 +73,7 @@ export class UtilsGraphService {
             },);
             
   }
+
 
   //Update the Chart of the CKAN
   ckanReloadChart(dataProcess) {

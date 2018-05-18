@@ -27,6 +27,14 @@ export function removeDuplicates (chartLabels, chartData){
     return [unique, chartData];
 };
 
+export function Comparator(index, order) {
+    return function(a, b) {
+        if (a[index] < b[index]) return (order == 1) ? 1 : -1;
+        if (a[index] > b[index]) return (order == 1) ? -1 : 1;
+        return 0;
+    }
+}
+
 export function prepareArrayXY(data, labels){
     var aux: Array<{ x: number; y: number; }> = [];
     data.forEach((element, index) => {

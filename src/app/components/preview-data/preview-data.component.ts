@@ -8,6 +8,9 @@ import { CkanService } from '../../services/ckan.service';
 import { DataTable } from 'primeng/primeng';
 import { JsonPipe } from '@angular/common';
 import { forEach } from '@angular/router/src/utils/collection';
+import { Comparator } from '../exportedFunctions/lib';
+
+
 @Component({
     selector: 'app-preview-data',
     templateUrl: './preview-data.component.html',
@@ -19,11 +22,12 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     headerTable: string[];
     mData: any;
     columnsHeaders: any;
+    realNameHeaders: any;
 
 
     // SortTable
-    sortF: any;
-    sortO: any;
+    fieldOrder: any;
+    sortOrder: any;
 
     constructor(
         private route: ActivatedRoute,
@@ -39,34 +43,31 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         if(this.dataservice.datasetHeader && this.dataservice.datasetHeader.length != undefined && this.dataservice.datasetHeader.length > 0){
             this.headerTable = this.dataservice.datasetHeader;
             this.dataTable = this.dataservice.dataset;
+            this.realNameHeaders = this.headerTable.slice(0);
         }else{
             // TODO: Change to return fisrt page
             //this.router.navigate(['/selectData/']);
             this.headerTable = ['Datos','De','Prueba']
             this.dataTable = [["Prueba",3,4],["Prueba",2,3]]
+            this.realNameHeaders = this.headerTable.slice(0);
         }
     }
 
     changeSort(event) {
-
-        this.dataTable = this.dataTable.sort(this.Comparator(this.headerTable.findIndex(element => element == event.field), event.order));
-    }
-
-    Comparator(index, order) {
-        return function(a, b) {
-            if (a[index] < b[index]) return (order == 1) ? 1 : -1;
-            if (a[index] > b[index]) return (order == 1) ? -1 : 1;
-            return 0;
-        }
+        this.fieldOrder = event.field;
+        this.sortOrder = event.order;
+        this.dataTable = this.dataTable.sort(Comparator(this.headerTable.findIndex(element => element == event.field), event.order));
     }
 
     ngOnDestroy() {
         if (this.headerTable) {
             const headersSelected = [];
+            const realHeadersSelected = [];
             const dataSelected = [];
             for (let i = 0; i < this.headerTable.length; i++) {
                 if (this.checked[this.headerTable[i]]) {
                     headersSelected.push(this.headerTable[i]);
+                    realHeadersSelected.push(this.realNameHeaders[i])
                     const auxArray = [];
                     for (let index = 0; index < this.dataTable.length; index++) {
                         auxArray.push(this.dataTable[index][i]);
@@ -75,7 +76,10 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
                 }
             }
             this.dataservice.headerSelected = headersSelected;
+            this.dataservice.realHeadersSelected = realHeadersSelected;
             this.dataservice.dataSelected = dataSelected;
+            this.dataservice.fieldOrder = this.fieldOrder;
+            this.dataservice.sortOrder = this.sortOrder;
         }
     }
 
@@ -106,7 +110,15 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     }
 
     next() {
-        this.router.navigate(['/previewGraph/']);
+        var con = false;
+        for (const key in this.checked) {
+            if(this.checked[key]){
+                con= true;
+                break;
+            }
+        }
+        if(con)
+            this.router.navigate(['/previewGraph/']);
     }
 
     goBack(): void {
