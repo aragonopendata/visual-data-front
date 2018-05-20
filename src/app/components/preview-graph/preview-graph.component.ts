@@ -24,6 +24,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     // Data
     data: any;
     columns: string[];
+    realColumns: string[];
 
     // Drag
     columnsType: string[];
@@ -129,6 +130,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.columnsType = [];
         this.data = this.dataservice.dataSelected;
         this.columns = this.dataservice.headerSelected;
+        this.realColumns = this.dataservice.realHeadersSelected;
 
         this.data.forEach(element => {
             let exit = true;
@@ -258,14 +260,29 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     next() {
+
+        //Get the real names of the label column Names if there was a posible change
+        var rColumnsLables = [];
+        this.columnsLabel.forEach(x => {
+            rColumnsLables.push(this.realColumns[this.columns.findIndex(e => e === x)]);
+         });
+
+        //Get the real names of the Data column Names if there was a posible change
+         var rColumnsData = [];
+         this.columnsData.forEach(x => {
+            rColumnsData.push(this.realColumns[this.columns.findIndex(e => e === x)]);
+          });
+        
+          //Upload All
         this.graphservice.saveGraph(null, this.chartType, this.chartMap, this.chartLabels, this.chartData, this.title,
             this.widthGraph).subscribe(dataLink => {
                 this.graphservice.saveProcess(null, this.dataservice.type, this.dataservice.url, this.dataservice.datasetSelected,
-                    this.chartType, this.chartMap, this.columnsLabel, this.columnsData, this.title,
+                    this.chartType, this.chartMap, rColumnsLables, rColumnsData, this.dataservice.fieldOrder, this.dataservice.sortOrder, this.title,
                     this.legend, this.widthGraph, dataLink.id).subscribe(data => {
                         this.router.navigate(['/endGraphic/' + dataLink.id]);
                 });
             });
+            
     }
 
     ngOnDestroy() {

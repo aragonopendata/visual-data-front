@@ -50,14 +50,14 @@ export class GraphService {
   }
 
   // Make the call to save the process of graph generation
-  saveProcess(id, typeOfData, url, dataset, chartType, isMap, columnsLabel, columnsData, title, legend, widthGraph, chartDataId) {
+  saveProcess(id, typeOfData, url, dataset, chartType, isMap, columnsLabel, columnsData, fieldOrder, sortOrder, title, legend, widthGraph, chartDataId) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
       {
         'id': id, 'chartDataId': chartDataId, 'url': url, 'typeOfData': typeOfData, 'dataset': dataset, 'chartType': chartType, 
-        'isMap': isMap, 'columnsLabel': columnsLabel, 'columnsData': columnsData, 'title': title, 'legend': legend,
+        'isMap': isMap, 'columnsLabel': columnsLabel, 'columnsData': columnsData, 'fieldOrder': fieldOrder, 'sortOrder': sortOrder,'title': title, 'legend': legend,
         'widthGraph': widthGraph
       }
     );

@@ -11,7 +11,11 @@ export class ShareDataService {
   public columnsGraph: any;
 
   public headerSelected: any;
+  public realHeadersSelected: any;
   public dataSelected: any;
+
+  public fieldOrder: any;
+  public sortOrder: any;
 
   constructor() {}
 }
