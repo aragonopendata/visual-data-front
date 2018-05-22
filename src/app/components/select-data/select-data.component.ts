@@ -243,6 +243,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     urlCall(namePackage: string){
         this.errorResponse[2] = false;
+        this.errorMessage = "";
         this.packagesList.push(namePackage);
         this.urlPackagesInfo = namePackage;
         this.urlservice.getPackageInfo(this.packagesList[0]).subscribe(data => {
