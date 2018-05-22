@@ -1,4 +1,5 @@
 export class Constants {
+  // public static VISUAL_BACK_SERVER_URL = 'http://miv-aodfront-01.aragon.local:8090';
   public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
   public static SAVE_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/save_chart';
