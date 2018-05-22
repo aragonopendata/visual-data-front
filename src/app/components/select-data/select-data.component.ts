@@ -39,6 +39,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     loading: boolean[];
     errorResponse: boolean[];
+    errorMessage: any;
 
     //Modal Data if the text is too long
 
@@ -260,6 +261,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 }else if(data.result[0].format == "Error") {
                     this.loading[2] = false;
                     this.errorResponse[2] = true;
+                    this.packagesList.pop();
+                    this.errorMessage = data.result[0].data.errorMessage; 
                 }
             }else{
                 this.packagesList.pop();
