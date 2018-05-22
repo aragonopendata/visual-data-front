@@ -15,6 +15,23 @@
         <app-map [points]="points" zoom="3"></app-map>
     </div>
     <div style="text-align: center">
+        <span class="social-media-icons">
+            <a href="https://www.facebook.com/sharer.php?u={{actualRoute}}">
+                <i class="fa fa-facebook"></i>
+            </a>
+        </span>
+        <span class="social-media-icons">
+            <a href="https://twitter.com/share?url={{actualRoute}}">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </span>
+        <span class="social-media-icons">
+            <a href="https://plus.google.com/share?url={{actualRoute}}">
+                <i class="fa fa-google"></i>
+            </a>
+        </span>
+        
+
         <h4>Reutiliza el gráfico</h4>
         <span *ngIf="hideEmbed">
             <button (click)="hideEmbedButton()" class="button">Mostrar</button>

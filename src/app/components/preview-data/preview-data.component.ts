@@ -23,6 +23,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     mData: any;
     columnsHeaders: any;
     realNameHeaders: any;
+    nextStep: any;
 
 
     // SortTable
@@ -36,6 +37,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         public dataservice: ShareDataService,
         private ckanservice: CkanService
     ) {
+        this.nextStep = true;
         window.scrollTo(0, 0);
     }
 
@@ -113,12 +115,14 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         var con = false;
         for (const key in this.checked) {
             if(this.checked[key]){
-                con= true;
+                con = true;
                 break;
             }
         }
         if(con)
             this.router.navigate(['/previewGraph/']);
+        else
+            this.nextStep = false;
     }
 
     goBack(): void {
@@ -134,8 +138,13 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
     changeColumnsName(){
         this.headerTable=[];
+        var aux = [];
         this.columnsHeaders.forEach(element => {
             this.headerTable.push(element.col);
+            if(this.checked[element.col]){
+                aux[element.col] = true;
+            }
         });
+        this.checked = aux;
     }
 }

@@ -133,12 +133,23 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.realColumns = this.dataservice.realHeadersSelected;
 
         this.data.forEach(element => {
-            let exit = true;
-            let newIndex = 0;
+            var exit = true;
+            var newIndex = 0;
 
             do {
-                exit = true;
-
+                exit = false;
+                if(isNaN(element[newIndex]) && element[newIndex] != undefined && element[newIndex] != null){
+                    exit = true;
+                    this.columnsType.push("String");
+                }else{
+                    newIndex++;
+                    if(newIndex >= element.length){
+                        exit = true;
+                        this.columnsType.push("Number");
+                    }
+                }
+            } while (!exit);
+                /*
                 if (element.length > newIndex) {
                     if (!element[newIndex]) {
                         exit = false;
@@ -149,8 +160,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                 } else {
                     this.columnsType.push('undefined');
                 }
-            } while (!exit);
-
+                */
         });
     }
 

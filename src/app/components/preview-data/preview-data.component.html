@@ -1,7 +1,7 @@
 <div class="row">
     <div class="column1">
         <button type="button" class="btn btn-secondary" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Nombre Columnas</button>
-        <strong style="padding-left: 25px;">Seleccionar Columnas:</strong>       
+        <strong style="padding-left: 25px; display: block;">Seleccionar Columnas:</strong>       
         <div style="overflow:auto;height: 500px;">
             <ul>
                 <ng-template ngFor let-property [ngForOf]="headerTable">
@@ -35,7 +35,7 @@
         </p-dataTable>
     </div>
 </div>
-
+<div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
 <button (click)="next()" class="button">Crear Grafica</button>
 
 <!-- Modal -->
