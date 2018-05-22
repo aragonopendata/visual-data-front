@@ -1,5 +1,6 @@
 <div>
     <accordion>
+        <div *ngIf="false">
         <accordion-group heading="Cat&aacute;logo de datos abiertos" (onOpen)="whoIsOpen('CKAN')">
             <div style="float:left">
                 <div>
@@ -40,7 +41,8 @@
                 </ul>
             </div>
         </accordion-group>
-        <accordion-group heading="URL" (onOpen)="whoIsOpen('URL')">
+        </div>
+        <accordion-group heading="Vía recurso de Aragón Open Data" (onOpen)="whoIsOpen('URL')">
             <div style="float:left">
                 <input type="text"  size="70%" pInputText [(ngModel)]="urlPackagesInfo"/>
             </div>
