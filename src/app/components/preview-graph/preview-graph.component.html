@@ -55,6 +55,17 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-8" style="margin-bottom: 10px" *ngIf="chartMap" >
+                <span class="titleMapper">Descripci&oacute;n</span>
+                <span style="font-size: 11; float: right">(Arraster tipo: Number, String)</span>
+                <div id='move-3' class='container' [dragula]='"another-bag"' [dragulaModel]='descriptionPoints'>
+                    <div *ngFor='let text of descriptionPoints; let i = index'>
+                        {{text}}
+                        <span class='handleClose' (click)="deleteElement(3, i)">x</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-12">
@@ -95,7 +106,7 @@
                 <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType"></canvas>
             </div>
             <div *ngIf="chartMap">
-                <app-map [points]="points" zoom="3"></app-map>
+                <app-map [descriptionPoints]="chartDescriptionPoints" [points]="points" zoom="3" (description)="showDescription($event)"></app-map>
             </div>
         </div>
     </div>

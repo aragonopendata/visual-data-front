@@ -27,14 +27,14 @@ export class GraphService {
   }
 
   // Make the call to save the info of the graph
-  saveGraph(id: string, type: string, isMap: boolean, labels: object, data: object, title: string, width: number) {
+  saveGraph(id: string, type: string, isMap: boolean, labels: object, data: object, descrip: object,  title: string, width: number) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
       { 'id': id,
         'type': type, 'isMap': isMap, 'labels': labels, 'data':
-          data, 'title': title, 'width': width
+          data, 'descriptions': descrip, 'title': title, 'width': width
       }
     );
 
@@ -50,14 +50,14 @@ export class GraphService {
   }
 
   // Make the call to save the process of graph generation
-  saveProcess(id, typeOfData, url, dataset, chartType, isMap, columnsLabel, columnsData, fieldOrder, sortOrder, title, legend, widthGraph, chartDataId) {
+  saveProcess(id, typeOfData, url, dataset, chartType, isMap, columnsLabel, columnsData, columnsDescrip, fieldOrder, sortOrder, title, legend, widthGraph, chartDataId) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     const body = JSON.stringify(
       {
         'id': id, 'chartDataId': chartDataId, 'url': url, 'typeOfData': typeOfData, 'dataset': dataset, 'chartType': chartType, 
-        'isMap': isMap, 'columnsLabel': columnsLabel, 'columnsData': columnsData, 'fieldOrder': fieldOrder, 'sortOrder': sortOrder,'title': title, 'legend': legend,
+        'isMap': isMap, 'columnsLabel': columnsLabel, 'columnsData': columnsData, 'columnsDescription': columnsDescrip,'fieldOrder': fieldOrder, 'sortOrder': sortOrder,'title': title, 'legend': legend,
         'widthGraph': widthGraph
       }
     );

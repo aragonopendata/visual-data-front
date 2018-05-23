@@ -48,11 +48,17 @@ export function typeOfArray(array){
 }
 
 export function Comparator(index, order) {
-    return function(a, b) {
-        if (a[index] < b[index]) return (order == 1) ? 1 : -1;
-        if (a[index] > b[index]) return (order == 1) ? -1 : 1;
-        return 0;
-    }
+        return function(a, b) {
+            if(!isNaN(Number(a[index])) && !isNaN(Number(b[index]))){
+                if(order == 1)
+                    return a[index] - b[index];
+                else
+                    return b[index] - a[index];
+            }
+            if (a[index] < b[index]) return (order == 1) ? 1 : -1;
+            if (a[index] > b[index]) return (order == 1) ? -1 : 1;
+            return 0;
+        }
 }
 
 export function prepareArrayXY(data, labels){

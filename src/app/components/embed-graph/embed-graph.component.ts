@@ -19,6 +19,7 @@ export class EmbedGraphComponent implements OnInit {
   public widthGraph: any;
   public isMap: any;
   public points: any;
+  public descriptions: any;
 
   constructor(
     private router: Router,
@@ -38,6 +39,7 @@ export class EmbedGraphComponent implements OnInit {
             this.chart = chart;
           } else {
             this.isMap = chart.isMap;
+            this.descriptions = chart.descriptions;
             
             this.points = prepareArrayXY(chart.data[0].data, chart.labels);
           }

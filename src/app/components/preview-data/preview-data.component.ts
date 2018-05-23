@@ -39,6 +39,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     ) {
         this.nextStep = true;
         window.scrollTo(0, 0);
+        this.sortOrder = -2;
     }
 
     ngOnInit(): void {

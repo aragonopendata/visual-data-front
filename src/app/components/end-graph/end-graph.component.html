@@ -11,8 +11,9 @@
     <div *ngIf="points!==undefined && isMap">
         <div class="title">
             <span>{{title}}</span>
+            <span style="float: right;"><button data-toggle="modal" data-target="#listModal" (click)="updateChart(id)" class="button3"><i class="fa fa-refresh"></i></button></span>
         </div>
-        <app-map [points]="points" zoom="3"></app-map>
+        <app-map [descriptionPoints]="descriptions" [points]="points" zoom="3"></app-map>
     </div>
     <div style="text-align: center">
         <span class="social-media-icons">

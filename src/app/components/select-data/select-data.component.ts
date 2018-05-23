@@ -162,7 +162,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 if (checker >= 0) {
                     //Correct link
                     this.gaodcCall(this.urlPackagesInfo, checker);
-                } else if(checker == -2){
+                } else if(checker == -1){
+                    this.ckanCall(this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1));
+                }else if(checker == -2){
                     this.urlCall(this.urlPackagesInfo);
                 }
             }
@@ -182,7 +184,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     checkURL() {
         let exist = 0;
         // Check All URLs
-        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id="];
+        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id=", "https://opendata.aragon.es/datos/catalogo/dataset/"];
 
         //GAODC Test URL
         if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]) {
@@ -191,8 +193,10 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             if (n_package.toString() !== 'NaN') {
                 return n_package;
             }else{
-                return -1;
+                return -3;
             }
+        } if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]) {
+            return -1;
         } else { //OTher URL
             return -2;
         }
@@ -225,7 +229,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                         this.packagesList.pop();
                         this.loading[0] = false;
                         this.errorResponse[0] = true;
-                    }                
+                    }             
+                    this.loading[2] = false;   
                 });
 
             }else{

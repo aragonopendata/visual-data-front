@@ -30,6 +30,8 @@ export class EndGraphComponent implements OnInit {
   public title: any;
   public dataProcess: any;
   public dataset:any;
+  public descriptions:any;
+  public id:any;
 
 
   public hideEmbed: boolean;
@@ -74,6 +76,8 @@ export class EndGraphComponent implements OnInit {
         } else {
           this.isMap = chart.isMap;
           this.title = chart.title;
+          this.descriptions = chart.descriptions;
+          this.id = chart.id;
           
           this.points = prepareArrayXY(chart.data[0].data, chart.labels);
         }

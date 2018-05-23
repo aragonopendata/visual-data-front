@@ -27,8 +27,15 @@ export class UtilsGraphService {
   prepareAndSave(dataProcess, headerTable, dataTable){
           const dataSelected = [];
           let checkedData = [];
-          checkedData = dataProcess.columnsLabel.concat(dataProcess.columnsData);
-          dataTable= dataTable.sort(Comparator(headerTable.findIndex(element => element == dataProcess.fieldOrder), dataProcess.sortOrder));
+          if(dataProcess.isMap){
+            checkedData = dataProcess.columnsLabel.concat(dataProcess.columnsDescription)
+            checkedData = checkedData.concat(dataProcess.columnsData)
+          }
+          else
+            checkedData = dataProcess.columnsLabel.concat(dataProcess.columnsData);
+
+          if(dataProcess.sortOrder != -2)
+            dataTable= dataTable.sort(Comparator(headerTable.findIndex(element => element == dataProcess.fieldOrder), dataProcess.sortOrder));
           //Preparing the initial table with the correct columns and order
           checkedData.forEach(element => {
             var i = headerTable.indexOf(element);
@@ -44,6 +51,12 @@ export class UtilsGraphService {
           // Labels Array and the Data array with the Legend
           var chartLabels = dataSelected[0];
           dataSelected.splice(0, 1);
+
+          var chartDescription;
+          if(dataProcess.isMap){
+            chartDescription = dataSelected[0];
+            dataSelected.splice(0, 1);
+          }
     
           dataSelected.forEach((element, index) => {
             dataSelected[index] = { data: dataSelected[index], label: dataProcess.legend[index].label };
@@ -57,10 +70,10 @@ export class UtilsGraphService {
     
           // Update the chart with the new data
           
-          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, dataProcess.title,
+          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, chartDescription, dataProcess.title,
             dataProcess.widthGraph).subscribe(dataLink => {
                 this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.url, dataProcess.dataset,
-                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.fieldOrder, dataProcess.sortOrder, dataProcess.title,
+                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.columnsDescription, dataProcess.fieldOrder, dataProcess.sortOrder, dataProcess.title,
                   dataProcess.legend, dataProcess.widthGraph, dataLink.id).subscribe(data => {
                       this.loading.next(false);
                 },

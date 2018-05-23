@@ -30,6 +30,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     columnsType: string[];
     public columnsData: Array<string> = [];
     public columnsLabel: Array<string> = [];
+    public descriptionPoints: Array<string> = [];
 
     // Charts
     //////////////////////////////////////
@@ -55,6 +56,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     public title: string;
 
+    public chartDescriptionPoints: string[] = [];
 
     //////////////////////////////////////
 
@@ -91,6 +93,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                     if(this.columnsLabel && this.columnsLabel.length  > 0){
                         this.columnsLabel.splice(0,1);
                     }
+                }else
+                if(value[2] && value[2].id === 'move-3'){
+                    if(this.descriptionPoints && this.descriptionPoints.length  > 0){
+                        this.descriptionPoints.splice(0,1);
+                    }
                 }
             });
             dragulaService.setOptions('another-bag', {
@@ -123,6 +130,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         } else {
             this.router.navigate(['/selectData/']);
         }
+    }
+
+    showDescription(event):void{
+        alert(event.nombre);
     }
 
     //Get All the element of the first column to the user to move
@@ -170,6 +181,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             // Default Values
             this.defaultsChats(1);
         }
+
+        // Prepare the Description Array for the chart with the data indicate in columnsData
+        if (this.descriptionPoints && this.descriptionPoints.length !== 0 && this.data) {
+            this.descriptionPoints.forEach(element => {
+                const indexData = this.columns.findIndex(x => x === element);
+                this.chartDescriptionPoints = this.data[indexData];
+            });
+        }
         
         // Group Data
         if (this.columnsData && this.columnsLabel && this.columnsData.length > 0 && this.columnsLabel.length > 0) {
@@ -177,7 +196,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                 this.points = prepareArrayXY(this.chartData[0].data, this.chartLabels);
             }else{
                 const aux = JSON.parse(JSON.stringify(this.data));
-                var result = removeDuplicates(this.chartLabels, this.chartData);
+                var result = removeDuplicates(this.chartLabels, this.chartData );
                 this.chartLabels = result[0];
                 this.chartData = result[1];
                 this.data = aux;
@@ -208,6 +227,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.columnsData.splice(index, 1);
         } else if (buffer === 2) {
             this.columnsLabel.splice(index, 1);
+        }else if (buffer === 3) {
+            this.descriptionPoints.splice(index, 1);
         }
         this.onDrop("refresh");
     }
@@ -255,12 +276,17 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
          this.columnsData.forEach(x => {
             rColumnsData.push(this.realColumns[this.columns.findIndex(e => e === x)]);
           });
+
+          var rColumnsDescript = [];
+          this.descriptionPoints.forEach(x => {
+            rColumnsDescript.push(this.realColumns[this.columns.findIndex(e => e === x)]);
+           });
         
           //Upload All
-        this.graphservice.saveGraph(null, this.chartType, this.chartMap, this.chartLabels, this.chartData, this.title,
+        this.graphservice.saveGraph(null, this.chartType, this.chartMap, this.chartLabels, this.chartData, this.chartDescriptionPoints ,this.title,
             this.widthGraph).subscribe(dataLink => {
                 this.graphservice.saveProcess(null, this.dataservice.type, this.dataservice.url, this.dataservice.datasetSelected,
-                    this.chartType, this.chartMap, rColumnsLables, rColumnsData, this.dataservice.fieldOrder, this.dataservice.sortOrder, this.title,
+                    this.chartType, this.chartMap, rColumnsLables, rColumnsData, rColumnsDescript, this.dataservice.fieldOrder, this.dataservice.sortOrder, this.title,
                     this.legend, this.widthGraph, dataLink.id).subscribe(data => {
                         this.router.navigate(['/endGraphic/' + dataLink.id]);
                 });

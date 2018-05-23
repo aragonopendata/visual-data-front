@@ -25,7 +25,7 @@
                     <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
                 </div>
                 <div class="tile" style="width:405px; margin-left:30px;" *ngIf="mapsPoints[i] && chart.isMap">
-                    <app-map style="height: 5px;" [points]="mapsPoints[i]" zoom="2"></app-map>
+                    <app-map style="height: 5px;" [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="2"></app-map>
                 </div>
 
                 <div style="height: 50px; ">
