@@ -4,7 +4,7 @@ export function removeDuplicates (chartLabels, chartData){
         
     // Test if the data is a string and if it is, transform the array into number of ones
     chartData.forEach(element => {
-        if(typeof element.data[0] == "string"){
+        if(typeOfArray(element.data) == "String"){
             var aux = Array.from(new Array(element.data.length),(val,index)=>1);
             element.data = aux;
         }
@@ -17,7 +17,7 @@ export function removeDuplicates (chartLabels, chartData){
             if(element === chartLabels[i]){
                 //Duplicate Data
                 chartData.forEach((d, index) => {
-                    d.data[findFirst] += d.data[i];
+                    d.data[findFirst] = Number(d.data[findFirst]) + Number(d.data[i]);
                     d.data.splice(i,1);                  
                 });
                 chartLabels.splice(i,1);
@@ -26,6 +26,26 @@ export function removeDuplicates (chartLabels, chartData){
     });
     return [unique, chartData];
 };
+
+export function typeOfArray(array){
+    var exit = true;
+    var newIndex = 0;
+
+    do {
+        exit = false;
+        if(isNaN(array[newIndex]) && array[newIndex] != undefined && array[newIndex] != null){
+            exit = true;
+            return "String";
+        }else{
+            newIndex++;
+            if(newIndex >= array.length){
+                exit = true;
+                return "Number";
+            }
+        }
+    } while (!exit);
+    return undefined;
+}
 
 export function Comparator(index, order) {
     return function(a, b) {

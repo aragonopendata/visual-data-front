@@ -9,7 +9,7 @@ import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
 import { SpinnerModule, InputTextModule } from 'primeng/primeng';
-import { removeDuplicates } from '../exportedFunctions/lib';
+import { removeDuplicates, typeOfArray } from '../exportedFunctions/lib';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 
 
@@ -133,34 +133,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.realColumns = this.dataservice.realHeadersSelected;
 
         this.data.forEach(element => {
-            var exit = true;
-            var newIndex = 0;
-
-            do {
-                exit = false;
-                if(isNaN(element[newIndex]) && element[newIndex] != undefined && element[newIndex] != null){
-                    exit = true;
-                    this.columnsType.push("String");
-                }else{
-                    newIndex++;
-                    if(newIndex >= element.length){
-                        exit = true;
-                        this.columnsType.push("Number");
-                    }
-                }
-            } while (!exit);
-                /*
-                if (element.length > newIndex) {
-                    if (!element[newIndex]) {
-                        exit = false;
-                        newIndex++;
-                    } else {
-                        this.columnsType.push(element[newIndex].constructor.name);
-                    }
-                } else {
-                    this.columnsType.push('undefined');
-                }
-                */
+            this.columnsType.push(typeOfArray(element));
         });
     }
 
