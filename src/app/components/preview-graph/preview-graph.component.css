@@ -8,7 +8,7 @@
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  cursor: poin;
+  cursor: pointer;
 }
 
 .titleMapper {
@@ -26,6 +26,7 @@
     border-radius: 5px;
     padding-bottom: 10%;
     float: 1;
+    width: 10000px;
 }
 
 .container div {

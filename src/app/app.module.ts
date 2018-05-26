@@ -48,7 +48,7 @@ import { EmbedGraphComponent } from './components/embed-graph/embed-graph.compon
 import { NestJSONComponent } from './components/nest-json/nest-json.component';
 import { MapComponent } from './components/common/map/map.component';
 // Utils
-import { AccordionModule } from 'ngx-accordion';
+import { AccordionModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxCarouselModule } from 'ngx-carousel';
@@ -89,7 +89,7 @@ const routes: Routes = [
     HttpModule,
     BrowserAnimationsModule,
     DropdownModule,
-    AccordionModule,
+    AccordionModule.forRoot(),
     AutoCompleteModule,
     DataTableModule,
     SpinnerModule,
