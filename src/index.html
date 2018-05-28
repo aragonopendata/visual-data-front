@@ -1,39 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html>
+
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=11"> 
-  <meta charset="utf-8">
-  <title>Open</title>
-  <base href="/">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  
-  <style>
-    .loader {
-      border: 16px solid #f3f3f3;
-      border-radius: 50%;
-      border-top: 16px solid #3498db;
-      width: 120px;
-      height: 120px;
-      -webkit-animation: spin 2s linear infinite; /* Safari */
-      animation: spin 2s linear infinite;
-    }
-    
-    /* Safari */
-    @-webkit-keyframes spin {
-      0% { -webkit-transform: rotate(0deg); }
-      100% { -webkit-transform: rotate(360deg); }
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    </style>
-
+	<base href="/">
+	<title>Aragón Open Data</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="/static/public/i/favicon.ico">
 </head>
+
 <body>
-  <app-root><div style="position: absolute;top: 50%;right: 47%;transform: translateY(-50%);"><div class="loader"></div></div></app-root>
+	<app-root>
+		<div class="text-center">
+			<div class="loadingText">Cargando</div><br/><br/>
+			<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; font-weight: 400;"></i><br/><br/>
+			<div class="row">
+				<div class="col-12 col-md-4" style="padding: 10px;">
+					<img class="img" src="/static/public/header/images/AOD-Logo.png"/>
+				</div>
+				<div class="col-12 col-md-4" style="padding: 10px;">
+					<img class="img" src="/static/public/i/logoDGA.png"/>
+				</div>
+				<div class="col-12 col-md-4" style="padding: 10px;">
+					<img class="img" src="/static/public/footer/images/flag-europe.png"/>
+					<p style="font-size: 0.75em; padding: 5px;">FONDO EUROPEO DE DESARROLLO REGIONAL (FEDER) "Construyendo Europa desde Aragón"</p>
+				</div>
+			</div>
+			<div class="loadingAdvice">Mejore su experiencia utilizando la última versión de <a href="https://www.google.es/chrome/browser/desktop/">Google Chrome</a>
+			o <a href="https://www.microsoft.com/es-es/download/internet-explorer.aspx">Internet Explorer +11</a>
+			</div>
+		</div>
+	</app-root>
 </body>
+
 </html>
