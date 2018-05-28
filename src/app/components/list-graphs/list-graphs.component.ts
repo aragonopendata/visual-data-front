@@ -33,7 +33,7 @@ export class ListGraphsComponent implements OnInit {
   points: any;
   mapsPoints = [];
   pagination = 0;
-  public mapDescriptions =[];
+  mapDescriptions = [];
 
   n_graphs = 6;
 
