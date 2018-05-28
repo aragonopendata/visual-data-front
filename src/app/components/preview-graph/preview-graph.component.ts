@@ -11,6 +11,7 @@ import { DragulaService } from 'ng2-dragula';
 import { SpinnerModule, InputTextModule } from 'primeng/primeng';
 import { removeDuplicates, typeOfArray } from '../exportedFunctions/lib';
 import { prepareArrayXY } from '../exportedFunctions/lib';
+import { reducerMapPoints } from '../exportedFunctions/lib';
 
 
 @Component({
@@ -52,7 +53,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     public chartData: Array<any> = [
         { data: [0], label: 'A' }
     ];
-    public chartLabels: string[] = ['No data'];
+    public chartLabels: any = ['No data'];
 
     public title: string;
 
@@ -115,13 +116,16 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             //this.router.navigate(['/selectData/']);
             this.dataservice.type = "TEST";
             this.dataservice.dataset = "TEST";
-            this.dataservice.headerSelected = ["Datos", "de", "prueba", "Año", "Ciudad"];
+            this.dataservice.headerSelected = ["Datos", "de", "prueba", "Año", "Ciudad", "lat", "long", "desc"];
             this.dataservice.dataSelected = [
                                             [-65, 59, 80, 81, 56, 55, 40, 100 ,100], 
                                             [20, 2, 3, 81, 4, 55, 5, 20, 40], 
                                             ["HTP", "ASD", "RDX", "SAS", "PACK", "AA", "DD", "SAS", "AA"],
                                             ["1992", "1992", "1992", "1993", "1992", "1992", "1993", "1993", "1993"],
-                                            ["Teruel", "Teruel", "Teruel", "Zaragoza", "Zaragoza", "Zaragoza", "Teruel", "Teruel", "Zaragoza"]
+                                            ["Teruel", "Teruel", "Teruel", "Zaragoza", "Zaragoza", "Zaragoza", "Teruel", "Teruel", "Zaragoza"],
+                                            [42.1213634,42.1213634, 42.10673031],
+                                            [-0.07070538,-0.07070538, -0.3007088],
+                                            ["dato1","dato2", "dato3"]
                                         ];
             this.dataservice.dataSelected.lenght = 3;
         }
@@ -184,9 +188,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
         // Prepare the Description Array for the chart with the data indicate in columnsData
         if (this.descriptionPoints && this.descriptionPoints.length !== 0 && this.data) {
+            this.chartDescriptionPoints  = [];
             this.descriptionPoints.forEach(element => {
                 const indexData = this.columns.findIndex(x => x === element);
-                this.chartDescriptionPoints = this.data[indexData];
+                this.chartDescriptionPoints = this.data[indexData].slice(0);
             });
         }
         
@@ -194,6 +199,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         if (this.columnsData && this.columnsLabel && this.columnsData.length > 0 && this.columnsLabel.length > 0) {
             if(this.chartMap){
                 this.points = prepareArrayXY(this.chartData[0].data, this.chartLabels);
+                // usage example:
+                var result = reducerMapPoints(this.points, this.chartDescriptionPoints);
+
+                this.points = result[0];
+                this.chartDescriptionPoints = result[1];                
             }else{
                 const aux = JSON.parse(JSON.stringify(this.data));
                 var result = removeDuplicates(this.chartLabels, this.chartData );
@@ -281,6 +291,17 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
           this.descriptionPoints.forEach(x => {
             rColumnsDescript.push(this.realColumns[this.columns.findIndex(e => e === x)]);
            });
+
+        var pointY = [];
+        if(this.chartMap){
+            this.chartLabels = [];
+            this.points.forEach(element => {
+                this.chartLabels.push(element.x);
+                pointY.push(element.y);
+            });
+
+            this.chartData = [{ data: pointY, label: 'A' }];
+        }
         
           //Upload All
         this.graphservice.saveGraph(null, this.chartType, this.chartMap, this.chartLabels, this.chartData, this.chartDescriptionPoints ,this.title,

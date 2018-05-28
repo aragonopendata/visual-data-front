@@ -78,6 +78,28 @@ export function prepareArrayXY(data, labels){
     return aux;
 }
 
+
+export function reducerMapPoints(points, descriptions){
+    var index = 0;
+    do{
+        var i = index + 1;
+        while(i < points.length){
+            if(points[index].x == points[i].x && points[index].y == points[i].y){
+                points.splice(i, 1);
+                if(descriptions && descriptions.length != 0){
+                    descriptions[index] = descriptions[index] + " " + descriptions[i];
+                    descriptions.splice(i,1);
+                }
+                i--;
+            }
+            i++;
+        };
+        index++;
+    }while(index < points.length);
+
+    return [points, descriptions];
+}
+
 export function parseCSVFile(data, index){
     var keys = [];
     for (var key in data[0]) {

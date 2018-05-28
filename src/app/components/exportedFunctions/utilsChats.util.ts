@@ -9,6 +9,8 @@ import { URLService } from '../../services/url.service';
 import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
 import { Comparator } from '../exportedFunctions/lib';
+import { reducerMapPoints } from '../exportedFunctions/lib';
+import { prepareArrayXY } from '../exportedFunctions/lib';
 
 @Injectable()
 export class UtilsGraphService {
@@ -67,6 +69,26 @@ export class UtilsGraphService {
           //Delete duplicate values
           if(!dataProcess.isMap)
             removeDuplicates(chartLabels, chartData);
+          else{
+
+            var index = 0;
+            do{
+                var i = index + 1;
+                while(i < chartLabels.length){
+                    if(chartLabels[index] == chartLabels[i] && chartData[0].data[index] == chartData[0].data[i]){
+                        chartLabels.splice(i, 1);
+                        chartData[0].data.splice(i, 1);
+                        if(chartDescription && chartDescription.length != 0){
+                          chartDescription[index] = chartDescription[index] + " " + chartDescription[i];
+                          chartDescription.splice(i,1);
+                        }
+                        i--;
+                    }
+                    i++;
+                };
+                index++;
+            }while(index < chartLabels.length);
+          }
     
           // Update the chart with the new data
           

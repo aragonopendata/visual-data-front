@@ -8,6 +8,7 @@ import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { prepareArrayXY } from '../exportedFunctions/lib';
+import { reducerMapPoints } from '../exportedFunctions/lib';
 
 declare var jQuery:any;
 
@@ -32,6 +33,7 @@ export class ListGraphsComponent implements OnInit {
   points: any;
   mapsPoints = [];
   pagination = 0;
+  public mapDescriptions =[];
 
   n_graphs = 6;
 

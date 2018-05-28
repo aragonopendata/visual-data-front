@@ -27,6 +27,7 @@ export class MapComponent implements OnInit {
      function(feature, layer) {
       return feature.getId();
     });
+
     if(this.descriptionPoints && this.descriptionPoints.length > point && this.descriptionPoints[point])
       this.description = this.descriptionPoints[point];
     else if(point >=0)

@@ -146,6 +146,7 @@ img {
   min-width: 320px;
   margin: auto;
   padding-right: 0;
+  padding-left: 10%;
 }
 
 .paginator{
