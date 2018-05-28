@@ -19,21 +19,21 @@ declare var jQuery:any;
 export class ListGraphsComponent implements OnInit {
   imgags: string[];
 
-  private dataProcess:any;
-  private dataset:any;
+  dataProcess:any;
+  dataset:any;
 
-  private carouselData: Array<any> = [];
-  private carouselTileTwo: NgxCarousel;
-  private chartLegend = true;
-  private chartOptions: any = {
+  carouselData: Array<any> = [];
+  carouselTileTwo: NgxCarousel;
+  chartLegend = true;
+  chartOptions: any = {
     responsive: true
   };
-  public isMap: boolean;
-  public points: any;
-  public mapsPoints = [];
-  public pagination = 0;
+  isMap: boolean;
+  points: any;
+  mapsPoints = [];
+  pagination = 0;
 
-  public n_graphs = 6;
+  n_graphs = 6;
 
   constructor(
     private route: ActivatedRoute,
