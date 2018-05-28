@@ -33,7 +33,7 @@ export class ListGraphsComponent implements OnInit {
   public mapsPoints = [];
   public pagination = 0;
 
-  public n_graphs = 9;
+  public n_graphs = 6;
 
   constructor(
     private route: ActivatedRoute,

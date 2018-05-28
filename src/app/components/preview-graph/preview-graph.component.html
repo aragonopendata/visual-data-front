@@ -109,7 +109,7 @@
             <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType"></canvas>
         </div>
         <div *ngIf="chartMap">
-            <app-map [descriptionPoints]="chartDescriptionPoints" [points]="points" zoom="3" (description)="showDescription($event)"></app-map>
+            <app-map [descriptionPoints]="chartDescriptionPoints" [points]="points" zoom="8" (description)="showDescription($event)"></app-map>
         </div>
     </div>
     <div class="col-md-12" style="text-align:center;">

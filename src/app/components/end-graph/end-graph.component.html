@@ -14,7 +14,7 @@
                     [chartType]="chart.type">
                 </canvas>
             </div>
-            <div *ngIf="points!==undefined && isMap">
+            <div *ngIf="points!==undefined && isMap" style="width: 70%;">
                 <div class="title">
                     <span>{{title}}</span>
                     <span style="float: right;">
@@ -23,7 +23,7 @@
                         </button>
                     </span>
                 </div>
-                <app-map [descriptionPoints]="descriptions" [points]="points" zoom="3"></app-map>
+                <app-map [descriptionPoints]="descriptions" [points]="points" zoom="7"></app-map>
             </div>
         </div>
     </div>

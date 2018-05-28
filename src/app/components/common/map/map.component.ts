@@ -27,7 +27,12 @@ export class MapComponent implements OnInit {
      function(feature, layer) {
       return feature.getId();
     });
-    this.description = this.descriptionPoints[point];
+    if(this.descriptionPoints && this.descriptionPoints.length > point && this.descriptionPoints[point])
+      this.description = this.descriptionPoints[point];
+    else if(point >=0)
+      this.description = "Sin descripción";
+    else
+      this.description = "";
 
     jQuery("#descrip").modal("show");
   }

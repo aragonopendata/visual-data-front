@@ -10,29 +10,31 @@
 </div>
 
 <div class="carousel">
-    <div class="card-deck">
-        <div class="card" *ngFor="let chart of carouselData; let i = index;" style="max-width: 23rem;">
-            <div class="card-header">
-                {{chart.title}}
+    <div class="row">
+        <div class="col-sm-4" *ngFor="let chart of carouselData; let i = index;" style="max-width: 26rem;">
+            <div class="card" style="margin-bottom: 10px">
+                <div class="card-header">
+                    {{chart.title}}
 
                     <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3" style="float:right">
-                            <i class="fa fa-refresh"></i>
+                        <i class="fa fa-refresh"></i>
                     </button>
-            </div>
-            <div class="card-img-top" *ngIf="chart!==undefined && !chart.isMap" style="display: block;">
-                <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
-            </div>
-            <div class="card-img-top" style="width:405px;" *ngIf="mapsPoints[i] && chart.isMap">
-                <app-map style="height: 5px;" [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="2"></app-map>
-            </div>
-            <div class="card-body">
-                <div class="card-text">
-                    <div style="height: 50px; ">
-                        <div style="float: left;">
-                            <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
-                        </div>
-                        <div id="logoAragonGraph">
-                            <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
+                </div>
+                <div class="card-img-top" *ngIf="chart!==undefined && !chart.isMap" style="display: block;" style="padding-bottom: 9px">
+                    <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
+                </div>
+                <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
+                    <app-map style="height: 5px;" [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6"></app-map>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <div style="height: 50px; ">
+                            <div style="float: left;">
+                                <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
+                            </div>
+                            <div id="logoAragonGraph">
+                                <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,6 +42,43 @@
         </div>
     </div>
 </div>
+<!--
+<div class="carousel">
+    <div class="row">
+        <div class="card-deck">
+            <div class="card" *ngFor="let chart of carouselData; let i = index;" style="max-width: 23rem;">
+                <div class="col-sm-6">
+                    <div class="card-header">
+                        {{chart.title}}
+
+                            <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3" style="float:right">
+                                    <i class="fa fa-refresh"></i>
+                            </button>
+                    </div>
+                    <div class="card-img-top" *ngIf="chart!==undefined && !chart.isMap" style="display: block;">
+                        <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
+                    </div>
+                    <div class="card-img-top" style="width:405px;" *ngIf="mapsPoints[i] && chart.isMap">
+                        <app-map style="height: 5px;" [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="2"></app-map>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <div style="height: 50px; ">
+                                <div style="float: left;">
+                                    <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
+                                </div>
+                                <div id="logoAragonGraph">
+                                    <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
 <!--
     <ngx-carousel [inputs]="carouselTileTwo">
         <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
