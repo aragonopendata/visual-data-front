@@ -5,13 +5,13 @@
     </div>
 </div>
 
-<div class="center">
+<div class="center" *ngIf="!mobile">
     <button (click)="next()" class="button">Crear nueva gr&aacute;fica</button>
 </div>
 
 <div class="carousel">
-    <div class="row">
-        <div class="col-sm-4" *ngFor="let chart of carouselData; let i = index;" style="max-width: 26rem;">
+    <div class="row" style="justify-content:center;">
+        <div class="col-sm-4 card-deck" *ngFor="let chart of carouselData; let i = index;" style="max-width: 26rem;">
             <div class="card" style="margin-bottom: 10px">
                 <div class="card-header">
                     {{chart.title}}

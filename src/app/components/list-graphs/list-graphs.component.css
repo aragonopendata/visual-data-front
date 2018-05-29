@@ -146,7 +146,6 @@ img {
   min-width: 320px;
   margin: auto;
   padding-right: 0;
-  padding-left: 10%;
 }
 
 .paginator{
@@ -162,4 +161,8 @@ img {
   width: 170px; 
   margin-top: 4%; 
   margin-right: 2%
+}
+
+.card{
+  min-width: 320px;
 }

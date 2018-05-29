@@ -37,6 +37,8 @@ export class ListGraphsComponent implements OnInit {
 
   n_graphs = 6;
 
+  mobile: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -44,6 +46,7 @@ export class ListGraphsComponent implements OnInit {
     private listGraphService: GraphService,
     private utilsGraphService: UtilsGraphService
   ) {
+    this.mobile = false;
     // Event that disable the loading screen and update the carousel
     this.utilsGraphService.loading.subscribe(value => {
       if(value == false){
@@ -69,6 +72,10 @@ export class ListGraphsComponent implements OnInit {
       load: 2,
       touch: true
     };
+
+    if (window.screen.width === 360) { // 768px portrait
+      this.mobile = true;
+    }
 
     this.loadCarousel();
   }
@@ -121,6 +128,7 @@ export class ListGraphsComponent implements OnInit {
   pageGraphs(n){
     if( (this.pagination + n) >= 0 && (this.carouselData.length == this.n_graphs || n == -1)){
       this.pagination += n;
+      window.scrollTo(0, 0)
       this.loadCarousel();
     }
   }

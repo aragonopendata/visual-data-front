@@ -44,7 +44,7 @@
         </div>
         <accordion-group heading="Vía recurso de Aragón Open Data" (isOpenChange)="whoIsOpen('URL')">
             <div style="float:left">
-                <input type="text"  size="70%" pInputText [(ngModel)]="urlPackagesInfo"/>
+                <input type="text"  size="70%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage()"/>
             </div>
             <div style="float:left">
                 <button type="button" class="button1" (click)="selectPackage()">Añadir Datos</button>
@@ -66,7 +66,7 @@
         <accordion-group heading="SPARQL endpoint" (isOpenChange)="whoIsOpen('VIRTUOSO')">
             <div style="float:left">
                 <div class="ui-float-label">
-                    <textarea pInputTextarea style="width: 400px; height: 150px" [(ngModel)]="virtuosoPackagesInfo"></textarea>
+                    <textarea pInputTextarea style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo" (keyup.enter)="selectPackage()"></textarea>
                 </div>
             </div>
             <div style="float:left">

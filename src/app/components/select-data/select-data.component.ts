@@ -369,6 +369,10 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.mData = data;
     }
 
+    eventKey(event){
+        console.log(event);
+    }
+
     next() {
         if (((this.opened === 'CKAN' && !this.loading[0]) || (this.opened === 'GAODC' && !this.loading[1])  || 
             (this.opened === 'URL' && !this.loading[2]) || this.opened === 'VIRTUOSO' && !this.loading[3])
