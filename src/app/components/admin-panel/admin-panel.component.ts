@@ -22,6 +22,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     processData: any;
     checkedRemoveGraph: any;
     dataProcess: any;
+    dataset:any;
 
     constructor(
         private route: ActivatedRoute,
@@ -100,12 +101,14 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
             jQuery("#updater").modal("hide");
             // Prepare Dataset
             this.dataProcess = dataProcess;
+            this.dataset = dataProcess.dataset;
             jQuery("#virtuosoModal").modal('show');
         }
     }
 
     callUpdateVirtuoso(){
         jQuery("#listModal").modal("show");
+        this.dataProcess.dataset = this.dataset;
         this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
     }
 
