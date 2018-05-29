@@ -5,6 +5,8 @@ export class Constants {
   public static SAVE_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/save_chart';
   public static SAVE_PROCESS_PATH = Constants.LIST_ALL_CHARTS_PATH + '/save_process';
   public static DOWNLOAD_PROCESS_PATH = Constants.LIST_ALL_CHARTS_PATH + '/download_process/';
+  public static REMOVE_GRAPH_PATH = Constants.LIST_ALL_CHARTS_PATH + '/remove_graph/';
+  public static DOWNLOAD_PROCESS_ALL_PATH = Constants.LIST_ALL_CHARTS_PATH + '/download_all_process/';
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';
   public static PATH_MODIFIER = '';
   //URLS

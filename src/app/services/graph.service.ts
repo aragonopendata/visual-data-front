@@ -105,4 +105,22 @@ export class GraphService {
         return Observable.throw("errorConexion");
       });
   }
+
+    // Make the call to save the process of graph generation
+    getAllProcess() {
+      return this.http
+        .get(Constants.VISUAL_BACK_SERVER_URL + Constants.DOWNLOAD_PROCESS_ALL_PATH)
+        .map((res: Response) => res.json()).catch((err) => { 
+          return Observable.throw("errorConexion");
+        });
+    }
+
+  // Make the call to remove the graph
+  removeGraph(idProcess) {
+    return this.http
+      .get(Constants.VISUAL_BACK_SERVER_URL + Constants.REMOVE_GRAPH_PATH + idProcess)
+      .map((res: Response) => res.json()).catch((err) => { 
+        return Observable.throw("errorConexion");
+      });
+  }
 }

@@ -88,7 +88,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.listGaodc = ['Cargando Espere'];
         this.packagesList = [];
         this.headerTable = [];
-        this.loading = [true, true, false, false]; // CKAN, GAODC, URL, VIRTUOSO
+        this.loading = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
         this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
         this.nextStep = true;
         this.urlError = false;
@@ -96,6 +96,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        /*
         this.ckanservice.getPackageList().subscribe(data => {
             data.result.results.forEach(element => {
                 this.listCkan.push(element.name);
@@ -118,6 +119,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.loading[1] = false;
             this.errorResponse[1] = true;
         },);
+        */
     }
 
     ngOnDestroy() {
@@ -129,7 +131,6 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             }else{
                 this.dataservice.type = 'URL';
                 this.dataservice.url = this.ckanPackagesInfo;
-                console.log(this.dataservice.url);
             }
         }
         this.dataservice.datasetSelected = this.packagesInfo;

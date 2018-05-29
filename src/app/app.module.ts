@@ -43,6 +43,7 @@ import { ListGraphsComponent } from './components/list-graphs/list-graphs.compon
 import { SelectDataComponent } from './components/select-data/select-data.component';
 import { PreviewDataComponent } from './components/preview-data/preview-data.component';
 import { PreviewGraphComponent } from './components/preview-graph/preview-graph.component';
+import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
 import { NestJSONComponent } from './components/nest-json/nest-json.component';
@@ -63,6 +64,7 @@ const pathModifier = Constants.PATH_MODIFIER;
 const routes: Routes = [
   // Embed Routes
   { path: pathModifier + 'charts/embed/:id', component: EmbedGraphComponent},
+  { path: pathModifier + 'adminPanel', component: AdminPanelComponent},
 
   // No Embed routes
   {
@@ -115,7 +117,8 @@ const routes: Routes = [
     EndGraphComponent,
     EmbedGraphComponent,
     NestJSONComponent,
-    MapComponent
+    MapComponent,
+    AdminPanelComponent
   ],
   providers: [
     DatePipe,

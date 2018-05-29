@@ -94,6 +94,7 @@ export class UtilsGraphService {
           
           this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, chartDescription, dataProcess.title,
             dataProcess.widthGraph).subscribe(dataLink => {
+                this.loading.next(true);
                 this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.url, dataProcess.dataset,
                   dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.columnsDescription, dataProcess.fieldOrder, dataProcess.sortOrder, dataProcess.title,
                   dataProcess.legend, dataProcess.widthGraph, dataLink.id).subscribe(data => {

@@ -48,7 +48,9 @@ export class ListGraphsComponent implements OnInit {
     this.utilsGraphService.loading.subscribe(value => {
       if(value == false){
         this.loadCarousel();
-        jQuery("#listModal").modal("hide");
+        setTimeout(function(){
+          jQuery("#listModal").modal("hide");
+        },1000);
       }
     })
   }
