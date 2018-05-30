@@ -46,6 +46,14 @@ export class ListGraphsComponent implements OnInit {
     private listGraphService: GraphService,
     private utilsGraphService: UtilsGraphService
   ) {
+    //Check if the browser is IE
+    var ua = window.navigator.userAgent;
+
+    var msie = ua.indexOf('MSIE ');
+    var trident = ua.indexOf('Trident/');
+    if (msie > 0 || trident > 0) {
+      this.n_graphs = 3;
+    }
     this.mobile = false;
     // Event that disable the loading screen and update the carousel
     this.utilsGraphService.loading.subscribe(value => {
