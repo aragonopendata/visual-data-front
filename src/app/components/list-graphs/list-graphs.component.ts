@@ -89,6 +89,7 @@ export class ListGraphsComponent implements OnInit {
   }
 
   loadCarousel(){
+    this.carouselData = [];
     this.listGraphService.getCharts( this.pagination, this.n_graphs).subscribe(data => {
       this.carouselData = data.charts;
       data.charts.forEach((chart, index) => {
