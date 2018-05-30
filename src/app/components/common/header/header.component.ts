@@ -1,12 +1,10 @@
+import * as $ from 'jquery';
 import { Component, OnInit } from '@angular/core';
+import { AppComponent } from '../../../app.component';
 import { Constants } from '../../../app.constants';
-import { Dataset } from '../../../models/Dataset';
-import { Observable } from 'rxjs/Observable';
-import { Autocomplete } from '../../../models/Autocomplete';
-import { Subject } from 'rxjs/Subject';
-import { Router } from '@angular/router';
-import { DatasetsService } from '../../../services/datasets.service';
-declare var $: any;
+import { debounceTime } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,11 +12,8 @@ declare var $: any;
 })
 export class HeaderComponent implements OnInit {
   menuActive = false;
-  srcMenu: String = '../../../assets/header-footer/Boton-Menu-Responsive-OFF.png';
-  srcLogin: String = '../../../assets/header-footer/Boton-Acceso-Usuarios-OFF.png';
-  dataset: Dataset;
-  datasetAutocomplete: Autocomplete[];
-  private datasetTitle = new Subject<string>();
+  srcMenu: String = '/static/public/header/images/Boton-Menu-Responsive-OFF.png';
+  srcLogin: String = '/static/public/header/images/Boton-Acceso-Usuarios-OFF.png';
   private resultsLimit: number;
   // Dynamic URL build parameters
   routerLinkLogin: string;
@@ -47,9 +42,10 @@ export class HeaderComponent implements OnInit {
   aragonParticipaWebUrl: string;
 
   constructor(
+    private locale: AppComponent,
     private constants: Constants,
-    private datasetService: DatasetsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.aodBaseUrl = Constants.AOD_BASE_URL;
     this.presupuestosBaseUrl = Constants.PRESUPUESTOS_BASE_URL;
@@ -82,70 +78,69 @@ export class HeaderComponent implements OnInit {
 
   openNav() {
     if (!this.menuActive) {
-      $('.overlay').css('top', $('#header').height() - 20);
-      $('#myNav').height($(window).height() - $('#header').height() + 20);
+      $('.overlay').css('top', $('#header').height());
+      $('#myNav').height($(window).height() - $('#header').height());
       $('#logo').attr(
         'src',
-        '../../../assets/header-footer/AOD-Logo-Responsive.png'
+        '/static/public/header/images/AOD-Logo-Responsive.png'
       );
       this.menuActive = !this.menuActive;
       $('#nav').attr('class', 'navbar navbar-toggleable-md bg-inverse');
       $('#nav').css('background-color', 'rgba(0,0,0, 0.82)');
       this.srcLogin =
-        '../../../assets/header-footer/Boton-Acceso-Usuarios-gris.png';
+        '/static/public/header/images/Boton-Acceso-Usuarios-gris.png';
       this.srcMenu =
-        '../../../assets/header-footer/Boton-Salir-Menu-Responsive-OFF.png';
+        '/static/public/header/images/Boton-Salir-Menu-Responsive-OFF.png';
     } else {
       $('body,html').css('overflow-y', 'auto');
       $('#myNav').height('0%');
       $('#nav').attr('class', 'navbar navbar-toggleable-md bg-light');
-      $('#logo').attr('src', '../../../assets/header-footer/AOD-Logo.png');
+      $('#logo').attr('src', '/static/public/header/images/AOD-Logo.png');
       $('#searchBox').val('');
       this.menuActive = !this.menuActive;
       this.srcLogin =
-        '../../../assets/header-footer/Boton-Acceso-Usuarios-OFF.png';
+        '/static/public/header/images/Boton-Acceso-Usuarios-OFF.png';
       this.srcMenu =
-        '../../../assets/header-footer/Boton-Menu-Responsive-OFF.png';
-      this.datasetAutocomplete = [];
+        '/static/public/header/images/Boton-Menu-Responsive-OFF.png';
     }
   }
 
-  hover(id: string) {
+  hover(id) {
     if (this.menuActive) {
       if (id === '#login') {
         this.srcLogin =
-          '../../../assets/header-footer/Boton-Acceso-Usuarios-blanco.png';
+          '/static/public/header/images/Boton-Acceso-Usuarios-blanco.png';
       } else if (id === '#menu') {
         this.srcMenu =
-          '../../../assets/header-footer/Boton-Salir-Menu-Responsive-ON.png';
+          '/static/public/header/images/Boton-Salir-Menu-Responsive-ON.png';
       }
     } else {
       if (id === '#login') {
         this.srcLogin =
-          '../../../assets/header-footer/Boton-Acceso-Usuarios-ON.png';
+          '/static/public/header/images/Boton-Acceso-Usuarios-ON.png';
       } else if (id === '#menu') {
         this.srcMenu =
-          '../../../assets/header-footer/Boton-Menu-Responsive-ON.jpg';
+          '/static/public/header/images/Boton-Menu-Responsive-ON.jpg';
       }
     }
   }
 
-  unhover(id: string) {
+  unhover(id) {
     if (this.menuActive) {
       if (id === '#login') {
         this.srcLogin =
-          '../../../assets/header-footer/Boton-Acceso-Usuarios-gris.png';
+          '/static/public/header/images/Boton-Acceso-Usuarios-gris.png';
       } else if (id === '#menu') {
         this.srcMenu =
-          '../../../assets/header-footer/Boton-Salir-Menu-Responsive-OFF.png';
+          '/static/public/header/images/Boton-Salir-Menu-Responsive-OFF.png';
       }
     } else {
       if (id === '#login') {
         this.srcLogin =
-          '../../../assets/header-footer/Boton-Acceso-Usuarios-OFF.png';
+          '/static/public/header/images/Boton-Acceso-Usuarios-OFF.png';
       } else if (id === '#menu') {
         this.srcMenu =
-          '../../../assets/header-footer/Boton-Menu-Responsive-OFF.png';
+          '/static/public/header/images/Boton-Menu-Responsive-OFF.png';
       }
     }
   }
@@ -153,27 +148,12 @@ export class HeaderComponent implements OnInit {
   search(title: string): void {
     // Lectura cuando hay al menos 3 caracteres, (3 espacios produce error).
     if (title.length >= Constants.DATASET_AUTOCOMPLETE_MIN_CHARS) {
-      this.datasetTitle.next(title);
     } else {
-      this.datasetAutocomplete = null;
     }
   }
 
   getAutocomplete(): void {
-    /*
-		//Funciona la busqueda, falla al poner un caracter especial
-		this.datasetTitle
-			.debounceTime(Constants.DATASET_AUTOCOMPLETE_DEBOUNCE_TIME)
-			.distinctUntilChanged()
-			.switchMap(title => title
-				? this.datasetService.getDatasetsAutocomplete(title, this.resultsLimit)
-				: Observable.of<Autocomplete[]>([]))
-			.catch(error => {
-				console.error(error);
-				return Observable.of<Autocomplete[]>([]);
-			}).subscribe(data =>
-                this.datasetAutocomplete = JSON.parse(data).result);
-                */
+    // Funciona la busqueda, falla al poner un caracter especial
   }
 
   focusUserName() {
@@ -181,16 +161,19 @@ export class HeaderComponent implements OnInit {
   }
 
   searchDatasetsByText(text: string) {
-    this.router.navigate([this.aodBaseUrl + '/' + this.routerLinkDataCatalog], {
+    this.router.navigate(['/' + this.routerLinkDataCatalog], {
       queryParams: { texto: text }
     });
   }
 
-  onResize(event: string) {
+  onResize(event) {
     $('.overlay').css('top', $('#header').height());
     if (this.menuActive === true) {
       $('#myNav').height($(window).height() - $('#header').height());
     }
+  }
+
+  navigate(name: string) {
   }
 
   ngOnInit() {

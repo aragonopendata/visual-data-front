@@ -6,8 +6,8 @@
             </ul>-->
         <div class="row primary nav">
             <div class="col-4 col-sm-6">
-                <img class="img-fluid imgob" id="imgGobAragon" src="../../../assets/header-footer/logoDGABlanco.png" />
-                <img id="imgGobFEDER" class="img-fluid imgob" src="../../../assets/header-footer/logoFEDER.png" />
+                <img class="img-fluid imgob" id="imgGobAragon" src="/static/public/contenido-general/header/logoDGABlanco.png" />
+                <img id="imgGobFEDER" class="img-fluid imgob" src="/static/public/contenido-general/header/logoFEDER.png" />
             </div>
             <div class="col-8 col-sm-6">
                 <a class="nav-link col-3" href="{{transparenciaWebUrl}}" target="_blank">TRANSPARENCIA</a>
@@ -17,9 +17,8 @@
         </div>
     </div>
     <div class="navbar navbar-toggleable-md navbar-light" id="nav">
-
         <a class="navbar-brand logo" href="{{aodBaseUrl}}">
-            <img class="navbar-brand" id="logo" src="../../../assets/header-footer/AOD-Logo.png" class="d-inline-block align-top" alt="">
+            <img class="navbar-brand" id="logo" src="/static/public/header/images/AOD-Logo.png" class="d-inline-block align-top" alt="">
         </a>
         <div id="loginLink" class="nav-item menuLogin" (mouseenter)="hover('#login')" (mouseleave)="unhover('#login')">
             <a class="nav-link aLogin" (click)="focusUserName()" href="{{aodBaseUrl}}/{{routerLinkLogin}}" >
