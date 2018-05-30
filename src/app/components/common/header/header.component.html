@@ -12,17 +12,17 @@
             <div class="col-8 col-sm-6">
                 <a class="nav-link col-3" href="{{transparenciaWebUrl}}" target="_blank">TRANSPARENCIA</a>
                 <a class="nav-link col-6" href="{{aragonParticipaWebUrl}}" target="_blank">PARTICIPACIÓN CIUDADANA</a>
-                <a class="nav-link active col-3" href="/">OPEN DATA</a>
+                <a class="nav-link active col-3" href="{{aodBaseUrl}}">OPEN DATA</a>
             </div>
         </div>
     </div>
     <div class="navbar navbar-toggleable-md navbar-light" id="nav">
 
-        <a class="navbar-brand logo" href="/">
+        <a class="navbar-brand logo" href="{{aodBaseUrl}}">
             <img class="navbar-brand" id="logo" src="../../../assets/header-footer/AOD-Logo.png" class="d-inline-block align-top" alt="">
         </a>
-        <div id="loginLink" class="nav-item menuLogin" routerLink="/{{routerLinkLogin}}" (mouseenter)="hover('#login')" (mouseleave)="unhover('#login')">
-            <a class="nav-link aLogin" routerLinkActive="active" (click)="focusUserName()">
+        <div id="loginLink" class="nav-item menuLogin" (mouseenter)="hover('#login')" (mouseleave)="unhover('#login')">
+            <a class="nav-link aLogin" (click)="focusUserName()" href="{{aodBaseUrl}}/{{routerLinkLogin}}" >
                 <img id="login" class="aLogin" src="{{srcLogin}}" alt="x" border="0" />
             </a>
         </div>
@@ -48,13 +48,13 @@
                     <div class="card-block">
                         <ul id="datos">
                             <li>
-                                <a routerLink="/{{routerLinkDataCatalog}}" (click)="openNav()">Banco de datos</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkDataCatalog}}" (click)="openNav()">Banco de datos</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkDataTopics}}" (click)="openNav()">Temas</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkDataTopics}}" (click)="openNav()">Temas</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkDataOrganizations}}" (click)="openNav()">Publicadores</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkDataOrganizations}}" (click)="openNav()">Publicadores</a>
                             </li>
                         </ul>
                     </div>
@@ -78,10 +78,13 @@
                                 <a href="{{presupuestosBaseUrl}}" (click)="openNav()">Presupuestos</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkServicesAnalytics}}" (click)="openNav()">Open Analytics Data</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkServicesAnalytics}}" (click)="openNav()">Open Analytics Data</a>
                             </li>
                             <li>
                                 <a href="{{aodBaseUrl}}/{{routerLinkServicesSocialData}}" (click)="openNav()">Open Social Data</a>
+                            </li>
+                            <li>
+                                <a routerLink="/" (click)="openNav()">Open Visual Data</a>
                             </li>
                             <li>
                                 <a href="{{aodBaseUrl}}/{{routerLinkServicesCras}}" (click)="openNav()">CRAs Aragón</a>
@@ -102,16 +105,16 @@
                     <div class="card-block">
                         <ul id="info">
                             <li>
-                                <a routerLink="/{{routerLinkInfoOpenData}}" (click)="openNav()">Información</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkInfoOpenData}}" (click)="openNav()">Información</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkInfoApplications}}" (click)="openNav()">Aplicaciones</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkInfoApplications}}" (click)="openNav()">Aplicaciones</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkInfoEventos}}" (click)="openNav()">Eventos</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkInfoEventos}}" (click)="openNav()">Eventos</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkInfoCollaboration}}" (click)="openNav()">Colabora</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkInfoCollaboration}}" (click)="openNav()">Colabora</a>
                             </li>
                         </ul>
                     </div>
@@ -129,16 +132,16 @@
                     <div class="card-block">
                         <ul id="tools">
                             <li>
-                                <a routerLink="/{{routerLinkToolsCampus}}" (click)="openNav()">AOD Campus</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkToolsCampus}}" (click)="openNav()">AOD Campus</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkToolsDevelopers}}" (click)="openNav()">Desarrolladores</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkToolsDevelopers}}" (click)="openNav()">Desarrolladores</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkToolsApis}}" (click)="openNav()">APIs</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkToolsApis}}" (click)="openNav()">APIs</a>
                             </li>
                             <li>
-                                <a routerLink="/{{routerLinkToolsSparql}}" (click)="openNav()">SPARQL</a>
+                                <a href="{{aodBaseUrl}}/{{routerLinkToolsSparql}}" (click)="openNav()">SPARQL</a>
                             </li>
                             <li>
                                 <a href="{{routerLinkToolsGithub}}" (click)="openNav()">GITHUB</a>
@@ -148,21 +151,21 @@
                 </div>
             </div>
         </div>
-        <div>
+        <!-- <div>
             <form class="search">
-                <button type="button" class="btnSearch" routerLink="/{{routerLinkDataCatalog}}" [queryParams]="{texto:searchBox.value}" (click)="openNav()">
+                <button type="button" class="btnSearch" routerLink="{{aodBaseUrl}}/{{routerLinkDataCatalog}}" [queryParams]="{texto:searchBox.value}" (click)="openNav()">
                     <i aria-hidden="true" class="fa fa-search" style="display: table; vertical-align: middle;"></i>
                 </button>
                 <input autocomplete="off" #searchBox id="searchBox" placeholder="BUSCA DATOS ABIERTOS" type="search" class="textBox" (keyup)="search(searchBox.value)"
                     (keyup.enter)="searchDatasetsByText(searchBox.value); openNav();" />
                 <div id="resultsList">
                     <div *ngFor="let autocomplete of datasetAutocomplete" class="search-result">
-                        <a routerLink='/{{routerLinkDataCatalogDataset}}/{{autocomplete.name}}' (click)="openNav()">
+                        <a href='{{aodBaseUrl}}/{{routerLinkDataCatalogDataset}}/{{autocomplete.name}}' (click)="openNav()">
                             {{autocomplete.title}}
                         </a>
                     </div>
                 </div>
             </form>
-        </div>
+        </div> -->
     </div>
     </div>

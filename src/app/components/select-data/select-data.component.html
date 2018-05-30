@@ -1,6 +1,7 @@
 <div>
-    <accordion>
-        <accordion-group heading="Cat&aacute;logo de datos abiertos" (onOpen)="whoIsOpen('CKAN')">
+    <accordion [closeOthers]=true>
+        <div *ngIf="false">
+        <accordion-group heading="Cat&aacute;logo de datos abiertos" (isOpenChange)="whoIsOpen('CKAN')">
             <div style="float:left">
                 <div>
                     <!--<input  ngui-auto-complete max-num-list=5 [(ngModel)]="myData" [source]="list" />-->
@@ -20,7 +21,7 @@
                 </ul>
             </div>
         </accordion-group>
-        <accordion-group heading="Gobierno de Aragón Open Data Core GA_OD_Core" (onOpen)="whoIsOpen('GAODC')">
+        <accordion-group heading="Gobierno de Aragón Open Data Core GA_OD_Core" (isOpenChange)="whoIsOpen('GAODC')">
             <div style="float:left">
                 <div>
                     <!--<input  ngui-auto-complete max-num-list=5 [(ngModel)]="myData" [source]="list" />-->
@@ -40,15 +41,17 @@
                 </ul>
             </div>
         </accordion-group>
-        <accordion-group heading="URL" (onOpen)="whoIsOpen('URL')">
+        </div>
+        <accordion-group heading="Vía recurso de Aragón Open Data" (isOpenChange)="whoIsOpen('URL')">
             <div style="float:left">
-                <input type="text"  size="70%" pInputText [(ngModel)]="urlPackagesInfo"/>
+                <input type="text"  size="70%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage()"/>
             </div>
             <div style="float:left">
                 <button type="button" class="button1" (click)="selectPackage()">Añadir Datos</button>
             </div>
             <div *ngIf="loading[2]" class="loader" style="float:left; margin-left: 2%"></div>
-            <div *ngIf="errorResponse[2]" class="cross" style="float:left; margin-left: 2%">&times;</div>
+            <div *ngIf="errorResponse[2]" class="cross" style="float:left; margin-left: 2%">&times;</div> 
+            <span style="color: #DF3A01; padding-left: 10px"><strong>{{errorMessage}}</strong></span>
             <div style="float:left ;margin-left: 5%; word-break: break-all">
                 <ul>
                     <li *ngIf="urlError" style="color: #DF3A01; padding-top: 5px">
@@ -60,10 +63,10 @@
                 </ul>
             </div>
         </accordion-group>
-        <accordion-group heading="SPARQL endpoint" (onOpen)="whoIsOpen('VIRTUOSO')">
+        <accordion-group heading="SPARQL endpoint" (isOpenChange)="whoIsOpen('VIRTUOSO')">
             <div style="float:left">
                 <div class="ui-float-label">
-                    <textarea pInputTextarea style="width: 400px; height: 150px" [(ngModel)]="virtuosoPackagesInfo"></textarea>
+                    <textarea pInputTextarea style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo" (keyup.enter)="selectPackage()"></textarea>
                 </div>
             </div>
             <div style="float:left">
@@ -85,12 +88,12 @@
     </accordion>
 
     <span *ngIf="dataTable">
-        <p-dataTable resizableColumns="true" responsive="true" [scrollable]="true" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
+        <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true" [immutable]=false scrollable="true"  #dt>
             <p-header>Dataset</p-header>
             <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                 <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
                     <ng-template let-entry="rowData" pTemplate="body">
-                            <span class="row" *ngIf='!maxCharacters(entry,i)'>
+                            <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;">
                                     {{entry[i]}}
                             </span>
                             <span class="row" *ngIf="maxCharacters(entry,i)">

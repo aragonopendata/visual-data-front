@@ -18,7 +18,7 @@ export class URLService {
   getPackageInfo(data: String) {
     console.log("URL")
     const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    headers.append('Content-Type', 'application/json; charset=UTF-8');
     const body = JSON.stringify({ packages:  data  });
     return this.http
       .post(this.serverURL + '/services/url/packageInfo', body, {

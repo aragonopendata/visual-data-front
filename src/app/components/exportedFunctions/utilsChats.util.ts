@@ -9,6 +9,8 @@ import { URLService } from '../../services/url.service';
 import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
 import { Comparator } from '../exportedFunctions/lib';
+import { reducerMapPoints } from '../exportedFunctions/lib';
+import { prepareArrayXY } from '../exportedFunctions/lib';
 
 @Injectable()
 export class UtilsGraphService {
@@ -27,8 +29,15 @@ export class UtilsGraphService {
   prepareAndSave(dataProcess, headerTable, dataTable){
           const dataSelected = [];
           let checkedData = [];
-          checkedData = dataProcess.columnsLabel.concat(dataProcess.columnsData);
-          dataTable= dataTable.sort(Comparator(headerTable.findIndex(element => element == dataProcess.fieldOrder), dataProcess.sortOrder));
+          if(dataProcess.isMap){
+            checkedData = dataProcess.columnsLabel.concat(dataProcess.columnsDescription)
+            checkedData = checkedData.concat(dataProcess.columnsData)
+          }
+          else
+            checkedData = dataProcess.columnsLabel.concat(dataProcess.columnsData);
+
+          if(dataProcess.sortOrder != -2)
+            dataTable= dataTable.sort(Comparator(headerTable.findIndex(element => element == dataProcess.fieldOrder), dataProcess.sortOrder));
           //Preparing the initial table with the correct columns and order
           checkedData.forEach(element => {
             var i = headerTable.indexOf(element);
@@ -44,6 +53,12 @@ export class UtilsGraphService {
           // Labels Array and the Data array with the Legend
           var chartLabels = dataSelected[0];
           dataSelected.splice(0, 1);
+
+          var chartDescription;
+          if(dataProcess.isMap){
+            chartDescription = dataSelected[0];
+            dataSelected.splice(0, 1);
+          }
     
           dataSelected.forEach((element, index) => {
             dataSelected[index] = { data: dataSelected[index], label: dataProcess.legend[index].label };
@@ -54,13 +69,34 @@ export class UtilsGraphService {
           //Delete duplicate values
           if(!dataProcess.isMap)
             removeDuplicates(chartLabels, chartData);
+          else{
+
+            var index = 0;
+            do{
+                var i = index + 1;
+                while(i < chartLabels.length){
+                    if(chartLabels[index] == chartLabels[i] && chartData[0].data[index] == chartData[0].data[i]){
+                        chartLabels.splice(i, 1);
+                        chartData[0].data.splice(i, 1);
+                        if(chartDescription && chartDescription.length != 0){
+                          chartDescription[index] = chartDescription[index] + " " + chartDescription[i];
+                          chartDescription.splice(i,1);
+                        }
+                        i--;
+                    }
+                    i++;
+                };
+                index++;
+            }while(index < chartLabels.length);
+          }
     
           // Update the chart with the new data
           
-          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, dataProcess.title,
+          this.listGraphService.saveGraph(dataProcess.chartDataId, dataProcess.chartType, dataProcess.isMap,chartLabels, chartData, chartDescription, dataProcess.title,
             dataProcess.widthGraph).subscribe(dataLink => {
+                this.loading.next(true);
                 this.listGraphService.saveProcess(dataProcess.id, dataProcess.typeOfData, dataProcess.url, dataProcess.dataset,
-                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.fieldOrder, dataProcess.sortOrder, dataProcess.title,
+                  dataProcess.chartType, dataProcess.isMap, dataProcess.columnsLabel, dataProcess.columnsData, dataProcess.columnsDescription, dataProcess.fieldOrder, dataProcess.sortOrder, dataProcess.title,
                   dataProcess.legend, dataProcess.widthGraph, dataLink.id).subscribe(data => {
                       this.loading.next(false);
                 },

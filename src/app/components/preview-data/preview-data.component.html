@@ -1,7 +1,7 @@
 <div class="row">
     <div class="column1">
-        <button type="button" class="btn btn-secondary" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Nombre Columnas</button>
-        <strong style="padding-left: 25px;">Seleccionar Columnas:</strong>       
+        <button type="button" class="btn" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Nombre Columnas</button>
+        <strong style="padding-left: 25px; display: block;">Seleccionar Columnas:</strong>       
         <div style="overflow:auto;height: 500px;">
             <ul>
                 <ng-template ngFor let-property [ngForOf]="headerTable">
@@ -21,7 +21,7 @@
             <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                 <p-column [style]="{width: '200px'}" field={{property}} header={{property}} [sortable]="true">
                     <ng-template let-entry="rowData" pTemplate="body">
-                            <span class="row" *ngIf='!maxCharacters(entry,i)'>
+                            <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;">
                                     {{entry[i]}}
                             </span>
                             <span class="row" *ngIf="maxCharacters(entry,i)">
@@ -35,7 +35,7 @@
         </p-dataTable>
     </div>
 </div>
-
+<div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
 <button (click)="next()" class="button">Crear Grafica</button>
 
 <!-- Modal -->
@@ -54,7 +54,7 @@
                 </code>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -75,8 +75,8 @@
             </p-dataTable>
             
             <div class="modal-footer">
-                <button type="button" (click)="changeColumnsName()" class="btn btn-secondary" data-dismiss="modal">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" (click)="changeColumnsName()" class="btn" data-dismiss="modal">Guardar</button>
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

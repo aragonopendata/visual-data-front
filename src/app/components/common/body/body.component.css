@@ -9,3 +9,10 @@
     padding-left: 20px;
   }
   
+
+  .marginOpenData{
+    max-width: 80vw;
+    min-width: 320px;
+    margin: auto;
+    padding-right: 0;
+  }

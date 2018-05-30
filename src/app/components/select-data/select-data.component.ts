@@ -39,6 +39,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     loading: boolean[];
     errorResponse: boolean[];
+    errorMessage: any;
 
     //Modal Data if the text is too long
 
@@ -87,7 +88,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.listGaodc = ['Cargando Espere'];
         this.packagesList = [];
         this.headerTable = [];
-        this.loading = [true, true, false, false]; // CKAN, GAODC, URL, VIRTUOSO
+        this.loading = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
         this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
         this.nextStep = true;
         this.urlError = false;
@@ -95,6 +96,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        /*
         this.ckanservice.getPackageList().subscribe(data => {
             data.result.results.forEach(element => {
                 this.listCkan.push(element.name);
@@ -117,6 +119,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.loading[1] = false;
             this.errorResponse[1] = true;
         },);
+        */
     }
 
     ngOnDestroy() {
@@ -128,7 +131,6 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             }else{
                 this.dataservice.type = 'URL';
                 this.dataservice.url = this.ckanPackagesInfo;
-                console.log(this.dataservice.url);
             }
         }
         this.dataservice.datasetSelected = this.packagesInfo;
@@ -161,7 +163,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 if (checker >= 0) {
                     //Correct link
                     this.gaodcCall(this.urlPackagesInfo, checker);
-                } else if(checker == -2){
+                } else if(checker == -1){
+                    this.ckanCall(this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1));
+                }else if(checker == -2){
                     this.urlCall(this.urlPackagesInfo);
                 }
             }
@@ -181,7 +185,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     checkURL() {
         let exist = 0;
         // Check All URLs
-        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id="];
+        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id=", "https://opendata.aragon.es/datos/catalogo/dataset/"];
 
         //GAODC Test URL
         if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]) {
@@ -190,8 +194,10 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             if (n_package.toString() !== 'NaN') {
                 return n_package;
             }else{
-                return -1;
+                return -3;
             }
+        } if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]) {
+            return -1;
         } else { //OTher URL
             return -2;
         }
@@ -224,7 +230,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                         this.packagesList.pop();
                         this.loading[0] = false;
                         this.errorResponse[0] = true;
-                    }                
+                    }             
+                    this.loading[2] = false;   
                 });
 
             }else{
@@ -242,6 +249,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     urlCall(namePackage: string){
         this.errorResponse[2] = false;
+        this.errorMessage = "";
         this.packagesList.push(namePackage);
         this.urlPackagesInfo = namePackage;
         this.urlservice.getPackageInfo(this.packagesList[0]).subscribe(data => {
@@ -260,6 +268,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 }else if(data.result[0].format == "Error") {
                     this.loading[2] = false;
                     this.errorResponse[2] = true;
+                    this.packagesList.pop();
+                    this.errorMessage = data.result[0].data.errorMessage; 
                 }
             }else{
                 this.packagesList.pop();
@@ -357,6 +367,10 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     manteinData(data) {
         this.mData = data;
+    }
+
+    eventKey(event){
+        console.log(event);
     }
 
     next() {

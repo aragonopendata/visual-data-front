@@ -1,37 +1,101 @@
-
 <div class="pagina">
-	<h1 >Open Visual data</h1>
-	<div >
-		Open Visual Data te permite crear gráficos y visualizaciones con los datos disponibles en Aragón Open Data.
-	</div>
+    <h1>Open Visual data</h1>
+    <div>
+        Open Visual Data te permite crear gráficos y visualizaciones con los datos disponibles en Aragón Open Data.
+    </div>
 </div>
 
-<div class="center">
+<div class="center" *ngIf="!mobile">
     <button (click)="next()" class="button">Crear nueva gr&aacute;fica</button>
 </div>
 
-<div class="carousel" >
+<div class="carousel">
+    <div class="row" style="justify-content:center;">
+        <div class="col-sm-4 card-deck" *ngFor="let chart of carouselData; let i = index;" style="max-width: 26rem;">
+            <div class="card" style="margin-bottom: 10px">
+                <div class="card-header">
+                    {{chart.title}}
+
+                    <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3" style="float:right">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                </div>
+                <div class="card-img-top" *ngIf="chart!==undefined && !chart.isMap" style="display: block;" style="padding-bottom: 9px">
+                    <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
+                </div>
+                <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
+                    <app-map style="height: 5px;" [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6"></app-map>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <div style="height: 50px; ">
+                            <div style="float: left;">
+                                <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
+                            </div>
+                            <div id="logoAragonGraph">
+                                <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class="carousel">
+    <div class="row">
+        <div class="card-deck">
+            <div class="card" *ngFor="let chart of carouselData; let i = index;" style="max-width: 23rem;">
+                <div class="col-sm-6">
+                    <div class="card-header">
+                        {{chart.title}}
+
+                            <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3" style="float:right">
+                                    <i class="fa fa-refresh"></i>
+                            </button>
+                    </div>
+                    <div class="card-img-top" *ngIf="chart!==undefined && !chart.isMap" style="display: block;">
+                        <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
+                    </div>
+                    <div class="card-img-top" style="width:405px;" *ngIf="mapsPoints[i] && chart.isMap">
+                        <app-map style="height: 5px;" [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="2"></app-map>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <div style="height: 50px; ">
+                                <div style="float: left;">
+                                    <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
+                                </div>
+                                <div id="logoAragonGraph">
+                                    <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<!--
     <ngx-carousel [inputs]="carouselTileTwo">
         <ngx-tile NgxCarouselItem *ngFor="let chart of carouselData; let i = index;">
             <div class="wBg">
-                <div class="col-md-10" style="text-align: center; padding-left: 20%" >
+                <div class="col-md-10" style="text-align: center; padding-left: 20%">
                     <span>{{chart.title}}</span>
                 </div>
                 <div class="col-md-2">
-                    <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3"><i class="fa fa-refresh"></i></button>
+                    <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3">
+                        <i class="fa fa-refresh"></i>
+                    </button>
                 </div>
-                <div class="tile" *ngIf="chart!==undefined && !chart.isMap" style="display: block;">
-                    <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions"
-                            [chartType]=chart.type></canvas>
-                </div>
-                <div class="tile" style="width:405px; margin-left:30px;" *ngIf="mapsPoints[i] && chart.isMap">
-                    <app-map style="height: 5px;" [points]="mapsPoints[i]" zoom="2"></app-map>
-                </div>
+                
 
                 <div style="height: 50px; ">
                     <div style="float: left; margin-left: 5%;">
-                            <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
-                            <!--<button (click)="openEmbedChart(chart.id)" class="button2">Embed</button>-->
+                        <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>
                     </div>
                     <div id="logoAragonGraph">
                         <img id="logo" src="../../../assets/header-footer/AOD-Logo.png">
@@ -42,10 +106,10 @@
         <button NgxCarouselPrev class="leftRs">&lt;</button>
         <button NgxCarouselNext class="rightRs">&gt;</button>
     </ngx-carousel>
-</div>
+-->
 <div class="paginator">
-    <button class="button4" style="float:left" (click)="pageGraphs(-1)" >&lt;</button>
-    <button class="button4" style="float:right" (click)="pageGraphs(1)" >&gt;</button>
+    <button class="button4" style="float:left" (click)="pageGraphs(-1)">&lt;</button>
+    <button class="button4" style="float:right" (click)="pageGraphs(1)">&gt;</button>
 </div>
 <!--<app-map points="createPoints(carouselData[1].data[0].data, carouselData[1].labels)"></app-map>-->
 <!-- Modal -->
@@ -64,13 +128,13 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Actualizar consulta</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                    <textarea pInputTextarea style="width: 100%; height: 300px" [(ngModel)]="dataset"></textarea>
+                <textarea pInputTextarea style="width: 100%; height: 300px" [(ngModel)]="dataset"></textarea>
             </div>
-            <div class="modal-footer">        
+            <div class="modal-footer">
                 <button type="button" (click)="callUpdateVirtuoso()" class="btn btn-primary" data-dismiss="modal">Guardar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

@@ -24,11 +24,15 @@ export class EndGraphComponent implements OnInit {
   public points: any;
   public routeEmbed: any;
   public fullRoute: any;
+  public actualRoute: any;
   public width: number;
   public isMap: boolean;
   public title: any;
   public dataProcess: any;
   public dataset:any;
+  public descriptions:any;
+  public id:any;
+  public mapDescriptions: any;
 
 
   public hideEmbed: boolean;
@@ -61,6 +65,7 @@ export class EndGraphComponent implements OnInit {
     id = this.activatedRoute.snapshot.url[1];
     if (id.path != "") {
       this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
+      this.actualRoute = this.fullRoute + '/charts/' + id;
       this.graphservice.getChart(id).subscribe(chart => {
         if (!chart || chart.status == 'notFound') {
           this.router.navigate(['/']);
@@ -72,6 +77,8 @@ export class EndGraphComponent implements OnInit {
         } else {
           this.isMap = chart.isMap;
           this.title = chart.title;
+          this.descriptions = chart.descriptions;  
+          this.id = chart.id;
           
           this.points = prepareArrayXY(chart.data[0].data, chart.labels);
         }

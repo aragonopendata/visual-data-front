@@ -8,6 +8,7 @@ import { GaodcService } from '../../services/gaodc.service';
 import { NgxCarousel } from 'ngx-carousel';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { prepareArrayXY } from '../exportedFunctions/lib';
+import { reducerMapPoints } from '../exportedFunctions/lib';
 
 declare var jQuery:any;
 
@@ -19,21 +20,24 @@ declare var jQuery:any;
 export class ListGraphsComponent implements OnInit {
   imgags: string[];
 
-  private dataProcess:any;
-  private dataset:any;
+  dataProcess:any;
+  dataset:any;
 
-  private carouselData: Array<any> = [];
-  private carouselTileTwo: NgxCarousel;
-  private chartLegend = true;
-  private chartOptions: any = {
+  carouselData: Array<any> = [];
+  carouselTileTwo: NgxCarousel;
+  chartLegend = true;
+  chartOptions: any = {
     responsive: true
   };
-  public isMap: boolean;
-  public points: any;
-  public mapsPoints = [];
-  public pagination = 0;
+  isMap: boolean;
+  points: any;
+  mapsPoints = [];
+  pagination = 0;
+  mapDescriptions = [];
 
-  public n_graphs = 9;
+  n_graphs = 6;
+
+  mobile: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,11 +46,22 @@ export class ListGraphsComponent implements OnInit {
     private listGraphService: GraphService,
     private utilsGraphService: UtilsGraphService
   ) {
+    //Check if the browser is IE
+    var ua = window.navigator.userAgent;
+
+    var msie = ua.indexOf('MSIE ');
+    var trident = ua.indexOf('Trident/');
+    if (msie > 0 || trident > 0) {
+      this.n_graphs = 3;
+    }
+    this.mobile = false;
     // Event that disable the loading screen and update the carousel
     this.utilsGraphService.loading.subscribe(value => {
       if(value == false){
         this.loadCarousel();
-        jQuery("#listModal").modal("hide");
+        setTimeout(function(){
+          jQuery("#listModal").modal("hide");
+        },1000);
       }
     })
   }
@@ -65,6 +80,10 @@ export class ListGraphsComponent implements OnInit {
       load: 2,
       touch: true
     };
+
+    if (window.screen.width === 360) { // 768px portrait
+      this.mobile = true;
+    }
 
     this.loadCarousel();
   }
@@ -117,6 +136,7 @@ export class ListGraphsComponent implements OnInit {
   pageGraphs(n){
     if( (this.pagination + n) >= 0 && (this.carouselData.length == this.n_graphs || n == -1)){
       this.pagination += n;
+      window.scrollTo(0, 0)
       this.loadCarousel();
     }
   }

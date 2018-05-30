@@ -4,7 +4,7 @@ export function removeDuplicates (chartLabels, chartData){
         
     // Test if the data is a string and if it is, transform the array into number of ones
     chartData.forEach(element => {
-        if(typeof element.data[0] == "string"){
+        if(typeOfArray(element.data) == "String"){
             var aux = Array.from(new Array(element.data.length),(val,index)=>1);
             element.data = aux;
         }
@@ -17,7 +17,7 @@ export function removeDuplicates (chartLabels, chartData){
             if(element === chartLabels[i]){
                 //Duplicate Data
                 chartData.forEach((d, index) => {
-                    d.data[findFirst] += d.data[i];
+                    d.data[findFirst] = Number(d.data[findFirst]) + Number(d.data[i]);
                     d.data.splice(i,1);                  
                 });
                 chartLabels.splice(i,1);
@@ -27,12 +27,38 @@ export function removeDuplicates (chartLabels, chartData){
     return [unique, chartData];
 };
 
+export function typeOfArray(array){
+    var exit = true;
+    var newIndex = 0;
+
+    do {
+        exit = false;
+        if(isNaN(array[newIndex]) && array[newIndex] != undefined && array[newIndex] != null){
+            exit = true;
+            return "String";
+        }else{
+            newIndex++;
+            if(newIndex >= array.length){
+                exit = true;
+                return "Number";
+            }
+        }
+    } while (!exit);
+    return undefined;
+}
+
 export function Comparator(index, order) {
-    return function(a, b) {
-        if (a[index] < b[index]) return (order == 1) ? 1 : -1;
-        if (a[index] > b[index]) return (order == 1) ? -1 : 1;
-        return 0;
-    }
+        return function(a, b) {
+            if(!isNaN(Number(a[index])) && !isNaN(Number(b[index]))){
+                if(order == 1)
+                    return a[index] - b[index];
+                else
+                    return b[index] - a[index];
+            }
+            if (a[index] < b[index]) return (order == 1) ? 1 : -1;
+            if (a[index] > b[index]) return (order == 1) ? -1 : 1;
+            return 0;
+        }
 }
 
 export function prepareArrayXY(data, labels){
@@ -50,6 +76,28 @@ export function prepareArrayXY(data, labels){
         }
     });
     return aux;
+}
+
+
+export function reducerMapPoints(points, descriptions){
+    var index = 0;
+    do{
+        var i = index + 1;
+        while(i < points.length){
+            if(points[index].x == points[i].x && points[index].y == points[i].y){
+                points.splice(i, 1);
+                if(descriptions && descriptions.length != 0){
+                    descriptions[index] = descriptions[index] + " " + descriptions[i];
+                    descriptions.splice(i,1);
+                }
+                i--;
+            }
+            i++;
+        };
+        index++;
+    }while(index < points.length);
+
+    return [points, descriptions];
 }
 
 export function parseCSVFile(data, index){

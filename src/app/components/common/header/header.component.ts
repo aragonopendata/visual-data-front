@@ -181,7 +181,7 @@ export class HeaderComponent implements OnInit {
   }
 
   searchDatasetsByText(text: string) {
-    this.router.navigate(['/' + this.routerLinkDataCatalog], {
+    this.router.navigate([this.aodBaseUrl + '/' + this.routerLinkDataCatalog], {
       queryParams: { texto: text }
     });
   }
