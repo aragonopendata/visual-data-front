@@ -1,4 +1,4 @@
-<p-dataTable [value]="processData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [globalFilter]="gb">
+<p-dataTable [value]="processData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
     <p-header>Listado de gráficas</p-header>
     <p-column field="chartDataId" header="Identificador de Gráfica"  [filter]="true" filterPlaceholder="Search"></p-column>
     <p-column field="title" header="Título"  [filter]="true" filterPlaceholder="Search"></p-column>
@@ -36,7 +36,7 @@
         <p>Confirmaci&oacute;n de borrado.</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="removeGraph(graph)" >Borrar</button>
+        <button type="button" class="btn btn-danger" (click)="removeGraph()" >Borrar</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

@@ -23,8 +23,8 @@
                 <div class="card-img-top" *ngIf="chart!==undefined && !chart.isMap" style="display: block;" style="padding-bottom: 9px">
                     <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
                 </div>
-                <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
-                    <app-map style="height: 5px;" [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6"></app-map>
+                <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap" style="display: block;" >
+                    <app-map [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6" turnDescript=false></app-map>
                 </div>
                 <div class="card-body">
                     <div class="card-text">
