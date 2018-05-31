@@ -1,3 +1,22 @@
+<!-- Stepper -->
+<div class="steps-form-2" *ngIf="correctPageMigas">
+    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+        <div class="steps-step-2" [routerLink]="['/selectData']" [routerLinkActive]="['activeRoute']">
+            <a type="button" class="btn btn-circle-2">Elige datos abiertos</a>
+        </div>
+        <div class="steps-step-2" [routerLink]="['/previewData']" [routerLinkActive]="['activeRoute']">
+            <a type="button" class="btn btn-circle-2">Selecciona</a>
+        </div>
+        <div class="steps-step-2" [routerLink]="['/previewGraph']" [routerLinkActive]="['activeRoute']">
+            <a type="button" class="btn btn-circle-2">Previsualiza</a>
+        </div>
+        <div class="steps-step-2" [routerLink]="['/endGraphic', (id | async)]" [routerLinkActive]="['activeRoute']">
+            <a type="button" class="btn btn-circle-2">Crea tu visualizaci&oacute;n</a>
+        </div>
+    </div>
+</div>
+
+<!--
 <div *ngIf="correctPageMigas">
     <div class="row">
         <div class="col-3">
@@ -22,3 +41,4 @@
         </div>
     </div>
 </div>
+-->
