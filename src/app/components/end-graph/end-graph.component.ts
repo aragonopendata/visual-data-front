@@ -7,6 +7,7 @@ import { GraphService } from '../../services/graph.service';
 import { DOCUMENT } from '@angular/platform-browser';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
+import { Constants } from '../../app.constants';
 declare var jQuery:any;
 
 @Component({
@@ -48,7 +49,7 @@ export class EndGraphComponent implements OnInit {
     this.isMap = false;
     this.hideEmbed = true;
     this.width = 100;
-    this.fullRoute = document.location.protocol + '//' + document.location.hostname + ':' + document.location.port;
+    this.fullRoute = Constants.SERVER_URL;
 
     this.loadGraph()
     // Event that disable the loading screen and update the carousel

@@ -1,19 +1,23 @@
-<div>
-    <div *ngIf="chart!==undefined && !isMap" style="display: block;">
-        <div class="title">
-            <span>{{chart.title}}</span>
+<div class="row">
+    <div class="col-12">
+        <div *ngIf="chart!==undefined && !isMap" class="d-block">
+            <div class="col-11">
+                <h3 class="visualTitle">{{title}}</h3>
+            </div>
+            <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
+                [chartType]="chart.type">
+            </canvas>
         </div>
-        <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
-            [chartType]="chart.type">
-        </canvas>
-    </div>
-    <div *ngIf="points!==undefined && isMap">
-        <div class="title">
-            <span>{{chart.title}}</span>
+        <div *ngIf="points!==undefined && isMap">
+            <div class="col-11">
+                <h3 class="visualTitle">{{title}}</h3>
+            </div>
+            <app-map [descriptionPoints]="descriptions" [points]="points" zoom="8" turnDescript=true></app-map>
         </div>
-        <app-map [descriptionPoints]="descriptions" [points]="points" zoom="8" turnDescript=true></app-map>
     </div>
-    <div id="logoAragonGraph">
-            <img id="logo" src="/static/public/header/images/AOD-Logo.png">
+</div>
+<div class="row">
+    <div class="col-12 float-right">
+        <img id="logo" class="img-fluid" src="/static/public/header/images/AOD-Logo.png">
     </div>
 </div>

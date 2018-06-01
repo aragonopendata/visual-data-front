@@ -58,30 +58,26 @@ import { TreeModule } from 'angular-tree-component';
 import 'hammerjs';
 import { UtilsGraphService } from './components/exportedFunctions/utilsChats.util';
 
-const pathModifier = Constants.PATH_MODIFIER;
-
 // All the routes for the app
 const routes: Routes = [
   // Embed Routes
-  { path: pathModifier + 'charts/embed/:id', component: EmbedGraphComponent},
-  { path: pathModifier + 'adminPanel', component: AdminPanelComponent},
+  { path: 'charts/embed/:id', component: EmbedGraphComponent},
+  { path: 'adminPanel', component: AdminPanelComponent},
 
   // No Embed routes
   {
-      path: pathModifier + '',
+      path: '',
       component: BodyComponent,
       children: [
-        { path: pathModifier + '', component: ListGraphsComponent, pathMatch: 'full' },
-        { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
-        { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
-        { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'endGraphic/:id', component: EndGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'charts/:id', component: EndGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'nest-json', component: NestJSONComponent, pathMatch: 'full' }
+        { path: '', component: ListGraphsComponent, pathMatch: 'full' },
+        { path: 'selectData', component: SelectDataComponent },
+        { path: 'previewData', component: PreviewDataComponent },
+        { path: 'previewGraph', component: PreviewGraphComponent },
+        { path: 'endGraphic/:id', component: EndGraphComponent },
+        { path: 'charts/:id', component: EndGraphComponent },
+        { path: 'nest-json', component: NestJSONComponent }
       ]
-  },
-  // Default
-  { path: '**', redirectTo: pathModifier + '' }
+  }
 ];
 
 @NgModule({

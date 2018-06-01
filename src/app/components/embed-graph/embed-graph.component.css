@@ -1,5 +1,4 @@
-#logoAragonGraph{
-    float: right; 
-    margin-top: 2%; 
-  }
-  
+.visualTitle {
+  font-family: RobotoLight, sans-serif;
+  color: #5ea2ba;
+}
