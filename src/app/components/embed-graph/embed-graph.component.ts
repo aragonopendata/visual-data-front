@@ -12,13 +12,17 @@ export class EmbedGraphComponent implements OnInit {
   // public chartData = [];
   public chartLegend = true;
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+    legend: {
+      display: false
+    },
   };
 
   public chart: any;
   public widthGraph: any;
   public isMap: any;
   public points: any;
+  public title: any;
   public descriptions: any;
 
   constructor(
@@ -33,6 +37,7 @@ export class EmbedGraphComponent implements OnInit {
         .getChart(this.activatedRoute.snapshot.url[2])
         .subscribe(chart => {
           this.chart = chart;
+          this.title = chart.title
           this.widthGraph = chart.width;
 
           if (!chart.isMap) {
