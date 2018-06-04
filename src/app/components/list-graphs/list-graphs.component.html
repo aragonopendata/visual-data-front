@@ -14,7 +14,7 @@
         <div class="card mt-2">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-10" data-toggle="tooltip" title=" {{chart.title}}">
                         {{(chart.title.length>25)? (chart.title | slice:0:25) + '...': (chart.title)}}
                     </div>
                     <div class="col-2">
