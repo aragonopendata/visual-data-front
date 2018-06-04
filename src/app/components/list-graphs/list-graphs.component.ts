@@ -27,7 +27,23 @@ export class ListGraphsComponent implements OnInit {
   carouselTileTwo: NgxCarousel;
   chartLegend = true;
   chartOptions: any = {
-    responsive: true
+    scaleShowVerticalLines: false,
+    scaleShowValues: true,
+    responsive: true,
+    legend: {
+      display: false
+    },
+    scales: {
+      xAxes: [{
+          ticks: {
+              beginAtZero:true,
+              callback: function (value, index, array) {
+                var maxChars = 10;
+                return value.length <= maxChars ? value : value.substring(0, maxChars) + "...";
+              }
+          }
+      }]
+  }
   };
   isMap: boolean;
   points: any;
