@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-sm-12 col-md-4 col-lg-4 d-flex align-items-stretch" *ngFor="let chart of carouselData; let i = index;">
-        <div class="card mt-2">
+        <div class="card mt-2 w-100">
             <div class="card-header">
                 <div class="row">
                     <div class="col-10" data-toggle="tooltip" title=" {{chart.title}}">
@@ -30,8 +30,8 @@
             <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
                 <app-map [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6" turnDescript=false></app-map>
             </div>
-            <div class="card-body d-flex align-items-end">
-                <div class="row">
+            <div class="card-body d-flex align-items-end h-100">
+                <div class="row w-100">
                     <div class="col-5">
                         <button (click)="openChart(chart.id)" class="button2 py-1 w-100">Abrir</button>
                     </div>
@@ -126,16 +126,16 @@
 
 <!-- Modal -->
 <div class="modal fade" id="virtuosoModal" tabindex="-1" role="dialog" aria-labelledby="virtuosoModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog h-75 mt-5" role="document">
+        <div class="modal-content h-100">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Actualizar consulta</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <textarea pInputTextarea class="w-100 h-50" [(ngModel)]="dataset"></textarea>
+            <div class="modal-body h-75">
+                <textarea pInputTextarea class="w-100 h-100" [(ngModel)]="dataset"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" (click)="callUpdateVirtuoso()" class="btn btn-primary" data-dismiss="modal">Guardar</button>

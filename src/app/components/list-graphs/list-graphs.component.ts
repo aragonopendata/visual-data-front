@@ -25,7 +25,7 @@ export class ListGraphsComponent implements OnInit {
 
   carouselData: Array<any> = [];
   carouselTileTwo: NgxCarousel;
-  chartLegend = true;
+  chartLegend = false;
   chartOptions: any = {
     scaleShowVerticalLines: false,
     scaleShowValues: true,

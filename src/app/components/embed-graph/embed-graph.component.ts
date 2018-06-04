@@ -10,7 +10,7 @@ import { prepareArrayXY } from '../exportedFunctions/lib';
 })
 export class EmbedGraphComponent implements OnInit {
   // public chartData = [];
-  public chartLegend = true;
+  public chartLegend = false;
   public chartOptions: any = {
     responsive: true,
     legend: {

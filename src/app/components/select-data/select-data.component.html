@@ -72,7 +72,7 @@
             <div class="row">
                 <div class="col-12">
                     <accordion-group heading="SPARQL endpoint" (isOpenChange)="whoIsOpen('VIRTUOSO')">
-                        <div class="float-left">
+                        <div class="float-left mb-3">
                             <div class="ui-float-label">
                                 <textarea pInputTextarea style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo" (keyup.enter)="selectPackage()"></textarea>
                             </div>
@@ -115,7 +115,7 @@
                                 {{entry[i]}}
                             </span>
                             <span class="row" *ngIf="maxCharacters(entry,i)">
-                                <button type="button" class="btn btn-light" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
+                                <button type="button" class="btn btn-light ml-3" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
                                     <i class="fa fa-info"></i>
                                 </button>
                             </span>
@@ -133,14 +133,14 @@
 </div>
 <div class="row mt-3">
     <div class="col-12">
-        <button (click)="next()" class="button2">Siguiente</button>
         <button (click)="goBack()" class="button2">Volver</button>
+        <button (click)="next()" class="button2">Siguiente</button>
     </div>
 </div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog mt-5" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Despliegue de Infromaci&oacute;n</h5>

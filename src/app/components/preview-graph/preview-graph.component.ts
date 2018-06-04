@@ -39,7 +39,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         scaleShowVerticalLines: false,
         responsive: true
     };
-    public chartLegend = true;
+    public chartLegend = false;
 
     // To save Data
 

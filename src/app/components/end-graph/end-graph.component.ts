@@ -16,7 +16,7 @@ declare var jQuery:any;
   styleUrls: ['./end-graph.component.css']
 })
 export class EndGraphComponent implements OnInit {
-  public chartLegend = true;
+  public chartLegend = false;
   public chartOptions: any = {
     responsive: true
   };
@@ -49,7 +49,7 @@ export class EndGraphComponent implements OnInit {
     this.isMap = false;
     this.hideEmbed = true;
     this.width = 100;
-    this.fullRoute = Constants.SERVER_URL;
+    this.fullRoute = Constants.SERVER_URL + '/servicios/visualdata';
 
     this.loadGraph()
     // Event that disable the loading screen and update the carousel
