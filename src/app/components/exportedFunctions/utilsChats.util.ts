@@ -54,10 +54,21 @@ export class UtilsGraphService {
           var chartLabels = dataSelected[0];
           dataSelected.splice(0, 1);
 
-          var chartDescription;
+          var chartDescription = [];
           if(dataProcess.isMap){
-            chartDescription = dataSelected[0];
-            dataSelected.splice(0, 1);
+
+            dataProcess.columnsDescription.forEach(element => {
+              if(chartDescription.length == 0){                
+                chartDescription = dataSelected[0];
+                dataSelected.splice(0, 1);
+              }else{
+                  var aux = dataSelected[0];
+                  chartDescription.forEach((element, index) => {
+                      chartDescription[index] = element + " - " + aux[index];
+                  });
+                  dataSelected.splice(0, 1);
+              }
+            });
           }
     
           dataSelected.forEach((element, index) => {

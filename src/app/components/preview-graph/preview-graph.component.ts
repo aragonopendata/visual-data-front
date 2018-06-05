@@ -106,12 +106,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                     if(this.columnsLabel && this.columnsLabel.length  > 0){
                         this.columnsLabel.splice(0,1);
                     }
-                }else
+                }
+                
+                /*else
                 if(value[2] && value[2].id === 'move-3'){
                     if(this.descriptionPoints && this.descriptionPoints.length  > 0){
                         this.descriptionPoints.splice(0,1);
                     }
-                }
+                }*/
             });
             dragulaService.setOptions('another-bag', {
                 copy: function (el, source) {
@@ -124,7 +126,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         } catch (error) { }
 
         // TODO: Delete the next IF
-        /*
+        
         if (!this.dataservice.dataSelected || this.dataservice.dataSelected.length == 0) {
             this.router.navigate(['/selectData/']);
             this.dataservice.type = "TEST";
@@ -142,7 +144,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                                         ];
             this.dataservice.dataSelected.lenght = 3;
         }
-        */
+        
         if (this.dataservice.dataSelected && this.dataservice.dataSelected.length != 0) {
             this.columnsTypeData();
         } else {
@@ -206,7 +208,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.chartDescriptionPoints  = [];
             this.descriptionPoints.forEach(element => {
                 const indexData = this.columns.findIndex(x => x === element);
-                this.chartDescriptionPoints = this.data[indexData].slice(0);
+                if(this.chartDescriptionPoints.length == 0){
+                    this.chartDescriptionPoints = this.data[indexData].slice(0);
+                }else{
+                    var aux = this.data[indexData].slice(0);
+                    this.chartDescriptionPoints.forEach((element, index) => {
+                        this.chartDescriptionPoints[index] = element + " - " + aux[index];
+                    });
+                }
             });
         }
         

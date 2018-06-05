@@ -83,13 +83,13 @@ export class EndGraphComponent implements OnInit {
         }
         this.width = chart.width;
 
+        this.chart = chart;
         if (!chart.isMap) {
           this.chart = chart;
         } else {
           this.isMap = chart.isMap;
           this.title = chart.title;
           this.descriptions = chart.descriptions;  
-          this.id = chart.id;
           
           this.points = prepareArrayXY(chart.data[0].data, chart.labels);
         }
