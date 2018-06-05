@@ -1,21 +1,19 @@
-<div class="row">
-    <div class="column1">
-        <button type="button" class="btn" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Nombre Columnas</button>
-        <strong style="padding-left: 25px; display: block;">Seleccionar Columnas:</strong>
-        <div style="overflow:auto;height: 500px;">
-            <ul>
-                <ng-template ngFor let-property [ngForOf]="headerTable">
-                    <li>
-                        <label class="container">{{property}}
-                            <input type="checkbox" name=property value=property (change)="updateChecked(property, $event)">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                </ng-template>
-            </ul>
-        </div>
+<div class="row w-100">
+    <div class="col-2">
+        <button type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Columnas</button>
+        <strong>Seleccionar Columnas:</strong>
+        <ul class="mt-2">
+            <ng-template ngFor let-property [ngForOf]="headerTable">
+                <li>
+                    <label class="container">{{property}}
+                        <input type="checkbox" name=property value=property (change)="updateChecked(property, $event)">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+            </ng-template>
+        </ul>
     </div>
-    <div class="column2">
+    <div class="col-10">
         <p-dataTable resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)"
             [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
@@ -36,8 +34,14 @@
         </p-dataTable>
     </div>
 </div>
-<div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
-<button (click)="next()" class="button">Siguiente</button>
+<div class="row w-100">
+    <div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
+</div>
+<div class="row w-100 justify-content-end">
+    <div class="mb-3 mt-3">
+        <button (click)="next()" class="button py-2 px-2">Siguiente</button>
+    </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

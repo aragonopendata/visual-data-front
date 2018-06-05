@@ -18,7 +18,17 @@ declare var jQuery:any;
 export class EndGraphComponent implements OnInit {
   public chartLegend = false;
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+    scales: {
+      xAxes: [{
+          ticks: {
+              beginAtZero: true,
+              callback: function (value, index, array) {
+                return null;
+              }
+          }
+      }]
+  }
   };
 
   public chart: any;

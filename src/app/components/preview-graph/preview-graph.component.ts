@@ -37,7 +37,17 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     //////////////////////////////////////
     public chartOptions: any = {
         scaleShowVerticalLines: false,
-        responsive: true
+        responsive: true,
+        scales: {
+          xAxes: [{
+              ticks: {
+                  beginAtZero: true,
+                  callback: function (value, index, array) {
+                    return null;
+                  }
+              }
+          }]
+      }
     };
     public chartLegend = false;
 

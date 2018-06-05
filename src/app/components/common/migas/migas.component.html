@@ -1,25 +1,29 @@
 <!-- Stepper -->
-<div class="steps-form-2" *ngIf="correctPageMigas">
-    <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
-        <div class="col-3 text-center float-left">
-            <div class="steps-step-2 float-left" [routerLink]="['/selectData']" [routerLinkActive]="['activeRoute']">
-                <a type="button" class="btn btn-circle-2">Elige datos abiertos</a>
-            </div>
-        </div>
-        <div class="col-3 text-center">
-            <div class="steps-step-2" [routerLink]="['/previewData']" [routerLinkActive]="['activeRoute']">
-                <a type="button" class="btn btn-circle-2 ml-5">Selecciona</a>
-            </div>
-        </div>
-        <div class="col-3 text-center">
-            <div class="steps-step-2" [routerLink]="['/previewGraph']" [routerLinkActive]="['activeRoute']">
-                <a type="button" class="btn btn-circle-2" style="margin-left: 6rem;">Previsualiza</a>
-            </div>
-        </div>
-        <div class="col-3 text-center">
-            <div class="steps-step-2 float-right
+<div class="row">
+    <div class="col-12">
+        <div class="steps-form-2" *ngIf="correctPageMigas">
+            <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                <div class="col-3 text-center float-left">
+                    <div class="steps-step-2 float-left" [routerLink]="['/selectData']" [routerLinkActive]="['activeRoute']">
+                        <a type="button" class="btn btn-circle-2">Elige datos abiertos</a>
+                    </div>
+                </div>
+                <div class="col-3 text-center">
+                    <div class="steps-step-2" [routerLink]="['/previewData']" [routerLinkActive]="['activeRoute']">
+                        <a type="button" class="btn btn-circle-2 ml-5">Selecciona</a>
+                    </div>
+                </div>
+                <div class="col-3 text-center">
+                    <div class="steps-step-2" [routerLink]="['/previewGraph']" [routerLinkActive]="['activeRoute']">
+                        <a type="button" class="btn btn-circle-2" style="margin-left: 6rem;">Previsualiza</a>
+                    </div>
+                </div>
+                <div class="col-3 text-center">
+                    <div class="steps-step-2 float-right
             " [routerLink]="['/endGraphic', (id | async)]" [routerLinkActive]="['activeRoute']">
-                <a type="button" class="btn btn-circle-2">Crea tu visualizaci&oacute;n</a>
+                        <a type="button" class="btn btn-circle-2">Crea tu visualizaci&oacute;n</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
