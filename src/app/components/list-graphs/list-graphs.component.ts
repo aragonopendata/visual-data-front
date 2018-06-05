@@ -36,10 +36,9 @@ export class ListGraphsComponent implements OnInit {
     scales: {
       xAxes: [{
           ticks: {
-              beginAtZero:true,
+              beginAtZero: true,
               callback: function (value, index, array) {
-                var maxChars = 10;
-                return value.length <= maxChars ? value : value.substring(0, maxChars) + "...";
+                return null;
               }
           }
       }]

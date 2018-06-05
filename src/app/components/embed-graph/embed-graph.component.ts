@@ -16,6 +16,16 @@ export class EmbedGraphComponent implements OnInit {
     legend: {
       display: false
     },
+    scales: {
+      xAxes: [{
+          ticks: {
+              beginAtZero: true,
+              callback: function (value, index, array) {
+                return null;
+              }
+          }
+      }]
+  }
   };
 
   public chart: any;
