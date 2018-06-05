@@ -50,9 +50,12 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
         }else{
             // TODO: Change to return fisrt page
             //this.router.navigate(['/selectData/']);
+            this.location.back();
+            /*
             this.headerTable = ['Datos','De','Prueba']
             this.dataTable = [["Prueba",3,4],["Prueba",2,3]]
             this.realNameHeaders = this.headerTable.slice(0);
+            */
         }
     }
 

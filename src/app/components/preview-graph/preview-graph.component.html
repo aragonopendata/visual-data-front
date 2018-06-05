@@ -112,6 +112,11 @@
             <app-map [descriptionPoints]="chartDescriptionPoints" [points]="points" zoom="8" (description)="showDescription($event)" turnDescript=true></app-map>
         </div>
     </div>
+    <div class="row mt-1">
+        <div class="col-12">
+            <div *ngIf="nextStep!=''" class="alert alert-warning">{{nextStep}}</div>
+        </div>
+    </div>
     <div class="col-md-12" style="text-align:center;">
         <button (click)="next()" class="button">Finalizar</button>
     </div>

@@ -32,6 +32,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     public columnsData: Array<string> = [];
     public columnsLabel: Array<string> = [];
     public descriptionPoints: Array<string> = [];
+    nextStep: string;
 
     // Charts
     //////////////////////////////////////
@@ -85,6 +86,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     ) {
 
         window.scrollTo(0, 0);
+        this.nextStep = "";
         this.chartType = 'line';
         this.changeNumberData = 0;
         this.title = this.dataservice.type;
@@ -122,8 +124,9 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         } catch (error) { }
 
         // TODO: Delete the next IF
+        /*
         if (!this.dataservice.dataSelected || this.dataservice.dataSelected.length == 0) {
-            //this.router.navigate(['/selectData/']);
+            this.router.navigate(['/selectData/']);
             this.dataservice.type = "TEST";
             this.dataservice.dataset = "TEST";
             this.dataservice.headerSelected = ["Datos", "de", "prueba", "Año", "Ciudad", "lat", "long", "desc"];
@@ -139,10 +142,12 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
                                         ];
             this.dataservice.dataSelected.lenght = 3;
         }
+        */
         if (this.dataservice.dataSelected && this.dataservice.dataSelected.length != 0) {
             this.columnsTypeData();
         } else {
-            this.router.navigate(['/selectData/']);
+            this.location.back();
+            //this.router.navigate(['/selectData/']);
         }
     }
 
@@ -284,7 +289,6 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     next() {
-
         //Get the real names of the label column Names if there was a posible change
         var rColumnsLables = [];
         this.columnsLabel.forEach(x => {
@@ -312,16 +316,22 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
             this.chartData = [{ data: pointY, label: 'A' }];
         }
-        
+
+        if(!this.title || this.title === ''){
+            this.nextStep = "Se necesita un título para la gráfica";
+        }else if(rColumnsData.length == 0 || rColumnsLables.length == 0){
+            this.nextStep = "Se necesitan datos para generar la gráfica.";
+        }else{
           //Upload All
-        this.graphservice.saveGraph(null, this.chartType, this.chartMap, this.chartLabels, this.chartData, this.chartDescriptionPoints ,this.title,
-            this.widthGraph).subscribe(dataLink => {
-                this.graphservice.saveProcess(null, this.dataservice.type, this.dataservice.url, this.dataservice.datasetSelected,
-                    this.chartType, this.chartMap, rColumnsLables, rColumnsData, rColumnsDescript, this.dataservice.fieldOrder, this.dataservice.sortOrder, this.title,
-                    this.legend, this.widthGraph, dataLink.id).subscribe(data => {
-                        this.router.navigate(['/endGraphic/' + dataLink.id]);
+            this.graphservice.saveGraph(null, this.chartType, this.chartMap, this.chartLabels, this.chartData, this.chartDescriptionPoints ,this.title,
+                this.widthGraph).subscribe(dataLink => {
+                    this.graphservice.saveProcess(null, this.dataservice.type, this.dataservice.url, this.dataservice.datasetSelected,
+                        this.chartType, this.chartMap, rColumnsLables, rColumnsData, rColumnsDescript, this.dataservice.fieldOrder, this.dataservice.sortOrder, this.title,
+                        this.legend, this.widthGraph, dataLink.id).subscribe(data => {
+                            this.router.navigate(['/endGraphic/' + dataLink.id]);
+                    });
                 });
-            });
+        }
             
     }
 
