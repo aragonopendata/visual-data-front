@@ -54,6 +54,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     // Dropbox Init List
 
     listCkan: string[];
+    listCkanNames: string[];
 
     listGaodc: string[];
 
@@ -87,6 +88,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     ) {
         this.opened = '';
         this.listCkan = ['Cargando Espere'];
+        this.listCkanNames = ['Cargando Espere'];
         this.listGaodc = ['Cargando Espere'];
         this.packagesSelCKAN = "";
         this.packagesSelURL = "";
@@ -101,11 +103,28 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         
+        var aux = [];
         this.ckanservice.getPackageList().subscribe(data => {
-            data.result.results.forEach(element => {
-                this.listCkan.push(element.name);
+            data.forEach(element => {       
+                element.results.forEach(element2 => {
+                    aux.push({title: element2.title, name: element2.name})
+                });
             });
+
+            aux.sort(function(a, b){
+                if(a.title < b.title) return -1;
+                if(a.title > b.title) return 1;
+                return 0;
+            })
+
+            aux.forEach(element => {
+                this.listCkan.push(element.title);
+                this.listCkanNames.push(element.name);
+            });
+            
             this.listCkan.shift();
+            this.listCkanNames.shift();
+
             this.loading[0] = false;
         },
         error => {
@@ -146,11 +165,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     selectPackage(opened: string) {
         this.opened = opened;
         if (this.opened === 'CKAN') {
-            const exist = this.listCkan.find(x => x === this.ckanPackagesInfo);
-            if (exist && this.ckanPackagesInfo != "") {
+            const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
+            if (exist > -1 && this.ckanPackagesInfo != "") {
                 this.loading[0] = true;
 
-                this.ckanCall(this.ckanPackagesInfo, false);
+                this.ckanCall(this.listCkanNames[exist], false);
             }
         } else if (this.opened === 'GAODC') {
             const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
