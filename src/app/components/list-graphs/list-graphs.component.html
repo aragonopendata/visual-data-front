@@ -1,10 +1,3 @@
-<div class="pagina">
-    <h1 class="visualTitle mb-3">Open Visual data</h1>
-    <div>
-        <p class="h6">Open Visual Data te permite crear gráficos y visualizaciones con los datos disponibles en Aragón Open Data.</p>
-    </div>
-</div>
-
 <div class="text-center mb-3 mt-3 d-none d-md-block" *ngIf="!mobile">
     <button (click)="next()" class="button py-2 px-2">Crear nueva gr&aacute;fica</button>
 </div>
@@ -15,7 +8,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-10" data-toggle="tooltip" title=" {{chart.title}}">
-                        {{(chart.title.length>25)? (chart.title | slice:0:25) + '...': (chart.title)}}
+                        {{(chart.title.length>33)? (chart.title | slice:0:33) + '...': (chart.title)}}
                     </div>
                     <div class="col-2">
                         <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3">
