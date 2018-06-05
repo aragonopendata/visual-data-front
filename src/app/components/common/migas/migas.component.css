@@ -75,3 +75,11 @@
 .activeRoute a{
   color: green !important;
 }
+
+.noActiveDesc{
+  display: none;
+}
+
+.activeDesc{
+  display: block !important;
+}

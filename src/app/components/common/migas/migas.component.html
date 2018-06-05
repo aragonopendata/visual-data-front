@@ -1,7 +1,27 @@
 <!-- Stepper -->
+
+<div class="row mb-5 noActiveDesc" [routerLink]="['/selectData']" [routerLinkActive]="['activeDesc']">
+    <div class="col-12">
+        <p>Crea gráficos y visualizaciones con los datos disponibles en Aragón Open Data:</p>
+        <ol>
+            <li>Elige datasets con datos en formato .CSV o .PX del Banco de datos (link en ventana nueva) de Aragón Open Data.
+            </li>
+            <li>Copia la URL del fichero CSV o PX . Apartado Descargas del Banco de Datos, click botón derecho del cursor sobre
+                el mismo y opción “Copiar la dirección del enlace” o “Copiar Acceso Directo” según navegador empleado.
+            </li>
+            <li>Pega la URL a esos ficheros en la caja “Añadir datos” y continúa con los siguientes pasos. </li>
+        </ol> 
+        <p>
+            También puedes utilizar las Opciones avanzadas (SPARQL y búsqueda vía API) y siempre ten en cuenta que la creación de gráficos
+            dependerá de los datos disponibles tanto de su estructura, contenido y tamaño.
+        </p>
+    </div>
+</div>
+
 <div class="steps-form-2" *ngIf="correctPageMigas">
     <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
         <div class="col-3 text-center float-left">
+
             <div class="steps-step-2 float-left" [routerLink]="['/selectData']" [routerLinkActive]="['activeRoute']">
                 <a type="button" class="btn btn-circle-2">Elige datos abiertos</a>
             </div>

@@ -67,9 +67,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     virtuosoPackagesInfo: string;
 
-    packagesInfo: String;
+    packagesInfo: string;
 
-    packagesList: String[];
+    packagesSelCKAN: string;
+    packagesSelURL: string;
+    packagesSelSPARQL: string;
 
     constructor(
         private ckanservice: CkanService,
@@ -86,7 +88,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.opened = '';
         this.listCkan = ['Cargando Espere'];
         this.listGaodc = ['Cargando Espere'];
-        this.packagesList = [];
+        this.packagesSelCKAN = "";
+        this.packagesSelURL = "";
+        this.packagesSelSPARQL = "";
         this.headerTable = [];
         this.loading = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
         this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
@@ -96,7 +100,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        /*
+        
         this.ckanservice.getPackageList().subscribe(data => {
             data.result.results.forEach(element => {
                 this.listCkan.push(element.name);
@@ -108,6 +112,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
            this.loading[0] = false;
            this.errorResponse[0] = true;
         },);
+        /*
         this.gaodcservice.getPackageList().subscribe(data => {
             this.listGaodc = [];
             data.forEach(element => {
@@ -138,23 +143,24 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.dataservice.dataset = this.dataTable;
     }
 
-    selectPackage() {
+    selectPackage(opened: string) {
+        this.opened = opened;
         if (this.opened === 'CKAN') {
             const exist = this.listCkan.find(x => x === this.ckanPackagesInfo);
-            if (exist && this.packagesList.length === 0) {
+            if (exist && this.ckanPackagesInfo != "") {
                 this.loading[0] = true;
 
-                this.ckanCall(this.ckanPackagesInfo);
+                this.ckanCall(this.ckanPackagesInfo, false);
             }
         } else if (this.opened === 'GAODC') {
             const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
-            if (exist > -1 && this.packagesList.length === 0) {
+            if (exist > -1) {//Missing this.packagesSelGAODC != ""
                 this.loading[1] = true;
 
                 this.gaodcCall(this.gaodcPackagesInfo, exist + 1);
             }
         } else if (this.opened === 'URL') {
-            if (this.packagesList.length === 0) {
+            if (this.urlPackagesInfo != "") {
                 this.urlError = false;
                 this.loading[2] = true;
 
@@ -164,13 +170,13 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                     //Correct link
                     this.gaodcCall(this.urlPackagesInfo, checker);
                 } else if(checker == -1){
-                    this.ckanCall(this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1));
+                    this.ckanCall(this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1), true);
                 }else if(checker == -2){
                     this.urlCall(this.urlPackagesInfo);
                 }
             }
         } else if (this.opened === 'VIRTUOSO') {
-            if (this.packagesList.length === 0) {
+            if (this.virtuosoPackagesInfo != "") {
                 this.querryError = false;
                 this.loading[3] = true;
             
@@ -203,10 +209,10 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         }
     }
 
-    ckanCall(namePackage: string){
-        this.packagesList.push(namePackage);
-        this.ckanPackagesInfo = namePackage;
-        this.ckanservice.getPackageInfo(this.packagesList).subscribe(data => {
+    ckanCall(namePackage: string, url: boolean ){
+        if(url == false)
+            this.packagesSelCKAN = namePackage;
+        this.ckanservice.getPackageInfo([namePackage]).subscribe(data => {
             this.packagesInfo = namePackage;
             this.errorResponse[0] = false;
             if(data.result.length != 0){
@@ -227,7 +233,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                         this.dataTable = this.dataTable.concat(result[1]);
                         this.loading[0] = false;
                     }else{
-                        this.packagesList.pop();
+                        this.packagesSelCKAN = "";
                         this.loading[0] = false;
                         this.errorResponse[0] = true;
                     }             
@@ -235,13 +241,13 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 });
 
             }else{
-                this.packagesList.pop();
+                this.packagesSelCKAN = "";
                 this.loading[0] = false;
                 this.errorResponse[0] = true;
             }
         },
         error => {
-           this.packagesList.pop();
+           this.packagesSelCKAN = "";
            this.loading[0] = false;
            this.errorResponse[0] = true;
         },);
@@ -250,9 +256,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     urlCall(namePackage: string){
         this.errorResponse[2] = false;
         this.errorMessage = "";
-        this.packagesList.push(namePackage);
+        this.packagesSelURL = namePackage;
         this.urlPackagesInfo = namePackage;
-        this.urlservice.getPackageInfo(this.packagesList[0]).subscribe(data => {
+        this.urlservice.getPackageInfo(this.packagesSelURL).subscribe(data => {
             this.packagesInfo = namePackage;
             if(data.result.length != 0){
                 if (data.result[0].format == "PX") {
@@ -268,23 +274,24 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 }else if(data.result[0].format == "Error") {
                     this.loading[2] = false;
                     this.errorResponse[2] = true;
-                    this.packagesList.pop();
+                    this.packagesSelURL = "";
                     this.errorMessage = data.result[0].data.errorMessage; 
                 }
             }else{
-                this.packagesList.pop();
+                this.packagesSelURL = "";
                 this.loading[2] = false;
                 this.errorResponse[2] = true;
             }
         },
         error => {
-           this.packagesList.pop();
+           this.packagesSelURL = "";
            this.loading[2] = false;
            this.errorResponse[2] = true;
         },);
     }
 
     gaodcCall(name: String, numberPackage : number){
+        /*
         this.packagesList.push(name);
         this.gaodcservice.getPackageInfo(numberPackage).subscribe(data => {
             this.headerTable = data[0];
@@ -302,12 +309,13 @@ export class SelectDataComponent implements OnInit, OnDestroy {
            this.loading[2] = false;
            this.errorResponse[1] = true;
         },);
+        */
     }
 
     virtuosoCall(namePackage: string){
-        this.packagesList.push(this.virtuosoPackagesInfo);
+        this.packagesSelSPARQL = this.virtuosoPackagesInfo;
 
-        this.virtuososervice.getPackageInfo(this.packagesList).subscribe(data => {
+        this.virtuososervice.getPackageInfo([this.packagesSelSPARQL]).subscribe(data => {
             this.headerTable = data.head.vars;
             this.dataTable = [];
             this.utilsGraphService.virtuosoPInitialTable(data,this.headerTable,this.dataTable);
@@ -316,13 +324,17 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.loading[3] = false;
         },
         error => {
-            this.packagesList.pop();
+            this.packagesSelSPARQL = "";
             this.querryError = true;
             this.loading[3] = false;
         },);
     }
 
     search(event: any) {
+        this.results = Object.assign([], this.listCkan).filter(
+            item => item.indexOf(event.query) > -1
+        );
+        /*
         if (this.opened === 'CKAN') {
             this.results = Object.assign([], this.listCkan).filter(
                 item => item.indexOf(event.query) > -1
@@ -332,10 +344,16 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 item => item.indexOf(event.query) > -1
             );
         }
+        */
     }
 
-    deletePackage() {
-        this.packagesList.pop();
+    deletePackage(name) {
+        if(name === 'CKAN')
+            this.packagesSelCKAN = "";
+        if(name === 'URL')
+            this.packagesSelURL = "";
+        if(name === 'VIRTUOSO')
+            this.packagesSelSPARQL = "";
         this.dataTable = undefined;
     }
 
@@ -343,13 +361,6 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
         // this.location.back();
     }
-
-    whoIsOpen(n: string) {
-        console.log('Detectado Apertura de ' + n);
-        this.deletePackage()
-        this.opened = n;
-    }
-
 
     maxCharacters(data, i) {
         if (data[i]) {
