@@ -83,3 +83,9 @@
 .activeDesc{
   display: block !important;
 }
+
+ol {
+  font-family: RobotoLight,sans-serif;
+  line-height: 1.3;
+  letter-spacing: 0.1em;
+}
