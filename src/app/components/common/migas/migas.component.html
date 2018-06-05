@@ -1,5 +1,5 @@
 <!-- Stepper -->
-<div class="row mb-5 noActiveDesc" [routerLink]="['/selectData']" [routerLinkActive]="['activeDesc']">
+<div class="row mb-5 activeDesc" *ngIf="this.router.url === '/selectData'">
     <div class="col-12">
         <p>Crea gráficos y visualizaciones con los datos disponibles en Aragón Open Data:</p>
         <ol>
