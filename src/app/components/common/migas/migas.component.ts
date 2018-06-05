@@ -13,8 +13,10 @@ export class MigasComponent implements OnInit {
     correctPageMigas: boolean;
     listRoutesAccepted: any;
     id =  new BehaviorSubject<string>('data');
+    route: Router;
     constructor(private router: Router) {
         this.listRoutesAccepted = ['/selectData', '/previewData', '/previewGraph', '/endGraphic'];
+        this.route = this.router;
         this.router.events
             .filter(event => (event instanceof NavigationEnd))
             .subscribe((routeData: any) => {
