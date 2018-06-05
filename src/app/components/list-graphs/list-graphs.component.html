@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-img-top" *ngIf="chart!==undefined && !chart.isMap">
+            <div class="card-img-top mt-2" *ngIf="chart!==undefined && !chart.isMap">
                 <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
             </div>
             <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
