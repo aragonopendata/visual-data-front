@@ -7,35 +7,35 @@
             </div>
         </div>
         <div class="col-md-4">
-                <span class="titleMapper">Datos Cabecera</span>
-                <div class='container'>
-                        <tree-root [nodes]="nodes1" [options]="options1"></tree-root>
-                </div>
+            <span class="titleMapper">Datos Cabecera</span>
+            <div class='container'>
+                <tree-root [nodes]="nodes1" [options]="options1"></tree-root>
+            </div>
         </div>
         <div class="col-md-4">
-                <span class="titleMapper">Datos Columnas</span>
-                <div class='container'>
-                        <tree-root [nodes]="nodes2" [options]="options2"></tree-root>
-                </div>
+            <span class="titleMapper">Datos Columnas</span>
+            <div class='container'>
+                <tree-root [nodes]="nodes2" [options]="options2"></tree-root>
+            </div>
         </div>
     </div>
     <div style="margin:15px">
         <div class="col-md-12">
             <span class="titleMapper">Configuraci&oacute;n</span>
-                Hola
+            Hola
+            <div class="col-md-12">
                 <div class="col-md-12">
-                    <div class="col-md-12">
-                        Opción Libertad, introducir dato a dato en Cabecera.
-                    </div>
-                    <div class="col-md-12">
-                        Opción Libertad, introducir dato a dato en Columna.</div>
-                    <div class="col-md-12">
-                        Opción, datos de cabecera en el primer indice del Array en Columnas
-                    </div>
-                    <div class="col-md-12">
-                        Opción, quizas no necesaria segun esta hecho esto, los datos estan en las claves
-                    </div>
+                    Opción Libertad, introducir dato a dato en Cabecera.
                 </div>
+                <div class="col-md-12">
+                    Opción Libertad, introducir dato a dato en Columna.</div>
+                <div class="col-md-12">
+                    Opción, datos de cabecera en el primer indice del Array en Columnas
+                </div>
+                <div class="col-md-12">
+                    Opción, quizas no necesaria segun esta hecho esto, los datos estan en las claves
+                </div>
+            </div>
         </div>
 
         <div class="col-md-12">
@@ -45,7 +45,7 @@
                 <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                     <p-column [style]="{'min-width':'200px'}" field={{property}} header={{property}}>
                         <ng-template let-entry pTemplate="item">
-                                        {{i}}
+                            {{i}}
                         </ng-template>
                     </p-column>
                 </ng-template>
