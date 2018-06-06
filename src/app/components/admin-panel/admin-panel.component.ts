@@ -17,7 +17,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
-  styleUrls: ['./admin-panel.component.css'],
+  styleUrls: ['./admin-panel.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class AdminPanelComponent implements OnInit, OnDestroy {

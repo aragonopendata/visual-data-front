@@ -22,7 +22,7 @@ import { parsePXFile } from '../exportedFunctions/lib';
 @Component({
   selector: 'app-select-data',
   templateUrl: './select-data.component.html',
-  styleUrls: ['./select-data.component.css'],
+  styleUrls: ['./select-data.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class SelectDataComponent implements OnInit, OnDestroy {

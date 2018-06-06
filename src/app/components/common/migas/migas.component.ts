@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Component({
   selector: 'app-migas',
   templateUrl: './migas.component.html',
-  styleUrls: ['./migas.component.css']
+  styleUrls: ['./migas.component.scss']
 })
 export class MigasComponent implements OnInit {
   correctPageMigas: boolean;

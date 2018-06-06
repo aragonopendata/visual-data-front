@@ -7,7 +7,7 @@ import { Nested } from '../../models/NestJson';
 @Component({  
     selector: 'nest',
     templateUrl: './nest-json.component.html',
-    styleUrls: ['./nest-json.component.css']
+    styleUrls: ['./nest-json.component.scss']
 })  
 
 export class NestJSONComponent {  

@@ -13,7 +13,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-end-graph',
   templateUrl: './end-graph.component.html',
-  styleUrls: ['./end-graph.component.css']
+  styleUrls: ['./end-graph.component.scss']
 })
 export class EndGraphComponent implements OnInit {
   public chartLegend = false;

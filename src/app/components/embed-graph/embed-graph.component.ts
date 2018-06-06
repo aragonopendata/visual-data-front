@@ -6,7 +6,7 @@ import { prepareArrayXY } from '../exportedFunctions/lib';
 @Component({
   selector: 'app-embed-graph',
   templateUrl: './embed-graph.component.html',
-  styleUrls: ['./embed-graph.component.css']
+  styleUrls: ['./embed-graph.component.scss']
 })
 export class EmbedGraphComponent implements OnInit {
   // public chartData = [];

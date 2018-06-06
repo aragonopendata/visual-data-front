@@ -16,7 +16,7 @@ import { reducerMapPoints } from '../exportedFunctions/lib';
 @Component({
   selector: 'app-preview-graph',
   templateUrl: './preview-graph.component.html',
-  styleUrls: ['./preview-graph.component.css']
+  styleUrls: ['./preview-graph.component.scss']
 })
 export class PreviewGraphComponent implements OnInit, OnDestroy {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;

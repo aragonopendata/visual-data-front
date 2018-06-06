@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
-import {AngularOpenlayersModule} from 'ngx-openlayers';
+import { AngularOpenlayersModule } from 'ngx-openlayers';
 import {
   Location,
   LocationStrategy,
@@ -61,22 +61,22 @@ import { UtilsGraphService } from './components/exportedFunctions/utilsChats.uti
 // All the routes for the app
 const routes: Routes = [
   // Embed Routes
-  { path: 'charts/embed/:id', component: EmbedGraphComponent},
-  { path: 'adminPanel', component: AdminPanelComponent},
+  { path: 'charts/embed/:id', component: EmbedGraphComponent },
+  { path: 'adminPanel', component: AdminPanelComponent },
 
   // No Embed routes
   {
-      path: '',
-      component: BodyComponent,
-      children: [
-        { path: '', component: ListGraphsComponent, pathMatch: 'full' },
-        { path: 'selectData', component: SelectDataComponent },
-        { path: 'previewData', component: PreviewDataComponent },
-        { path: 'previewGraph', component: PreviewGraphComponent },
-        { path: 'endGraphic/:id', component: EndGraphComponent },
-        { path: 'charts/:id', component: EndGraphComponent },
-        { path: 'nest-json', component: NestJSONComponent }
-      ]
+    path: '',
+    component: BodyComponent,
+    children: [
+      { path: '', component: ListGraphsComponent, pathMatch: 'full' },
+      { path: 'selectData', component: SelectDataComponent },
+      { path: 'previewData', component: PreviewDataComponent },
+      { path: 'previewGraph', component: PreviewGraphComponent },
+      { path: 'endGraphic/:id', component: EndGraphComponent },
+      { path: 'charts/:id', component: EndGraphComponent },
+      { path: 'nest-json', component: NestJSONComponent }
+    ]
   }
 ];
 

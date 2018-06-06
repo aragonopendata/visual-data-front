@@ -1,13 +1,3 @@
-.visualTitle {
-  font-family: RobotoLight,sans-serif;
-  color: #5ea2ba;
-}
-
-.customHeight{
-  height: 25rem;
-}
-
-
 .button {
   background-color: #0066cc;
   border: none;
@@ -28,6 +18,14 @@
   background-color: rgba(255, 255, 255, 0);
   border: none;
   text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button4 {
+  background-color: #0066cc;
+  border: none;
+  color: white;
   text-decoration: none;
   cursor: pointer;
 }
@@ -59,4 +57,13 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.visualTitle {
+  font-family: RobotoLight, sans-serif;
+  color: #5ea2ba;
+}
+
+.pointer {
+  cursor: pointer;
 }
