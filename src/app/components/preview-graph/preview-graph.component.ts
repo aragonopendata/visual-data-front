@@ -68,6 +68,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     public title: string;
 
+    public color: any;
+
     public chartDescriptionPoints: string[] = [];
 
     //////////////////////////////////////
@@ -285,10 +287,15 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     changeChart(chart) {
         this.chartMap = false;
+        this.color = [];
         if (chart === 0) {
             this.chartType = 'line';
         } else if (chart === 1) {
             this.chartType = 'bar';
+            this.color = [
+                {
+                    backgroundColor: '#5ea2ba'
+                }];
         } else if (chart === 2) {
             this.chartType = 'doughnut';
         } else if (chart === 3) {

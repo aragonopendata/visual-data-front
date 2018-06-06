@@ -106,7 +106,7 @@
             <strong>Gr&aacute;fica</strong>
         </p>
         <div *ngIf="!chartMap" style="display: block;">
-            <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType"></canvas>
+            <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType" [colors]="color"></canvas>
         </div>
         <div *ngIf="chartMap">
             <app-map [descriptionPoints]="chartDescriptionPoints" [points]="points" zoom="8" (description)="showDescription($event)" turnDescript=true></app-map>

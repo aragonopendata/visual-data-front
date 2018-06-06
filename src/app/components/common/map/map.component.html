@@ -11,7 +11,7 @@
 	</aol-layer-tile>
 	<aol-layer-vector [opacity]="1">
 		<aol-source-vector>
-			<aol-feature [id]="i" *ngFor="let p of points; let i = index">
+			<aol-feature [id]="i" *ngFor="let p of points; let i = index" (click)='mapOnClick($event)'>
 				<aol-geometry-point>
 					<aol-coordinate [x]="p.x" [y]="p.y" [srid]="'EPSG:4326'" >
 						
@@ -27,6 +27,14 @@
 		</aol-source-vector>
 	</aol-layer-vector>
 </aol-map>
+<!--
 <div *ngIf="turnDescript=='true'" class="descript">
 	<p>{{description}}</p>
+</div>
+-->
+<!--Draggable DIV:-->
+<div class="positionBox">
+	<div id="mydiv">
+			<p>{{description}}</p>
+	</div>
 </div>

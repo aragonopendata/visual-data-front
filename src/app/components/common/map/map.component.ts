@@ -31,6 +31,9 @@ export class MapComponent implements OnInit {
         return feature.getId();
       });
 
+      jQuery("#mydiv").parent().css({position: 'fixed'});
+      jQuery("#mydiv").css({top: evt.originalEvent.clientY, left: evt.originalEvent.clientX, position:'absolute'});
+
       if(this.descriptionPoints && this.descriptionPoints.length > point && this.descriptionPoints[point])
         this.description = this.descriptionPoints[point];
       else if(point >=0)

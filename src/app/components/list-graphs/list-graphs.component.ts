@@ -54,6 +54,8 @@ export class ListGraphsComponent implements OnInit {
 
   mobile: boolean;
 
+  title: string;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -108,6 +110,12 @@ export class ListGraphsComponent implements OnInit {
     this.listGraphService.getCharts( this.pagination, this.n_graphs).subscribe(data => {
       this.carouselData = data.charts;
       data.charts.forEach((chart, index) => {
+        if(chart.type == "bar"){
+          chart.color = [
+            { // grey
+                backgroundColor: '#5ea2ba'
+            }];
+        }
         if(chart.isMap){
           this.mapsPoints[index] = prepareArrayXY(chart.data[0].data, chart.labels);
         }
@@ -125,7 +133,8 @@ export class ListGraphsComponent implements OnInit {
     this.router.navigate(['/charts/embed/' + id]);
   }
 
-  updateChart(id) {
+  updateChart(id, title) {
+    this.title = title;
     this.listGraphService.downloadProcess(id).subscribe(dataProcess => {
       if (dataProcess.typeOfData == 'CKAN') {
         this.utilsGraphService.ckanReloadChart(dataProcess);

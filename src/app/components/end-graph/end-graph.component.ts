@@ -44,9 +44,12 @@ export class EndGraphComponent implements OnInit {
   public descriptions:any;
   public id:any;
   public mapDescriptions: any;
-
+  public color:Array<any> = []
 
   public hideEmbed: boolean;
+
+  public showData: number;
+  public datasetLocation: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -56,6 +59,7 @@ export class EndGraphComponent implements OnInit {
     public utilsGraphService:UtilsGraphService,
     @Inject(DOCUMENT) document: any
   ) {
+    window.scrollTo(0, 0);
     this.isMap = false;
     this.hideEmbed = true;
     this.width = 100;
@@ -78,21 +82,39 @@ export class EndGraphComponent implements OnInit {
       this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
       this.actualRoute = this.fullRoute + '/charts/' + id;
       this.graphservice.getChart(id).subscribe(chart => {
-        if (!chart || chart.status == 'notFound') {
-          this.router.navigate(['/']);
-        }
-        this.width = chart.width;
+        this.graphservice.downloadProcess(id).subscribe(process => {
+          if(process.typeOfData == "CKAN")
+            this.datasetLocation = "https://opendata.aragon.es/datos/catalogo/dataset/" + process.dataset;
+          else if(process.typeOfData == "VIRTUOSO")
+            this.datasetLocation = "https://opendata.aragon.es/sparql" + " Consulta: " + process.dataset;
+          else{
+            this.datasetLocation = process.dataset;
+          }
+          if (!chart || chart.status == 'notFound') {
+            this.router.navigate(['/']);
+          }
+          this.width = chart.width;
 
-        this.chart = chart;
-        if (!chart.isMap) {
           this.chart = chart;
-        } else {
-          this.isMap = chart.isMap;
           this.title = chart.title;
-          this.descriptions = chart.descriptions;  
-          
-          this.points = prepareArrayXY(chart.data[0].data, chart.labels);
-        }
+
+          if(chart.type == "bar"){
+            this.color.push(
+              { // grey
+                backgroundColor: '#5ea2ba'
+              });
+          }
+
+          if (!chart.isMap) {
+            this.chart = chart;
+          } else {
+            this.isMap = chart.isMap;
+            this.descriptions = chart.descriptions;  
+            this.points = prepareArrayXY(chart.data[0].data, chart.labels);
+          }
+        }, error => {
+          this.router.navigate(['/']);
+        }, );
       },
         error => {
           this.router.navigate(['/']);
@@ -110,12 +132,12 @@ export class EndGraphComponent implements OnInit {
     this.location.back();
   }
 
-  hideEmbedButton() {
+  hideEmbedButton(n :number) {
     this.hideEmbed = false;
+    this.showData = n;
   }
 
   updateChart(id){
-    console.log(id);
     this.graphservice.downloadProcess(id).subscribe(dataProcess => {
       if (dataProcess.typeOfData == 'CKAN') {
         this.utilsGraphService.ckanReloadChart(dataProcess);

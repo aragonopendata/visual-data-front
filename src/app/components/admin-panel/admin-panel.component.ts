@@ -23,6 +23,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
     checkedRemoveGraph: any;
     dataProcess: any;
     dataset:any;
+    title: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -91,6 +92,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
 
 
     updateChart(dataProcess) {
+        this.title = dataProcess.title
         if (dataProcess.typeOfData == 'CKAN') {
             this.utilsGraphService.ckanReloadChart(dataProcess);
         }else if (dataProcess.typeOfData == 'GAODC') {

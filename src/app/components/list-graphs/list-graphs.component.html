@@ -11,14 +11,14 @@
                         {{(chart.title.length>23)? (chart.title | slice:0:23) + '...': (chart.title)}}
                     </div>
                     <div class="col-2">
-                        <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3">
+                        <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id, chart.title)" class="button3">
                             <i class="fa fa-refresh"></i>
                         </button>
                     </div>
                 </div>
             </div>
             <div class="card-img-top mt-2" *ngIf="chart!==undefined && !chart.isMap">
-                <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type></canvas>
+                <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type [colors]=chart.color></canvas>
             </div>
             <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
                 <app-map [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6" turnDescript=false></app-map>
@@ -112,7 +112,9 @@
 <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="text-center" style="padding-top: 50%; padding-left: 50%;">
-            <div class="loader"></div>
+            <div class="alert alert-success" role="alert">
+                La gr&aacute;fica "{{title}}" se va a actualizar.
+            </div>
         </div>
     </div>
 </div>

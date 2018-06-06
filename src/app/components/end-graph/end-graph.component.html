@@ -29,7 +29,7 @@
         </div>
         <div class="row mx-auto w-100">
             <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 mx-auto">
-                <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
+                <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="color" [legend]="chartLegend"
                     [chartType]="chart.type">
                 </canvas>
             </div>
@@ -73,9 +73,8 @@
     <div class="row mt-5">
         <div class="col-12">
             <div class="text-center">
-                <span *ngIf="hideEmbed">
-                    <button (click)="hideEmbedButton()" class="button px-1 py-2">Reutiliza el gráfico</button>
-                </span>
+                    <button (click)="hideEmbedButton(0)" class="btn btn-link">Reutiliza el gráfico</button>
+                    <button (click)="hideEmbedButton(1)" class="btn btn-link">Fuente de datos</button>
             </div>
         </div>
     </div>
@@ -84,8 +83,11 @@
             <div class="text-center">
                 <span *ngIf="!hideEmbed">
                     <code>
-                    <div class="border rounded">
+                    <div class="border rounded" *ngIf="showData == 0">
                         &lt;iframe src="{{routeEmbed}}" width="{{width}}" height="{{(width)/1.6}}"&gt;&lt;/iframe&gt;
+                    </div>
+                    <div class="border rounded" *ngIf="showData == 1">
+                        {{datasetLocation}}
                     </div>
                 </code>
                 </span>
@@ -97,7 +99,9 @@
 <div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="text-center" style="padding-top: 50%; padding-left: 50%;">
-            <div class="loader"></div>
+            <div class="alert alert-success" role="alert">
+                La gr&aacute;fica "{{title}}" se va a actualizar.
+            </div>
         </div>
     </div>
 </div>
