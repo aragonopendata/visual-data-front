@@ -2,12 +2,20 @@
     <button (click)="next()" class="button py-2 px-2">Crear nueva gr&aacute;fica</button>
 </div>
 
+<div class="row" *ngIf="this.isupdating">
+    <div class="col-sm-12">
+        <div class="alert alert-success" role="alert">
+            La gr&aacute;fica "{{title}}" se va a actualizar.
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-12 col-md-4 col-lg-4 d-flex align-items-stretch" *ngFor="let chart of carouselData; let i = index;">
         <div class="card mt-2 w-100">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-10" data-toggle="tooltip" title=" {{chart.title}}">
+                    <div class="col-10" data-toggle="tooltip" title=" {{chart.title}}" (click)="openChart(chart.id)">
                         {{(chart.title.length>23)? (chart.title | slice:0:23) + '...': (chart.title)}}
                     </div>
                     <div class="col-2">
@@ -23,10 +31,10 @@
             <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
                 <app-map [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6" turnDescript=false></app-map>
             </div>
-            <div class="card-body d-flex align-items-end h-100">
+            <div class="card-body d-flex align-items-end h-100" (click)="openChart(chart.id)">
                 <div class="row w-100 mx-auto">
                     <div class="col-md-5 col-lg-5 col-xs-12 col-sm-12">
-                        <button (click)="openChart(chart.id)" class="button2 py-1 w-100">Abrir</button>
+                        <!--<button (click)="openChart(chart.id)" class="button2 py-1 w-100">Abrir</button>-->
                     </div>
                     <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
                         <img id="logo" class="img-fluid" src="/static/public/header/images/AOD-Logo.png">
@@ -105,17 +113,6 @@
     <div class="col-12 text-center">
         <button class="button4 py-2 px-4" (click)="pageGraphs(-1)">&lt;</button>
         <button class="button4 py-2 px-4" (click)="pageGraphs(1)">&gt;</button>
-    </div>
-</div>
-<!--<app-map points="createPoints(carouselData[1].data[0].data, carouselData[1].labels)"></app-map>-->
-<!-- Modal -->
-<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="text-center" style="padding-top: 50%; padding-left: 50%;">
-            <div class="alert alert-success" role="alert">
-                La gr&aacute;fica "{{title}}" se va a actualizar.
-            </div>
-        </div>
     </div>
 </div>
 
