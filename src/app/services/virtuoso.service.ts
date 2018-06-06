@@ -17,15 +17,16 @@ export class VirtuosoService {
   getPackageInfo(data: String[]) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const body = JSON.stringify({ packages:  data[0]  });
+    const body = JSON.stringify({ packages: data[0] });
     return this.http
       .post(this.serverURL + '/services/virtuoso/packageInfo', body, {
         headers: headers
       })
       .map(res => {
         return JSON.parse(res.text());
-      }).catch((err) => { 
-        return Observable.throw("errorConexion");
+      })
+      .catch(err => {
+        return Observable.throw('errorConexion');
       });
   }
 }

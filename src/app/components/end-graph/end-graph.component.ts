@@ -8,7 +8,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { Constants } from '../../app.constants';
-declare var jQuery:any;
+declare var jQuery: any;
 
 @Component({
   selector: 'app-end-graph',
@@ -20,15 +20,17 @@ export class EndGraphComponent implements OnInit {
   public chartOptions: any = {
     responsive: true,
     scales: {
-      xAxes: [{
+      xAxes: [
+        {
           ticks: {
-              beginAtZero: true,
-              callback: function (value, index, array) {
-                return null;
-              }
+            beginAtZero: true,
+            callback: function(value, index, array) {
+              return null;
+            }
           }
-      }]
-  }
+        }
+      ]
+    }
   };
 
   public chart: any;
@@ -40,11 +42,11 @@ export class EndGraphComponent implements OnInit {
   public isMap: boolean;
   public title: any;
   public dataProcess: any;
-  public dataset:any;
-  public descriptions:any;
-  public id:any;
+  public dataset: any;
+  public descriptions: any;
+  public id: any;
   public mapDescriptions: any;
-  public color:Array<any> = []
+  public color: Array<any> = [];
 
   public hideEmbed: boolean;
 
@@ -56,7 +58,7 @@ export class EndGraphComponent implements OnInit {
     private location: Location,
     private router: Router,
     private graphservice: GraphService,
-    public utilsGraphService:UtilsGraphService,
+    public utilsGraphService: UtilsGraphService,
     @Inject(DOCUMENT) document: any
   ) {
     window.scrollTo(0, 0);
@@ -65,98 +67,106 @@ export class EndGraphComponent implements OnInit {
     this.width = 100;
     this.fullRoute = Constants.SERVER_URL + '/servicios/visualdata';
 
-    this.loadGraph()
+    this.loadGraph();
     // Event that disable the loading screen and update the carousel
     this.utilsGraphService.loading.subscribe(value => {
-      if(value == false){
+      if (value === false) {
         this.loadGraph();
-        jQuery("#listModal").modal("hide");
+        jQuery('#listModal').modal('hide');
       }
-    })
+    });
   }
 
-  loadGraph(){
+  loadGraph() {
     let id;
     id = this.activatedRoute.snapshot.url[1];
-    if (id.path != "") {
+    if (id.path !== '') {
       this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
       this.actualRoute = this.fullRoute + '/charts/' + id;
-      this.graphservice.getChart(id).subscribe(chart => {
-        this.graphservice.downloadProcess(id).subscribe(process => {
-          if(process.typeOfData == "CKAN")
-            this.datasetLocation = "https://opendata.aragon.es/datos/catalogo/dataset/" + process.dataset;
-          else if(process.typeOfData == "VIRTUOSO")
-            this.datasetLocation = "https://opendata.aragon.es/sparql" + " Consulta: " + process.dataset;
-          else{
-            this.datasetLocation = process.dataset;
-          }
-          if (!chart || chart.status == 'notFound') {
-            this.router.navigate(['/']);
-          }
-          this.width = chart.width;
+      this.graphservice.getChart(id).subscribe(
+        chart => {
+          this.graphservice.downloadProcess(id).subscribe(
+            process => {
+              if (process.typeOfData === 'CKAN') {
+                this.datasetLocation =
+                  'https://opendata.aragon.es/datos/catalogo/dataset/' +
+                  process.dataset;
+              } else if (process.typeOfData === 'VIRTUOSO') {
+                this.datasetLocation =
+                  'https://opendata.aragon.es/sparql' +
+                  ' Consulta: ' +
+                  process.dataset;
+              } else {
+                this.datasetLocation = process.dataset;
+              }
+              if (!chart || chart.status === 'notFound') {
+                this.router.navigate(['/']);
+              }
+              this.width = chart.width;
 
-          this.chart = chart;
-          this.title = chart.title;
+              this.chart = chart;
+              this.title = chart.title;
 
-          if(chart.type == "bar"){
-            this.color.push(
-              { // grey
-                backgroundColor: '#5ea2ba'
-              });
-          }
+              if (chart.type === 'bar') {
+                this.color.push({
+                  // grey
+                  backgroundColor: '#5ea2ba'
+                });
+              }
 
-          if (!chart.isMap) {
-            this.chart = chart;
-          } else {
-            this.isMap = chart.isMap;
-            this.descriptions = chart.descriptions;  
-            this.points = prepareArrayXY(chart.data[0].data, chart.labels);
-          }
-        }, error => {
-          this.router.navigate(['/']);
-        }, );
-      },
+              if (!chart.isMap) {
+                this.chart = chart;
+              } else {
+                this.isMap = chart.isMap;
+                this.descriptions = chart.descriptions;
+                this.points = prepareArrayXY(chart.data[0].data, chart.labels);
+              }
+            },
+            error => {
+              this.router.navigate(['/']);
+            }
+          );
+        },
         error => {
           this.router.navigate(['/']);
-        }, );
+        }
+      );
     } else {
       this.router.navigate(['/charts/' + id]);
     }
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   goBack(): void {
     this.location.back();
   }
 
-  hideEmbedButton(n :number) {
+  hideEmbedButton(n: number) {
     this.hideEmbed = false;
     this.showData = n;
   }
 
-  updateChart(id){
+  updateChart(id) {
     this.graphservice.downloadProcess(id).subscribe(dataProcess => {
-      if (dataProcess.typeOfData == 'CKAN') {
+      if (dataProcess.typeOfData === 'CKAN') {
         this.utilsGraphService.ckanReloadChart(dataProcess);
-      }else if (dataProcess.typeOfData == 'GAODC') {
-          this.utilsGraphService.gaodcReloadChart(dataProcess);
-      }else if (dataProcess.typeOfData == 'URL') {
-            this.utilsGraphService.urlReloadChart(dataProcess);
-      }else if (dataProcess.typeOfData == 'VIRTUOSO') {
-        jQuery("#listModal").modal("hide");
+      } else if (dataProcess.typeOfData === 'GAODC') {
+        this.utilsGraphService.gaodcReloadChart(dataProcess);
+      } else if (dataProcess.typeOfData === 'URL') {
+        this.utilsGraphService.urlReloadChart(dataProcess);
+      } else if (dataProcess.typeOfData === 'VIRTUOSO') {
+        jQuery('#listModal').modal('hide');
         // Prepare Dataset
         this.dataProcess = dataProcess;
         this.dataset = dataProcess.dataset;
-        jQuery("#virtuosoModal").modal('show');
+        jQuery('#virtuosoModal').modal('show');
       }
     });
   }
 
-  callUpdateVirtuoso(){
-    jQuery("#listModal").modal("show");
+  callUpdateVirtuoso() {
+    jQuery('#listModal').modal('show');
     this.dataProcess.dataset = this.dataset;
     this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
   }

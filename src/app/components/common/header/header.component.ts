@@ -12,8 +12,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   menuActive = false;
-  srcMenu: String = '/static/public/header/images/Boton-Menu-Responsive-OFF.png';
-  srcLogin: String = '/static/public/header/images/Boton-Acceso-Usuarios-OFF.png';
+  srcMenu: String =
+    '/static/public/header/images/Boton-Menu-Responsive-OFF.png';
+  srcLogin: String =
+    '/static/public/header/images/Boton-Acceso-Usuarios-OFF.png';
   private resultsLimit: number;
   // Dynamic URL build parameters
   routerLinkLogin: string;
@@ -173,8 +175,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  navigate(name: string) {
-  }
+  navigate(name: string) {}
 
   ngOnInit() {
     this.getAutocomplete();

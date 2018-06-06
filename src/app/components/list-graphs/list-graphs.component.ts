@@ -162,7 +162,7 @@ export class ListGraphsComponent implements OnInit {
         jQuery('#virtuosoModal').modal('show');
       }
     });
-    setTimeout(() => this.isupdating = false, 2000);
+    setTimeout(() => (this.isupdating = false), 2000);
   }
 
   callUpdateVirtuoso() {

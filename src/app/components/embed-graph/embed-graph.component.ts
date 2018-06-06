@@ -17,15 +17,17 @@ export class EmbedGraphComponent implements OnInit {
       display: false
     },
     scales: {
-      xAxes: [{
+      xAxes: [
+        {
           ticks: {
-              beginAtZero: true,
-              callback: function (value, index, array) {
-                return null;
-              }
+            beginAtZero: true,
+            callback: function(value, index, array) {
+              return null;
+            }
           }
-      }]
-  }
+        }
+      ]
+    }
   };
 
   public chart: any;
@@ -42,12 +44,12 @@ export class EmbedGraphComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if(this.activatedRoute.snapshot.url[2].path != ""){
+    if (this.activatedRoute.snapshot.url[2].path !== '') {
       this.graphservice
         .getChart(this.activatedRoute.snapshot.url[2])
         .subscribe(chart => {
           this.chart = chart;
-          this.title = chart.title
+          this.title = chart.title;
           this.widthGraph = chart.width;
 
           if (!chart.isMap) {
@@ -55,7 +57,7 @@ export class EmbedGraphComponent implements OnInit {
           } else {
             this.isMap = chart.isMap;
             this.descriptions = chart.descriptions;
-            
+
             this.points = prepareArrayXY(chart.data[0].data, chart.labels);
           }
         });
