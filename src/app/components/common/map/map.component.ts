@@ -22,8 +22,10 @@ export class MapComponent implements OnInit {
   pointerChange(n: number) {
     if ( n == 1 ){
       jQuery('#selector').css('cursor', '-webkit-grabbing');
+      jQuery('#selector').css('cursor', 'grabbing');
     }else{
-      jQuery('#selector').css('cursor', 'auto');
+      jQuery('#selector').css('cursor', '-webkit-grab');
+      jQuery('#selector').css('cursor', 'grab');
     }
   }
 
@@ -44,6 +46,8 @@ export class MapComponent implements OnInit {
         left: evt.originalEvent.clientX -50
       });
 
+      jQuery('#selector').css('cursor', '-webkit-grabbing');
+      jQuery('#selector').css('cursor', 'grabbing');
       if (
         this.descriptionPoints &&
         this.descriptionPoints.length > point &&
@@ -53,6 +57,8 @@ export class MapComponent implements OnInit {
       } else if (point >= 0) {
         this.description = 'Sin descripción';
       } else {
+        jQuery('#selector').css('cursor', '-webkit-grab');
+        jQuery('#selector').css('cursor', 'grab');
         this.description = '';
       }
     }
