@@ -271,7 +271,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       if (this.chartMap) {
         this.points = prepareArrayXY(this.chartData[0].data, this.chartLabels);
         // usage example:
-        const resultado = reducerMapPoints(this.points, this.chartDescriptionPoints);
+        const resultado = reducerMapPoints(
+          this.points,
+          this.chartDescriptionPoints
+        );
 
         this.points = resultado[0];
         this.chartDescriptionPoints = resultado[1];
@@ -341,18 +344,18 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     } else if (chart === 1) {
       this.chartType = 'bar';
       this.color.push(
-        {backgroundColor: '#5ea2ba'},
-        {backgroundColor: 'rgb(255, 99, 132)'},
-        {backgroundColor: 'rgb(54, 162, 235)'},
-        {backgroundColor: 'rgb(255, 206, 86)'},
-        {backgroundColor: 'rgb(231, 233, 237)'},
-        {backgroundColor: 'rgb(75, 192, 192)'},
-        {backgroundColor: 'rgb(151, 187, 205])'},
-        {backgroundColor: 'rgb(220, 220, 220)'},
-        {backgroundColor: 'rgb(70, 191, 189)'},
-        {backgroundColor: 'rgb(253, 180, 92)'},
-        {backgroundColor: 'rgb(148, 159, 177)'},
-        {backgroundColor: 'rgb(77, 83, 96)'},
+        { backgroundColor: '#5ea2ba' },
+        { backgroundColor: 'rgb(255, 99, 132)' },
+        { backgroundColor: 'rgb(54, 162, 235)' },
+        { backgroundColor: 'rgb(255, 206, 86)' },
+        { backgroundColor: 'rgb(231, 233, 237)' },
+        { backgroundColor: 'rgb(75, 192, 192)' },
+        { backgroundColor: 'rgb(151, 187, 205])' },
+        { backgroundColor: 'rgb(220, 220, 220)' },
+        { backgroundColor: 'rgb(70, 191, 189)' },
+        { backgroundColor: 'rgb(253, 180, 92)' },
+        { backgroundColor: 'rgb(148, 159, 177)' },
+        { backgroundColor: 'rgb(77, 83, 96)' }
       );
     } else if (chart === 2) {
       this.chartType = 'doughnut';

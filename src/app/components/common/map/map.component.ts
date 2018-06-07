@@ -15,15 +15,15 @@ export class MapComponent implements OnInit {
 
   description: any;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   pointerChange(n: number) {
-    if ( n == 1 ){
+    if (n === 1) {
       jQuery('#selector').css('cursor', '-webkit-grabbing');
       jQuery('#selector').css('cursor', 'grabbing');
-    }else{
+    } else {
       jQuery('#selector').css('cursor', '-webkit-grab');
       jQuery('#selector').css('cursor', 'grab');
     }
@@ -34,7 +34,7 @@ export class MapComponent implements OnInit {
       const map = evt.map;
       this.description = '';
       // this bit checks if user clicked on a feature
-      const point = map.forEachFeatureAtPixel(evt.pixel, function (
+      const point = map.forEachFeatureAtPixel(evt.pixel, function(
         feature,
         layer
       ) {
@@ -43,7 +43,7 @@ export class MapComponent implements OnInit {
 
       jQuery('#mydiv').css({
         top: evt.originalEvent.clientY - 60,
-        left: evt.originalEvent.clientX -50
+        left: evt.originalEvent.clientX - 50
       });
 
       jQuery('#selector').css('cursor', '-webkit-grabbing');
