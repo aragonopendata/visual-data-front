@@ -15,29 +15,33 @@ export class MapComponent implements OnInit {
 
   description: any;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  pointerChange(n: number) {
+    if ( n == 1 ){
+      jQuery('#selector').css('cursor', '-webkit-grabbing');
+    }else{
+      jQuery('#selector').css('cursor', 'auto');
+    }
+  }
 
   mapOnClick(evt) {
     if (this.turnDescript === 'true') {
       const map = evt.map;
       this.description = '';
       // this bit checks if user clicked on a feature
-      const point = map.forEachFeatureAtPixel(evt.pixel, function(
+      const point = map.forEachFeatureAtPixel(evt.pixel, function (
         feature,
         layer
       ) {
         return feature.getId();
       });
 
-      jQuery('#mydiv')
-        .parent()
-        .css({ position: 'fixed' });
       jQuery('#mydiv').css({
-        top: evt.originalEvent.clientY,
-        left: evt.originalEvent.clientX,
-        position: 'absolute'
+        top: evt.originalEvent.clientY - 60,
+        left: evt.originalEvent.clientX -50
       });
 
       if (
