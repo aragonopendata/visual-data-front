@@ -212,6 +212,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           );
         } else if (checker === -2) {
           this.urlCall(this.urlPackagesInfo);
+        }else{
+          this.packagesSelURL = '';
+          this.loading[2] = false;
+          this.errorResponse[2] = true;
+          this.urlError = true;
         }
       }
     } else if (this.opened === 'VIRTUOSO') {
@@ -224,7 +229,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Function that return -1 if the url is invalid,
+  // Function that return -3 if the url is invalid,
   // if the url correspond to GAODC, return the number of the pakage
   // if the url correspond to CKAN, return -2
   checkURL() {
@@ -257,7 +262,13 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       return -1;
     } else {
       // OTher URL
-      return -2;
+      var expression = /(aragon\.es|unizar\.es)\//gi;
+      var regex = new RegExp(expression);
+      if(this.urlPackagesInfo && this.urlPackagesInfo.match(regex)){
+        return -2;
+      }else{
+        return -3;
+      }
     }
   }
 
