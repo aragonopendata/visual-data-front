@@ -31,6 +31,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   openedWithURL: string;
 
+  tableToShow: number;
+
   results: string[];
 
   dataTable: any;
@@ -89,6 +91,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     private http: Http
   ) {
     this.opened = '';
+    this.tableToShow = 0;
     this.listCkan = ['Cargando Espere'];
     this.listCkanNames = ['Cargando Espere'];
     this.listGaodc = ['Cargando Espere'];
@@ -171,6 +174,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   selectPackage(opened: string) {
     this.opened = opened;
+    this.tableToShow = 1;
+    this.dataTable = null;
+    this.packagesSelCKAN = "";
+    this.packagesSelURL = "";
+    this.packagesSelSPARQL = "";
     if (this.opened === 'CKAN') {
       const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
       if (exist > -1 && this.ckanPackagesInfo !== '') {
@@ -187,6 +195,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.gaodcCall(this.gaodcPackagesInfo, exist + 1);
       }
     } else if (this.opened === 'URL') {
+      this.tableToShow = 0;
       if (this.urlPackagesInfo !== '') {
         this.urlError = false;
         this.loading[2] = true;

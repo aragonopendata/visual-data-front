@@ -67,6 +67,32 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mb-3" *ngIf="tableToShow == 0">
+            <div class="col-12">
+                <span *ngIf="dataTable">
+                    <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true" [immutable]=false
+                        scrollable="true" #dt>
+                        <p-header>Dataset</p-header>
+                        <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
+                            <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
+                                <ng-template let-entry="rowData" pTemplate="body">
+                                    <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;">
+                                        {{entry[i]}}
+                                    </span>
+                                    <span class="row" *ngIf="maxCharacters(entry,i)">
+                                        <button type="button" class="btn btn-light ml-3" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
+                                            <i class="fa fa-info"></i>
+                                        </button>
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                        </ng-template>
+                    </p-dataTable>
+                </span>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12">
                 <accordion [closeOthers]=true>
@@ -129,7 +155,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="tableToShow == 1">
     <div class="col-12">
         <span *ngIf="dataTable">
             <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true" [immutable]=false
