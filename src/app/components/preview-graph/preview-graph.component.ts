@@ -9,7 +9,7 @@ import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
 import { SpinnerModule, InputTextModule } from 'primeng/primeng';
-import { removeDuplicates, typeOfArray } from '../exportedFunctions/lib';
+import { removeDuplicates, typeOfArray, getRandomColor } from '../exportedFunctions/lib';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
 
@@ -280,6 +280,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         const resultado = removeDuplicates(this.chartLabels, this.chartData);
         this.chartLabels = resultado[0];
         this.chartData = resultado[1];
+        if(this.chartType === 'bar'){
+          for(let i = 0; i < this.chartData.length; i++ ){
+            this.color.push(getRandomColor(i));
+          }
+        }
         this.data = aux;
       }
     }
@@ -340,20 +345,6 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       this.chartType = 'line';
     } else if (chart === 1) {
       this.chartType = 'bar';
-      this.color.push(
-        {backgroundColor: '#5ea2ba'},
-        {backgroundColor: 'rgb(255, 99, 132)'},
-        {backgroundColor: 'rgb(54, 162, 235)'},
-        {backgroundColor: 'rgb(255, 206, 86)'},
-        {backgroundColor: 'rgb(231, 233, 237)'},
-        {backgroundColor: 'rgb(75, 192, 192)'},
-        {backgroundColor: 'rgb(151, 187, 205])'},
-        {backgroundColor: 'rgb(220, 220, 220)'},
-        {backgroundColor: 'rgb(70, 191, 189)'},
-        {backgroundColor: 'rgb(253, 180, 92)'},
-        {backgroundColor: 'rgb(148, 159, 177)'},
-        {backgroundColor: 'rgb(77, 83, 96)'},
-      );
     } else if (chart === 2) {
       this.chartType = 'doughnut';
     } else if (chart === 3) {

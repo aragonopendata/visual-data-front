@@ -9,6 +9,7 @@ import { NgxCarousel } from 'ngx-carousel';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
+import { getRandomColor } from '../exportedFunctions/lib';
 
 declare var jQuery: any;
 
@@ -117,20 +118,10 @@ export class ListGraphsComponent implements OnInit {
         this.carouselData = data.charts;
         data.charts.forEach((chart, index) => {
           if (chart.type === 'bar') {
-            chart.color = [
-              {backgroundColor: '#5ea2ba'},
-              {backgroundColor: 'rgb(255, 99, 132)'},
-              {backgroundColor: 'rgb(54, 162, 235)'},
-              {backgroundColor: 'rgb(255, 206, 86)'},
-              {backgroundColor: 'rgb(231, 233, 237)'},
-              {backgroundColor: 'rgb(75, 192, 192)'},
-              {backgroundColor: 'rgb(151, 187, 205])'},
-              {backgroundColor: 'rgb(220, 220, 220)'},
-              {backgroundColor: 'rgb(70, 191, 189)'},
-              {backgroundColor: 'rgb(253, 180, 92)'},
-              {backgroundColor: 'rgb(148, 159, 177)'},
-              {backgroundColor: 'rgb(77, 83, 96)'},
-            ];
+            chart.color = [];
+            for(let i = 0; i< chart.labels.length; i++ ){
+              chart.color.push(getRandomColor(i));
+            }
           }
           if (chart.isMap) {
             this.mapsPoints[index] = prepareArrayXY(

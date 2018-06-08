@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
 import { DOCUMENT } from '@angular/platform-browser';
-import { prepareArrayXY } from '../exportedFunctions/lib';
+import { prepareArrayXY, getRandomColor } from '../exportedFunctions/lib';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { Constants } from '../../app.constants';
 declare var jQuery: any;
@@ -108,20 +108,9 @@ export class EndGraphComponent implements OnInit {
               this.title = chart.title;
 
               if (chart.type === 'bar') {
-                this.color.push(
-                  {backgroundColor: '#5ea2ba'},
-                  {backgroundColor: 'rgb(255, 99, 132)'},
-                  {backgroundColor: 'rgb(54, 162, 235)'},
-                  {backgroundColor: 'rgb(255, 206, 86)'},
-                  {backgroundColor: 'rgb(231, 233, 237)'},
-                  {backgroundColor: 'rgb(75, 192, 192)'},
-                  {backgroundColor: 'rgb(151, 187, 205])'},
-                  {backgroundColor: 'rgb(220, 220, 220)'},
-                  {backgroundColor: 'rgb(70, 191, 189)'},
-                  {backgroundColor: 'rgb(253, 180, 92)'},
-                  {backgroundColor: 'rgb(148, 159, 177)'},
-                  {backgroundColor: 'rgb(77, 83, 96)'},
-                );
+                for(let i = 0; i< chart.labels.length; i++ ){
+                  this.color.push(getRandomColor(i));
+                }
               }
 
               if (!chart.isMap) {
