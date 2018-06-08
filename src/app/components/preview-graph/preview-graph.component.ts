@@ -271,7 +271,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       if (this.chartMap) {
         this.points = prepareArrayXY(this.chartData[0].data, this.chartLabels);
         // usage example:
-        const resultado = reducerMapPoints(this.points, this.chartDescriptionPoints);
+        const resultado = reducerMapPoints(
+          this.points,
+          this.chartDescriptionPoints
+        );
 
         this.points = resultado[0];
         this.chartDescriptionPoints = resultado[1];

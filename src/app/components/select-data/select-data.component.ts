@@ -176,9 +176,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.opened = opened;
     this.tableToShow = 1;
     this.dataTable = null;
-    this.packagesSelCKAN = "";
-    this.packagesSelURL = "";
-    this.packagesSelSPARQL = "";
+    this.packagesSelCKAN = '';
+    this.packagesSelURL = '';
+    this.packagesSelSPARQL = '';
     if (this.opened === 'CKAN') {
       const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
       if (exist > -1 && this.ckanPackagesInfo !== '') {
@@ -212,7 +212,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           );
         } else if (checker === -2) {
           this.urlCall(this.urlPackagesInfo);
-        }else{
+        } else {
           this.packagesSelURL = '';
           this.loading[2] = false;
           this.errorResponse[2] = true;
@@ -262,11 +262,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       return -1;
     } else {
       // OTher URL
-      var expression = /(aragon\.es|unizar\.es)\//gi;
-      var regex = new RegExp(expression);
-      if(this.urlPackagesInfo && this.urlPackagesInfo.match(regex)){
+      const expression = /(aragon\.es|unizar\.es)\//gi;
+      const regex = new RegExp(expression);
+      if (this.urlPackagesInfo && this.urlPackagesInfo.match(regex)) {
         return -2;
-      }else{
+      } else {
         return -3;
       }
     }
