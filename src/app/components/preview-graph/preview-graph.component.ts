@@ -284,6 +284,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.chartLabels = resultado[0];
         this.chartData = resultado[1];
         if(this.chartType === 'bar'){
+          this.color = [];
           for(let i = 0; i < this.chartData.length; i++ ){
             this.color.push(getRandomColor(i));
           }

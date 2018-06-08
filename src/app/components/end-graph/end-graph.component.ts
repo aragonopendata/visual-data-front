@@ -108,7 +108,7 @@ export class EndGraphComponent implements OnInit {
               this.title = chart.title;
 
               if (chart.type === 'bar') {
-                for(let i = 0; i< chart.labels.length; i++ ){
+                for(let i = 0; i< chart.data.length; i++ ){
                   this.color.push(getRandomColor(i));
                 }
               }

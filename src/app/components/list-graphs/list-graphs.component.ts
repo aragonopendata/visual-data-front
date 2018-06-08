@@ -119,7 +119,7 @@ export class ListGraphsComponent implements OnInit {
         data.charts.forEach((chart, index) => {
           if (chart.type === 'bar') {
             chart.color = [];
-            for(let i = 0; i< chart.labels.length; i++ ){
+            for(let i = 0; i< chart.data.length; i++ ){
               chart.color.push(getRandomColor(i));
             }
           }
