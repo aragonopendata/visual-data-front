@@ -10,20 +10,28 @@
 }
 
 #mydiv {
-  position: fixed;
-  z-index: 9;
+  min-width: 200px;
+  width: 100px;
+  word-break: break-word;
+  height: auto;
+  position: absolute;
+  //z-index: 9;
   background-color: black;
   opacity: 0.8;
   text-align: center;
   top: 0;
   left: 0;
-  height: 50px;
   color: white;
-  display: inline-block;
+  display: none;
 }
 
+.selector{
+  position: relative;
+}
+/*
 .positionBox {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
 }
+*/

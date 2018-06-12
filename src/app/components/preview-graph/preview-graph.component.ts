@@ -172,7 +172,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         ],
         [42.1213634, 42.1213634, 42.10673031],
         [-0.07070538, -0.07070538, -0.3007088],
-        ['dato1', 'dato2', 'dato3']
+        ['Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt']
       ];
       this.dataservice.dataSelected.lenght = 3;
     }

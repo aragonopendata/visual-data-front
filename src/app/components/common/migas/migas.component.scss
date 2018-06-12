@@ -25,6 +25,10 @@
     -ms-flex-direction: column;
     flex-direction: column;
   }
+
+  .steps-row-2:before {
+    position: relative  !important;
+  }
 }
 
 .steps-form-2 .steps-row-2:before {
@@ -38,7 +42,6 @@
 }
 
 .steps-form-2 .steps-row-2 .steps-step-2 {
-  display: table-cell;
   text-align: center;
   position: relative;
 }
