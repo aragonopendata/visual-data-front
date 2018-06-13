@@ -77,6 +77,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
   public changeNumberData: number;
 
+  typeOfData: string;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -85,6 +87,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     private graphservice: GraphService,
     private dragulaService: DragulaService
   ) {
+    this.typeOfData = "STA";
     window.scrollTo(0, 0);
     this.nextStep = '';
     this.chartType = 'line';
@@ -131,7 +134,17 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       !this.dataservice.dataSelected ||
       this.dataservice.dataSelected.length === 0
     ) {
-      this.router.navigate(['/selectData/']);
+      //this.router.navigate(['/selectData/']);
+      this.location.back();
+      this.typeOfData = 'TEST';
+      this.dataservice.headerSelected = [
+        '-'
+      ];
+      this.dataservice.dataSelected = [
+        [-65]
+      ];
+      this.dataservice.dataSelected.lenght = 1;
+      /*
       this.dataservice.type = 'TEST';
       this.dataservice.dataset = 'TEST';
       this.dataservice.headerSelected = [
@@ -175,6 +188,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         ['Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt']
       ];
       this.dataservice.dataSelected.lenght = 3;
+      */
     }
 
     if (
@@ -202,6 +216,12 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     this.data.forEach(element => {
       this.columnsType.push(typeOfArray(element));
     });
+
+    if(this.typeOfData = 'TEST'){
+      this.dataservice.dataSelected = null;
+      this.dataservice.headerSelected = null;;
+      this.dataservice.realHeadersSelected = null;;
+    }
   }
 
   onDrop(args) {

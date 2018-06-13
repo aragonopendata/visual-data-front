@@ -80,7 +80,7 @@ export class EndGraphComponent implements OnInit {
   loadGraph() {
     let id;
     id = this.activatedRoute.snapshot.url[1];
-    if (id.path !== '') {
+    if (id && id.path !== '') {
       this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
       this.actualRoute = this.fullRoute + '/charts/' + id;
       this.graphservice.getChart(id).subscribe(
@@ -122,16 +122,16 @@ export class EndGraphComponent implements OnInit {
               }
             },
             error => {
-              this.router.navigate(['/']);
+              this.location.back();
             }
           );
         },
         error => {
-          this.router.navigate(['/']);
+          this.location.back();
         }
       );
     } else {
-      this.router.navigate(['/charts/' + id]);
+      this.location.back();
     }
   }
 
