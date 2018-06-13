@@ -22,7 +22,7 @@ declare var jQuery: any;
 })
 export class AdminPanelComponent implements OnInit, OnDestroy {
   processData: any;
-  checkedRemoveGraph: any;
+  checkedGraph: any;
   dataProcess: any;
   dataset: any;
   title: string;
@@ -74,12 +74,12 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
   }
 
   openModalRemove(graph) {
-    this.checkedRemoveGraph = graph;
+    this.checkedGraph = graph;
     jQuery('#deleteModal').modal('show');
   }
 
   removeGraph() {
-    this.graphService.removeGraph(this.checkedRemoveGraph.id).subscribe(
+    this.graphService.removeGraph(this.checkedGraph.id).subscribe(
       data => {
         const pos = this.processData
           .map(function(e) {
@@ -114,6 +114,36 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
       this.dataset = dataProcess.dataset;
       jQuery('#virtuosoModal').modal('show');
     }
+  }
+
+
+  openModalUpdateTitle(graph) {
+    this.checkedGraph = graph;
+    this.title = graph.title;
+    jQuery('#updateModal').modal('show');
+  }
+
+  updateTitle(){
+    this.graphService.saveTitleChart(
+      this.checkedGraph.id,
+      this.title
+    ).subscribe(
+      data => {
+        const pos = this.processData
+        .map(function(e) {
+          return e.id;
+        })
+        .indexOf(data.id);
+      if (pos !== -1) {
+        this.processData[pos].title = this.title;
+      }
+        jQuery('#updateModal').modal('hide');
+      },
+      error => {
+        console.log('Con Error');
+        jQuery('#updateModal').modal('hide');
+      }
+    );
   }
 
   callUpdateVirtuoso() {

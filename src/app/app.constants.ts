@@ -2,7 +2,8 @@ export class Constants {
   public static SERVER_URL = 'https://preopendata.aragon.es';
   public static VISUAL_BACK_SERVER_URL =
     Constants.SERVER_URL + '/apivisualdata';
-  // public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
+  //public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
+  //public static SERVER_URL = 'http://localhost:8080';
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
   public static SAVE_CHART_PATH =
     Constants.LIST_ALL_CHARTS_PATH + '/save_chart';
@@ -12,6 +13,8 @@ export class Constants {
     Constants.LIST_ALL_CHARTS_PATH + '/download_process/';
   public static REMOVE_GRAPH_PATH =
     Constants.LIST_ALL_CHARTS_PATH + '/remove_graph/';
+  public static SAVE_GRAPH_TITLE_PATH =
+    Constants.LIST_ALL_CHARTS_PATH + '/saveTitle/';
   public static DOWNLOAD_PROCESS_ALL_PATH =
     Constants.LIST_ALL_CHARTS_PATH + '/download_all_process/';
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';

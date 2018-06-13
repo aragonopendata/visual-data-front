@@ -7,17 +7,17 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class GraphService {
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   public getCharts(pages, sizeOfPAges) {
     return this.http
       .get(
         Constants.VISUAL_BACK_SERVER_URL +
-          Constants.LIST_ALL_CHARTS_PATH +
-          '/?page=' +
-          pages +
-          '&size=' +
-          sizeOfPAges
+        Constants.LIST_ALL_CHARTS_PATH +
+        '/?page=' +
+        pages +
+        '&size=' +
+        sizeOfPAges
       )
       .map((res: Response) => res.json())
       .catch(err => {
@@ -135,8 +135,8 @@ export class GraphService {
     return this.http
       .get(
         Constants.VISUAL_BACK_SERVER_URL +
-          Constants.DOWNLOAD_PROCESS_PATH +
-          chartId
+        Constants.DOWNLOAD_PROCESS_PATH +
+        chartId
       )
       .map((res: Response) => res.json())
       .catch(err => {
@@ -192,8 +192,23 @@ export class GraphService {
     return this.http
       .get(
         Constants.VISUAL_BACK_SERVER_URL +
-          Constants.REMOVE_GRAPH_PATH +
-          idProcess
+        Constants.REMOVE_GRAPH_PATH +
+        idProcess
+      )
+      .map((res: Response) => res.json())
+      .catch(err => {
+        return Observable.throw('errorConexion');
+      });
+  }
+
+  // Make the call to remove the graph
+  saveTitleChart(idProcess, title) {
+    return this.http
+      .get(
+        Constants.VISUAL_BACK_SERVER_URL +
+        Constants.SAVE_GRAPH_TITLE_PATH +
+        idProcess + "?title=" +
+        title
       )
       .map((res: Response) => res.json())
       .catch(err => {
