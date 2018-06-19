@@ -18,6 +18,7 @@ import { URLService } from '../../services/url.service';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
+import { UtilsService } from '../exportedFunctions/utils.service';
 
 @Component({
   selector: 'app-select-data',
@@ -78,6 +79,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   packagesSelURL: string;
   packagesSelSPARQL: string;
 
+  openedMenu: boolean;
+
   constructor(
     private ckanservice: CkanService,
     private gaodcservice: GaodcService,
@@ -88,7 +91,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     private router: Router,
     public dataservice: ShareDataService,
     public utilsGraphService: UtilsGraphService,
-    private http: Http
+    private http: Http,
+    private utilsService: UtilsService
   ) {
     this.opened = '';
     this.tableToShow = 0;
@@ -104,6 +108,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.nextStep = true;
     this.urlError = false;
     this.querryError = false;
+    this.getOpenedMenu();
   }
 
   ngOnInit(): void {
@@ -126,7 +131,17 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           return 0;
         });
 
+        var duplicateTitle = "";
+        var  i = 0;
         aux.forEach(element => {
+          if(element.title == duplicateTitle){
+            i++;
+            element.title = element.title.concat(" (" + i + ")");
+          }else{
+            duplicateTitle = element.title;
+            i = 0;
+          }
+
           this.listCkan.push(element.title);
           this.listCkanNames.push(element.name);
         });
@@ -472,5 +487,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     } else {
       this.nextStep = false;
     }
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
   }
 }

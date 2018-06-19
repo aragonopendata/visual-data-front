@@ -1,170 +1,134 @@
 <div id="header" class="fixed-top">
-    <div class="relatedHeader container-fluid">
+    <div class="relatedHeader container-fluid" aria-label="Cabecera DGA">
         <!--<ul class="nav">
                 <button (click)="locale.switchLanguage('en')">Inglés</button>
                 <button (click)="locale.switchLanguage('es')">Español</button>
-            </ul>-->
+            </ul>--> 
         <div class="row primary nav">
-            <div class="col-4 col-sm-6">
-                <img class="img-fluid imgob" id="imgGobAragon" src="/static/public/contenido-general/header/logoDGABlanco.png" />
-                <img id="imgGobFEDER" class="img-fluid imgob" src="/static/public/contenido-general/header/logoFEDER.png" />
+            <div class="col-4 col-sm-6"> <img class="img-fluid imgob" alt="logo-gobierno-de-aragon" id="imgGobAragon" src="/static/public/contenido-general/header/logoDGABlanco.png"  />
+                <img id="imgGobFEDER" class="img-fluid imgob" alt="logo-union-europea" src="/static/public/contenido-general/header/logoFEDER.png" />
+            </div>            
+            <div class="col-8 col-sm-6">               
+                <a class="nav-link col-3" tabindex="3" href="{{transparenciaWebUrl}}" target="_blank">TRANSPARENCIA</a>
+                <a class="nav-link col-6" tabindex="2" href="{{aragonParticipaWebUrl}}" target="_blank">PARTICIPACIÓN CIUDADANA</a>
+                <a class="nav-link active col-3" tabindex="1" href="/">OPEN DATA</a>                 
             </div>
-            <div class="col-8 col-sm-6">
-                <a class="nav-link col-3" href="{{transparenciaWebUrl}}" target="_blank">TRANSPARENCIA</a>
-                <a class="nav-link col-6" href="{{aragonParticipaWebUrl}}" target="_blank">PARTICIPACIÓN CIUDADANA</a>
-                <a class="nav-link active col-3" href="{{aodBaseUrl}}">OPEN DATA</a>
-            </div>
-        </div>
+        </div>     
     </div>
     <div class="navbar navbar-toggleable-md navbar-light" id="nav">
-        <a class="navbar-brand logo" href="{{aodBaseUrl}}">
-            <img class="navbar-brand" id="logo" src="/static/public/header/images/AOD-Logo.png" class="d-inline-block align-top" alt="">
-        </a>
-        <div id="loginLink" class="nav-item menuLogin" (mouseenter)="hover('#login')" (mouseleave)="unhover('#login')">
-            <a class="nav-link aLogin" (click)="focusUserName()" href="{{aodBaseUrl}}/{{routerLinkLogin}}">
-                <img id="login" class="aLogin" src="{{srcLogin}}" alt="x" border="0" />
-            </a>
-        </div>
-        <div class="navbar-item menu" (click)="openNav()" (mouseenter)="hover('#menu')" (mouseleave)="unhover('#menu')">
-            <a class="nav-link aMenu">
-                <img id="menu" class="aMenu" src="{{srcMenu}}" alt="x" />
-            </a>
+        
+            <a class="navbar-brand logo" tabindex="4" href="/">
+                  <img alt="logo-aragon-open-data" class="navbar-brand" id="logo" src="/static/public/header/images/AOD-Logo.png"  class="d-inline-block align-top">
+              </a>
+            <div (keydown.enter)="focusUserName()" id="loginLink" class="nav-item menuLogin" (mouseenter)="hover('#login')" (click)="focusUserName()" (mouseleave)="unhover('#login')">
+                <a role="button" tabindex="5" class="button nav-link aLogin" routerLink="/{{routerLinkLogin}}">
+                    <img id="login" class="aLogin" src="{{srcLogin}}" alt="acceso-usuarios"  border="0"/>
+                </a>
+            </div>
+            <div (keydown.enter)="openNav()" tabindex="6" class="navbar-item menu" (mouseenter)="hover('#menu')" (mouseleave)="unhover('#menu')">
+                <a role="button" class="button nav-link aMenu" (click)="openNav()">
+                    <img id="menu" class="aMenu" src="{{srcMenu}}" alt="desplegar-menú" />
+                </a>
+            </div>
         </div>
     </div>
-</div>
-<div id="myNav"  class="overlay"  (window:resize)="onResize($event)">
-    <div class="overlay-content">
-        <div id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="card">
-                <div class="card-header" role="tab" id="headingOne">
-                    <h5 class="mb-0">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Datos
-                        </a>
-                    </h5>
+    <div id="myNav" class="overlay" (window:resize)="onResize($event)">
+        <div class="overlay-content" *ngIf="openedMenu">
+            <div id="accordion" role="tablist" aria-multiselectable="true" aria-hidden="!openedMenu">
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingOne">
+                        <h5 class="mb-0">
+                            <a (keydown.enter)="collapse" aria-labelledby="datos" tabindex="{{openedMenu ? 7 : -1}}" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              Datos
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="card-block">
+                            <ul id="datos">
+                                <li><a tabindex="{{openedMenu ? 8 : -1}}" routerLink="/{{routerLinkDataCatalog}}" (click)="openNav()">Banco de datos</a></li>
+                                <li><a tabindex="{{openedMenu ? 9 : -1}}" routerLink="/{{routerLinkDataTopics}}" (click)="openNav()">Temas</a></li>
+                                <li><a tabindex="{{openedMenu ? 10 : -1}}" routerLink="/{{routerLinkDataOrganizations}}" (click)="openNav()">Publicadores</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="card-block">
-                        <ul id="datos">
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkDataCatalog}}" (click)="openNav()">Banco de datos</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkDataTopics}}" (click)="openNav()">Temas</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkDataOrganizations}}" (click)="openNav()">Publicadores</a>
-                            </li>
-                        </ul>
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                        <h5 class="mb-0">
+                            <a (keydown.enter)="collapse" class="collapsed" tabindex="{{openedMenu ? 11 : -1}}" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                              Servicios
+                          </a>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="card-block">
+                            <ul id="servicios">
+                                <li><a tabindex="{{openedMenu ? 12 : -1}}" href="{{aodBaseUrl}}/{{routerLinkServicesAragopedia}}" (click)="openNav()">Aragopedia</a></li>
+                                <li><a tabindex="{{openedMenu ? 13 : -1}}" href="{{presupuestosBaseUrl}}" (click)="openNav()">Presupuestos</a></li>
+                                <li><a tabindex="{{openedMenu ? 14 : -1}}" routerLink="/{{routerLinkServicesAnalytics}}" (click)="openNav()">Open Analytics Data</a></li>
+                                <li><a tabindex="{{openedMenu ? 15 : -1}}" href="{{aodBaseUrl}}/{{routerLinkServicesSocialData}}" (click)="openNav()">Open Social Data</a></li>
+                                <li><a tabindex="{{openedMenu ? 16 : -1}}" href="{{aodBaseUrl}}/{{routerLinkServicesVisualData}}" (click)="openNav()">Open Visual Data</a></li>
+                                <li><a tabindex="{{openedMenu ? 17 : -1}}" href="{{aodBaseUrl}}/{{routerLinkServicesCras}}" (click)="openNav()">CRAs Aragón</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingThree">
+                        <h5 class="mb-0">
+                            <a (keydown.enter)="collapse" class="collapsed" tabindex="{{openedMenu ? 18 : -1}}" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              Información
+                          </a>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="card-block">
+                            <ul id="info">
+                                <li><a tabindex="{{openedMenu ? 19 : -1}}" routerLink="/{{routerLinkInfoOpenData}}" (click)="openNav()">Información</a></li>
+                                <li><a tabindex="{{openedMenu ? 20 : -1}}" routerLink="/{{routerLinkInfoApplications}}" (click)="openNav()">Aplicaciones</a></li>
+                                <li><a tabindex="{{openedMenu ? 21 : -1}}" routerLink="/{{routerLinkInfoEventos}}" (click)="openNav()">Eventos</a></li>
+                                <li><a tabindex="{{openedMenu ? 22 : -1}}" routerLink="/{{routerLinkInfoCollaboration}}" (click)="openNav()">Colabora</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingFour">
+                        <h5 class="mb-0">
+                            <a (keydown.enter)="collapse" class="collapsed" tabindex="{{openedMenu ? 23 : -1}}" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                                  Herramientas
+                              </a>
+                        </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                        <div class="card-block">
+                            <ul id="tools">
+                                <li><a tabindex="{{openedMenu ? 24 : -1}}" routerLink="/{{routerLinkToolsCampus}}" (click)="openNav()">AOD Campus</a></li>
+                                <li><a tabindex="{{openedMenu ? 25 : -1}}" routerLink="/{{routerLinkToolsDevelopers}}" (click)="openNav()">Desarrolladores</a></li>
+                                <li><a tabindex="{{openedMenu ? 26 : -1}}" routerLink="/{{routerLinkToolsApis}}" (click)="openNav()">APIs</a></li>
+                                <li><a tabindex="{{openedMenu ? 27 : -1}}" routerLink="/{{routerLinkToolsSparql}}" (click)="openNav()">SPARQL</a></li>
+                                <li><a tabindex="{{openedMenu ? 28 : -1}}" href="{{routerLinkToolsGithub}}" (click)="openNav()">GITHUB</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header" role="tab" id="headingTwo">
-                    <h5 class="mb-0">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Servicios
-                        </a>
-                    </h5>
-                </div>
-                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                    <div class="card-block">
-                        <ul id="servicios">
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkServicesAragopedia}}" (click)="openNav()">Aragopedia</a>
-                            </li>
-                            <li>
-                                <a href="{{presupuestosBaseUrl}}" (click)="openNav()">Presupuestos</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkServicesAnalytics}}" (click)="openNav()">Open Analytics Data</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkServicesSocialData}}" (click)="openNav()">Open Social Data</a>
-                            </li>
-                            <li>
-                                <a routerLink="/" (click)="openNav()">Open Visual Data</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkServicesCras}}" (click)="openNav()">CRAs Aragón</a>
-                            </li>
-                        </ul>
+            <div>
+                <form class="search">
+                    <button type="button" tabindex="{{openedMenu ? 30 : -1}}" class="btnSearch" routerLink="/{{routerLinkDataCatalog}}" [queryParams]="{texto:searchBox.value}" (click)="openNav()">
+                            <i class="fa fa-search" style="display: table; vertical-align: middle;"></i>
+                        </button>
+                    <input autocomplete="off" tabindex="{{openedMenu ? 29 : -1}}" #searchBox id="searchBox" placeholder="BUSCA DATOS ABIERTOS" type="search" class="textBox" (keyup)="search(searchBox.value)"
+                        (keyup.enter)="searchDatasetsByText(searchBox.value); openNav();" />
+                    <div id="resultsList">
+                        <div *ngFor="let autocomplete of datasetAutocomplete" class="search-result">
+                            <a (click)="openNav(); navigate(autocomplete.name)">
+                                    {{autocomplete.title}}
+                                </a>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header" role="tab" id="headingThree">
-                    <h5 class="mb-0">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            Información
-                        </a>
-                    </h5>
-                </div>
-                <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                    <div class="card-block">
-                        <ul id="info">
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkInfoOpenData}}" (click)="openNav()">Información</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkInfoApplications}}" (click)="openNav()">Aplicaciones</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkInfoEventos}}" (click)="openNav()">Eventos</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkInfoCollaboration}}" (click)="openNav()">Colabora</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header" role="tab" id="headingFour">
-                    <h5 class="mb-0">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
-                            Herramientas
-                        </a>
-                    </h5>
-                </div>
-                <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
-                    <div class="card-block">
-                        <ul id="tools">
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkToolsCampus}}" (click)="openNav()">AOD Campus</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkToolsDevelopers}}" (click)="openNav()">Desarrolladores</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkToolsApis}}" (click)="openNav()">APIs</a>
-                            </li>
-                            <li>
-                                <a href="{{aodBaseUrl}}/{{routerLinkToolsSparql}}" (click)="openNav()">SPARQL</a>
-                            </li>
-                            <li>
-                                <a href="{{routerLinkToolsGithub}}" (click)="openNav()">GITHUB</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-        <!-- <div>
-            <form class="search">
-                <button type="button" class="btnSearch" routerLink="{{aodBaseUrl}}/{{routerLinkDataCatalog}}" [queryParams]="{texto:searchBox.value}" (click)="openNav()">
-                    <i aria-hidden="true" class="fa fa-search" style="display: table; vertical-align: middle;"></i>
-                </button>
-                <input autocomplete="off" #searchBox id="searchBox" placeholder="BUSCA DATOS ABIERTOS" type="search" class="textBox" (keyup)="search(searchBox.value)"
-                    (keyup.enter)="searchDatasetsByText(searchBox.value); openNav();" />
-                <div id="resultsList">
-                    <div *ngFor="let autocomplete of datasetAutocomplete" class="search-result">
-                        <a href='{{aodBaseUrl}}/{{routerLinkDataCatalogDataset}}/{{autocomplete.name}}' (click)="openNav()">
-                            {{autocomplete.title}}
-                        </a>
-                    </div>
-                </div>
-            </form>
-        </div> -->
     </div>
-</div>

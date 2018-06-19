@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
 import { getRandomColor } from '../exportedFunctions/lib';
 
+import { UtilsService } from '../exportedFunctions/utils.service';
+
 declare var jQuery: any;
 
 @Component({
@@ -19,6 +21,9 @@ declare var jQuery: any;
   styleUrls: ['./list-graphs.component.scss']
 })
 export class ListGraphsComponent implements OnInit {
+
+  @ViewChild('topElement') moveTop: any;
+
   imgags: string[];
 
   dataProcess: any;
@@ -60,12 +65,16 @@ export class ListGraphsComponent implements OnInit {
 
   title: string;
 
+  openedMenu: boolean;
+  
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private router: Router,
     private listGraphService: GraphService,
-    private utilsGraphService: UtilsGraphService
+    private utilsGraphService: UtilsGraphService, 
+    private utilsService: UtilsService
   ) {
     // Check if the browser is IE
     const ua = window.navigator.userAgent;
@@ -85,6 +94,7 @@ export class ListGraphsComponent implements OnInit {
         }, 1000);
       }
     });
+    this.getOpenedMenu();
   }
 
   ngOnInit() {
@@ -177,10 +187,21 @@ export class ListGraphsComponent implements OnInit {
       this.pagination += n;
       window.scrollTo(0, 0);
       this.loadCarousel();
+      this.moveTop.nativeElement.focus();
     }
   }
 
   next() {
     this.router.navigate(['/selectData/']);
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
   }
 }

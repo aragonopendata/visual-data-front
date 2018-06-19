@@ -12,6 +12,9 @@ import {
   PathLocationStrategy
 } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+
+import { UtilsService } from './components/exportedFunctions/utils.service';
+
 // Primeng
 import {
   DropdownModule,
@@ -46,7 +49,6 @@ import { PreviewGraphComponent } from './components/preview-graph/preview-graph.
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
-import { NestJSONComponent } from './components/nest-json/nest-json.component';
 import { MapComponent } from './components/common/map/map.component';
 // Utils
 import { AccordionModule } from 'ngx-bootstrap';
@@ -74,8 +76,7 @@ const routes: Routes = [
       { path: 'previewData', component: PreviewDataComponent },
       { path: 'previewGraph', component: PreviewGraphComponent },
       { path: 'endGraphic/:id', component: EndGraphComponent },
-      { path: 'charts/:id', component: EndGraphComponent },
-      { path: 'nest-json', component: NestJSONComponent }
+      { path: 'charts/:id', component: EndGraphComponent }
     ]
   }
 ];
@@ -112,7 +113,6 @@ const routes: Routes = [
     PreviewGraphComponent,
     EndGraphComponent,
     EmbedGraphComponent,
-    NestJSONComponent,
     MapComponent,
     AdminPanelComponent
   ],
@@ -127,6 +127,7 @@ const routes: Routes = [
     GraphService,
     URLService,
     UtilsGraphService,
+    UtilsService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

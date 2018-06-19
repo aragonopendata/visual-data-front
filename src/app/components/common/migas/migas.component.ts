@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { NavigationEnd } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { UtilsService } from '../../exportedFunctions/utils.service';
 
 @Component({
   selector: 'app-migas',
@@ -10,11 +11,15 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   styleUrls: ['./migas.component.scss']
 })
 export class MigasComponent implements OnInit {
+
   correctPageMigas: boolean;
   listRoutesAccepted: any;
   id = new BehaviorSubject<string>('data');
   route: Router;
-  constructor(private router: Router) {
+  openedMenu: boolean;
+
+  constructor(private router: Router,
+    private utilsService: UtilsService) {
     this.listRoutesAccepted = [
       '/selectData',
       '/previewData',
@@ -36,7 +41,18 @@ export class MigasComponent implements OnInit {
           this.correctPageMigas = false;
         }
       });
+      this.getOpenedMenu();
   }
 
   ngOnInit() {}
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
+  }
 }
