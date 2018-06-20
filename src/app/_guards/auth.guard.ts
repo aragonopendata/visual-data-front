@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
             }
         }
         // not logged in so redirect to login page
-        this.router.navigate(['/' + Constants.ROUTER_LINK_LOGIN]);
+        window.location.href = Constants.AOD_BASE_URL + '/' + Constants.ROUTER_LINK_LOGIN;
         return false;
     }
 }
