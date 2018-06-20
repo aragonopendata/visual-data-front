@@ -9,6 +9,7 @@ import { DataTable } from 'primeng/primeng';
 import { JsonPipe } from '@angular/common';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Comparator } from '../exportedFunctions/lib';
+import { UtilsService } from '../exportedFunctions/utils.service';
 
 @Component({
   selector: 'app-preview-data',
@@ -28,16 +29,20 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   fieldOrder: any;
   sortOrder: any;
 
+  openedMenu: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     private router: Router,
     public dataservice: ShareDataService,
-    private ckanservice: CkanService
+    private ckanservice: CkanService,
+    private utilsService: UtilsService
   ) {
     this.nextStep = true;
     window.scrollTo(0, 0);
     this.sortOrder = -2;
+    this.getOpenedMenu();
   }
 
   ngOnInit(): void {
@@ -158,5 +163,16 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       }
     });
     this.checked = aux;
+  }
+
+  getOpenedMenu(){
+    this.openedMenu == false;
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
   }
 }

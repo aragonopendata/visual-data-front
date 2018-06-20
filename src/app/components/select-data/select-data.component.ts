@@ -352,7 +352,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.headerTable = resultado[0];
             this.dataTable = resultado[1];
             this.loading[2] = false;
-          } else if (data.result[0].format === 'Error') {
+          } else if (data.result[0].format === '{"Error": "Not CSV or PX"}') {
             this.loading[2] = false;
             this.errorResponse[2] = true;
             this.packagesSelURL = '';
@@ -490,6 +490,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   getOpenedMenu(){
+    this.openedMenu = false;
     this.utilsService.openedMenuChange.subscribe(value => {
       this.openedMenu = value;
     });

@@ -7,21 +7,21 @@
         </div>
         <div class="row mb-1">
             <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 justify-content-end mx-auto">
-                <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3 float-right">
+                <button tabindex="-1" data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3 float-right">
                     <i class="fa fa-refresh"></i>
                 </button>
                 <span class="social-media-icons float-right">
-                    <a href="https://www.facebook.com/sharer.php?u={{actualRoute}}">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Facebook" href="https://www.facebook.com/sharer.php?u={{actualRoute}}">
                         <img alt="Facebook" src="/static/public/contenido-general/social/facebookIcon.png">
                     </a>
                 </span>
                 <span class="social-media-icons float-right">
-                    <a href="https://twitter.com/share?url={{actualRoute}}">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Twitter" href="https://twitter.com/share?url={{actualRoute}}">
                         <img alt="Twitter" src="/static/public/contenido-general/social/twitterIcon.png">
                     </a>
                 </span>
                 <span class="social-media-icons float-right">
-                    <a href="https://plus.google.com/share?url={{actualRoute}}">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Google Plus" href="https://plus.google.com/share?url={{actualRoute}}">
                         <img alt="Google Plus" src="/static/public/contenido-general/social/googlePlusIcon.png">
                     </a>
                 </span>
@@ -43,25 +43,25 @@
         </div>
         <div class="row mb-1">
             <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 justify-content-end mx-auto">
-                <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3 float-right">
+                <button tabindex="-1" data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3 float-right">
                     <i class="fa fa-refresh"></i>
                 </button>
                 <span class="social-media-icons float-right">
-                    <a href="https://www.facebook.com/sharer.php?u={{actualRoute}}">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Facebook" href="https://www.facebook.com/sharer.php?u={{actualRoute}}">
                         <img alt="Facebook" src="/static/public/contenido-general/social/facebookIcon.png">
                     </a>
                 </span>
                 <span class="social-media-icons float-right">
-                    <a href="https://twitter.com/share?url={{actualRoute}}">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Twitter" href="https://twitter.com/share?url={{actualRoute}}">
                         <img alt="Twitter" src="/static/public/contenido-general/social/twitterIcon.png">
                     </a>
                 </span>
                 <span class="social-media-icons float-right">
-                    <a href="https://plus.google.com/share?url={{actualRoute}}">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Google Plus" href="https://plus.google.com/share?url={{actualRoute}}">
                         <img alt="Google Plus" src="/static/public/contenido-general/social/googlePlusIcon.png">
                     </a>
                 </span>
-            </div>
+            </div>          
         </div>
         <div class="row">
             <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 mx-auto customHeight">
@@ -73,8 +73,8 @@
     <div class="row mt-5">
         <div class="col-12">
             <div class="text-center">
-                <button (click)="hideEmbedButton(0)" class="btn btn-link">Reutiliza el gráfico</button>
-                <button (click)="hideEmbedButton(1)" class="btn btn-link">Fuente de datos</button>
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(0)" class="btn btn-link">Reutiliza el gráfico</button>
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(1)" class="btn btn-link">Fuente de datos</button>
             </div>
         </div>
     </div>
@@ -83,10 +83,10 @@
             <div class="text-center">
                 <span *ngIf="!hideEmbed">
                     <code>
-                    <div class="border rounded" *ngIf="showData == 0">
+                    <div class="border rounded" *ngIf="showData == 0" tabindex="{{openedMenu ? -1 : 0}}">
                         &lt;iframe src="{{routeEmbed}}" width="{{width}}" height="{{(width)/1.6}}"&gt;&lt;/iframe&gt;
                     </div>
-                    <div class="border rounded" *ngIf="showData == 1">
+                    <div class="border rounded" *ngIf="showData == 1" tabindex="{{openedMenu ? -1 : 0}}">
                         {{datasetLocation}}
                     </div>
                 </code>

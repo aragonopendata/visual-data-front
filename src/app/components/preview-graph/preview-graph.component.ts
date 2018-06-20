@@ -12,6 +12,7 @@ import { SpinnerModule, InputTextModule } from 'primeng/primeng';
 import { removeDuplicates, typeOfArray, getRandomColor } from '../exportedFunctions/lib';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
+import { UtilsService } from '../exportedFunctions/utils.service';
 
 @Component({
   selector: 'app-preview-graph',
@@ -79,13 +80,16 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
   typeOfData: string;
 
+  openedMenu: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
     public dataservice: ShareDataService,
     private router: Router,
     private graphservice: GraphService,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private utilsService: UtilsService
   ) {
     this.typeOfData = "STA";
     window.scrollTo(0, 0);
@@ -200,6 +204,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       this.location.back();
       // this.router.navigate(['/selectData/']);
     }
+      this.getOpenedMenu();
   }
 
   showDescription(event): void {
@@ -454,4 +459,15 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {}
+
+  getOpenedMenu(){
+    this.openedMenu = false;
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
+  }
 }

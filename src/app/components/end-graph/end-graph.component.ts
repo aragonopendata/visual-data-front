@@ -8,6 +8,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { prepareArrayXY, getRandomColor } from '../exportedFunctions/lib';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { Constants } from '../../app.constants';
+import { UtilsService } from '../exportedFunctions/utils.service';
 declare var jQuery: any;
 
 @Component({
@@ -53,13 +54,16 @@ export class EndGraphComponent implements OnInit {
   public showData: number;
   public datasetLocation: any;
 
+  openedMenu: boolean;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private router: Router,
     private graphservice: GraphService,
     public utilsGraphService: UtilsGraphService,
-    @Inject(DOCUMENT) document: any
+    @Inject(DOCUMENT) document: any,
+    private utilsService: UtilsService
   ) {
     window.scrollTo(0, 0);
     this.isMap = false;
@@ -75,6 +79,7 @@ export class EndGraphComponent implements OnInit {
         jQuery('#listModal').modal('hide');
       }
     });
+    this.getOpenedMenu();
   }
 
   loadGraph() {
@@ -168,5 +173,15 @@ export class EndGraphComponent implements OnInit {
     jQuery('#listModal').modal('show');
     this.dataProcess.dataset = this.dataset;
     this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
   }
 }

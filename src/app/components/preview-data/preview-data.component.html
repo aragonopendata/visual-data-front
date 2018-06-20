@@ -1,26 +1,26 @@
 <div class="row w-100">
     <div class="col-2">
-        <button type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Columnas</button>
-        <strong>Seleccionar Columnas:</strong>
+        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Columnas</button>
+        <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccinar Columnas para formar la gr&aacute;fica.">Seleccionar Columnas:</strong>
         <ul class="mt-2">
             <ng-template ngFor let-property [ngForOf]="headerTable">
                 <li>
                     <label class="container">{{property}}
-                        <input type="checkbox" name=property value=property (change)="updateChecked(property, $event)">
+                        <input type="checkbox" name=property value=property (change)="updateChecked(property, $event)" tabindex="{{openedMenu ? -1 : 0}}">
                         <span class="checkmark"></span>
                     </label>
                 </li>
             </ng-template>
         </ul>
     </div>
-    <div class="col-10">
+    <div class="col-10" *ngIf="!openedMenu">
         <p-dataTable resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)"
             [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
             <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                 <p-column [style]="{width: '200px'}" field={{property}} header={{property}} [sortable]="true">
                     <ng-template let-entry="rowData" pTemplate="body">
-                        <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;">
+                        <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;" tabindex="{{openedMenu ? -1 : 0}}">
                             {{entry[i]}}
                         </span>
                         <span class="row" *ngIf="maxCharacters(entry,i)">
@@ -39,7 +39,7 @@
 </div>
 <div class="row w-100 justify-content-end">
     <div class="mb-3 mt-3">
-        <button (click)="next()" class="button py-2 px-2">Siguiente</button>
+        <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2">Siguiente</button>
     </div>
 </div>
 
@@ -55,8 +55,8 @@
             </div>
             <div class="modal-body">
                 <code>
-                            <pre>{{mData| json}}</pre>
-                        </code>
+                    <pre>{{mData| json}}</pre>
+                </code>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -76,7 +76,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p-dataTable [value]="columnsHeaders" [editable]="true">
+                <p-dataTable [value]="columnsHeaders" [editable]="true" tabindex="{{openedMenu ? -1 : 0}}">
                     <p-column field="col" header="Columnas" [editable]="true"></p-column>
                 </p-dataTable>
             </div>
