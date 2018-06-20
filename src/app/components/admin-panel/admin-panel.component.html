@@ -1,97 +1,99 @@
-<p-dataTable [value]="processData" [rows]="5" [paginator]="true" [pageLinks]="3">
-    <p-header>Listado de gráficas</p-header>
-    <p-column field="chartDataId" header="Identificador de Gráfica" [filter]="true" filterPlaceholder="Search"></p-column>
-    <p-column field="title" header="Título" [filter]="true" filterPlaceholder="Search"></p-column>
-    <p-column field="chartType" header="Tipo de Gráfica" [filter]="true" filterPlaceholder="Search"></p-column>
-    <p-column field="date" header="Fecha" [filter]="true" filterPlaceholder="Search"></p-column>
-    <p-column styleClass="col-button">
-        <ng-template pTemplate="header">
-            <button type="button" pButton icon="fa-refresh" (click)="refreshAllGraph()">
-                <i class="fa fa-refresh"></i>
-            </button>
-        </ng-template>
-        <ng-template let-graph="rowData" pTemplate="body">
-            <div style="text-align: center; width: 100%;">
-                <button type="button" class="btn btn-primary" (click)="openModalUpdateTitle(graph)">
-                    <i class="fa fa-font"></i>
-                </button>
-                <button type="button" class="btn btn-primary" (click)="refreshGraph(graph)">
+<div class="def">
+    <p-dataTable [value]="processData" [rows]="5" [paginator]="true" [pageLinks]="3">
+        <p-header>Listado de gráficas</p-header>
+        <p-column field="chartDataId" header="Identificador de Gráfica" [filter]="true" filterPlaceholder="Search"></p-column>
+        <p-column field="title" header="Título" [filter]="true" filterPlaceholder="Search"></p-column>
+        <p-column field="chartType" header="Tipo de Gráfica" [filter]="true" filterPlaceholder="Search"></p-column>
+        <p-column field="date" header="Fecha" [filter]="true" filterPlaceholder="Search"></p-column>
+        <p-column styleClass="col-button">
+            <ng-template pTemplate="header">
+                <button type="button" pButton icon="fa-refresh" (click)="refreshAllGraph()">
                     <i class="fa fa-refresh"></i>
                 </button>
-                <button type="button" class="btn btn-danger" (click)="openModalRemove(graph)">
-                    <i class="fa fa-remove"></i>
-                </button>
-            </div>
-        </ng-template>
-    </p-column>
-</p-dataTable>
+            </ng-template>
+            <ng-template let-graph="rowData" pTemplate="body">
+                <div style="text-align: center; width: 100%;">
+                    <button type="button" class="btn btn-primary" (click)="openModalUpdateTitle(graph)">
+                        <i class="fa fa-font"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="refreshGraph(graph)">
+                        <i class="fa fa-refresh"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="openModalRemove(graph)">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </div>
+            </ng-template>
+        </p-column>
+    </p-dataTable>
 
-<div class="modal" id="updateModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Actualizar T&iacute;tulo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <input type="text" size="30%" (keyup.enter)="updateTitle()" pInputText [(ngModel)]="title" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="updateTitle()">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <div class="modal" id="updateModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar T&iacute;tulo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <input type="text" size="30%" (keyup.enter)="updateTitle()" pInputText [(ngModel)]="title" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" (click)="updateTitle()">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal" id="deleteModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Eliminar Gr&aacute;fico</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Confirmaci&oacute;n de borrado.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="removeGraph()">Borrar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar Gr&aacute;fico</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Confirmaci&oacute;n de borrado.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" (click)="removeGraph()">Borrar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="updater" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div style="text-align: center; padding-top: 50%; padding-left: 50%;">
-            <div class="alert alert-success" role="alert">
-                La gr&aacute;fica "{{title}}" se va a actualizar.
+    <div class="modal fade" id="updater" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div style="text-align: center; padding-top: 50%; padding-left: 50%;">
+                <div class="alert alert-success" role="alert">
+                    La gr&aacute;fica "{{title}}" se va a actualizar.
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="virtuosoModal" tabindex="-1" role="dialog" aria-labelledby="virtuosoModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Actualizar consulta</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <textarea pInputTextarea style="width: 100%; height: 300px" [(ngModel)]="dataset"></textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" (click)="callUpdateVirtuoso()" class="btn btn-primary" data-dismiss="modal">Guardar</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!-- Modal -->
+    <div class="modal fade" id="virtuosoModal" tabindex="-1" role="dialog" aria-labelledby="virtuosoModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Actualizar consulta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea pInputTextarea style="width: 100%; height: 300px" [(ngModel)]="dataset"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" (click)="callUpdateVirtuoso()" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
