@@ -3,6 +3,16 @@
   color: #5ea2ba;
 }
 
+.def {
+  margin: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .def {
+    margin-top: -15% !important;
+  }
+}
+
 @media (min-width: 768px) {
   .def {
     margin-top: -5% !important;
