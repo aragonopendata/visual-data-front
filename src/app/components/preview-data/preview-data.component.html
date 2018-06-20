@@ -1,52 +1,57 @@
-<div class="row">
-    <div class="column1">
-        <button type="button" class="btn" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Nombre Columnas</button>
-        <strong style="padding-left: 25px; display: block;">Seleccionar Columnas:</strong>       
-        <div style="overflow:auto;height: 500px;">
-            <ul>
-                <ng-template ngFor let-property [ngForOf]="headerTable">
-                    <li>
-                        <label class="container">{{property}}
-                            <input type="checkbox"name=property value=property (change)="updateChecked(property, $event)">
-                            <span class="checkmark"></span>
-                        </label>
-                    </li>
-                </ng-template>
-            </ul>
-       </div>
-   </div>
-    <div class="column2">
-        <p-dataTable resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)" [value]="dataTable" [rows]="6" [paginator]="true" #dt>
+<div class="row w-100">
+    <div class="col-2">
+        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Columnas</button>
+        <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccinar Columnas para formar la gr&aacute;fica.">Seleccionar Columnas:</strong>
+        <ul class="mt-2">
+            <ng-template ngFor let-property [ngForOf]="headerTable">
+                <li>
+                    <label class="container">{{property}}
+                        <input type="checkbox" name=property value=property (change)="updateChecked(property, $event)" tabindex="{{openedMenu ? -1 : 0}}">
+                        <span class="checkmark"></span>
+                    </label>
+                </li>
+            </ng-template>
+        </ul>
+    </div>
+    <div class="col-10" *ngIf="!openedMenu">
+        <p-dataTable resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)"
+            [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
             <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                 <p-column [style]="{width: '200px'}" field={{property}} header={{property}} [sortable]="true">
                     <ng-template let-entry="rowData" pTemplate="body">
-                            <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;">
-                                    {{entry[i]}}
-                            </span>
-                            <span class="row" *ngIf="maxCharacters(entry,i)">
-                                    <button type="button" class="btn btn-light" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
-                                            <i class="fa fa-info"></i>
-                                    </button>
-                            </span>
+                        <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;" tabindex="{{openedMenu ? -1 : 0}}">
+                            {{entry[i]}}
+                        </span>
+                        <span class="row" *ngIf="maxCharacters(entry,i)">
+                            <button type="button" class="btn btn-light" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
+                                <i class="fa fa-info"></i>
+                            </button>
+                        </span>
                     </ng-template>
                 </p-column>
             </ng-template>
         </p-dataTable>
     </div>
 </div>
-<div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
-<button (click)="next()" class="button">Crear Grafica</button>
+<div class="row w-100">
+    <div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
+</div>
+<div class="row w-100 justify-content-end">
+    <div class="mb-3 mt-3">
+        <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2">Siguiente</button>
+    </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog mt-5" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Despliegue de Infromaci&oacute;n</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
             </div>
             <div class="modal-body">
                 <code>
@@ -54,7 +59,7 @@
                 </code>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -62,18 +67,19 @@
 
 <!-- Modal -->
 <div class="modal fade" id="editColumn" tabindex="-1" role="dialog" aria-labelledby="editColumnLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog mt-5" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Editar Columnas</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
             </div>
-            <p-dataTable [value]="columnsHeaders" [editable]="true">
-                <p-column field="col" header="Columnas" [editable]="true"></p-column>
-            </p-dataTable>
-            
+            <div class="modal-body">
+                <p-dataTable [value]="columnsHeaders" [editable]="true" tabindex="{{openedMenu ? -1 : 0}}">
+                    <p-column field="col" header="Columnas" [editable]="true"></p-column>
+                </p-dataTable>
+            </div>
             <div class="modal-footer">
                 <button type="button" (click)="changeColumnsName()" class="btn" data-dismiss="modal">Guardar</button>
                 <button type="button" class="btn" data-dismiss="modal">Close</button>

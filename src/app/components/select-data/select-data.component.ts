@@ -5,7 +5,11 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
 import { AccordionModule } from 'ngx-accordion';
-import { AutoCompleteModule, InputTextModule, InputTextareaModule } from 'primeng/primeng';
+import {
+  AutoCompleteModule,
+  InputTextModule,
+  InputTextareaModule
+} from 'primeng/primeng';
 import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { VirtuosoService } from '../../services/virtuoso.service';
@@ -14,100 +18,145 @@ import { URLService } from '../../services/url.service';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
-
+import { UtilsService } from '../exportedFunctions/utils.service';
 
 @Component({
-    selector: 'app-select-data',
-    templateUrl: './select-data.component.html',
-    styleUrls: ['./select-data.component.css'],
-    encapsulation: ViewEncapsulation.None
+  selector: 'app-select-data',
+  templateUrl: './select-data.component.html',
+  styleUrls: ['./select-data.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SelectDataComponent implements OnInit, OnDestroy {
+  // Identify what dataset are we using
+  opened: string;
 
-    // Identify what dataset are we using
-    opened: string;
+  openedWithURL: string;
 
-    openedWithURL: string;
+  tableToShow: number;
 
-    results: string[];
+  results: string[];
 
-    dataTable: any;
+  dataTable: any;
 
-    headerTable: string[];
+  headerTable: string[];
 
-    // Loading dataset
+  // Loading dataset
 
-    loading: boolean[];
-    errorResponse: boolean[];
-    errorMessage: any;
+  loading: boolean[];
+  errorResponse: boolean[];
+  errorMessage: any;
 
-    //Modal Data if the text is too long
+  // Modal Data if the text is too long
 
-    mData: any;
+  mData: any;
 
-    //Error mensaje if the data are not load or dont exist
+  // Error mensaje if the data are not load or dont exist
 
-    nextStep: boolean;
-    urlError: boolean;
-    querryError: boolean;
+  nextStep: boolean;
+  urlError: boolean;
+  querryError: boolean;
 
-    // Dropbox Init List
+  // Dropbox Init List
 
-    listCkan: string[];
+  listCkan: string[];
+  listCkanNames: string[];
 
-    listGaodc: string[];
+  listGaodc: string[];
 
-    // Select packages and List packages
+  // Select packages and List packages
 
-    ckanPackagesInfo: string;
+  ckanPackagesInfo: string;
 
-    gaodcPackagesInfo: string;
+  gaodcPackagesInfo: string;
 
-    urlPackagesInfo: string;
+  urlPackagesInfo: string;
 
-    virtuosoPackagesInfo: string;
+  virtuosoPackagesInfo: string;
 
-    packagesInfo: String;
+  packagesInfo: string;
 
-    packagesList: String[];
+  packagesSelCKAN: string;
+  packagesSelURL: string;
+  packagesSelSPARQL: string;
 
-    constructor(
-        private ckanservice: CkanService,
-        private gaodcservice: GaodcService,
-        private virtuososervice: VirtuosoService,
-        private urlservice: URLService,
-        private route: ActivatedRoute,
-        private location: Location,
-        private router: Router,
-        public dataservice: ShareDataService,
-        public utilsGraphService: UtilsGraphService,
-        private http: Http
-    ) {
-        this.opened = '';
-        this.listCkan = ['Cargando Espere'];
-        this.listGaodc = ['Cargando Espere'];
-        this.packagesList = [];
-        this.headerTable = [];
-        this.loading = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
-        this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
-        this.nextStep = true;
-        this.urlError = false;
-        this.querryError = false;
-    }
+  openedMenu: boolean;
 
-    ngOnInit(): void {
-        /*
-        this.ckanservice.getPackageList().subscribe(data => {
-            data.result.results.forEach(element => {
-                this.listCkan.push(element.name);
-            });
-            this.listCkan.shift();
-            this.loading[0] = false;
-        },
-        error => {
-           this.loading[0] = false;
-           this.errorResponse[0] = true;
-        },);
+  constructor(
+    private ckanservice: CkanService,
+    private gaodcservice: GaodcService,
+    private virtuososervice: VirtuosoService,
+    private urlservice: URLService,
+    private route: ActivatedRoute,
+    private location: Location,
+    private router: Router,
+    public dataservice: ShareDataService,
+    public utilsGraphService: UtilsGraphService,
+    private http: Http,
+    private utilsService: UtilsService
+  ) {
+    this.opened = '';
+    this.tableToShow = 0;
+    this.listCkan = ['Cargando Espere'];
+    this.listCkanNames = ['Cargando Espere'];
+    this.listGaodc = ['Cargando Espere'];
+    this.packagesSelCKAN = '';
+    this.packagesSelURL = '';
+    this.packagesSelSPARQL = '';
+    this.headerTable = [];
+    this.loading = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
+    this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
+    this.nextStep = true;
+    this.urlError = false;
+    this.querryError = false;
+    this.getOpenedMenu();
+  }
+
+  ngOnInit(): void {
+    const aux = [];
+    this.ckanservice.getPackageList().subscribe(
+      data => {
+        data.forEach(element => {
+          element.results.forEach(element2 => {
+            aux.push({ title: element2.title, name: element2.name });
+          });
+        });
+
+        aux.sort(function(a, b) {
+          if (a.title < b.title) {
+            return -1;
+          }
+          if (a.title > b.title) {
+            return 1;
+          }
+          return 0;
+        });
+
+        var duplicateTitle = "";
+        var  i = 0;
+        aux.forEach(element => {
+          if(element.title == duplicateTitle){
+            i++;
+            element.title = element.title.concat(" (" + i + ")");
+          }else{
+            duplicateTitle = element.title;
+            i = 0;
+          }
+
+          this.listCkan.push(element.title);
+          this.listCkanNames.push(element.name);
+        });
+
+        this.listCkan.shift();
+        this.listCkanNames.shift();
+
+        this.loading[0] = false;
+      },
+      error => {
+        this.loading[0] = false;
+        this.errorResponse[0] = true;
+      }
+    );
+    /*
         this.gaodcservice.getPackageList().subscribe(data => {
             this.listGaodc = [];
             data.forEach(element => {
@@ -120,171 +169,211 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.errorResponse[1] = true;
         },);
         */
-    }
+  }
 
-    ngOnDestroy() {
-        if(this.opened !== 'URL'){
-            this.dataservice.type = this.opened;
-        }else{
-            if(this.openedWithURL === 'GAODC'){
-                this.dataservice.type = this.openedWithURL;
-            }else{
-                this.dataservice.type = 'URL';
-                this.dataservice.url = this.ckanPackagesInfo;
-            }
+  ngOnDestroy() {
+    if (this.opened !== 'URL') {
+      this.dataservice.type = this.opened;
+    } else {
+      if (this.openedWithURL === 'GAODC') {
+        this.dataservice.type = this.openedWithURL;
+      } else {
+        this.dataservice.type = 'URL';
+        this.dataservice.url = this.ckanPackagesInfo;
+      }
+    }
+    this.dataservice.datasetSelected = this.packagesInfo;
+    this.dataservice.datasetHeader = this.headerTable;
+    this.dataservice.dataset = this.dataTable;
+  }
+
+  selectPackage(opened: string) {
+    this.opened = opened;
+    this.tableToShow = 1;
+    this.dataTable = null;
+    this.packagesSelCKAN = '';
+    this.packagesSelURL = '';
+    this.packagesSelSPARQL = '';
+    if (this.opened === 'CKAN') {
+      const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
+      if (exist > -1 && this.ckanPackagesInfo !== '') {
+        this.loading[0] = true;
+
+        this.ckanCall(this.listCkanNames[exist], false);
+      }
+    } else if (this.opened === 'GAODC') {
+      const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
+      if (exist > -1) {
+        // Missing this.packagesSelGAODC != ""
+        this.loading[1] = true;
+
+        this.gaodcCall(this.gaodcPackagesInfo, exist + 1);
+      }
+    } else if (this.opened === 'URL') {
+      this.tableToShow = 0;
+      if (this.urlPackagesInfo !== '') {
+        this.urlError = false;
+        this.loading[2] = true;
+
+        // GAODC Check
+        const checker = this.checkURL();
+        if (checker >= 0) {
+          // Correct link
+          this.gaodcCall(this.urlPackagesInfo, checker);
+        } else if (checker === -1) {
+          this.ckanCall(
+            this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1),
+            true
+          );
+        } else if (checker === -2) {
+          this.urlCall(this.urlPackagesInfo);
+        } else {
+          this.packagesSelURL = '';
+          this.loading[2] = false;
+          this.errorResponse[2] = true;
+          this.urlError = true;
         }
-        this.dataservice.datasetSelected = this.packagesInfo;
-        this.dataservice.datasetHeader = this.headerTable;
-        this.dataservice.dataset = this.dataTable;
+      }
+    } else if (this.opened === 'VIRTUOSO') {
+      if (this.virtuosoPackagesInfo !== '') {
+        this.querryError = false;
+        this.loading[3] = true;
+
+        this.virtuosoCall(this.virtuosoPackagesInfo);
+      }
     }
+  }
 
-    selectPackage() {
-        if (this.opened === 'CKAN') {
-            const exist = this.listCkan.find(x => x === this.ckanPackagesInfo);
-            if (exist && this.packagesList.length === 0) {
-                this.loading[0] = true;
+  // Function that return -3 if the url is invalid,
+  // if the url correspond to GAODC, return the number of the pakage
+  // if the url correspond to CKAN, return -2
+  checkURL() {
+    const exist = 0;
+    // Check All URLs
+    const url_ToCkeck = [
+      'https://opendata.aragon.es/GA_OD_Core/preview?view_id=',
+      'https://opendata.aragon.es/datos/catalogo/dataset/'
+    ];
 
-                this.ckanCall(this.ckanPackagesInfo);
-            }
-        } else if (this.opened === 'GAODC') {
-            const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
-            if (exist > -1 && this.packagesList.length === 0) {
-                this.loading[1] = true;
+    // GAODC Test URL
+    if (
+      this.urlPackagesInfo !== undefined &&
+      this.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]
+    ) {
+      const n_package = Number(
+        this.urlPackagesInfo.substr(54, this.urlPackagesInfo.length - 1)
+      );
 
-                this.gaodcCall(this.gaodcPackagesInfo, exist + 1);
-            }
-        } else if (this.opened === 'URL') {
-            if (this.packagesList.length === 0) {
-                this.urlError = false;
-                this.loading[2] = true;
+      if (n_package.toString() !== 'NaN') {
+        return n_package;
+      } else {
+        return -3;
+      }
+    }
+    if (
+      this.urlPackagesInfo !== undefined &&
+      this.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]
+    ) {
+      return -1;
+    } else {
+      // OTher URL
+      const expression = /(aragon\.es|unizar\.es)\//gi;
+      const regex = new RegExp(expression);
+      if (this.urlPackagesInfo && this.urlPackagesInfo.match(regex)) {
+        return -2;
+      } else {
+        return -3;
+      }
+    }
+  }
 
-                //GAODC Check
-                var checker = this.checkURL();
-                if (checker >= 0) {
-                    //Correct link
-                    this.gaodcCall(this.urlPackagesInfo, checker);
-                } else if(checker == -1){
-                    this.ckanCall(this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1));
-                }else if(checker == -2){
-                    this.urlCall(this.urlPackagesInfo);
-                }
+  ckanCall(namePackage: string, url: boolean) {
+    if (url === false) {
+      this.packagesSelCKAN = namePackage;
+    }
+    this.ckanservice.getPackageInfo([namePackage]).subscribe(
+      data => {
+        this.packagesInfo = namePackage;
+        this.errorResponse[0] = false;
+        if (data.result.length !== 0) {
+          data.result.forEach((element, index) => {
+            if (index === 0) {
+              this.headerTable = [];
+              this.dataTable = [];
             }
-        } else if (this.opened === 'VIRTUOSO') {
-            if (this.packagesList.length === 0) {
-                this.querryError = false;
-                this.loading[3] = true;
-            
-                this.virtuosoCall(this.virtuosoPackagesInfo);
+
+            if (element.format === 'PX') {
+              const resultado = parsePXFile(element.data);
+              this.headerTable = resultado[0];
+              this.dataTable = resultado[1];
+              this.loading[0] = false;
+            } else if (element.format === 'CSV') {
+              const resultado = parseCSVFile(element.data, index);
+              this.headerTable = resultado[0];
+              this.dataTable = this.dataTable.concat(resultado[1]);
+              this.loading[0] = false;
+            } else {
+              this.packagesSelCKAN = '';
+              this.loading[0] = false;
+              this.errorResponse[0] = true;
             }
+            this.loading[2] = false;
+          });
+        } else {
+          this.packagesSelCKAN = '';
+          this.loading[0] = false;
+          this.errorResponse[0] = true;
         }
-    }
+      },
+      error => {
+        this.packagesSelCKAN = '';
+        this.loading[0] = false;
+        this.errorResponse[0] = true;
+      }
+    );
+  }
 
-    // Function that return -1 if the url is invalid,
-    // if the url correspond to GAODC, return the number of the pakage
-    // if the url correspond to CKAN, return -2
-    checkURL() {
-        let exist = 0;
-        // Check All URLs
-        const url_ToCkeck = ["https://opendata.aragon.es/GA_OD_Core/preview?view_id=", "https://opendata.aragon.es/datos/catalogo/dataset/"];
-
-        //GAODC Test URL
-        if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]) {
-            const n_package = Number(this.urlPackagesInfo.substr(54, this.urlPackagesInfo.length - 1));
-
-            if (n_package.toString() !== 'NaN') {
-                return n_package;
-            }else{
-                return -3;
-            }
-        } if (this.urlPackagesInfo != undefined && this.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]) {
-            return -1;
-        } else { //OTher URL
-            return -2;
+  urlCall(namePackage: string) {
+    this.errorResponse[2] = false;
+    this.errorMessage = '';
+    this.packagesSelURL = namePackage;
+    this.urlPackagesInfo = namePackage;
+    this.urlservice.getPackageInfo(this.packagesSelURL).subscribe(
+      data => {
+        this.packagesInfo = namePackage;
+        if (data.result.length !== 0) {
+          if (data.result[0].format === 'PX') {
+            const resultado = parsePXFile(data.result[0].data);
+            this.headerTable = resultado[0];
+            this.dataTable = resultado[1];
+            this.loading[2] = false;
+          } else if (data.result[0].format === 'CSV') {
+            const resultado = parseCSVFile(data.result[0].data, 0);
+            this.headerTable = resultado[0];
+            this.dataTable = resultado[1];
+            this.loading[2] = false;
+          } else if (data.result[0].format === '{"Error": "Not CSV or PX"}') {
+            this.loading[2] = false;
+            this.errorResponse[2] = true;
+            this.packagesSelURL = '';
+            this.errorMessage = data.result[0].data.errorMessage;
+          }
+        } else {
+          this.packagesSelURL = '';
+          this.loading[2] = false;
+          this.errorResponse[2] = true;
         }
-    }
+      },
+      error => {
+        this.packagesSelURL = '';
+        this.loading[2] = false;
+        this.errorResponse[2] = true;
+      }
+    );
+  }
 
-    ckanCall(namePackage: string){
-        this.packagesList.push(namePackage);
-        this.ckanPackagesInfo = namePackage;
-        this.ckanservice.getPackageInfo(this.packagesList).subscribe(data => {
-            this.packagesInfo = namePackage;
-            this.errorResponse[0] = false;
-            if(data.result.length != 0){
-                data.result.forEach((element, index) => {
-                    if(index == 0){
-                        this.headerTable =[];
-                        this.dataTable =[];
-                    }
-
-                    if (element.format == "PX") {
-                        var result = parsePXFile(element.data);
-                        this.headerTable = result[0];
-                        this.dataTable = result[1];
-                        this.loading[0] = false;
-                    }else if(element.format == "CSV") {
-                        var result = parseCSVFile(element.data, index);
-                        this.headerTable = result[0];
-                        this.dataTable = this.dataTable.concat(result[1]);
-                        this.loading[0] = false;
-                    }else{
-                        this.packagesList.pop();
-                        this.loading[0] = false;
-                        this.errorResponse[0] = true;
-                    }             
-                    this.loading[2] = false;   
-                });
-
-            }else{
-                this.packagesList.pop();
-                this.loading[0] = false;
-                this.errorResponse[0] = true;
-            }
-        },
-        error => {
-           this.packagesList.pop();
-           this.loading[0] = false;
-           this.errorResponse[0] = true;
-        },);
-    }
-
-    urlCall(namePackage: string){
-        this.errorResponse[2] = false;
-        this.errorMessage = "";
-        this.packagesList.push(namePackage);
-        this.urlPackagesInfo = namePackage;
-        this.urlservice.getPackageInfo(this.packagesList[0]).subscribe(data => {
-            this.packagesInfo = namePackage;
-            if(data.result.length != 0){
-                if (data.result[0].format == "PX") {
-                    var result = parsePXFile(data.result[0].data);
-                    this.headerTable = result[0];
-                    this.dataTable = result[1];
-                    this.loading[2] = false;
-                }else if(data.result[0].format == "CSV") {
-                    var result = parseCSVFile(data.result[0].data, 0);
-                    this.headerTable = result[0];
-                    this.dataTable = result[1];
-                    this.loading[2] = false;
-                }else if(data.result[0].format == "Error") {
-                    this.loading[2] = false;
-                    this.errorResponse[2] = true;
-                    this.packagesList.pop();
-                    this.errorMessage = data.result[0].data.errorMessage; 
-                }
-            }else{
-                this.packagesList.pop();
-                this.loading[2] = false;
-                this.errorResponse[2] = true;
-            }
-        },
-        error => {
-           this.packagesList.pop();
-           this.loading[2] = false;
-           this.errorResponse[2] = true;
-        },);
-    }
-
-    gaodcCall(name: String, numberPackage : number){
+  gaodcCall(name: String, numberPackage: number) {
+    /*
         this.packagesList.push(name);
         this.gaodcservice.getPackageInfo(numberPackage).subscribe(data => {
             this.headerTable = data[0];
@@ -302,27 +391,38 @@ export class SelectDataComponent implements OnInit, OnDestroy {
            this.loading[2] = false;
            this.errorResponse[1] = true;
         },);
-    }
+        */
+  }
 
-    virtuosoCall(namePackage: string){
-        this.packagesList.push(this.virtuosoPackagesInfo);
+  virtuosoCall(namePackage: string) {
+    this.packagesSelSPARQL = this.virtuosoPackagesInfo;
 
-        this.virtuososervice.getPackageInfo(this.packagesList).subscribe(data => {
-            this.headerTable = data.head.vars;
-            this.dataTable = [];
-            this.utilsGraphService.virtuosoPInitialTable(data,this.headerTable,this.dataTable);
-            
-            this.packagesInfo = this.virtuosoPackagesInfo;
-            this.loading[3] = false;
-        },
-        error => {
-            this.packagesList.pop();
-            this.querryError = true;
-            this.loading[3] = false;
-        },);
-    }
+    this.virtuososervice.getPackageInfo([this.packagesSelSPARQL]).subscribe(
+      data => {
+        this.headerTable = data.head.vars;
+        this.dataTable = [];
+        this.utilsGraphService.virtuosoPInitialTable(
+          data,
+          this.headerTable,
+          this.dataTable
+        );
 
-    search(event: any) {
+        this.packagesInfo = this.virtuosoPackagesInfo;
+        this.loading[3] = false;
+      },
+      error => {
+        this.packagesSelSPARQL = '';
+        this.querryError = true;
+        this.loading[3] = false;
+      }
+    );
+  }
+
+  search(event: any) {
+    this.results = Object.assign([], this.listCkan).filter(
+      item => item.indexOf(event.query) > -1
+    );
+    /*
         if (this.opened === 'CKAN') {
             this.results = Object.assign([], this.listCkan).filter(
                 item => item.indexOf(event.query) > -1
@@ -332,54 +432,71 @@ export class SelectDataComponent implements OnInit, OnDestroy {
                 item => item.indexOf(event.query) > -1
             );
         }
+        */
+  }
+
+  deletePackage(name) {
+    if (name === 'CKAN') {
+      this.packagesSelCKAN = '';
     }
-
-    deletePackage() {
-        this.packagesList.pop();
-        this.dataTable = undefined;
+    if (name === 'URL') {
+      this.packagesSelURL = '';
     }
-
-    goBack(): void {
-        this.router.navigate(['/']);
-        // this.location.back();
+    if (name === 'VIRTUOSO') {
+      this.packagesSelSPARQL = '';
     }
+    this.dataTable = undefined;
+  }
 
-    whoIsOpen(n: string) {
-        console.log('Detectado Apertura de ' + n);
-        this.deletePackage()
-        this.opened = n;
-    }
+  goBack(): void {
+    this.router.navigate(['/']);
+    // this.location.back();
+  }
 
-
-    maxCharacters(data, i) {
-        if (data[i]) {
-            if (typeof data[i] === 'number') {
-                return false;
-            } else {
-                if (data[i].length <= 80) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-    }
-
-    manteinData(data) {
-        this.mData = data;
-    }
-
-    eventKey(event){
-        console.log(event);
-    }
-
-    next() {
-        if (((this.opened === 'CKAN' && !this.loading[0]) || (this.opened === 'GAODC' && !this.loading[1])  || 
-            (this.opened === 'URL' && !this.loading[2]) || this.opened === 'VIRTUOSO' && !this.loading[3])
-            && this.dataTable) {
-            this.router.navigate(['/previewData/']);
+  maxCharacters(data, i) {
+    if (data[i]) {
+      if (typeof data[i] === 'number') {
+        return false;
+      } else {
+        if (data[i].length <= 80) {
+          return false;
         } else {
-            this.nextStep = false;
+          return true;
         }
+      }
     }
+  }
+
+  manteinData(data) {
+    this.mData = data;
+  }
+
+  eventKey(event) {
+    console.log(event);
+  }
+
+  next() {
+    if (
+      ((this.opened === 'CKAN' && !this.loading[0]) ||
+        (this.opened === 'GAODC' && !this.loading[1]) ||
+        (this.opened === 'URL' && !this.loading[2]) ||
+        (this.opened === 'VIRTUOSO' && !this.loading[3])) &&
+      this.dataTable
+    ) {
+      this.router.navigate(['/previewData/']);
+    } else {
+      this.nextStep = false;
+    }
+  }
+
+  getOpenedMenu(){
+    this.openedMenu = false;
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
+  }
 }

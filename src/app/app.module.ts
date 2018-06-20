@@ -5,13 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
-import {AngularOpenlayersModule} from 'ngx-openlayers';
+import { AngularOpenlayersModule } from 'ngx-openlayers';
+import { AuthGuard } from './_guards/auth.guard';
 import {
   Location,
   LocationStrategy,
   PathLocationStrategy
 } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+
+import { UtilsService } from './components/exportedFunctions/utils.service';
+
 // Primeng
 import {
   DropdownModule,
@@ -46,7 +50,6 @@ import { PreviewGraphComponent } from './components/preview-graph/preview-graph.
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
-import { NestJSONComponent } from './components/nest-json/nest-json.component';
 import { MapComponent } from './components/common/map/map.component';
 // Utils
 import { AccordionModule } from 'ngx-bootstrap';
@@ -58,30 +61,25 @@ import { TreeModule } from 'angular-tree-component';
 import 'hammerjs';
 import { UtilsGraphService } from './components/exportedFunctions/utilsChats.util';
 
-const pathModifier = Constants.PATH_MODIFIER;
-
 // All the routes for the app
 const routes: Routes = [
   // Embed Routes
-  { path: pathModifier + 'charts/embed/:id', component: EmbedGraphComponent},
-  { path: pathModifier + 'adminPanel', component: AdminPanelComponent},
+  { path: 'charts/embed/:id', component: EmbedGraphComponent },
+  { path: 'adminPanel', component: AdminPanelComponent, canActivate: [AuthGuard] },
 
   // No Embed routes
   {
-      path: pathModifier + '',
-      component: BodyComponent,
-      children: [
-        { path: pathModifier + '', component: ListGraphsComponent, pathMatch: 'full' },
-        { path: pathModifier + 'selectData', component: SelectDataComponent, pathMatch: 'full' },
-        { path: pathModifier + 'previewData', component: PreviewDataComponent, pathMatch: 'full' },
-        { path: pathModifier + 'previewGraph', component: PreviewGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'endGraphic/:id', component: EndGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'charts/:id', component: EndGraphComponent, pathMatch: 'full' },
-        { path: pathModifier + 'nest-json', component: NestJSONComponent, pathMatch: 'full' }
-      ]
-  },
-  // Default
-  { path: '**', redirectTo: pathModifier + '' }
+    path: '',
+    component: BodyComponent,
+    children: [
+      { path: '', component: ListGraphsComponent, pathMatch: 'full' },
+      { path: 'selectData', component: SelectDataComponent },
+      { path: 'previewData', component: PreviewDataComponent },
+      { path: 'previewGraph', component: PreviewGraphComponent },
+      { path: 'endGraphic/:id', component: EndGraphComponent },
+      { path: 'charts/:id', component: EndGraphComponent }
+    ]
+  }
 ];
 
 @NgModule({
@@ -116,7 +114,6 @@ const routes: Routes = [
     PreviewGraphComponent,
     EndGraphComponent,
     EmbedGraphComponent,
-    NestJSONComponent,
     MapComponent,
     AdminPanelComponent
   ],
@@ -131,6 +128,7 @@ const routes: Routes = [
     GraphService,
     URLService,
     UtilsGraphService,
+    UtilsService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

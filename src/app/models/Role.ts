@@ -1,10 +1,10 @@
-import { User } from './User';
+import {User} from './User';
 
 export class Role {
-  id: number;
-  name: string;
-  description: string;
-  active: boolean;
+    id: number;
+    name: string;
+    description: string;
+    active: boolean;
 
-  constructor() {}
+    constructor() { }
 }

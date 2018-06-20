@@ -1,10 +1,14 @@
 <app-header></app-header>
-<div id="contendor-principal">
-        <div class="marginOpenData">
-                <app-migas></app-migas>
-        </div>
-        <div class="cleanFloat marginOpenData">
-                <router-outlet></router-outlet>
-        </div>
+<div class="container-fluid opendatamargin pt-5 mt-md-5 mt-lg-5">
+	<div class="pagina">
+		<h1 class="visualTitle mb-3"  tabindex="{{openedMenu ? -1 : 0}}">Open Visual data</h1>
+		<div class="mb-4">
+			<p  tabindex="{{openedMenu ? -1 : 0}}">Open Visual Data te permite crear gráficos y visualizaciones con los datos disponibles en Aragón Open Data.</p>
+		</div>
+	</div>
+	<app-migas></app-migas>
+	<router-outlet></router-outlet>
 </div>
-<app-footer></app-footer>
+<div class="mt-5">
+	<app-footer></app-footer>
+</div>

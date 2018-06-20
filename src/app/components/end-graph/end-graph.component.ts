@@ -5,19 +5,33 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
 import { DOCUMENT } from '@angular/platform-browser';
-import { prepareArrayXY } from '../exportedFunctions/lib';
+import { prepareArrayXY, getRandomColor } from '../exportedFunctions/lib';
 import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
-declare var jQuery:any;
+import { Constants } from '../../app.constants';
+import { UtilsService } from '../exportedFunctions/utils.service';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-end-graph',
   templateUrl: './end-graph.component.html',
-  styleUrls: ['./end-graph.component.css']
+  styleUrls: ['./end-graph.component.scss']
 })
 export class EndGraphComponent implements OnInit {
-  public chartLegend = true;
+  public chartLegend = false;
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, array) {
+              return null;
+            }
+          }
+        }
+      ]
+    }
   };
 
   public chart: any;
@@ -29,102 +43,145 @@ export class EndGraphComponent implements OnInit {
   public isMap: boolean;
   public title: any;
   public dataProcess: any;
-  public dataset:any;
-  public descriptions:any;
-  public id:any;
+  public dataset: any;
+  public descriptions: any;
+  public id: any;
   public mapDescriptions: any;
-
+  public color: Array<any> = [];
 
   public hideEmbed: boolean;
+
+  public showData: number;
+  public datasetLocation: any;
+
+  openedMenu: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private router: Router,
     private graphservice: GraphService,
-    public utilsGraphService:UtilsGraphService,
-    @Inject(DOCUMENT) document: any
+    public utilsGraphService: UtilsGraphService,
+    @Inject(DOCUMENT) document: any,
+    private utilsService: UtilsService
   ) {
+    window.scrollTo(0, 0);
     this.isMap = false;
     this.hideEmbed = true;
     this.width = 100;
-    this.fullRoute = document.location.protocol + '//' + document.location.hostname + ':' + document.location.port;
+    this.fullRoute = Constants.SERVER_URL + '/servicios/visualdata';
 
-    this.loadGraph()
+    this.loadGraph();
     // Event that disable the loading screen and update the carousel
     this.utilsGraphService.loading.subscribe(value => {
-      if(value == false){
+      if (value === false) {
         this.loadGraph();
-        jQuery("#listModal").modal("hide");
+        jQuery('#listModal').modal('hide');
       }
-    })
+    });
+    this.getOpenedMenu();
   }
 
-  loadGraph(){
+  loadGraph() {
     let id;
     id = this.activatedRoute.snapshot.url[1];
-    if (id.path != "") {
+    if (id && id.path !== '') {
       this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
       this.actualRoute = this.fullRoute + '/charts/' + id;
-      this.graphservice.getChart(id).subscribe(chart => {
-        if (!chart || chart.status == 'notFound') {
-          this.router.navigate(['/']);
-        }
-        this.width = chart.width;
+      this.graphservice.getChart(id).subscribe(
+        chart => {
+          this.graphservice.downloadProcess(id).subscribe(
+            process => {
+              if (process.typeOfData === 'CKAN') {
+                this.datasetLocation =
+                  'https://opendata.aragon.es/datos/catalogo/dataset/' +
+                  process.dataset;
+              } else if (process.typeOfData === 'VIRTUOSO') {
+                this.datasetLocation =
+                  'https://opendata.aragon.es/sparql' +
+                  ' Consulta: ' +
+                  process.dataset;
+              } else {
+                this.datasetLocation = process.dataset;
+              }
+              if (!chart || chart.status === 'notFound') {
+                this.router.navigate(['/']);
+              }
+              this.width = chart.width;
 
-        if (!chart.isMap) {
-          this.chart = chart;
-        } else {
-          this.isMap = chart.isMap;
-          this.title = chart.title;
-          this.descriptions = chart.descriptions;  
-          this.id = chart.id;
-          
-          this.points = prepareArrayXY(chart.data[0].data, chart.labels);
-        }
-      },
+              this.chart = chart;
+              this.title = chart.title;
+
+              if (chart.type === 'bar') {
+                for(let i = 0; i< chart.data.length; i++ ){
+                  this.color.push(getRandomColor(i));
+                }
+              }
+
+              if (!chart.isMap) {
+                this.chart = chart;
+              } else {
+                this.isMap = chart.isMap;
+                this.descriptions = chart.descriptions;
+                this.points = prepareArrayXY(chart.data[0].data, chart.labels);
+              }
+            },
+            error => {
+              this.location.back();
+            }
+          );
+        },
         error => {
-          this.router.navigate(['/']);
-        }, );
+          this.location.back();
+        }
+      );
     } else {
-      this.router.navigate(['/charts/' + id]);
+      this.location.back();
     }
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   goBack(): void {
     this.location.back();
   }
 
-  hideEmbedButton() {
+  hideEmbedButton(n: number) {
     this.hideEmbed = false;
+    this.showData = n;
   }
 
-  updateChart(id){
-    console.log(id);
+  updateChart(id) {
     this.graphservice.downloadProcess(id).subscribe(dataProcess => {
-      if (dataProcess.typeOfData == 'CKAN') {
+      if (dataProcess.typeOfData === 'CKAN') {
         this.utilsGraphService.ckanReloadChart(dataProcess);
-      }else if (dataProcess.typeOfData == 'GAODC') {
-          this.utilsGraphService.gaodcReloadChart(dataProcess);
-      }else if (dataProcess.typeOfData == 'URL') {
-            this.utilsGraphService.urlReloadChart(dataProcess);
-      }else if (dataProcess.typeOfData == 'VIRTUOSO') {
-        jQuery("#listModal").modal("hide");
+      } else if (dataProcess.typeOfData === 'GAODC') {
+        this.utilsGraphService.gaodcReloadChart(dataProcess);
+      } else if (dataProcess.typeOfData === 'URL') {
+        this.utilsGraphService.urlReloadChart(dataProcess);
+      } else if (dataProcess.typeOfData === 'VIRTUOSO') {
+        jQuery('#listModal').modal('hide');
         // Prepare Dataset
         this.dataProcess = dataProcess;
         this.dataset = dataProcess.dataset;
-        jQuery("#virtuosoModal").modal('show');
+        jQuery('#virtuosoModal').modal('show');
       }
     });
   }
 
-  callUpdateVirtuoso(){
-    jQuery("#listModal").modal("show");
+  callUpdateVirtuoso() {
+    jQuery('#listModal').modal('show');
     this.dataProcess.dataset = this.dataset;
     this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
+  }
+
+  toggleOpenedMenu() {
+      this.utilsService.tooggleOpenedMenu();
   }
 }

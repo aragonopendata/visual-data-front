@@ -23,8 +23,9 @@ export class CkanService {
       .get(this.serverURL + '/services/ckan/packageList', { headers: headers })
       .map(res => {
         return res.json();
-      }).catch((err) => { 
-        return Observable.throw("errorConexion");
+      })
+      .catch(err => {
+        return Observable.throw('errorConexion');
       });
   }
 
@@ -32,15 +33,16 @@ export class CkanService {
   getPackageInfo(data: String[]) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const body = JSON.stringify({ packages:  data  });
+    const body = JSON.stringify({ packages: data });
     return this.http
       .post(this.serverURL + '/services/ckan/packageInfo', body, {
         headers: headers
       })
       .map(res => {
         return JSON.parse(res.text().toString());
-      }).catch((err) => { 
-        return Observable.throw("errorConexion");
+      })
+      .catch(err => {
+        return Observable.throw('errorConexion');
       });
   }
 }

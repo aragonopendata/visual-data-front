@@ -1,14 +1,90 @@
-<div *ngIf="correctPageMigas">
-    <div class="rarrow" [routerLink]="['/selectData']" [routerLinkActive]="['rarrowseleccion']">
-        <span>Elige datos abiertos</span>
-    </div>
-    <div class="rarrow" [routerLink]="['/previewData']" [routerLinkActive]="['rarrowseleccion']">
-        <span>Selecciona</span>
-    </div>
-    <div class="rarrow" [routerLink]="['/previewGraph']" [routerLinkActive]="['rarrowseleccion']">
-        <span>Previsualiza</span>
-    </div>
-    <div class="rarrow" [routerLink]="['/endGraphic', (id | async)]" [routerLinkActive]="['rarrowseleccion']">
-        <span>Crea tu visualizaci&oacute;n</span>
+<!-- Stepper -->
+<div class="row mb-5 activeDesc" *ngIf="this.route.url === '/selectData'">
+    <div class="col-12" >
+        <ol tabindex="{{openedMenu ? -1 : 0}}" >
+            <li>Elige datasets con datos en formato .CSV o .PX del
+                <a  tabindex="{{openedMenu ? -1 : 0}}" aria-label="Abrir Banco de Datos" href="https://opendata.aragon.es/datos/catalogo" target="_blank">Banco de datos</a> de Aragón Open Data.
+            </li>
+            <li>Copia la URL del fichero CSV o PX . (Apartado Descargas del Banco de Datos, click botón derecho del cursor sobre el mismo y opción “Copiar la dirección del enlace” o “Copiar Acceso Directo” según navegador).
+            </li>
+            <li>Pega la URL  en la caja “Añadir datos” y continúa con los pasos indicados.</li>
+        </ol>
+        <p tabindex="{{openedMenu ? -1 : 0}}">
+                Ten en cuenta que la creación de gráficos dependerá de los datos disponibles tanto de su estructura, contenido y tamaño. También puedes utilizar las Opciones avanzadas (SPARQL y búsqueda vía API).
+        </p>
     </div>
 </div>
+
+<div class="steps-form-2" *ngIf="correctPageMigas">
+        <div class="steps-row-2 setup-panel-2 d-flex justify-content-between" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Menu progreso de creaci&oacute;n gr&aacute;fica">
+            <div class="steps-step-2" [routerLink]="['/selectData']" [routerLinkActive]="['activeRoute']" tabindex="{{openedMenu ? -1 : 0}}">
+                <a type="button" class="btn btn-circle-2">Elige datos abiertos</a>
+            </div>
+            <div class="steps-step-2" [routerLink]="['/previewData']" [routerLinkActive]="['activeRoute']" tabindex="{{openedMenu ? -1 : 0}}">
+                <a type="button" class="btn btn-circle-2">Selecciona</a>
+            </div>
+            <div class="steps-step-2" [routerLink]="['/previewGraph']" [routerLinkActive]="['activeRoute']" tabindex="{{openedMenu ? -1 : 0}}">
+                <a type="button" class="btn btn-circle-2">Previsualiza</a>
+            </div>
+            <div class="steps-step-2" [routerLink]="['/endGraphic', (id | async)]" [routerLinkActive]="['activeRoute']" tabindex="{{openedMenu ? -1 : 0}}">
+                <a type="button" class="btn btn-circle-2">Crea tu visualizaci&oacute;n</a>
+            </div>
+        </div>
+</div>
+    
+<!--
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="steps-form-2" *ngIf="correctPageMigas">
+            <div class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+                <div class="col-3 text-center float-left">
+                    <div class="steps-step-2 float-left" [routerLink]="['/selectData']" [routerLinkActive]="['activeRoute']">
+                        <a type="button" class="btn btn-circle-2">Elige datos abiertos</a>
+                    </div>
+                </div>
+                <div class="col-3 text-center">
+                    <div class="steps-step-2" [routerLink]="['/previewData']" [routerLinkActive]="['activeRoute']">
+                        <a type="button" class="btn btn-circle-2 ml-5">Selecciona</a>
+                    </div>
+                </div>
+                <div class="col-3 text-center">
+                    <div class="steps-step-2" [routerLink]="['/previewGraph']" [routerLinkActive]="['activeRoute']">
+                        <a type="button" class="btn btn-circle-2" style="margin-left: 6rem;">Previsualiza</a>
+                    </div>
+                </div>
+                <div class="col-3 text-center">
+                    <div class="steps-step-2 float-right" [routerLink]="['/endGraphic', (id | async)]" [routerLinkActive]="['activeRoute']">
+                        <a type="button" class="btn btn-circle-2">Crea tu visualizaci&oacute;n</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<!--
+<div *ngIf="correctPageMigas">
+    <div class="row">
+        <div class="col-3">
+            <div class="rarrow" [routerLink]="['/selectData']" [routerLinkActive]="['rarrowseleccion']">
+                <span>Elige datos abiertos</span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="rarrow" [routerLink]="['/previewData']" [routerLinkActive]="['rarrowseleccion']">
+                <span>Selecciona</span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="rarrow" [routerLink]="['/previewGraph']" [routerLinkActive]="['rarrowseleccion']">
+                <span>Previsualiza</span>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="rarrow" [routerLink]="['/endGraphic', (id | async)]" [routerLinkActive]="['rarrowseleccion']">
+                <span>Crea tu visualizaci&oacute;n</span>
+            </div>
+        </div>
+    </div>
+</div>
+-->

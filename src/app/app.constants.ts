@@ -1,22 +1,36 @@
 export class Constants {
-  // public static VISUAL_BACK_SERVER_URL = 'http://miv-aodfront-01.aragon.local:8090';
-  public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
+  public static SERVER_URL = 'https://preopendata.aragon.es';
+  public static VISUAL_BACK_SERVER_URL =
+    Constants.SERVER_URL + '/apivisualdata';
+  //public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
+  //public static SERVER_URL = 'http://localhost:8080';
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
-  public static SAVE_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/save_chart';
-  public static SAVE_PROCESS_PATH = Constants.LIST_ALL_CHARTS_PATH + '/save_process';
-  public static DOWNLOAD_PROCESS_PATH = Constants.LIST_ALL_CHARTS_PATH + '/download_process/';
-  public static REMOVE_GRAPH_PATH = Constants.LIST_ALL_CHARTS_PATH + '/remove_graph/';
-  public static DOWNLOAD_PROCESS_ALL_PATH = Constants.LIST_ALL_CHARTS_PATH + '/download_all_process/';
+  public static SAVE_CHART_PATH =
+    Constants.LIST_ALL_CHARTS_PATH + '/save_chart';
+  public static SAVE_PROCESS_PATH =
+    Constants.LIST_ALL_CHARTS_PATH + '/save_process';
+  public static DOWNLOAD_PROCESS_PATH =
+    Constants.LIST_ALL_CHARTS_PATH + '/download_process/';
+  public static REMOVE_GRAPH_PATH =
+    Constants.LIST_ALL_CHARTS_PATH + '/remove_graph/';
+  public static SAVE_GRAPH_TITLE_PATH =
+    Constants.LIST_ALL_CHARTS_PATH + '/saveTitle/';
+  public static DOWNLOAD_PROCESS_ALL_PATH =
+    Constants.LIST_ALL_CHARTS_PATH + '/download_all_process/';
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';
   public static PATH_MODIFIER = '';
-  //URLS
-  public static AOD_BASE_URL = 'https://opendata.aragon.es';
-  public static PRESUPUESTOS_BASE_URL = 'http://presupuesto.aragon.es';
-  public static AOD_ASSETS_BASE_URL = 'https://opendata.aragon.es/static';
-  public static AOD_API_WEB_BASE_URL = 'https://opendata.aragon.es/aod/services/web';
-  public static AOD_API_ADMIN_BASE_URL = 'https://opendata.aragon.es/aod/services/admin';
-  public static AOD_API_SECURITY_BASE_URL = 'https://opendata.aragon.es/aod/services/security';
-  public static AOD_API_CKAN_BASE_URL = 'http://mov-aodfront-01.aragon.local:5000';
+  // URLS
+  public static AOD_BASE_URL = 'http://miv-aodfront-01.aragon.local:7030';
+  public static PRESUPUESTOS_BASE_URL = 'http://miv-aodfront-01.aragon.local:7031';
+  //public static AOD_ASSETS_BASE_URL = 'http://localhost:3000/assets';
+  public static AOD_ASSETS_BASE_URL = 'http://miv-aodfront-01.aragon.local:7030/static';
+  //public static AOD_API_WEB_BASE_URL = 'http://localhost:4200/aod/services/web';
+  public static AOD_API_WEB_BASE_URL = 'http://miv-aodfront-01.aragon.local:4200/aod/services/web';
+  //public static AOD_API_ADMIN_BASE_URL = 'http://localhost:4200/aod/services/admin';
+  public static AOD_API_ADMIN_BASE_URL = 'http://miv-aodfront-01.aragon.local:4200/aod/services/admin';
+  //public static AOD_API_SECURITY_BASE_URL = 'http://localhost:4200/aod/services/security';
+  public static AOD_API_SECURITY_BASE_URL = 'http://miv-aodfront-01.aragon.local:4200/aod/services/security';
+  public static AOD_API_CKAN_BASE_URL = 'http://miv-aodfront-01.aragon.local:5000';
   public static AOD_COLLABORATION_URL = 'https://aragon.uservoice.com/forums/192552-datos-que-me-gustar%C3%ADa-reutilizar';
   public static AOD_GITHUB_URL = 'http://github.com/aragonopendata';
   public static CKAN_URL = 'http://ckan.org/';
@@ -79,7 +93,7 @@ export class Constants {
   public static DATASET_LIST_HOMER_SORT_COLUMN_PORTAL = 'portal';
   public static CAMPUS_EVENTS_PER_PAGE = 10;
   public static CAMPUS_EVENTS_TYPES_ALL = 'Todos los tipos';
-  public static CAMPUS_EVENTS_EMPTY = 'No se han encontrado datos'; 
+  public static CAMPUS_EVENTS_EMPTY = 'No se han encontrado datos';
 
   public static DATA_TOPICS = 'temas';
 
@@ -323,7 +337,7 @@ export class Constants {
   public static DATASET_RDF_FORMAT_OPTIONS_RDF = 'application/rdf+xml;charset=utf-8;'
   public static DATASET_RDF_FILE_EXTENSION_RDF = '.rdf'
 
-public static STATIC_INFO_OPEN_DATA_SECTION_OPEN_DATA = 'open-data';
+  public static STATIC_INFO_OPEN_DATA_SECTION_OPEN_DATA = 'open-data';
   public static STATIC_INFO_OPEN_DATA_SECTION_REUTILIZATION = 'reutilizacion';
   public static STATIC_INFO_OPEN_DATA_SECTION_GOOD_PRACTICES = 'buenas-practicas';
   public static STATIC_INFO_OPEN_DATA_SECTION_LEGAL = 'marco-legal';
@@ -349,7 +363,7 @@ public static STATIC_INFO_OPEN_DATA_SECTION_OPEN_DATA = 'open-data';
   public static STATIC_INFO_APIS_SECTION_GA_OD_CORE = 'api-ga-od-core';
   public static STATIC_INFO_SPARQL_SECTION_CONTENT = 'contenidoSparql';
 
-  public static UNDEFINED = "undefined";	
+  public static UNDEFINED = "undefined";
 
   //OPEN DATA ADMIN
   public static ADMIN_USERS_LIST_ROWS_PER_PAGE = 10;
@@ -487,12 +501,12 @@ public static STATIC_INFO_OPEN_DATA_SECTION_OPEN_DATA = 'open-data';
   public static ROUTER_LINK_DATA_CATALOG = 'datos/catalogo';
   public static ROUTER_LINK_DATA_CATALOG_TOPICS = 'datos/catalogo/temas';
   public static ROUTER_LINK_DATA_CATALOG_ORGANIZATIONS = 'datos/catalogo/publicadores';
+  public static ROUTER_LINK_DATA_CATALOG_SEARCH = 'datos/catalogo/busqueda';
   public static ROUTER_LINK_DATA_CATALOG_TAGS = 'datos/catalogo/etiquetas';
   public static ROUTER_LINK_DATA_CATALOG_STATS = 'datos/catalogo/estadisticas';
   public static ROUTER_LINK_DATA_CATALOG_HOMER = 'datos/catalogo/homer';
   public static ROUTER_LINK_DATA_CATALOG_HOMER_DATASET = 'datos/catalogo/homer/dataset';
   public static ROUTER_LINK_DATA_CATALOG_DATASET = 'datos/catalogo/dataset';
-  public static ROUTER_LINK_DATA_CATALOG_SEARCH = 'datos/catalogo/busqueda';
   public static ROUTER_LINK_DATA_TOPICS = 'datos/temas';
   public static ROUTER_LINK_DATA_ORGANIZATIONS = 'datos/publicadores';
   public static ROUTER_LINK_INFORMATION = 'informacion';
@@ -565,7 +579,8 @@ public static STATIC_INFO_OPEN_DATA_SECTION_OPEN_DATA = 'open-data';
   public static ROUTER_LINK_SERVICES_PRESUPUESTOS = 'servicios/presupuestos';
   public static ROUTER_LINK_SERVICES_CRAS = 'servicios/cras';
   public static ROUTER_LINK_SERVICES_SOCIAL_DATA = 'servicios/open-social-data';
-  public static ROUTER_LINK_SERVICES_ANALYTICS = 'servicios/analytics'
+  public static ROUTER_LINK_SERVICES_ANALYTICS = 'servicios/analytics';
+  public static ROUTER_LINK_SERVICES_VISUAL_DATA = 'servicios/visualdata';
   public static ROUTER_LINK_DATA_PARAM_DATASET_NAME = 'datasetName';
   public static ROUTER_LINK_DATA_PARAM_DATASET_HOMER_NAME = 'datasetHomerName';
   public static ROUTER_LINK_DATA_PARAM_TOPIC_NAME = 'topicName';
@@ -581,7 +596,7 @@ public static STATIC_INFO_OPEN_DATA_SECTION_OPEN_DATA = 'open-data';
   public static ROUTER_LINK_TOOLS_CAMPUS_EVENT_NAME = 'eventName';
   public static ROUTER_LINK_DATA_PARAM_DATA_LOGIN = 'data';
   public static ROUTER_LINK_DATA_PARAM_EDIT_DATA = 'dataName'; 
-public static ROUTER_LINK_STATIC_CONTENT_OPEN_DATA_SECTION_REDIRECT = '/informacion/open-data#';
+  public static ROUTER_LINK_STATIC_CONTENT_OPEN_DATA_SECTION_REDIRECT = '/informacion/open-data#';
   public static ROUTER_LINK_STATIC_CONTENT_EVENTS_SECTION_REDIRECT = '/informacion/eventos#';
   public static ROUTER_LINK_STATIC_CONTENT_DEVELOPERS_SECTION_REDIRECT = '/herramientas/desarrolladores#';
   public static ROUTER_LINK_STATIC_CONTENT_APIS_SECTION_REDIRECT = '/herramientas/apis#';
@@ -691,7 +706,6 @@ public static ROUTER_LINK_STATIC_CONTENT_OPEN_DATA_SECTION_REDIRECT = '/informac
   public static SPARQL_CLIENT_FORMAT_FILE_EXTENSION_RDF = '.rdf';
   public static SPARQL_CLIENT_FORMAT_FILE_EXTENSION_CSV = '.csv';
 
-
   public static KIBANA_URL = Constants.AOD_BASE_URL + "/elastic/app/kibana#/dashboard/e6433860-d68c-11e7-a49d-f956d0989e2c";
   public static KIBANA_URL_SEVEN = Constants.AOD_BASE_URL + "/elastic/app/kibana#/dashboard/6b50d7f0-e589-11e7-bac3-69701294f3ab";
 
@@ -699,5 +713,4 @@ public static ROUTER_LINK_STATIC_CONTENT_OPEN_DATA_SECTION_REDIRECT = '/informac
   public static ELASTIC_FILES = Constants.AOD_BASE_URL + "/gapi/get_files_elastic";
   public static ELASTIC_PAGES = Constants.AOD_BASE_URL + "/gapi/get_pages_elastic";
   public static ELASTIC_COUNTRIES = Constants.AOD_BASE_URL + "/gapi/get_countries_elastic";
-
 }

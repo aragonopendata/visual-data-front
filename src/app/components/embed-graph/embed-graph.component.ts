@@ -6,19 +6,35 @@ import { prepareArrayXY } from '../exportedFunctions/lib';
 @Component({
   selector: 'app-embed-graph',
   templateUrl: './embed-graph.component.html',
-  styleUrls: ['./embed-graph.component.css']
+  styleUrls: ['./embed-graph.component.scss']
 })
 export class EmbedGraphComponent implements OnInit {
   // public chartData = [];
-  public chartLegend = true;
+  public chartLegend = false;
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+    legend: {
+      display: false
+    },
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, array) {
+              return null;
+            }
+          }
+        }
+      ]
+    }
   };
 
   public chart: any;
   public widthGraph: any;
   public isMap: any;
   public points: any;
+  public title: any;
   public descriptions: any;
 
   constructor(
@@ -28,11 +44,12 @@ export class EmbedGraphComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if(this.activatedRoute.snapshot.url[2].path != ""){
+    if (this.activatedRoute.snapshot.url[2].path !== '') {
       this.graphservice
         .getChart(this.activatedRoute.snapshot.url[2])
         .subscribe(chart => {
           this.chart = chart;
+          this.title = chart.title;
           this.widthGraph = chart.width;
 
           if (!chart.isMap) {
@@ -40,7 +57,7 @@ export class EmbedGraphComponent implements OnInit {
           } else {
             this.isMap = chart.isMap;
             this.descriptions = chart.descriptions;
-            
+
             this.points = prepareArrayXY(chart.data[0].data, chart.labels);
           }
         });
