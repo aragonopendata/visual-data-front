@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
 import { AngularOpenlayersModule } from 'ngx-openlayers';
+import { AuthGuard } from './_guards/auth.guard';
 import {
   Location,
   LocationStrategy,
@@ -64,7 +65,7 @@ import { UtilsGraphService } from './components/exportedFunctions/utilsChats.uti
 const routes: Routes = [
   // Embed Routes
   { path: 'charts/embed/:id', component: EmbedGraphComponent },
-  { path: 'adminPanel', component: AdminPanelComponent },
+  { path: 'adminPanel', component: AdminPanelComponent, canActivate: [AuthGuard] },
 
   // No Embed routes
   {
