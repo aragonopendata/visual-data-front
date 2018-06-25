@@ -26,6 +26,15 @@ export function removeDuplicates(chartLabels, chartData) {
       }
     }
   });
+
+  chartData.forEach((d, index) => {
+    d.data.forEach((element, index) => {
+      if(element % 1 != 0){
+        d.data[index] = Number(element).toFixed(2);
+      }
+    });
+  });
+  
   return [unique, chartData];
 }
 
