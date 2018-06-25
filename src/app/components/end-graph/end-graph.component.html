@@ -84,7 +84,7 @@
                 <span *ngIf="!hideEmbed">
                     <code>
                     <div class="border rounded" *ngIf="showData == 0" tabindex="{{openedMenu ? -1 : 0}}">
-                        &lt;iframe src="{{routeEmbed}}" width="{{width}}" height="{{(width)/1.6}}"&gt;&lt;/iframe&gt;
+                        &lt;iframe src="{{routeEmbed}}" style="width: 100%;" height="{{(width)/1.6}}"&gt;&lt;/iframe&gt;
                     </div>
                     <div class="border rounded" *ngIf="showData == 1" tabindex="{{openedMenu ? -1 : 0}}">
                         {{datasetLocation}}
