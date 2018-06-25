@@ -129,6 +129,7 @@ const routes: Routes = [
     URLService,
     UtilsGraphService,
     UtilsService,
+    AuthGuard,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

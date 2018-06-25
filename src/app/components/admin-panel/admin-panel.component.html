@@ -1,7 +1,6 @@
 <div class="def">
-    <p-dataTable [value]="processData" [rows]="10" [paginator]="true" [pageLinks]="3">
+    <p-dataTable [value]="processData" [rows]="5" [paginator]="true" [pageLinks]="3">
         <p-header>Listado de gráficas</p-header>
-        <p-column field="chartDataId" header="Identificador de Gráfica" [filter]="true" filterPlaceholder="Search"></p-column>
         <p-column field="title" header="Título" [filter]="true" filterPlaceholder="Search"></p-column>
         <p-column field="chartType" header="Tipo de Gráfica" [filter]="true" filterPlaceholder="Search"></p-column>
         <p-column field="date" header="Fecha" [filter]="true" filterPlaceholder="Search"></p-column>
