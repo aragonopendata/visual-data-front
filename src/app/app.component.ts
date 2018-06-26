@@ -1,12 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { GoogleAnalyticsEventsService } from './services/google-analytics-events.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'OpenVisualData';
-  constructor(private router: Router) {}
+
+    constructor(private router: Router) {}
+
+    ngOnInit() {
+        this.router.events.subscribe((event) => {
+            if ((event instanceof NavigationEnd)) {
+                ga('set', 'page', event.urlAfterRedirects);
+                ga('send', 'pageview');
+            } else {
+                return;
+            }
+            window.scrollTo(0, 0);
+        });
+    }
 }

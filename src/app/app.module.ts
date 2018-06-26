@@ -60,6 +60,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { TreeModule } from 'angular-tree-component';
 import 'hammerjs';
 import { UtilsGraphService } from './components/exportedFunctions/utilsChats.util';
+import { GoogleAnalyticsEventsService } from './services/google-analytics-events.service';
 
 // All the routes for the app
 const routes: Routes = [
@@ -130,6 +131,7 @@ const routes: Routes = [
     UtilsGraphService,
     UtilsService,
     AuthGuard,
+    GoogleAnalyticsEventsService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
