@@ -93,11 +93,18 @@
             </p-dataTable>
         </div>
 
-        <div style="margin-top:20px" *ngIf="!openedMenu">
+        <div style="margin-top:20px">
             <p>
                 <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar tama&ntilde;o Gr&aacute;fica"> - Tama&ntilde;o Gr&aacute;fica</strong>
             </p>
             <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid" [(ngModel)]="widthGraph"></p-spinner>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar tama&ntilde;o Gr&aacute;fica"> - Cantidad Datos Gr&aacute;fica</strong>
+            </p>
+            <p-spinner (onChange)="changeDataNumber()" [min]="1"  tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid" [(ngModel)]="topRows"></p-spinner>
         </div>
     </div>
 
