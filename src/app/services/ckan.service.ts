@@ -39,7 +39,11 @@ export class CkanService {
         headers: headers
       })
       .map(res => {
-        return JSON.parse(res.text().toString());
+        let result = JSON.parse(res.text().toString());
+        if (result.result.length !== 0 && Object.keys(result.result[0].data[0])[0].includes("!DOCTYPE HTML PUBLIC")) {
+          throw "301 html";
+        }
+        return result;
       })
       .catch(err => {
         return Observable.throw('errorConexion');
