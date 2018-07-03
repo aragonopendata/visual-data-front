@@ -163,5 +163,21 @@
                 </div>
             </div>
         </div>
+        <div>
+            <form class="search">
+                <button type="button" tabindex="{{openedMenu ? 30 : -1}}" class="btnSearch" routerLink="/{{routerLinkDataCatalog}}" [queryParams]="{texto:searchBox.value}" (click)="openNav()">
+                        <i class="fa fa-search" style="display: table; vertical-align: middle;"></i>
+                    </button>
+                <input autocomplete="off" tabindex="{{openedMenu ? 29 : -1}}" #searchBox id="searchBox" placeholder="BUSCA DATOS ABIERTOS" type="search" class="textBox" (keyup)="search(searchBox.value)"
+                    (keyup.enter)="searchDatasetsByText(searchBox.value); openNav();" />
+                <div id="resultsList">
+                    <div *ngFor="let autocomplete of datasetAutocomplete" class="search-result">
+                        <a (click)="openNav(); navigate(autocomplete.name)">
+                                {{autocomplete.title}}
+                            </a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

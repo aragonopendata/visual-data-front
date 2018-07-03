@@ -181,7 +181,7 @@ export class HeaderComponent implements OnInit {
     }
 
     navigate(name: string) {
-        this.router.navigate(['/'+this.routerLinkDataCatalogDataset, name]);
+        window.location.href = window.location.protocol + '//' + window.location.host + '/'+this.routerLinkDataCatalogDataset + '/'+ name;
     }
 
     ngOnInit() {
