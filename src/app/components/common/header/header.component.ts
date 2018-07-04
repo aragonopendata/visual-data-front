@@ -170,7 +170,7 @@ export class HeaderComponent implements OnInit {
     }
 
     searchDatasetsByText(text: string){
-		this.router.navigate(['/' + this.routerLinkDataCatalog], { queryParams: { texto: text} });
+        window.location.href = window.location.protocol + '//' + window.location.host + '/'+ this.routerLinkDataCatalogDataset + '?texto='+ text;
     }
     
     onResize(event) {
@@ -181,7 +181,7 @@ export class HeaderComponent implements OnInit {
     }
 
     navigate(name: string) {
-        window.location.href = window.location.protocol + '//' + window.location.host + '/'+this.routerLinkDataCatalogDataset + '/'+ name;
+        window.location.href = window.location.protocol + '//' + window.location.host + '/'+ this.routerLinkDataCatalogDataset + '/'+ name;
     }
 
     ngOnInit() {
@@ -194,6 +194,10 @@ export class HeaderComponent implements OnInit {
 
     toggleOpenedMenu() {
         this.utilsService.tooggleOpenedMenu();
+    }
+
+    redirectTo(page, params){
+        window.location.href = window.location.protocol + '//' + window.location.host + '/'+ page + '?texto='+ params;
     }
 
 }
