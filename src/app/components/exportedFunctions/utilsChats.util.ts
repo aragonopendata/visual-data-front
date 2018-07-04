@@ -58,7 +58,7 @@ export class UtilsGraphService {
 
     // Prepare the two arrays of data
     // Labels Array and the Data array with the Legend
-    const chartLabels = dataSelected[0];
+    let chartLabels = dataSelected[0];
     dataSelected.splice(0, 1);
 
     let chartDescription = [];
@@ -84,11 +84,17 @@ export class UtilsGraphService {
       };
     });
 
-    const chartData = dataSelected;
+    let chartData = dataSelected;
 
     // Delete duplicate values
     if (!dataProcess.isMap) {
-      removeDuplicates(chartLabels, chartData);
+      //removeDuplicates(chartLabels, chartData);
+      const resultado = removeDuplicates(chartLabels, chartData);
+      chartData = resultado[1];
+      if(dataProcess.topRows != -1 && dataProcess.topRows != null && dataProcess.topRows != 0){
+        chartLabels = chartLabels.splice(0, dataProcess.topRows);
+        chartData = chartData.splice(0, dataProcess.topRows);
+      }
     } else {
       let index = 0;
       do {
@@ -145,7 +151,8 @@ export class UtilsGraphService {
               dataProcess.title,
               dataProcess.legend,
               dataProcess.widthGraph,
-              dataLink.id
+              dataLink.id,
+              dataProcess.topRows
             )
             .subscribe(
               data => {

@@ -93,7 +93,8 @@ export class GraphService {
     title,
     legend,
     widthGraph,
-    chartDataId
+    chartDataId,
+    topRows
   ) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -113,9 +114,10 @@ export class GraphService {
       sortOrder: sortOrder,
       title: title,
       legend: legend,
-      widthGraph: widthGraph
+      widthGraph: widthGraph,
+      topRows: topRows
     });
-
+    
     return this.http
       .post(
         Constants.VISUAL_BACK_SERVER_URL + Constants.SAVE_PROCESS_PATH,

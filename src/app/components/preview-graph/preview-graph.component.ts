@@ -82,6 +82,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
   openedMenu: boolean;
 
+  topRows: number;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -96,7 +98,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     this.nextStep = '';
     this.chartType = 'line';
     this.changeNumberData = 0;
-    this.title = this.dataservice.type;
+    this.title = "";
     this.chartMap = false;
 
     this.widthGraph = window.screen.width / 2 - 100;
@@ -314,6 +316,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             this.color.push(getRandomColor(i));
           }
         }
+        if(this.topRows != -1 && this.topRows != null && this.topRows != 0){
+          this.chartLabels = this.chartLabels.splice(0, this.topRows);
+          this.chartData = this.chartData.splice(0, this.topRows);
+        }
         this.data = aux;
       }
     }
@@ -379,6 +385,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     } else if (chart === 3) {
       this.chartMap = true;
     }
+    this.onDrop('refresh');
+  }
+
+  changeDataNumber() {
     this.onDrop('refresh');
   }
 
@@ -449,7 +459,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.title,
               this.legend,
               this.widthGraph,
-              dataLink.id
+              dataLink.id,
+              this.topRows
             )
             .subscribe(data => {
               this.router.navigate(['/endGraphic/' + dataLink.id]);
