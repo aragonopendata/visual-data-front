@@ -134,7 +134,7 @@
                                         <button type="button" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"  class="button1" (click)="selectPackage('CKAN')">Añadir Datos</button>
                                     </div>
                                     <div *ngIf="loading[0]" class="loader float-left ml-1"></div>
-                                    <div *ngIf="errorResponse[0]" class="cross" class="float-left">&times;</div>
+                                    <div *ngIf="errorResponse[0]" class="cross float-left">&times;</div>
                                     <div class="float-left" style="word-break: break-all;">
                                         <ul>
                                             <li *ngIf='packagesSelCKAN != ""'>
