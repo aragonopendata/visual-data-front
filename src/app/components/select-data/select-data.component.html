@@ -135,6 +135,7 @@
                                     </div>
                                     <div *ngIf="loading[0]" class="loader float-left ml-1"></div>
                                     <div *ngIf="errorResponse[0]" class="cross float-left">&times;</div>
+                                    <div *ngIf="errorResponse[0]" class="text-danger pt-2"><strong>Recurso no v&aacute;lido</strong></div>
                                     <div class="float-left" style="word-break: break-all;">
                                         <ul>
                                             <li *ngIf='packagesSelCKAN != ""'>
