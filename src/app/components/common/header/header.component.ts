@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
   routerLinkLogin: string;
   routerLinkPageNotFound: string;
   routerLinkDataCatalog: string;
+  routerLinkDatosEnlazados: string;
   routerLinkDataCatalogDataset: string;
   routerLinkDataTopics: string;
   routerLinkDataOrganizations: string;
@@ -44,6 +45,7 @@ export class HeaderComponent implements OnInit {
   routerLinkInfoApplications: string;
   routerLinkInfoEventos: string;
   routerLinkInfoCollaboration: string;
+  routerLinkInfoConocimiento: string;
   routerLinkToolsCampus: string;
   routerLinkToolsDevelopers: string;
   routerLinkToolsApis: string;
@@ -69,6 +71,7 @@ export class HeaderComponent implements OnInit {
     this.resultsLimit = Constants.DATASET_AUTOCOMPLETE_HEADER_LIMIT_RESULTS;
     this.routerLinkLogin = Constants.ROUTER_LINK_LOGIN;
     this.routerLinkDataCatalog = Constants.ROUTER_LINK_DATA_CATALOG;
+    this.routerLinkDatosEnlazados = Constants.ROUTER_LINK_DATOS_ENLAZADOS;
     this.routerLinkDataCatalogDataset =
       Constants.ROUTER_LINK_DATA_CATALOG_DATASET;
     this.routerLinkDataTopics = Constants.ROUTER_LINK_DATA_TOPICS;
@@ -86,6 +89,7 @@ export class HeaderComponent implements OnInit {
     this.routerLinkInfoEventos = Constants.ROUTER_LINK_INFORMATION_EVENTS;
     this.routerLinkInfoCollaboration =
       Constants.ROUTER_LINK_INFORMATION_COLLABORATION;
+    this.routerLinkInfoConocimiento = Constants.ROUTER_LINK_INFORMATION_CONOCIMIENTO;
     this.routerLinkToolsCampus = Constants.ROUTER_LINK_TOOLS_CAMPUS;
     this.routerLinkToolsDevelopers = Constants.ROUTER_LINK_TOOLS_DEVELOPERS;
     this.routerLinkToolsApis = Constants.ROUTER_LINK_TOOLS_APIS;

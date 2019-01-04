@@ -516,12 +516,14 @@ export class Constants {
   public static ROUTER_LINK_INFORMATION_APPS = 'informacion/aplicaciones';
   public static ROUTER_LINK_INFORMATION_EVENTS = 'informacion/eventos';
   public static ROUTER_LINK_INFORMATION_COLLABORATION = 'informacion/colabora';
+  public static ROUTER_LINK_INFORMATION_CONOCIMIENTO = 'informacion/conocimiento';
+  public static ROUTER_LINK_DATOS_ENLAZADOS = 'pool';
   public static ROUTER_LINK_TOOLS = 'herramientas';
   public static ROUTER_LINK_TOOLS_DEVELOPERS = 'herramientas/desarrolladores';
   public static ROUTER_LINK_TOOLS_CAMPUS = 'herramientas/campus';
   public static ROUTER_LINK_TOOLS_CAMPUS_CONTENT = 'herramientas/campus/content';
   public static ROUTER_LINK_TOOLS_APIS = 'herramientas/apis';
-  public static ROUTER_LINK_TOOLS_SPARQL = 'herramientas/sparql';
+  public static ROUTER_LINK_TOOLS_SPARQL = 'sparql';
   public static ROUTER_LINK_TOOLS_SPARQL_CLIENT = 'herramientas/sparql/client';
   public static ROUTER_LINK_TOOLS_DEFAULT_SPARQL_CLIENT = 'portal/cliente-sparql';
   public static ROUTER_LINK_LOGIN = 'login';
