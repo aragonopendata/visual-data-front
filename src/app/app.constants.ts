@@ -52,7 +52,6 @@ export class Constants {
 
   public static SHARE_FACEBOOK = 'https://www.facebook.com/sharer.php?u=';
   public static SHARE_TWITTER = 'https://twitter.com/share?url=';
-  public static SHARE_GOOGLE_PLUS = 'https://plus.google.com/share?url=';
 
   public static CAMPUS_CONTENT_PLATFORM_ARAGONOPENDATA = 'Aragón Open Data';
   public static CAMPUS_CONTENT_PLATFORM_BOSTOCKSORG = 'bost.ocks.org';
