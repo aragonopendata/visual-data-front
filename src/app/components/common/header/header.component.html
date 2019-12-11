@@ -23,12 +23,6 @@
         <a class="navbar-brand logo" tabindex="4" href="/">
             <img alt="logo-aragon-open-data" class="navbar-brand" id="logo" src="/static/public/header/images/AOD-Logo.png" class="d-inline-block align-top">
         </a>
-        <div (keydown.enter)="focusUserName()" id="loginLink" class="nav-item menuLogin" (mouseenter)="hover('#login')" (click)="focusUserName()"
-            (mouseleave)="unhover('#login')">
-            <a role="button" tabindex="5" class="button nav-link aLogin" href="{{this.aodBaseUrl}}/{{this.routerLinkLogin}}">
-                <img id="login" class="aLogin" src="{{srcLogin}}" alt="acceso-usuarios" border="0" />
-            </a>
-        </div>
         <div (keydown.enter)="openNav()" tabindex="6" class="navbar-item menu" (mouseenter)="hover('#menu')" (mouseleave)="unhover('#menu')">
             <a role="button" class="button nav-link aMenu" (click)="openNav()">
                 <img id="menu" class="aMenu" src="{{srcMenu}}" alt="desplegar-menú" />
