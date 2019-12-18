@@ -1,5 +1,5 @@
 export class Constants {
-  public static SERVER_URL = 'https://preopendata.aragon.es';
+  public static SERVER_URL = 'https://opendata.aragon.es';
   public static VISUAL_BACK_SERVER_URL =
     Constants.SERVER_URL + '/apivisualdata';
   // public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
