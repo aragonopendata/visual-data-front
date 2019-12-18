@@ -7,7 +7,6 @@
     {
       "root": "src",
       "outDir": "dist",
-      "deployUrl": "/servicios/visualdata",
       "assets": [
         "assets"
       ],
