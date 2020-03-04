@@ -21,8 +21,6 @@ export class Constants {
   public static PATH_MODIFIER = '';
   // URLS
   public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
-  public static AOD_BASE_URL_MOCK = 'http://localhost:4300';
-  public static MOCK_HISTORY = '/history';
 
   public static AOD_BASE_URL = 'https://preopendata.aragon.es';
   public static PRESUPUESTOS_BASE_URL = 'http://prepresupuesto.aragon.es';
