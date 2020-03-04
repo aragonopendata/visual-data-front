@@ -14,7 +14,7 @@
 							<p>
 									Por favor, escribe una denominación del contenido
 							</p>
-							<input class="col-12 form-control" type="text" placeholder="Título" [(ngModel)]="inputHistoryTitle">
+							<input class="col-12 form-control" type="text" placeholder="Título" [(ngModel)]="inputContenTitle">
           </div>
           <div class="col-12" class="form-section">
             <h3 class="form-section-title">Contenido *</h3>
@@ -22,7 +22,7 @@
               El contenido de la historia es lo que quieres contar, con la ayuda de los distintos gráficos
               que aporta el portal de Aragon Open Data
             </p>
-            <textarea class="col-12 form-control" [(ngModel)]="inputHistoryDescription" rows="5" cols="150" placeholder="Descripción"></textarea>
+            <textarea class="col-12 form-control" [(ngModel)]="inputContentDescription" rows="5" cols="150" placeholder="Descripción"></textarea>
           </div>
           <div class="col-12" class="form-section">
             <h3 class="form-section-title">Fuente de datos *</h3>
@@ -31,12 +31,9 @@
               te has apoyado para escribir esta historia. Puedeser un conjunto de datos, una bista del GA_OD_Core,
               una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
             </p>
-
-              <button class="btn-left btn-link" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
-
+            <button class="btn-left btn-link" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
+            <p *ngIf='actualGraph' class="form-section-title">El id seleccionado es: {{actualGraph}}</p>
           </div>
-
-
         </div>
 
       </div>

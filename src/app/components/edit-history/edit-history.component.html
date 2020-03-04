@@ -41,14 +41,21 @@
             </select>
           </div>
 
+          <div class="col-12" class="form-section" *ngIf="contents">
+            <h3 class="form-section-title">Contenido</h3>
+            <div *ngFor="let content of contents">
+              <p>{{content.title}}</p>
+            </div>
+          </div>
+
           <!-- Add content -->
-          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <button #addContent class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             <i class="fa fa-plus"></i> Añadir contenido
           </button>
 
           <div class="collapse" id="collapseExample">
             <div class="card card-body">
-              <app-edit-content></app-edit-content>
+              <app-edit-content (contentCreate)="newContent($event)"></app-edit-content>
             </div>
           </div>
 
@@ -58,7 +65,7 @@
     </div>
   </div>
 
-  <button type="button" class="btn btn-primary">Guardar historia</button>
+  <button type="button" class="btn btn-primary" (click)="saveHistory()">Guardar historia</button>
   <button type="button" class="btn btn-primary">Enviar a revisión</button>
 
 

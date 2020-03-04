@@ -21,7 +21,15 @@ export class HistoriesService {
     params.append(Constants.SERVER_API_LINK_GA_OD_CORE_PUBLIC_VIEW_ID, Constants.SERVER_API_LINK_GA_OD_CORE_PUBLIC_VIEW_ID_NUMBER_TOPICS);
     console.log(params)
     return this.http.get(fullUrl, { search: params }).pipe(map(res => res.json()));
+  }
+  
+  public getHistories(){
+    let fullUrl=Constants.AOD_BASE_URL_MOCK + Constants.MOCK_HISTORY ;
+    return this.http.get(fullUrl).pipe(map(res => res.json()));
+  }
 
-
-	}
+  public getHistory(id:string){
+    let fullUrl=Constants.AOD_BASE_URL_MOCK + Constants.MOCK_HISTORY ;
+    return this.http.get(fullUrl).pipe(map(res => res.json()));
+  }
 }

@@ -35,6 +35,15 @@
               <span *ngIf='viewMoreCategories'>Ver menos</span>
             </button> 
 
+
+            <div class="histories">
+              <div class="col-12 ">
+                <div *ngFor="let history of historiesFilter" class="col-4 history-align">
+                  <p class="history" (click)="getHistory(history.id)"><i [class]="history.image" aria-hidden="true"></i>{{history.title}}</p>
+                </div>
+              </div>
+            </div>
+
         </div>
       </div>
     </div>

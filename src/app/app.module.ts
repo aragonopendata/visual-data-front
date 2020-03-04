@@ -67,6 +67,8 @@ import { HistoriesService } from './services/histories.service';
 import { EditHistoryComponent } from './components/edit-history/edit-history.component';
 import { EditContentComponent } from './components/edit-content/edit-content.component';
 import { ModalComponent } from './components/common/modal/modal.component';
+import { VisualGrapsService } from './services/visual-graps.service';
+import { ViewHistoryComponent } from './components/view-history/view-history.component';
 
 // All the routes for the app
 const routes: Routes = [
@@ -81,6 +83,7 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeFocusComponent, pathMatch: 'full' },
       { path: Constants.ROUTER_LINK_ADD_HISTORY, component: EditHistoryComponent},
+      { path: 'viewHistory/:id', component: ViewHistoryComponent },
       // { path: '', component: ListGraphsComponent, pathMatch: 'full' },
       // { path: 'selectData', component: SelectDataComponent },
       // { path: 'previewData', component: PreviewDataComponent },
@@ -138,7 +141,8 @@ const routes: Routes = [
     HomeFocusComponent,
     EditHistoryComponent,
     EditContentComponent,
-    ModalComponent
+    ModalComponent,
+    ViewHistoryComponent
   ],
   providers: [
     DatePipe,
@@ -155,6 +159,8 @@ const routes: Routes = [
     AuthGuard,
     GoogleAnalyticsEventsService,
     HistoriesService,
+    VisualGrapsService,
+
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

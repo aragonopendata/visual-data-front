@@ -11,6 +11,7 @@ import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
 import { getRandomColor } from '../exportedFunctions/lib';
 import { DOCUMENT } from '@angular/common';
+import { VisualGrapsService } from '../../services/visual-graps.service';
 
 import { UtilsService } from '../exportedFunctions/utils.service';
 
@@ -67,7 +68,7 @@ export class ListGraphsComponent implements OnInit {
   title: string;
 
   openedMenu: boolean;
-  
+
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -76,8 +77,8 @@ export class ListGraphsComponent implements OnInit {
     private router: Router,
     private listGraphService: GraphService,
     private utilsGraphService: UtilsGraphService, 
-    private utilsService: UtilsService
-  ) {
+    private utilsService: UtilsService,
+    private myService: VisualGrapsService) {
     // Check if the browser is IE
     const ua = window.navigator.userAgent;
 
@@ -177,9 +178,11 @@ export class ListGraphsComponent implements OnInit {
   }
 
   selectChart(id, title){
-    console.log(id)
-    console.log(title)
-    //this.document.location.href = 'https://stackoverflow.com';
+    console.log(id);
+    console.log(title);
+    document.getElementsByTagName('body')[0].classList.remove('no-scroll');
+    this.router.navigate([{outlets: {modal: null}}]);
+    this.myService.agregarId(id);
   }
 
   callUpdateVirtuoso() {

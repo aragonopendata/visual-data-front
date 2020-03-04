@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HistoriesService } from '../../services/histories.service';
 import { Constants } from '../../app.constants';
 import { HistorySummary } from '../../models/HistorySummary';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,9 +17,14 @@ export class HomeFocusComponent implements OnInit {
   categoriesVisible:string[];
   viewMoreCategories: boolean = false;
   routerLinkAddHistory: string;
+  routerLinkViewHistory: string;
+  historiesAll: HistorySummary[];
+  historiesFilter:HistorySummary[];
 
-  constructor(private historiesService: HistoriesService) { 
+
+  constructor(private historiesService: HistoriesService, private _route: Router) { 
     this.routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
+    this.routerLinkViewHistory= Constants.ROUTER_LINK_VIEW_HISTORY;
   }
 
   ngOnInit() {
@@ -48,17 +54,19 @@ export class HomeFocusComponent implements OnInit {
   }
 
   getHistories(){
-    /*
-    this.historiesAll.push({title: "UNIVERSIDAD ZARAGOZA", image: "fa fa-university", id: "1"});
-    this.historiesAll.push({title: "BIBLIOTECAS DE ARAGÓN", image: "fa fa-book", id: "2"});
-    this.historiesAll.push({title: "COMARCA JACETANIA", image: "fa fa-map", id: "3"});
-    this.historiesFilter=this.historiesAll;
-    */
+    this.historiesService.getHistories().subscribe(histories => {
+      console.log(histories)
+      this.historiesAll=[];
+      for (let history of histories) {
+        this.historiesAll.push({title: history.title, image: history.image, id: history.id});
+      }
+      this.historiesFilter=this.historiesAll;
+    });
   }
 
   getHistory(id:string){
     console.log(id);
-
+    this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
   }
 
   searchHistory(value:string){

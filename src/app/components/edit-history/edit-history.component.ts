@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Constants } from '../../app.constants';
 import { HistoriesService } from '../../services/histories.service';
+import { ContentHistory } from '../../models/ContentHistory';
+import { History } from '../../models/History';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-edit-history',
@@ -8,7 +12,6 @@ import { HistoriesService } from '../../services/histories.service';
   styleUrls: ['./edit-history.component.scss']
 })
 export class EditHistoryComponent implements OnInit {
-
   categoriesAPI: string[];
   categoriesAll: string[];
   inputHistoryTitle:string;
@@ -17,22 +20,20 @@ export class EditHistoryComponent implements OnInit {
   routerLinkAddContent: string;
   inputContentTitle: string;
   inputContentDescription: string;
-  createNewContent: boolean =false;
+  contents: ContentHistory[]=[];
+  historySave: History;
+  @ViewChild('addContent') addContentButton: ElementRef;
 
-  constructor(private historiesService: HistoriesService) { 
+
+  constructor(private historiesService: HistoriesService, private _route: Router) { 
     this.routerLinkAddContent = Constants.ROUTER_LINK_ADD_CONTENT;
     this.categoriesAPI = [];
   }
 
   ngOnInit() {
-    // this.createEmptyVectors();
     this.getCategories();
   }
 
-
-  // createEmptyVectors(){
-  //   this.categoriesAPI = [];
-  // }
 
   
   getCategories(){
@@ -54,9 +55,19 @@ export class EditHistoryComponent implements OnInit {
 		});
   }
 
-  createContent(){
-    this.createNewContent=!this.createNewContent;
-    console.log(this.createNewContent)
+  newContent(newContent:ContentHistory){
+    console.log(newContent)
+    this.contents.push(newContent);
+    this.falseClickAddContent();
+  }
+
+  falseClickAddContent(){
+    this.addContentButton.nativeElement.click();
+  }
+
+  saveHistory(){
+    this.historySave=({title: this.inputHistoryTitle, description: this.inputHistoryDescription, category: this.selectedCategory,contents:this.contents});
+    this._route.navigateByUrl("/")
 
   }
 
