@@ -81,6 +81,14 @@
                             color: white;
                         }
                     }
+                    &:hover{
+                        img{
+                            transform: scale(1.1);
+                        }
+                        .text>span{
+                            font-size: 18px;
+                        }
+                    }
                     
                 }
 
