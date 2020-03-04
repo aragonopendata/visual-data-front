@@ -2,7 +2,7 @@ import { Component, OnInit, SystemJsNgModuleLoader, EventEmitter, Output } from 
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { VisualGrapsService } from '../../services/visual-graps.service';
-import { ContentHistory } from '../../models/ContentHistory';
+
 @Component({
   selector: 'app-edit-content',
   templateUrl: './edit-content.component.html',
@@ -13,7 +13,7 @@ export class EditContentComponent implements OnInit {
   actualGraph: string;
   inputContenTitle: string;
   inputContentDescription: string;
-  @Output() contentCreate = new EventEmitter<ContentHistory>();
+  @Output() contentCreate = new EventEmitter<any>();
 
   constructor( private _route: Router, private servicio:VisualGrapsService) {  }
 

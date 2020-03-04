@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoriesService } from '../../services/histories.service';
 import { Constants } from '../../app.constants';
-import { HistorySummary } from '../../models/HistorySummary';
 import { Router } from '@angular/router';
-
+import { History } from '../../models/History';
+import { Category } from '../../models/Category';
 
 @Component({
   selector: 'app-home-focus',
@@ -13,75 +13,42 @@ import { Router } from '@angular/router';
 
 export class HomeFocusComponent implements OnInit {
 
-  categoriesHidden: string[];
-  categoriesVisible:string[];
+  categoriesHidden: Category[];
+  categoriesVisible: Category[];
   viewMoreCategories: boolean = false;
-  routerLinkAddHistory: string;
-  routerLinkViewHistory: string;
-  historiesAll: HistorySummary[];
-  historiesFilter:HistorySummary[];
+  histories: History[];
+  routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
+  routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
-
-  constructor(private historiesService: HistoriesService, private _route: Router) { 
-    this.routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
-    this.routerLinkViewHistory= Constants.ROUTER_LINK_VIEW_HISTORY;
-  }
+  constructor(private _historiesService: HistoriesService, private _route: Router) { }
 
   ngOnInit() {
     this.getCategories();
     this.getHistories();
-
   }
 
   getCategories(){
-    this.historiesService.getCategories().subscribe(categories => {
-
-      let categoriesAPI = [];
-      let coreCategories = categories;
-      let positionCategories = coreCategories[0].indexOf(Constants.SERVER_API_LINK_GA_OD_CORE_PUBLIC_NAME_CATEGORIES);
-      coreCategories.splice(0,1);
-
-      for (let view of coreCategories) {
-        categoriesAPI.push(view[positionCategories]);
+    this._historiesService.getCategories().subscribe( (categories: Category[]) => {
+      if( categories.length > 0 ){
+        this.categoriesVisible = categories.slice(0,4);
+        this.categoriesHidden = categories.slice(4,categories.length);
       }
-
-      this.categoriesVisible = categoriesAPI.slice(0,4);
-      this.categoriesHidden = categoriesAPI.slice(4,categoriesAPI.length);
-
 		},err => {
       console.log('Error al obtener las categorias');
     });
   }
 
   getHistories(){
-    this.historiesService.getHistories().subscribe(histories => {
-      console.log(histories)
-      this.historiesAll=[];
-      for (let history of histories) {
-        this.historiesAll.push({title: history.title, image: history.image, id: history.id});
-      }
-      this.historiesFilter=this.historiesAll;
+    this._historiesService.getHistories().subscribe( (histories: History[]) => {
+      this.histories=histories;
     });
   }
 
-  getHistory(id:string){
+  getHistory( id: string ){
     console.log(id);
     this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
   }
 
-  searchHistory(value:string){
-    /*
-    console.log(value)
-    let historiesFilterProgress: HistorySummary[] = [];
-    for (let history of this.historiesAll){
-      if((history.title.toUpperCase()).indexOf(value.toUpperCase())!=-1){
-        historiesFilterProgress.push(history);
-      }
-    }
-    this.historiesFilter=historiesFilterProgress;
-    */
-  }
-
-
+  searchHistory( value: string ){ }
 
 }

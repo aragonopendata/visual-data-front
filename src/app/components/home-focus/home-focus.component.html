@@ -1,49 +1,73 @@
 <div class="container">
-  <!--<h1> OPEN DATA FOCUS </h1>-->
-  <!-- Search -->
-  <div class="row" style="margin-top: 1%">
+  
+  <div class="row">
     <div class="col-12">
-        <div class="form-group">
+      <div class="form-group">
 
+          <!-- Search -->
+          <div class="input-group col-8">
 
-            <div class="input-group">
-              <button class="btn-left btn-primary" type="button" routerLink="/{{routerLinkAddHistory}}">
-                <i class="fa fa-plus"></i> Crear historia
-              </button>
-              <input type="text" class="form-control" placeholder="Buscar por..."  (keyup.enter)="searchDatasetsByText()" #searchInput>                
-              <button class="btn btn-secondary" type="button" (click)="searchDatasetsByText()" ><i class="fa fa-search" aria-hidden="true"></i></button>
+            <button class="btn btn-primary" type="button" [routerLink]="routerLinkAddHistory">
+              <i class="fa fa-plus"></i> Crear historia
+            </button>
+
+            <div class="input-search">
+              <input type="text" class="form-control" placeholder="Buscar por..." aria-label="Recipient's username" aria-describedby="button-addon2">
+              <i class="fa fa-search" aria-hidden="true"></i>
             </div>
 
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="searchDatasetsByText()">Buscar</button>
+            </div>
+            
+          </div>
 
-            <!-- categories -->
-            <ul class="list-categories nav justify-content-center">
-              <li class="nav-item" *ngFor="let category of categoriesVisible">
-                <span class="nav-link text-primary">{{category}}</span>
+          <!-- categories -->
+          <ul class="list-categories nav justify-content-center">
+            <li class="nav-item" *ngFor="let category of categoriesVisible">
+              <span class="nav-link text-primary">{{category.name}}</span>
+            </li>
+          </ul>
+
+          <div *ngIf='viewMoreCategories' class="list-categories-hidden">
+            <ul class="nav justify-content-center">
+              <li class="nav-item" *ngFor="let category of categoriesHidden">
+                <span class="nav-link text-primary">{{category.name}}</span>
               </li>
             </ul>
+          </div>
 
-            <div *ngIf='viewMoreCategories' class="list-categories-hidden">
-              <ul class="nav justify-content-center">
-                <li class="nav-item" *ngFor="let category of categoriesHidden">
-                  <span class="nav-link text-primary">{{category}}</span>
-                </li>
-              </ul>
-            </div>
+          <button *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
+            <i *ngIf='!viewMoreCategories' class="fa fa-angle-down"></i>
+            <i *ngIf='viewMoreCategories' class="fa fa-angle-up"></i>
+            <span *ngIf='!viewMoreCategories'>Ver mas</span>
+            <span *ngIf='viewMoreCategories'>Ver menos</span>
+          </button> 
 
-            <button *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
-              <span *ngIf='!viewMoreCategories'>Ver mas</span>
-              <span *ngIf='viewMoreCategories'>Ver menos</span>
-            </button> 
+          <!-- histories -->
+          <div class="histories">
+            <div>
 
+              <div class="card" style="width: 18rem;" *ngFor="let history of histories">
+                <img [src]="history.image" class="card-img-top" alt="...">
 
-            <div class="histories">
-              <div class="col-12 ">
-                <div *ngFor="let history of historiesFilter" class="col-4 history-align">
-                  <p class="history" (click)="getHistory(history.id)"><i [class]="history.image" aria-hidden="true"></i>{{history.title}}</p>
-                </div>
+                <!-- <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div> -->
+                <div class="opacity"></div>
+                <div class="text"><span>{{history.title}}</span></div>
               </div>
-            </div>
 
-        </div>
+
+              <!-- <div *ngFor="let history of histories" class="col-4 history-align">
+                <p class="history" (click)="getHistory(history.id)"><i [class]="history.image" aria-hidden="true"></i>{{history.title}}</p>
+              </div> -->
+            </div>
+          </div>
       </div>
     </div>
+  </div>
+
+</div>
