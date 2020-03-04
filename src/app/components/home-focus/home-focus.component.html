@@ -48,22 +48,11 @@
           <div class="histories">
             <div>
 
-              <div class="card" style="width: 18rem;" *ngFor="let history of histories">
+              <div class="card" style="width: 18rem;" *ngFor="let history of histories" (click)="getHistory(history.id)">
                 <img [src]="history.image" class="card-img-top" alt="...">
-
-                <!-- <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div> -->
                 <div class="opacity"></div>
                 <div class="text"><span>{{history.title}}</span></div>
               </div>
-
-
-              <!-- <div *ngFor="let history of histories" class="col-4 history-align">
-                <p class="history" (click)="getHistory(history.id)"><i [class]="history.image" aria-hidden="true"></i>{{history.title}}</p>
-              </div> -->
             </div>
           </div>
       </div>
