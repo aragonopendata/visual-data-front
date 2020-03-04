@@ -14,6 +14,7 @@ export class ModalComponent implements OnInit {
   }
 
   closeModal() {
+    document.getElementsByTagName('body')[0].classList.remove('no-scroll');
     this._route.navigate([{outlets: {modal: null}}]);
 
   }

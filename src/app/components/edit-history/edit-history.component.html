@@ -41,15 +41,16 @@
             </select>
           </div>
 
-          <div class="col-sm-12" *ngIf="!createNewContent">
-            <button class="btn-left btn-primary" type="button" (click)="createContent()">
-              <i class="fa fa-plus"></i> Crear contenido
-            </button>
+          <!-- Add content -->
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <i class="fa fa-plus"></i> Añadir contenido
+          </button>
+
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+              <app-edit-content></app-edit-content>
+            </div>
           </div>
-
-          <app-edit-content *ngIf="createNewContent"> </app-edit-content>
-
-
 
         </div>
 

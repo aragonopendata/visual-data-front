@@ -15,7 +15,7 @@ export class EditContentComponent implements OnInit {
   }
 
   openVisualData() {
-    document.getElementsByTagName('body')[0].style.position = 'fixed';
+    document.getElementsByTagName('body')[0].classList.add('no-scroll');
     this._route.navigate([{outlets: {modal: 'visualData'}}]);
 
   }
