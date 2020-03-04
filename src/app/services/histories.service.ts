@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { History } from '../models/History';
 import { Category } from '../models/Category';
+import { filter } from 'rxjs/operator/filter';
 
 @Injectable()
 export class HistoriesService {
@@ -26,11 +27,12 @@ export class HistoriesService {
   }
   
   public getHistories(): Observable<History[]>{
-    return this.http.get('assets/mocks/histories.json').map(res => res.json());
+    return this.http.get('/assets/mocks/histories.json').map(res => res.json());
     ;
   }
 
-  public getHistory(id:string){
-    return this.http.get('assets/mocks/histories.json').pipe(map(res => res.json()));
+  public getHistory( id: number ): Observable<History>{
+    return this.http.get('/assets/mocks/histories.json').pipe(
+      map( data => data.json().filter(item => item.id === id)));
   }
 }

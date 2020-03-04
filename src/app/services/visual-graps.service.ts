@@ -4,18 +4,17 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class VisualGrapsService {
-  private id$ = new Subject<string>();
+
+  private idGraph$ = new Subject<string>();
 
   constructor() {}
-
-  agregarId(id: string) {
-    this.id$.next(id);
+  
+  setIdGraph(id: string) {
+    this.idGraph$.next(id);
   }
 
-  conseguirId$(): Observable<string> {
-    return this.id$.asObservable();
+  getIdGraph(): Observable<string> {
+    return this.idGraph$.asObservable();  
   }
-
-
 
 }
