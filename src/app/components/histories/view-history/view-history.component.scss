@@ -20,6 +20,9 @@
         .content{
             display: flex;
             align-items: center;
+            p{
+                text-align: justify;
+            }
             iframe{
                 display: block;
                 width: auto;
