@@ -1,0 +1,112 @@
+<div class="container">
+  <div class="row">
+		<div class=" col-md-12">
+			<h1>Gestión de un contenido</h1>
+		</div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="tab-content">
+        <!-- Content Tab -->
+				<div class="tab-pane active" id="content_tab" role="tabpanel">
+          <div class="col-12" class="form-section">
+							<h3 class="form-section-title">Título *</h3>
+							<p>
+									Por favor, escribe una denominación del contenido
+							</p>
+							<input class="col-12 form-control" type="text" placeholder="Título" [(ngModel)]="inputHistoryTitle">
+          </div>
+          <div class="col-12" class="form-section">
+            <h3 class="form-section-title">Contenido *</h3>
+            <p>
+              El contenido de la historia es lo que quieres contar, con la ayuda de los distintos gráficos
+              que aporta el portal de Aragon Open Data
+            </p>
+            <textarea class="col-12 form-control" [(ngModel)]="inputHistoryDescription" rows="5" cols="150" placeholder="Descripción"></textarea>
+          </div>
+          <div class="col-12" class="form-section">
+            <h3 class="form-section-title">Fuente de datos *</h3>
+            <p>
+              En este apartado deberás de elegir una fuente de datos del portal de Aragón Open Data, de la cual
+              te has apoyado para escribir esta historia. Puedeser un conjunto de datos, una bista del GA_OD_Core,
+              una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
+            </p>
+            <div class="col-sm-12">
+              <button class="btn-left btn-primary" type="button" routerLink="/{{routerLinkAdminDatacenterDatasetsEdit}}">Ir a OpenData
+              </button>
+            </div>
+          </div>
+
+
+
+
+
+          <!--<fieldset class="form-section">
+            <h3 class="form-section-title">Fuente de datos *</h3>
+            <p>
+              En este apartado deberás de elegir una fuente de datos del portal de Aragón Open Data, de la cual
+              te has apoyado para escribir esta historia. Puedeser un conjunto de datos, una bista del GA_OD_Core,
+              una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
+            </p>
+            <div class="form-group row">
+              <label class="form-check-label col-12">
+                <input type="radio" class="form-check-input" name="coberturaGeo" id="conjuntoDatosRadio" [checked]="conjuntoDatosValue" (change)="changeRadioGeo('conjuntoDatos')" > Conjunto de datos
+              </label>
+              <div class="col-sm-12">
+                <li class="list-group-item active">
+                  <div class="form-group row">
+                    <label for="inputFile" class="col-sm-1 col-form-label">URL:</label>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" placeholder="Introduzca URL" #inputUrlQuality>
+                    </div>
+                    <button type="button" (click)="addUrl('quality', inputUrlQuality.value);inputUrlQuality.value=''" class="col-sm-2 btn btn-primary">Añadir
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </li>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="form-check-label col-12">
+                <input type="radio" class="form-check-input" name="coberturaGeo" id="vistaGAODRadio" [checked]="vistaGAODValue" (change)="changeRadioGeo('vistaGAOD')" > Vista de GA_OD_Core
+              </label>
+              <div class="col-sm-12">
+                <select class="form-control" [(ngModel)]="selectedvistaGAOD">
+                  <option *ngFor="let category of categoriesAll" [ngValue]="category">{{category}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="form-check-label col-12">
+                <input type="radio" class="form-check-input" name="coberturaGeo" id="consultaSPARQLRadio" [checked]="consultaSPARQLRadioValue" (change)="changeRadioGeo('consultaSPARQL')" > Consulta SPARQL
+              </label>
+              <div class="col-sm-12">
+                <label> Default Data Set Name (Graph IRI)</label>
+                <textarea class="col-12 form-control" [(ngModel)]="defaultDataSetName" rows="1" cols="150" placeholder="Default Data Set Name (Graph IRI)"></textarea>
+                <label> Query Text </label>
+                <textarea class="col-12 form-control" [(ngModel)]="queryText" rows="5" cols="150" placeholder="Query Text"></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="form-check-label col-12">
+                <input type="radio" class="form-check-input" name="coberturaGeo" id="graficaRadio" [checked]="municipioRadioValue" (change)="changeRadioGeo('municipio')" > Gráfica
+              </label>
+              <div class="col-sm-12">
+                <button class="btn-left btn-primary" type="button" routerLink="/{{routerLinkAdminDatacenterDatasetsEdit}}">
+                  <i class="fa fa-plus"></i> Crear historia
+                </button>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <button type="button" class="col-sm-2 btn btn-final">Añadir contenido
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+          </fieldset> -->
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

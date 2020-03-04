@@ -20,6 +20,7 @@ export class Constants {
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';
   public static PATH_MODIFIER = '';
   // URLS
+  public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
   public static AOD_BASE_URL = 'https://preopendata.aragon.es';
   public static PRESUPUESTOS_BASE_URL = 'http://prepresupuesto.aragon.es';
   public static AOD_ASSETS_BASE_URL = 'https://preopendata.aragon.es/static';
@@ -715,4 +716,24 @@ export class Constants {
   public static ELASTIC_FILES = Constants.AOD_BASE_URL + "/gapi/get_files_elastic";
   public static ELASTIC_PAGES = Constants.AOD_BASE_URL + "/gapi/get_pages_elastic";
   public static ELASTIC_COUNTRIES = Constants.AOD_BASE_URL + "/gapi/get_countries_elastic";
+
+
+
+
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC = '/GA_OD_Core';
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC_VIEWS = '/views';
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC_PREVIEW = '/preview';
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC_NAME_CATEGORIES='NOMBRE'
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC_VIEW_ID = 'view_id';
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC_VIEW_ID_NUMBER_TOPICS = '161';
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC_FILTER_SQL = 'filter_sql';
+  public static SERVER_API_LINK_GA_OD_CORE_PUBLIC_SQL_NIVEL_1 = 'NIVEL=1';
+
+
+
+
+  public static ROUTER_LINK_ADD_HISTORY='add/history';
+  public static ROUTER_LINK_ADD_CONTENT='add/content';
+
+
 }

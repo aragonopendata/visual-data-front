@@ -51,6 +51,8 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 import { EndGraphComponent } from './components/end-graph/end-graph.component';
 import { EmbedGraphComponent } from './components/embed-graph/embed-graph.component';
 import { MapComponent } from './components/common/map/map.component';
+import { HomeFocusComponent } from './components/home-focus/home-focus.component';
+
 // Utils
 import { AccordionModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'ng2-charts';
@@ -61,6 +63,9 @@ import { TreeModule } from 'angular-tree-component';
 import 'hammerjs';
 import { UtilsGraphService } from './components/exportedFunctions/utilsChats.util';
 import { GoogleAnalyticsEventsService } from './services/google-analytics-events.service';
+import { HistoriesService } from './services/histories.service';
+import { EditHistoryComponent } from './components/edit-history/edit-history.component';
+import { EditContentComponent } from './components/edit-content/edit-content.component';
 
 // All the routes for the app
 const routes: Routes = [
@@ -68,6 +73,16 @@ const routes: Routes = [
   { path: 'charts/embed/:id', component: EmbedGraphComponent },
   { path: 'adminPanel', component: AdminPanelComponent, canActivate: [AuthGuard] },
 
+  {
+    path: '',
+    component: BodyComponent,
+    children: [
+      { path: '', component: HomeFocusComponent, pathMatch: 'full' },
+      { path: Constants.ROUTER_LINK_ADD_HISTORY, component: EditHistoryComponent},
+    ]
+  },
+  
+  /*
   // No Embed routes
   {
     path: '',
@@ -81,6 +96,10 @@ const routes: Routes = [
       { path: 'charts/:id', component: EndGraphComponent }
     ]
   }
+  */
+  
+  
+
 ];
 
 @NgModule({
@@ -116,7 +135,10 @@ const routes: Routes = [
     EndGraphComponent,
     EmbedGraphComponent,
     MapComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    HomeFocusComponent,
+    EditHistoryComponent,
+    EditContentComponent
   ],
   providers: [
     DatePipe,
@@ -132,6 +154,7 @@ const routes: Routes = [
     UtilsService,
     AuthGuard,
     GoogleAnalyticsEventsService,
+    HistoriesService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
