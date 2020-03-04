@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
 import { getRandomColor } from '../exportedFunctions/lib';
+import { DOCUMENT } from '@angular/common';
 
 import { UtilsService } from '../exportedFunctions/utils.service';
 
@@ -69,6 +70,7 @@ export class ListGraphsComponent implements OnInit {
   
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private route: ActivatedRoute,
     private location: Location,
     private router: Router,
@@ -172,6 +174,12 @@ export class ListGraphsComponent implements OnInit {
       }
     });
     setTimeout(() => (this.isupdating = false), 2000);
+  }
+
+  selectChart(id, title){
+    console.log(id)
+    console.log(title)
+    //this.document.location.href = 'https://stackoverflow.com';
   }
 
   callUpdateVirtuoso() {

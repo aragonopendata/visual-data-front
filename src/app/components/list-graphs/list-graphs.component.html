@@ -15,12 +15,17 @@
         <div class="card mt-2 w-100">
             <div class="card-header">           
                 <div class="row">
-                    <div class="col-10 pointer" data-toggle="tooltip" title=" {{chart.title}}" (click)="openChart(chart.id)"  tabindex="{{openedMenu ? -1 : 0}}">
+                    <div class="col-8 pointer" data-toggle="tooltip" title=" {{chart.title}}" (click)="openChart(chart.id)"  tabindex="{{openedMenu ? -1 : 0}}">
                         {{(chart.title.length>23)? (chart.title | slice:0:23) + '...': (chart.title)}}
                     </div>
                     <div class="col-2">
                         <button tabindex="-1" data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id, chart.title)" class="button3 float-right">
                             <i class="fa fa-refresh"></i>
+                        </button>
+                    </div>
+                    <div class="col-2">
+                        <button tabindex="-1"  (click)="selectChart(chart.id, chart.title)" class="button3 float-right"> 
+                            <i class="fa fa-check-circle"></i> 
                         </button>
                     </div>
                 </div>
@@ -52,7 +57,6 @@
                 <div class="col-sm-6">
                     <div class="card-header">
                         {{chart.title}}
-
                             <button data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3" style="float:right">
                                     <i class="fa fa-refresh"></i>
                             </button>
@@ -94,7 +98,6 @@
                     </button>
                 </div>
                 
-
                 <div style="height: 50px; ">
                     <div style="float: left; margin-left: 5%;">
                         <button (click)="openChart(chart.id)" class="button2">Abrir gr&aacute;fica</button>

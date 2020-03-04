@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoriesService } from '../../services/histories.service';
 import { Constants } from '../../app.constants';
+import { HistorySummary } from '../../models/HistorySummary';
 
 
 @Component({
@@ -22,6 +23,8 @@ export class HomeFocusComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
+    this.getHistories();
+
   }
 
   getCategories(){
@@ -43,5 +46,34 @@ export class HomeFocusComponent implements OnInit {
       console.log('Error al obtener las categorias');
     });
   }
+
+  getHistories(){
+    /*
+    this.historiesAll.push({title: "UNIVERSIDAD ZARAGOZA", image: "fa fa-university", id: "1"});
+    this.historiesAll.push({title: "BIBLIOTECAS DE ARAGÓN", image: "fa fa-book", id: "2"});
+    this.historiesAll.push({title: "COMARCA JACETANIA", image: "fa fa-map", id: "3"});
+    this.historiesFilter=this.historiesAll;
+    */
+  }
+
+  getHistory(id:string){
+    console.log(id);
+
+  }
+
+  searchHistory(value:string){
+    /*
+    console.log(value)
+    let historiesFilterProgress: HistorySummary[] = [];
+    for (let history of this.historiesAll){
+      if((history.title.toUpperCase()).indexOf(value.toUpperCase())!=-1){
+        historiesFilterProgress.push(history);
+      }
+    }
+    this.historiesFilter=historiesFilterProgress;
+    */
+  }
+
+
 
 }
