@@ -1,0 +1,35 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'RobotoLight', sans-serif;
+    line-height: 1;
+    margin: 2px 0 20px;
+    letter-spacing: 0.1em;
+    color: #5ea2ba;
+    font-weight: 300;
+}
+
+.container{
+    margin-top: 3rem;
+    .title{
+        margin-bottom: 3rem;
+    }
+    .tab-content{
+        .tab-pane{
+            >div{
+                margin-bottom: 2rem;
+            }
+            .btn-add-content{
+                margin-bottom: 2rem;
+
+            }
+            .contents-select {
+                span{
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+    .actions{
+        display: block;
+        text-align: right;
+    }
+}

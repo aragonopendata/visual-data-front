@@ -64,11 +64,11 @@ import 'hammerjs';
 import { UtilsGraphService } from './components/exportedFunctions/utilsChats.util';
 import { GoogleAnalyticsEventsService } from './services/google-analytics-events.service';
 import { HistoriesService } from './services/histories.service';
-import { EditHistoryComponent } from './components/edit-history/edit-history.component';
-import { EditContentComponent } from './components/edit-content/edit-content.component';
+import { EditHistoryComponent } from './components/histories/edit-history/edit-history.component';
+import { EditContentComponent } from './components/histories/edit-content/edit-content.component';
 import { ModalComponent } from './components/common/modal/modal.component';
 import { VisualGrapsService } from './services/visual-graps.service';
-import { ViewHistoryComponent } from './components/view-history/view-history.component';
+import { ViewHistoryComponent } from './components/histories/view-history/view-history.component';
 
 // All the routes for the app
 const routes: Routes = [
@@ -81,7 +81,7 @@ const routes: Routes = [
     path: '',
     component: BodyComponent,
     children: [
-      { path: '', component: HomeFocusComponent, pathMatch: 'full' },
+      { path: '', component: HomeFocusComponent },
       { path: Constants.ROUTER_LINK_ADD_HISTORY, component: EditHistoryComponent},
       { path: 'viewHistory/:id', component: ViewHistoryComponent },
       // { path: '', component: ListGraphsComponent, pathMatch: 'full' },
@@ -98,9 +98,11 @@ const routes: Routes = [
     component: ModalComponent,
     outlet: 'modal',
     children: [
-      { path: '', component: ListGraphsComponent, pathMatch: 'full' },
+      { path: '', component: ListGraphsComponent },
     ]
-  }
+  },
+
+  
 
 ];
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { HistoriesService } from '../../services/histories.service';
+import { HistoriesService } from '../../../services/histories.service';
 
 @Component({
   selector: 'app-view-history',
