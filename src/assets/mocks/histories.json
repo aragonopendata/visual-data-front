@@ -1,0 +1,28 @@
+[ 
+    {
+      "title": "UNIVERSIDAD ZARAGOZA",
+      "image": "assets/img/university.svg",
+      "id" : "1",
+      "description": "Historia que cuenta la informacion interesante sobre la uni",
+      "category": "Educacion",
+      "contents": [ {    
+          "title": "contenido 1",
+          "description": "Descripción del contenido 1",
+          "id":"5e2fee76031860ad2ee56da7"
+      },{    
+          "title": "contenido 2",
+          "description": "Descripción del contenido 2",
+          "id":"5e2fee76031860ad2ee56da7"
+      }]
+    }, 
+    {
+      "title": "BIBLIOTECAS DE ARAGÓN", 
+      "image" : "assets/img/open-book.svg", 
+      "id": "2"
+    },
+    {
+      "title": "COMARCA JACETANIA", 
+      "image" : "assets/img/world.svg", 
+      "id": "3"
+    }
+  ]
