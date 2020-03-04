@@ -1,16 +1,25 @@
 .modal-container{
 
     position: fixed;
-    background-color: rgba(0, 0, 0, 0.55);
+    background-color: rgba(0, 0, 0, 0.7);
     top: 0;
     left: 0;
     display: flex;
     justify-content: center;
     height: 100vh;
     z-index: 9999;
-
+    width: 100vw;
     .modal-container__wrap{
         width: 80%;
         align-items: center;
+    }
+    button.close{
+        color: white;
+        position: absolute;
+        right: 50px;
+        top: 30px;
+        opacity: 1;
+        font-size: 38px;
+        outline: none;
     }
 } 
