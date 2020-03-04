@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HistoriesService } from '../../../services/histories.service';
+import { History, Content } from '../../../models/History';
+import { DomSanitizer } from '@angular/platform-browser';
+import { GraphService } from '../../../services/graph.service';
 
 @Component({
   selector: 'app-view-history',
@@ -8,39 +11,66 @@ import { HistoriesService } from '../../../services/histories.service';
   styleUrls: ['./view-history.component.scss']
 })
 export class ViewHistoryComponent implements OnInit {
-  historySelect: any;
 
-  constructor(private historiesService: HistoriesService,private activatedRoute: ActivatedRoute, private _route: Router
-    ) { }
+  chart = [];
+  idHistory: number;
+  historySelect: History;
+
+  chartOptions: any = {
+    scaleShowVerticalLines: false,
+    scaleShowValues: true,
+    responsive: true,
+    legend: {
+      display: false
+    },
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+            callback: function(value, index, array) {
+              return null;
+            }
+          }
+        }
+      ]
+    }
+  };
+
+  constructor( private historiesService: HistoriesService, private _graphService: GraphService,
+    private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
+    this._route.params.subscribe(params => {
+      this.idHistory = params.id;
+    });
+  }
 
   ngOnInit() {
     this.loadHistory();
   }
 
   loadHistory() {
-    let id;
-    id = this.activatedRoute.snapshot.url[1];
-    if (id && id.path !== '') {
-      this.historiesService.getHistories().subscribe(histories => {
-        for (let history of histories) {
-          if(history.id==id){
-            console.log("encontrada!")
-            console.log(history)
-            this.historySelect=history;
-            console.log(this.historySelect)
-          }
-        }
-        console.log(this.historySelect)
-      },err => {
-        console.log('Error al obtener las categorias');
+
+    this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
+      this.historySelect = history[0];
+      this.historySelect.contents.forEach( (element: Content) => {
+        this._graphService.getChart(element.idGraph).subscribe(chart => {
+          this.chart.push(chart);
+        });
       });
-    }
+
+    },err => {
+      console.log('Error al obtener las categorias');
+    });
+
+  }
+
+  urlGraph(id: string) {
+    let url = 'https://opendata.aragon.es/servicios/visualdata/charts/embed/'+id;
+    return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
   return(){
-    this._route.navigateByUrl("/")
+    this._router.navigate(["/"]);
   }
-
-
 
 }

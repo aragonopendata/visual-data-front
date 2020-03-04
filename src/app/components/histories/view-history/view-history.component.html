@@ -1,57 +1,51 @@
 <div class="container" *ngIf="historySelect">
-  <div class="row">
+
+  <div class="row title">
 		<div class=" col-md-12">
+      <img [src]="historySelect.image" class="card-img-top" alt="...">
 			<h1>{{historySelect.title}}</h1>
 		</div>
   </div>
+
   <div class="row">
     <div class="col-md-12">
       <div class="tab-content">
+
         <!-- Content Tab -->
 				<div class="tab-pane active" id="content_tab" role="tabpanel">
-          <div class="col-12" class="form-section">
+
+          <!-- Description history -->
+          <div class="desc-history">
             <h3 class="form-section-title">Descripción: </h3>
-            <p>
-              {{historySelect.description}}
-            </p>
-          </div>
-          <div class="col-12" class="form-section">
-            <h3 class="form-section-title">Categorías: </h3>
-            <p>
-              {{historySelect.category}}
-            </p>
+            <p>{{historySelect.description}} </p>
           </div>
 
-          <div class="col-12" class="form-section" *ngIf="historySelect.contents">
-            <h3 class="form-section-title">Contenido</h3>
-            <div *ngFor="let content of historySelect.contents">
-              <button #addContent class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                <i class="fa fa-plus"></i> {{content.title}}
-              </button>
+          <!-- content history -->
+          <div class="content-wrap" *ngFor="let content of historySelect.contents; let i = index">
 
-              <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                  <div class="col-12" class="form-section">
-                    <h3 class="form-section-title">Descripcion</h3>
-                    <p>
-                      {{content.description}}
-                    </p>
-                  </div>
-                </div>
-                <div class="card card-body">
-                  <div class="col-12" class="form-section">
-                    <h3 class="form-section-title">Id:</h3>
-                    <p>
-                      {{content.id}}
-                    </p>
-                  </div>
-                </div>
+            <div><p class="title">{{content.title}}</p></div>
+
+            <div class="content">
+              <div>
+                <p>
+                  {{content.description}}
+                </p>
               </div>
+
+              <div class="content-graph">
+                <canvas *ngIf='chart[i]' 
+                baseChart [datasets]="chart[i].data" [labels]="chart[i].labels" 
+                [options]="chartOptions" [chartType]=chart[i].type [colors]=chart[i].color></canvas>
+              </div>
+
+
+              <!-- <iframe [src]='urlGraph(content.idGraph)' style="width: 100%; height: 100%;" frameborder="0"></iframe> -->
             </div>
+
           </div>
 
 
-          
+
         </div>
       </div>
     </div>

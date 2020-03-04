@@ -1,0 +1,32 @@
+.container{
+    margin-top: 3rem;
+    .title{
+        text-align: center;
+        margin-bottom: 3rem;
+        img{
+            max-width: 62px;
+        }
+    }
+    .desc-history{
+        margin-bottom: 3rem;
+    }
+    .content-wrap{
+        margin-bottom: 3rem;
+        .title{
+            font-size: 21px;
+            font-weight: bold;
+            text-align: left;
+        }
+        .content{
+            display: flex;
+            align-items: center;
+            iframe{
+                display: block;
+                width: auto;
+                height: 270px;
+                margin-left: 20px;
+            }
+        }
+    }
+
+} 
