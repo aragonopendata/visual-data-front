@@ -4,6 +4,8 @@
   <div class="row" style="margin-top: 1%">
     <div class="col-12">
         <div class="form-group">
+
+
             <div class="input-group">
               <button class="btn-left btn-primary" type="button" routerLink="/{{routerLinkAddHistory}}">
                 <i class="fa fa-plus"></i> Crear historia
@@ -11,28 +13,28 @@
               <input type="text" class="form-control" placeholder="Buscar por..."  (keyup.enter)="searchDatasetsByText()" #searchInput>                
               <button class="btn btn-secondary" type="button" (click)="searchDatasetsByText()" ><i class="fa fa-search" aria-hidden="true"></i></button>
             </div>
-            <div class="categories">
-              <div *ngIf="!moreCategories">
-                <div class="categories-area col-10" >
-                  <div *ngFor="let category of categoriesReduce" class="col-3 category-individual">
-                    <button class="btn btn-secondary btn-category" type="button"><i aria-hidden="true">{{category}}</i></button>
-                  </div>
-                </div>
-                <div class="categories-botton col-2" >
-                  <button class="btn btn-secondary" type="button" (click)="clickCategories()" ><i class="fa fa-plus" aria-hidden="true"></i></button>
-                </div>
-              </div>
-              <div *ngIf="moreCategories">
-                <div class="categories-area col-10" >
-                  <div *ngFor="let category of categoriesAll" class="col-3 category-individual">
-                    <button class="btn btn-secondary btn-category" type="button"><i aria-hidden="true">{{category}}</i></button>
-                  </div>
-                </div>
-                <div class="categories-botton col-2" >
-                  <button class="btn btn-secondary" type="button" (click)="clickCategories()" ><i class="fa fa-minus" aria-hidden="true"></i></button>
-                </div>
-              </div>              
+
+
+            <!-- categories -->
+            <ul class="list-categories nav justify-content-center">
+              <li class="nav-item" *ngFor="let category of categoriesVisible">
+                <span class="nav-link text-primary">{{category}}</span>
+              </li>
+            </ul>
+
+            <div *ngIf='viewMoreCategories' class="list-categories-hidden">
+              <ul class="nav justify-content-center">
+                <li class="nav-item" *ngFor="let category of categoriesHidden">
+                  <span class="nav-link text-primary">{{category}}</span>
+                </li>
+              </ul>
             </div>
+
+            <button *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
+              <span *ngIf='!viewMoreCategories'>Ver mas</span>
+              <span *ngIf='viewMoreCategories'>Ver menos</span>
+            </button> 
+
         </div>
     </div>
 

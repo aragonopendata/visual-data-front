@@ -1,62 +1,17 @@
-.container{
-    margin-top: 10vh;
-    max-width: 80vw;
+.list-categories{
+    li{
+        cursor: pointer;
+    }
 }
 
-html, body {
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.5;
-    margin: 2px 0;
-    letter-spacing: 0.05em;
-    font-weight: 300;
+.list-categories-hidden{
+    .card{
+        border: none;
+    }
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'RobotoLight', sans-serif;
-    line-height: 1;
-    margin: 2px 0 20px;
-    letter-spacing: 0.1em;
-    color: #5ea2ba;
-    font-weight: 300;
-}
-
-a {
-    margin-bottom: 0 !important;
-}
-
-p {
-    font-family: 'Roboto', sans-serif;
-    line-height: 1;
-    margin: 2px 0 20px;
-    letter-spacing: 0.1em;
-    font-weight: 300;
-}
-
-
-.btn{
-    cursor: pointer;
-    float:left;
-}
-
-.btn-primary {
-    margin-right: 4px;
-}
-
-.categories{
-    margin-top: 4px;
-    margin-bottom: 4px;
-}
-
-.category-individual{
-    float:left;
-    margin-top:5px;
-}
-
-.categories-botton{
-    float:left;
-}
-
-.btn-category{
-    white-space: normal;
+.btn.view-more{
+    width: 100%;
+    margin: 15px 0;
 
 }
