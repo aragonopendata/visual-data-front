@@ -8,6 +8,7 @@ import { HistoriesService } from '../../services/histories.service';
   styleUrls: ['./edit-history.component.scss']
 })
 export class EditHistoryComponent implements OnInit {
+
   categoriesAPI: string[];
   categoriesAll: string[];
   inputHistoryTitle:string;
@@ -18,26 +19,26 @@ export class EditHistoryComponent implements OnInit {
   inputContentDescription: string;
   createNewContent: boolean =false;
 
-
   constructor(private historiesService: HistoriesService) { 
     this.routerLinkAddContent = Constants.ROUTER_LINK_ADD_CONTENT;
+    this.categoriesAPI = [];
   }
 
   ngOnInit() {
-    this.createEmptyVectors();
+    // this.createEmptyVectors();
     this.getCategories();
   }
 
 
-  createEmptyVectors(){
-    this.categoriesAPI = [];
-  }
+  // createEmptyVectors(){
+  //   this.categoriesAPI = [];
+  // }
 
   
   getCategories(){
     this.historiesService.getCategories().subscribe(categories => {
 
-      try {
+      //try {
         let coreCategories = categories;
         let positionCategories = coreCategories[0].indexOf(Constants.SERVER_API_LINK_GA_OD_CORE_PUBLIC_NAME_CATEGORIES);
         coreCategories.splice(0,1);
@@ -46,9 +47,9 @@ export class EditHistoryComponent implements OnInit {
         }
         this.categoriesAll=this.categoriesAPI;
 
-			} catch (error) {
-				console.error('Error: getCategories()');
-      }
+			// } catch (error) {
+			// 	console.error('Error: getCategories()');
+      // }
       
 		});
   }

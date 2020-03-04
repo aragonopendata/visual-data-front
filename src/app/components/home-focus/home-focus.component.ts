@@ -10,34 +10,31 @@ import { Constants } from '../../app.constants';
 })
 
 export class HomeFocusComponent implements OnInit {
+
   categoriesAPI: string[];
   categoriesAll: string[];
   categoriesReduce:string[];
   moreCategories: boolean = false;
   routerLinkAddHistory: string;
 
-
-
-
   constructor(private historiesService: HistoriesService) { 
     this.routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
-
+    this.categoriesAPI = [];
   }
 
   ngOnInit() {
-    this.createEmptyVectors();
+    // this.createEmptyVectors();
     this.getCategories();
   }
 
-
-  createEmptyVectors(){
-    this.categoriesAPI = [];
-  }
+  // createEmptyVectors(){
+  //   this.categoriesAPI = [];
+  // }
 
   getCategories(){
     this.historiesService.getCategories().subscribe(categories => {
 
-      try {
+      // try {
         let coreCategories = categories;
         let positionCategories = coreCategories[0].indexOf(Constants.SERVER_API_LINK_GA_OD_CORE_PUBLIC_NAME_CATEGORIES);
         coreCategories.splice(0,1);
@@ -49,9 +46,9 @@ export class HomeFocusComponent implements OnInit {
         this.categoriesAll=this.categoriesAPI;
         this.categoriesReduce=this.categoriesAPI.slice(0,4);
         
-			} catch (error) {
-				console.error('Error: getCategories()');
-      }
+			// } catch (error) {
+			// 	console.error('Error: getCategories()');
+      // }
       
 		});
   }

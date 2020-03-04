@@ -1,0 +1,16 @@
+.modal-container{
+
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.55);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    z-index: 9999;
+
+    .modal-container__wrap{
+        width: 80%;
+        align-items: center;
+    }
+} 

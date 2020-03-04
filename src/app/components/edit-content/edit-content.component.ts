@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-edit-content',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditContentComponent implements OnInit {
 
-  constructor() { }
+  constructor( private _route: Router ) { }
 
   ngOnInit() {
+  }
+
+  openVisualData() {
+    document.getElementsByTagName('body')[0].style.position = 'fixed';
+    this._route.navigate([{outlets: {modal: 'visualData'}}]);
+
   }
 
 }

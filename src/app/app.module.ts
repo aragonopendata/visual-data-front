@@ -66,6 +66,7 @@ import { GoogleAnalyticsEventsService } from './services/google-analytics-events
 import { HistoriesService } from './services/histories.service';
 import { EditHistoryComponent } from './components/edit-history/edit-history.component';
 import { EditContentComponent } from './components/edit-content/edit-content.component';
+import { ModalComponent } from './components/common/modal/modal.component';
 
 // All the routes for the app
 const routes: Routes = [
@@ -73,32 +74,30 @@ const routes: Routes = [
   { path: 'charts/embed/:id', component: EmbedGraphComponent },
   { path: 'adminPanel', component: AdminPanelComponent, canActivate: [AuthGuard] },
 
+  //No Embed routes
   {
     path: '',
     component: BodyComponent,
     children: [
       { path: '', component: HomeFocusComponent, pathMatch: 'full' },
       { path: Constants.ROUTER_LINK_ADD_HISTORY, component: EditHistoryComponent},
+      // { path: '', component: ListGraphsComponent, pathMatch: 'full' },
+      // { path: 'selectData', component: SelectDataComponent },
+      // { path: 'previewData', component: PreviewDataComponent },
+      // { path: 'previewGraph', component: PreviewGraphComponent },
+      // { path: 'endGraphic/:id', component: EndGraphComponent },
+      // { path: 'charts/:id', component: EndGraphComponent }
     ]
   },
-  
-  /*
-  // No Embed routes
-  {
-    path: '',
-    component: BodyComponent,
+
+  { 
+    path: 'visualData', 
+    component: ModalComponent,
+    outlet: 'modal',
     children: [
       { path: '', component: ListGraphsComponent, pathMatch: 'full' },
-      { path: 'selectData', component: SelectDataComponent },
-      { path: 'previewData', component: PreviewDataComponent },
-      { path: 'previewGraph', component: PreviewGraphComponent },
-      { path: 'endGraphic/:id', component: EndGraphComponent },
-      { path: 'charts/:id', component: EndGraphComponent }
     ]
   }
-  */
-  
-  
 
 ];
 
@@ -138,7 +137,8 @@ const routes: Routes = [
     AdminPanelComponent,
     HomeFocusComponent,
     EditHistoryComponent,
-    EditContentComponent
+    EditContentComponent,
+    ModalComponent
   ],
   providers: [
     DatePipe,
