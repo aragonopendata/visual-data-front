@@ -5,77 +5,80 @@
 			<h1>Crear historia</h1>
 		</div>
   </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <div class="tab-content">
-
-        <!-- Content Tab -->
-				<div class="tab-pane active" id="content_tab" role="tabpanel">
-
-          <!-- Titulo historia -->
-          <div>
-							<h3 class="form-section-title">Título *</h3>
-							<p>
-									Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
-							</p>
-							<input class="col-12 form-control" type="text" placeholder="Título" [(ngModel)]="historyModel.title">
-          </div>
-
-          <!-- Descripcion historia -->
-          <div>
-            <h3 class="form-section-title">Descripción *</h3>
-            <p>
-              La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente
-              qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
-              es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En
-              algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
-              la realidad del dato.
-            </p>
-            <textarea class="col-12 form-control" [(ngModel)]="historyModel.description" rows="5" cols="150" placeholder="Descripción"></textarea>
-          </div>
-
-          <!-- Categoria historia -->
-          <div>
-            <h3 class="form-section-title">Categorías *</h3>
-            <p>
-              Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
-              para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
-              utilizadas.
-            </p>
-            <select class="form-control" [(ngModel)]="historyModel.idCategory">
-              <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
-            </select>
-          </div>
-
-          <!-- Lista de contenidos -->
-          <div class="contents-select" *ngIf="contents && contents.length > 0">
-            <h3 class="form-section-title">Contenido</h3>
-            <div *ngFor="let content of contents">
-              <p><span>Titulo: </span>{{content.title}}</p>
+  
+  <form [formGroup]="historyForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tab-content">
+  
+          <!-- Content Tab -->
+          <div class="tab-pane active" id="content_tab" role="tabpanel">
+  
+            <!-- Titulo historia -->
+            <div>
+                <h3 class="form-section-title">Título *</h3>
+                <p>
+                    Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
+                </p>
+                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title">
             </div>
-          </div> 
-
-          <!-- Add content -->
-          <button #addContent class="btn-add-content btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            <i class="fa fa-plus"></i> Añadir contenido
-          </button>
-
-          <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-              <app-edit-content (contentCreate)="newContent($event)"></app-edit-content>
+  
+            <!-- Descripcion historia -->
+            <div>
+              <h3 class="form-section-title">Descripción *</h3>
+              <p>
+                La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente
+                qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
+                es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En
+                algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
+                la realidad del dato.
+              </p>
+              <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción"></textarea>
             </div>
+  
+            <!-- Categoria historia -->
+            <div>
+              <h3 class="form-section-title">Categorías *</h3>
+              <p>
+                Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
+                para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
+                utilizadas.
+              </p>
+              <select class="form-control" formControlName="category">
+                <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+              </select>
+            </div>
+  
+            <!-- Lista de contenidos -->
+            <div class="contents-select" *ngIf="contents && contents.length > 0">
+              <h3 class="form-section-title">Contenido</h3>
+              <div *ngFor="let content of contents">
+                <p><span>Titulo: </span>{{content.title}}</p>
+              </div>
+            </div> 
+  
+            <!-- Add content -->
+            <button #addContent class="btn-add-content btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              <i class="fa fa-plus"></i> Añadir contenido
+            </button>
+  
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                <app-edit-content (contentCreate)="newContent($event)"></app-edit-content>
+              </div>
+            </div>
+  
           </div>
-
+  
         </div>
-
       </div>
     </div>
-  </div>
+  
+    <div class="actions">
+      <button type="button" class="btn btn-primary" (click)="saveHistoryForm()" [disabled]="historyForm.invalid">Guardar historia</button>
+      <button type="button" class="btn btn-outline-primary" [disabled]="historyForm.invalid">Enviar a revisión</button>
+    </div>
+  </form>
 
-  <div class="actions">
-    <button type="button" class="btn btn-primary" (click)="saveHistory()">Guardar historia</button>
-    <button type="button" class="btn btn-outline-primary">Enviar a revisión</button>
-  </div>
 
 </div>

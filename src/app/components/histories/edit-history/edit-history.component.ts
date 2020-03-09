@@ -3,6 +3,7 @@ import { HistoriesService } from '../../../services/histories.service';
 import { History, Content } from '../../../models/History';
 import { Router } from '@angular/router';
 import { Category } from '../../../models/Category';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -15,13 +16,15 @@ export class EditHistoryComponent implements OnInit {
   categories: Category[];
   contents: Content[]=[];
   historyModel: History = {};
+  historyForm: FormGroup;
 
   @ViewChild('addContent') addContentButton: ElementRef;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getCategories();
+    this.initiateForm();
   }
 
   getCategories(){
@@ -30,6 +33,14 @@ export class EditHistoryComponent implements OnInit {
 		},err => {
       console.log('Error al obtener las categorias');
     });
+  }
+
+  initiateForm(){
+    this.historyForm = this._formBuilder.group({
+      title: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      category: new FormControl('', Validators.required)
+    })
   }
 
   newContent( newContent: Content ){
@@ -42,9 +53,8 @@ export class EditHistoryComponent implements OnInit {
     this.addContentButton.nativeElement.click();
   }
 
-  saveHistory(){
+  saveHistoryForm(){
     this._route.navigateByUrl("/")
-
   }
 
 }
