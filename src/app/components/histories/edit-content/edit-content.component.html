@@ -6,51 +6,52 @@
 		</div>
   </div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <div class="tab-content">
-
-        <!-- Content Tab -->
-				<div class="tab-pane active" id="content_tab" role="tabpanel">
-
-          <!-- Titulo contenido -->
-          <div>
-							<h3 class="form-section-title">Título *</h3>
-							<p>Por favor, escribe una denominación del contenido</p>
-							<input class="col-12 form-control" type="text" placeholder="Título" [(ngModel)]="contentModel.title">
-          </div>
-
-          <!-- Descripcion contenido -->
-          <div>
-            <h3 class="form-section-title">Contenido *</h3>
-            <p>El contenido de la historia es lo que quieres contar, con la ayuda de los distintos gráficos que aporta el portal de Aragon Open Data</p>
-            <textarea class="col-12 form-control" [(ngModel)]="contentModel.description" rows="5" cols="150" placeholder="Descripción"></textarea>
-          </div>
-
-          <!-- Fuente de datos -->
-          <div>
-            <h3 class="form-section-title">Fuente de datos *</h3>
-            <p>
-              En este apartado deberás de elegir una fuente de datos del portal de Aragón Open Data, de la cual
-              te has apoyado para escribir esta historia. Puedeser un conjunto de datos, una vista del GA_OD_Core,
-              una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
-            </p>
-
-            <div *ngIf='contentModel.idGraph' >
-              <p class="form-section-title">El id seleccionado es: {{contentModel.idGraph}}</p>
+  <form [formGroup]="contentForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tab-content">
+  
+          <!-- Content Tab -->
+          <div class="tab-pane active" id="content_tab" role="tabpanel">
+  
+            <!-- Titulo contenido -->
+            <div>
+                <h3 class="form-section-title">Título *</h3>
+                <p>Por favor, escribe una denominación del contenido</p>
+                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title">
             </div>
-
-            <button class="btn-left btn btn-outline-secondary" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
-            
+  
+            <!-- Descripcion contenido -->
+            <div>
+              <h3 class="form-section-title">Contenido *</h3>
+              <p>El contenido de la historia es lo que quieres contar, con la ayuda de los distintos gráficos que aporta el portal de Aragon Open Data</p>
+              <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción"></textarea>
+            </div>
+  
+            <!-- Fuente de datos -->
+            <div>
+              <h3 class="form-section-title">Fuente de datos *</h3>
+              <p>
+                En este apartado deberás de elegir una fuente de datos del portal de Aragón Open Data, de la cual
+                te has apoyado para escribir esta historia. Puedeser un conjunto de datos, una vista del GA_OD_Core,
+                una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
+              </p>
+  
+              <div *ngIf='contentModel.idGraph'>
+                <p class="form-section-title">El id seleccionado es: {{contentModel.idGraph}}</p>
+              </div>
+  
+              <button class="btn-left btn btn-outline-secondary" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
+              
+            </div>
           </div>
+  
         </div>
-
       </div>
     </div>
-  </div>
-
-  <div class="actions">
-    <button class="btn-left btn btn-primary" type="button" (click)='saveContent()'>Guardar contenido</button>
-  </div>
+    <div class="actions">
+      <button class="btn-left btn btn-primary" type="button" (click)='saveContent()' [disabled]="contentForm.invalid">Guardar contenido</button>
+    </div>
+  </form>
 
 </div>
