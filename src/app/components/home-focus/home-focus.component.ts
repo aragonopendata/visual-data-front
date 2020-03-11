@@ -19,6 +19,7 @@ export class HomeFocusComponent implements OnInit {
   histories: History[];
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
+  email: string;
 
   constructor(private _historiesService: HistoriesService, private _route: Router) { }
 
@@ -50,5 +51,10 @@ export class HomeFocusComponent implements OnInit {
   }
 
   searchHistory( value: string ){ }
+
+  getEmail(){
+    console.log(this.email);
+    localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.email);
+  }
 
 }

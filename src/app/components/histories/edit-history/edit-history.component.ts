@@ -4,6 +4,7 @@ import { History, Content } from '../../../models/History';
 import { Router } from '@angular/router';
 import { Category } from '../../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { Constants } from '../../../app.constants';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class EditHistoryComponent implements OnInit {
   contents: Content[]=[];
   historyModel: History = {};
   historyForm: FormGroup;
+  emailHistory: string;
 
   @ViewChild('addContent') addContentButton: ElementRef;
 
@@ -25,6 +27,7 @@ export class EditHistoryComponent implements OnInit {
   ngOnInit() {
     this.getCategories();
     this.initiateForm();
+    this.getEmailLocalStorage();
   }
 
   getCategories(){
@@ -55,6 +58,11 @@ export class EditHistoryComponent implements OnInit {
 
   saveHistoryForm(){
     this._route.navigateByUrl("/")
+  }
+
+  getEmailLocalStorage(){
+    this.emailHistory=localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL);
+    console.log(this.emailHistory);
   }
 
 }

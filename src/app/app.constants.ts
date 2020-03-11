@@ -737,6 +737,8 @@ export class Constants {
   public static ROUTER_LINK_ADD_CONTENT='add/content';
   public static ROUTER_LINK_VIEW_HISTORY='viewHistory';
 
+  public static LOCALSTORAGE_KEY_MAIL='email';
+
 
 
 }
