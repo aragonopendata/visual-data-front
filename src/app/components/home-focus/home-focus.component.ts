@@ -4,6 +4,7 @@ import { Constants } from '../../app.constants';
 import { Router } from '@angular/router';
 import { History } from '../../models/History';
 import { Category } from '../../models/Category';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home-focus',
@@ -20,12 +21,14 @@ export class HomeFocusComponent implements OnInit {
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
   email: string;
+  emailForm: FormGroup;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getCategories();
     this.getHistories();
+    this.initiateForm();
   }
 
   getCategories(){
@@ -52,9 +55,28 @@ export class HomeFocusComponent implements OnInit {
 
   searchHistory( value: string ){ }
 
-  getEmail(){
-    console.log(this.email);
-    localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.email);
+  initiateForm(){
+    this.emailForm = this._formBuilder.group({
+      email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')])
+    })
   }
 
+  get invalidEmail(){
+    return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
+  }
+  getEmail(){
+    if (this.emailForm.invalid)
+    {
+      return Object.values(this.emailForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    }
+    else{
+      this.email=this.emailForm.get('email').value
+      console.log(this.emailForm);
+      console.log('paso');
+      localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.email);
+      this._route.navigateByUrl(this.routerLinkAddHistory);
+    }
+  }
 }

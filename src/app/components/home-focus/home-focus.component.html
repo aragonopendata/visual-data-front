@@ -12,25 +12,29 @@
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Intruduce tu Email:</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Email" [(ngModel)]="email">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="getEmail()" [routerLink]="routerLinkAddHistory">Continuar</button>
+            <form [formGroup]="emailForm">
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalCenterTitle">Intruduce tu Email:</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" formControlName="email">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="getEmail()" >Continuar</button>
+                      <small *ngIf="invalidEmail" class="text-danger">Introduzca un email valido. Ej: ejemplo@email.com</small>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
+  
+            </form>
+            
             <div class="input-search">
               <input type="text" class="form-control" placeholder="Buscar por..." aria-label="Recipient's username" aria-describedby="button-addon2">
               <i class="fa fa-search" aria-hidden="true"></i>
