@@ -20,15 +20,12 @@ export class HomeFocusComponent implements OnInit {
   histories: History[];
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
-  email: string;
-  emailForm: FormGroup;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router) { }
 
   ngOnInit() {
     this.getCategories();
     this.getHistories();
-    this.initiateForm();
   }
 
   getCategories(){
@@ -54,29 +51,4 @@ export class HomeFocusComponent implements OnInit {
   }
 
   searchHistory( value: string ){ }
-
-  initiateForm(){
-    this.emailForm = this._formBuilder.group({
-      email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')])
-    })
-  }
-
-  get invalidEmail(){
-    return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
-  }
-  getEmail(){
-    if (this.emailForm.invalid)
-    {
-      return Object.values(this.emailForm.controls).forEach(control => {
-        control.markAsTouched();
-      })
-    }
-    else{
-      this.email=this.emailForm.get('email').value
-      console.log(this.emailForm);
-      console.log('paso');
-      localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.email);
-      this._route.navigateByUrl(this.routerLinkAddHistory);
-    }
-  }
 }

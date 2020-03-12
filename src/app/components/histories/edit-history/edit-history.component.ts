@@ -67,10 +67,6 @@ export class EditHistoryComponent implements OnInit {
   }
 
   saveHistoryForm(){
-    /*if (this.checkFields()){
-      //console.log('estoy dentro');
-      this._route.navigateByUrl("/");
-    }*/
     if(this.historyForm.invalid){
       return Object.values(this.historyForm.controls).forEach(control => {
         control.markAsTouched();
@@ -78,20 +74,8 @@ export class EditHistoryComponent implements OnInit {
     }
     else{
       this._route.navigateByUrl("/");
-      //console.log('estoy fuera');
     }
   }
-
-  /*checkFields(): boolean{
-    if(this.historyForm.get('title').value==='' ||
-       this.historyForm.get('description').value==='' ||
-       this.historyForm.get('category').value===''){
-      return false;
-    }
-    else{
-      return true;
-    }
-  }*/
 
   getEmailLocalStorage(){
     this.emailHistory=localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL);

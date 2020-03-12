@@ -66,9 +66,29 @@
             </div> 
   
             <!-- Add content -->
-            <button #addContent class="btn-add-content btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn-add-content btn btn-outline-secondary" type="button"  data-toggle="modal" data-target="#contentModalCenter">
               <i class="fa fa-plus"></i> Añadir contenido
             </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="contentModalCenter" tabindex="-1" role="dialog" aria-labelledby="contentModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="contentModalCenterTitle">Seleccione una opcion:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-footer">
+                    <button #addContent class="btn btn-primary btn-block" data-dismiss="modal" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> 
+                      Insertar gráfica
+                    </button>
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" >Enlace externo</button>
+                  </div>
+                </div>
+              </div>
+            </div>
   
             <div class="collapse" id="collapseExample">
               <div class="card card-body">
