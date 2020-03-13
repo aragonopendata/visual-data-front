@@ -18,6 +18,7 @@ export class EditHistoryComponent implements OnInit {
   contents: Content[]=[];
   historyModel: History = {};
   historyForm: FormGroup;
+  emailForm: FormGroup;
   emailHistory: string;
 
   @ViewChild('addContent') addContentButton: ElementRef;
@@ -44,6 +45,9 @@ export class EditHistoryComponent implements OnInit {
       description: new FormControl('', Validators.required),
       category: new FormControl('', Validators.required)
     })
+    this.emailForm = this._formBuilder.group({
+      email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')])
+    })
   }
 
   get invalidTitle(){
@@ -54,6 +58,9 @@ export class EditHistoryComponent implements OnInit {
   }
   get invalidCategory(){
     return this.historyForm.get('category').invalid && this.historyForm.get('category').touched;
+  }
+  get invalidEmail(){
+    return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
   }
 
   newContent( newContent: Content ){
@@ -73,7 +80,17 @@ export class EditHistoryComponent implements OnInit {
       })
     }
     else{
-      this._route.navigateByUrl("/");
+      if(this.emailForm.invalid){
+        return Object.values(this.emailForm.controls).forEach(control => {
+          control.markAsTouched();
+        })
+      }
+      
+      else{
+        //console.log(this.emailForm);
+        localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.emailForm.get('email').value);
+        this._route.navigateByUrl("/");
+      }
     }
   }
 
