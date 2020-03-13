@@ -21,12 +21,12 @@
             display: flex;
             align-items: center;
             p{
-                text-align: justify;
+                margin-right: 2rem;
             }
-            iframe{
+            canvas{
                 display: block;
                 width: auto;
-                height: 270px;
+                width: 700px !important;
                 margin-left: 20px;
             }
         }
