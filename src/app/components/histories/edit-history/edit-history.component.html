@@ -25,7 +25,8 @@
                 <p>
                     Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
                 </p>
-                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title">
+                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
+                <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>
   
             <!-- Descripcion historia -->
@@ -38,7 +39,8 @@
                 algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
                 la realidad del dato.
               </p>
-              <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción"></textarea>
+              <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción" [class.is-invalid]="invalidDescription"></textarea>
+              <small *ngIf="invalidDescription" class="text-danger">Campo Obligatorio</small>
             </div>
   
             <!-- Categoria historia -->
@@ -49,9 +51,10 @@
                 para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
                 utilizadas.
               </p>
-              <select class="form-control" formControlName="category">
+              <select class="form-control" formControlName="category" [class.is-invalid]="invalidCategory">
                 <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
               </select>
+              <small *ngIf="invalidCategory" class="text-danger">Campo Obligatorio</small>
             </div>
   
             <!-- Lista de contenidos -->
@@ -63,9 +66,29 @@
             </div> 
   
             <!-- Add content -->
-            <button #addContent class="btn-add-content btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            <button class="btn-add-content btn btn-outline-secondary" type="button"  data-toggle="modal" data-target="#contentModalCenter">
               <i class="fa fa-plus"></i> Añadir contenido
             </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="contentModalCenter" tabindex="-1" role="dialog" aria-labelledby="contentModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="contentModalCenterTitle">Seleccione una opcion:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-footer">
+                    <button #addContent class="btn btn-primary btn-block" data-dismiss="modal" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> 
+                      Insertar gráfica
+                    </button>
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" >Enlace externo</button>
+                  </div>
+                </div>
+              </div>
+            </div>
   
             <div class="collapse" id="collapseExample">
               <div class="card card-body">
@@ -80,8 +103,8 @@
     </div>
   
     <div class="actions">
-      <button type="button" class="btn btn-primary" (click)="saveHistoryForm()" [disabled]="historyForm.invalid">Guardar historia</button>
-      <button type="button" class="btn btn-outline-primary" [disabled]="historyForm.invalid">Enviar a revisión</button>
+      <button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)="saveHistoryForm()" >Guardar historia</button>
+      <button type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" >Enviar a revisión</button>
     </div>
   </form>
 

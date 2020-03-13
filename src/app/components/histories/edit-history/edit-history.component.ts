@@ -46,6 +46,16 @@ export class EditHistoryComponent implements OnInit {
     })
   }
 
+  get invalidTitle(){
+    return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
+  }
+  get invalidDescription(){
+    return this.historyForm.get('description').invalid && this.historyForm.get('description').touched;
+  }
+  get invalidCategory(){
+    return this.historyForm.get('category').invalid && this.historyForm.get('category').touched;
+  }
+
   newContent( newContent: Content ){
     console.log(newContent)
     this.contents.push(newContent);
@@ -57,7 +67,14 @@ export class EditHistoryComponent implements OnInit {
   }
 
   saveHistoryForm(){
-    this._route.navigateByUrl("/")
+    if(this.historyForm.invalid){
+      return Object.values(this.historyForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    }
+    else{
+      this._route.navigateByUrl("/");
+    }
   }
 
   getEmailLocalStorage(){
