@@ -6,6 +6,7 @@ import { Category } from '../../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../../../app.constants';
 
+declare var $: any;
 
 @Component({
   selector: 'app-edit-history',
@@ -27,7 +28,7 @@ export class EditHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
-    this.initiateForm();
+    this.initiateForms();
     this.getEmailLocalStorage();
   }
 
@@ -39,11 +40,11 @@ export class EditHistoryComponent implements OnInit {
     });
   }
 
-  initiateForm(){
+  initiateForms(){
     this.historyForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
-      category: new FormControl('', Validators.required)
+      description: new FormControl(''),
+      category: new FormControl('')
     })
     this.emailForm = this._formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')])
@@ -53,12 +54,7 @@ export class EditHistoryComponent implements OnInit {
   get invalidTitle(){
     return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
   }
-  get invalidDescription(){
-    return this.historyForm.get('description').invalid && this.historyForm.get('description').touched;
-  }
-  get invalidCategory(){
-    return this.historyForm.get('category').invalid && this.historyForm.get('category').touched;
-  }
+
   get invalidEmail(){
     return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
   }
@@ -78,21 +74,27 @@ export class EditHistoryComponent implements OnInit {
       return Object.values(this.historyForm.controls).forEach(control => {
         control.markAsTouched();
       })
-    }
-    else{
-      if(this.emailForm.invalid){
-        return Object.values(this.emailForm.controls).forEach(control => {
-          control.markAsTouched();
-        })
-      }
-      
-      else{
-        //console.log(this.emailForm);
-        localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.emailForm.get('email').value);
-        this._route.navigateByUrl("/");
-      }
+    }else{
+      $("#emailModalCenter").modal('show');
     }
   }
+
+  
+  saveMailForm(){
+    if(this.emailForm.invalid){
+      return Object.values(this.emailForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    }
+  
+    else{
+      $('#emailModalCenter').modal('hide');
+      localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.emailForm.get('email').value);
+      this._route.navigateByUrl("/");
+    }
+    
+  }
+  
 
   getEmailLocalStorage(){
     this.emailHistory=localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL);
