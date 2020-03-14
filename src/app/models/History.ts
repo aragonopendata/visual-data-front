@@ -1,21 +1,25 @@
 export class History {
 
-    title?: string;
-    image?: string;
     id?: number;
+    state?:number;
+    title?: string;
     description?: string;
-    idCategory?: number;
+    email?:string;
+    id_reference?:string;
+    main_category?: string;
+    secondary?: string;
     contents?: Content[];
 
+    image?: string;
     constructor() {}
 }
 
 export class Content {
 
+    id?: string;
     title?: string;
     description?: string;
-    id?: string;
-    idGraph?: string;
+    id_Graph?: string;
     urlGraph?:string;
 
     constructor() {}

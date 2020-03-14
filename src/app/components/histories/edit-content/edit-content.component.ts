@@ -21,8 +21,8 @@ export class EditContentComponent implements OnInit {
   ngOnInit() {
     this.initiateForm();
     this._servicio.getIdGraph().subscribe(id => {
-      this.contentModel.idGraph=id;
-      this.contentForm.controls['idGraph'].setValue(id);
+      this.contentModel.id_Graph=id;
+      this.contentForm.controls['id_Graph'].setValue(id);
     });
     
   }
@@ -31,7 +31,7 @@ export class EditContentComponent implements OnInit {
     this.contentForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      idGraph: new FormControl('', Validators.required)
+      id_Graph: new FormControl('', Validators.required)
     })
 
   }
@@ -43,7 +43,7 @@ export class EditContentComponent implements OnInit {
   saveContent(){
     this.contentModel = {title: this.contentForm.get('title').value, 
                          description: this.contentForm.get('description').value, 
-                         idGraph: this.contentForm.get('idGraph').value};
+                         id_Graph: this.contentForm.get('id_Graph').value};
     this.contentCreate.emit(this.contentModel);
     this.contentModel = {};
     this.contentForm.reset();
