@@ -75,6 +75,7 @@ export class EditHistoryComponent implements OnInit {
         control.markAsTouched();
       })
     }else{
+      this.emailForm.reset();
       $("#emailModalCenter").modal('show');
     }
   }
