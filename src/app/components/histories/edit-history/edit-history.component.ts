@@ -23,6 +23,8 @@ export class EditHistoryComponent implements OnInit {
   emailHistory: string;
 
   @ViewChild('addContent') addContentButton: ElementRef;
+  @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
+
 
   constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { }
 
@@ -91,7 +93,7 @@ export class EditHistoryComponent implements OnInit {
     else{
       $('#emailModalCenter').modal('hide');
       localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.emailForm.get('email').value);
-      this._route.navigateByUrl("/");
+      this.saveHistory();
     }
     
   }
@@ -102,4 +104,43 @@ export class EditHistoryComponent implements OnInit {
     console.log(this.emailHistory);
   }
 
+
+  saveHistory(){
+    this.historyModel = {
+      title: this.historyForm.get('title').value,
+      description: this.historyForm.get('description').value,
+      email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
+      main_category: this.historyForm.get('category').value
+    }
+
+    this._historiesService.setHistory(this.historyModel).subscribe(result => {
+      console.log(result)
+      if (result.status == 200 && result.success) {
+        this.historyModel.id = result.id;
+        $('#successfullModalCenter').modal('show');
+      } else {
+        console.log('error en insercción')
+      }
+    });
+  }
+  
+
+
+  copyToken(){
+    if (this.tokenGenerate) {
+       // Select textarea text
+       this.tokenGenerate.nativeElement.select();
+
+       // Copy to the clipboard
+       document.execCommand("copy");
+
+       // Deselect selected textarea
+       this.tokenGenerate.nativeElement.setSelectionRange(0, 0);
+    }
+  }
+
+  goHome(){
+    $('#successfullModalCenter').modal('hide');
+    this._route.navigateByUrl("/");
+  }
 }

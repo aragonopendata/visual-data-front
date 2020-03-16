@@ -135,3 +135,26 @@
     </div>
   </div>
 </div>
+
+
+<!-- Modal Successfull History -->
+<div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
+        <div class="tokenSite col-12">
+          <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.id}}</textarea>
+          <button type="button" class="btn btn-primary fa fa-copy" (click)="copyToken()">Copiar Token</button>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="goHome()">Ir a Open Data</button>
+      </div>
+    </div>
+  </div>
+</div>
