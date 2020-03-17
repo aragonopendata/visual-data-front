@@ -20,9 +20,25 @@ export class EditHistoryComponent implements OnInit {
   historyForm: FormGroup;
   emailHistory: string;
 
+  description: string = "";
+  settings: any;
+
   @ViewChild('addContent') addContentButton: ElementRef;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { 
+
+    this.settings = {
+      selector: '#editor',
+      theme_url: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce/skins/lightgray',
+      baseURL: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce',
+      plugins: [' link '],
+      toolbar: ' bold italic underline | link ',
+      menubar: false,
+      branding: false
+    }
+
+  }
 
   ngOnInit() {
     this.getCategories();
