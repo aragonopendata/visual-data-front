@@ -40,8 +40,8 @@
               </p>
               <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción"></textarea>
             </div>
-  
-            <!-- Categoria historia -->
+            <!-- Categorias historia -->
+            <!-- Categoria primaria -->
             <div>
               <h3 class="form-section-title">Categorías *</h3>
               <p>
@@ -49,8 +49,22 @@
                 para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
                 utilizadas.
               </p>
-              <select class="form-control" formControlName="category" >
-                <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+              
+              <select (click)="getSecondaryCategories()" class="form-control" formControlName="category" >
+                <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+              </select>
+            </div>
+
+            <!-- Categoria secundaria -->
+            <div>
+              <h3 class="form-section-title">Categorías secundarias</h3>
+              <p>
+                Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
+                para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
+                utilizadas.
+              </p>
+              <select class="form-control" formControlName="secondCategories" multiple>
+                <option *ngFor="let category of secondCategories" [ngValue]="category.id" (click)="getCategoriesSelected()">{{category.name}}</option>
               </select>
             </div>
   
@@ -59,6 +73,8 @@
               <h3 class="form-section-title">Contenido</h3>
               <div *ngFor="let content of contents">
                 <p><span>Titulo: </span>{{content.title}} 
+                  <!--<button class="btn btn-primary p-2" type="button" data-toggle="tooltip" data-placement="top" title="Mostrar"><i class="fa fa-search"></i></button>
+				          <button class="btn btn-primary p-2" type="button" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit"></i></button>-->
                   <span style="font-size: 20px; float: right; padding-left: 20px;">
                     <i class="fa fa-trash"></i>
                   </span>
@@ -107,7 +123,7 @@
     </div>
     <div class="actions">
         <!--<button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" data-target="#emailModalCenter">Guardar historia</button>-->
-        <button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=saveHistoryForm()> Guardar historia</button>
+        <button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=saveHistoryForm()> Guardar historia</button>       
         <button type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=saveHistoryForm() >Enviar a revisión</button>
     </div>
   </form>
@@ -125,7 +141,7 @@
       </div>
       <form [formGroup]="emailForm">
         <div class="modal-body">
-          <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" formControlName="email">
+          <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$" formControlName="email">
           <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
         </div>
         <div class="modal-footer">

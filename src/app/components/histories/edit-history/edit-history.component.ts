@@ -5,8 +5,12 @@ import { Router } from '@angular/router';
 import { Category } from '../../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../../../app.constants';
+import { typeSourceSpan } from '@angular/compiler';
+
+//import * as tinymce from '../../../../../node_modules/tinymce/tinymce';
 
 declare var $: any;
+
 
 @Component({
   selector: 'app-edit-history',
@@ -16,11 +20,15 @@ declare var $: any;
 export class EditHistoryComponent implements OnInit {
 
   categories: Category[];
+  secondCategories: Category[];
+  secondCategoriesSelected: number[];
   contents: Content[]=[];
   historyModel: History = {};
   historyForm: FormGroup;
   emailForm: FormGroup;
   emailHistory: string;
+  //settings: any;
+  //desc: any;
 
   @ViewChild('addContent') addContentButton: ElementRef;
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
@@ -31,25 +39,37 @@ export class EditHistoryComponent implements OnInit {
   ngOnInit() {
     this.getCategories();
     this.initiateForms();
-    this.getEmailLocalStorage();
+    //this.getEmailLocalStorage();
   }
 
   getCategories(){
     this._historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
+      this.secondCategories = categories;
 		},err => {
       console.log('Error al obtener las categorias');
     });
+  }
+
+  getSecondaryCategories(){
+    this.secondCategories = [];
+    for (let category of this.categories)
+    {
+      if(category.id!==this.historyForm.get('category').value){
+        this.secondCategories.push(category);
+      }
+    }
   }
 
   initiateForms(){
     this.historyForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
-      category: new FormControl('')
+      category: new FormControl(''),
+      secondCategories: new FormControl('')
     })
     this.emailForm = this._formBuilder.group({
-      email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')])
+      email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$')])
     })
   }
 
@@ -97,12 +117,17 @@ export class EditHistoryComponent implements OnInit {
     }
     
   }
+
+  getCategoriesSelected(){
+    this.secondCategoriesSelected=this.historyForm.get('secondCategories').value;
+    console.log(this.secondCategoriesSelected);
+  }
   
 
-  getEmailLocalStorage(){
+  /*getEmailLocalStorage(){
     this.emailHistory=localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL);
     console.log(this.emailHistory);
-  }
+  }*/
 
 
   saveHistory(){
@@ -110,9 +135,9 @@ export class EditHistoryComponent implements OnInit {
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value,
       email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
-      main_category: this.historyForm.get('category').value
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected
     }
-
     this._historiesService.setHistory(this.historyModel).subscribe(result => {
       console.log(result)
       if (result.status == 200 && result.success) {
@@ -123,9 +148,8 @@ export class EditHistoryComponent implements OnInit {
       }
     });
   }
+
   
-
-
   copyToken(){
     if (this.tokenGenerate) {
        // Select textarea text
