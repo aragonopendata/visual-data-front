@@ -14,9 +14,24 @@ export class EditContentComponent implements OnInit {
   contentModel: Content = {}
   contentForm: FormGroup;
 
+  settings: any;
+
   @Output() contentCreate = new EventEmitter<any>();
 
-  constructor( private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder) {  }
+  constructor( private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder) { 
+    
+    this.settings = {
+      selector: '#editorContent',
+      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
+      baseURL: '/static/public/plugins/tinymce',
+      plugins: [' link '],
+      toolbar: ' bold italic underline | link ',
+      menubar: false,
+      branding: false
+    }
+
+  }
 
   ngOnInit() {
     this.initiateForm();

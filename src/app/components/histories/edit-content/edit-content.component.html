@@ -25,8 +25,9 @@
             <div>
               <h3 class="form-section-title">Contenido *</h3>
               <p>El contenido de la historia es lo que quieres contar, con la ayuda de los distintos gráficos que aporta el portal de Aragon Open Data</p>
-              <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción"></textarea>
-            </div>
+              <angular-tinymce id="editorContent" [settings]="settings" formControlName="description"></angular-tinymce>
+              <!-- <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción"></textarea> -->
+            </div> 
   
             <!-- Fuente de datos -->
             <div>

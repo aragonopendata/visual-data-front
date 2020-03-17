@@ -22,7 +22,6 @@ export class EditHistoryComponent implements OnInit {
   emailForm: FormGroup;
   emailHistory: string;
 
-  description: string = "";
   settings: any;
 
   @ViewChild('addContent') addContentButton: ElementRef;
