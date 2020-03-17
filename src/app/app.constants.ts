@@ -21,6 +21,8 @@ export class Constants {
   public static PATH_MODIFIER = '';
   // URLS
   public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
+  public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
+
 
   public static AOD_BASE_URL = 'https://preopendata.aragon.es';
   public static PRESUPUESTOS_BASE_URL = 'http://prepresupuesto.aragon.es';
@@ -738,6 +740,11 @@ export class Constants {
   public static ROUTER_LINK_VIEW_HISTORY='viewHistory';
 
   public static LOCALSTORAGE_KEY_MAIL='email';
+  public static ROUTER_LINK_SERVICES_WEB='/services/web';
+  public static ROUTER_LINK_FOCUS='/focus';
+  public static ROUTER_LINK_ENTIRE_HISTORY='/entire/history';
+
+
 
 
 

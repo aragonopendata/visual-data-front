@@ -53,7 +53,7 @@ export class ViewHistoryComponent implements OnInit {
     this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
       this.historySelect = history[0];
       this.historySelect.contents.forEach( (element: Content) => {
-        this._graphService.getChart(element.idGraph).subscribe(chart => {
+        this._graphService.getChart(element.id_Graph).subscribe(chart => {
           this.chart.push(chart);
         });
       });

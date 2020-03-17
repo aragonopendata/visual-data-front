@@ -15,7 +15,6 @@
     <div class="row">
       <div class="col-md-12">
         <div class="tab-content">
-  
           <!-- Content Tab -->
           <div class="tab-pane active" id="content_tab" role="tabpanel">
   
@@ -39,9 +38,9 @@
                 algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
                 la realidad del dato.
               </p>
+              <small *ngIf="invalidDescription" class="text-danger">Campo Obligatorio</small>
               <angular-tinymce id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
               <!-- <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción" [class.is-invalid]="invalidDescription"></textarea> -->
-              <small *ngIf="invalidDescription" class="text-danger">Campo Obligatorio</small>
             </div>
   
             <!-- Categoria historia -->
@@ -52,17 +51,23 @@
                 para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
                 utilizadas.
               </p>
-              <select class="form-control" formControlName="category" [class.is-invalid]="invalidCategory">
+              <select class="form-control" formControlName="category" >
                 <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
               </select>
-              <small *ngIf="invalidCategory" class="text-danger">Campo Obligatorio</small>
             </div>
   
             <!-- Lista de contenidos -->
             <div class="contents-select" *ngIf="contents && contents.length > 0">
               <h3 class="form-section-title">Contenido</h3>
               <div *ngFor="let content of contents">
-                <p><span>Titulo: </span>{{content.title}}</p>
+                <p><span>Titulo: </span>{{content.title}} 
+                  <span style="font-size: 20px; float: right; padding-left: 20px;">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                  <span style="font-size: 20px; float: right;">
+                    <i class="fa fa-edit"></i>
+                  </span>
+                </p>
               </div>
             </div> 
   
@@ -102,12 +107,56 @@
         </div>
       </div>
     </div>
-  
     <div class="actions">
-      <button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)="saveHistoryForm()" >Guardar historia</button>
-      <button type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" >Enviar a revisión</button>
+        <!--<button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" data-target="#emailModalCenter">Guardar historia</button>-->
+        <button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=saveHistoryForm()> Guardar historia</button>
+        <button type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=saveHistoryForm() >Enviar a revisión</button>
     </div>
   </form>
+</div>
+
+<!-- Modal Email -->
+<div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="emailModalCenterTitle">Introduce tu Email:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="emailForm">
+        <div class="modal-body">
+          <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" formControlName="email">
+          <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm()">Continuar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
+<!-- Modal Successfull History -->
+<div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
+        <div class="tokenSite col-12">
+          <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.id}}</textarea>
+          <button type="button" class="btn btn-primary fa fa-copy" (click)="copyToken()">Copiar Token</button>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="goHome()">Ir a Open Data</button>
+      </div>
+    </div>
+  </div>
 </div>

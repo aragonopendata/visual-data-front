@@ -39,6 +39,12 @@ export class HomeFocusComponent implements OnInit {
     });
   }
 
+  createNewHistory(){
+    localStorage.removeItem(Constants.LOCALSTORAGE_KEY_MAIL);
+    this._route.navigate([this.routerLinkAddHistory]);
+
+  }
+
   getHistories(){
     this._historiesService.getHistories().subscribe( (histories: History[]) => {
       this.histories=histories;
