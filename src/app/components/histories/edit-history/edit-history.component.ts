@@ -30,11 +30,26 @@ export class EditHistoryComponent implements OnInit {
   //settings: any;
   //desc: any;
 
+  settings: any;
+
   @ViewChild('addContent') addContentButton: ElementRef;
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
 
 
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { 
+
+    this.settings = {
+      selector: '#editor',
+      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
+      baseURL: '/static/public/plugins/tinymce',
+      plugins: [' link '],
+      toolbar: ' bold italic underline | link ',
+      menubar: false,
+      branding: false
+    }
+
+  }
 
   ngOnInit() {
     this.getCategories();

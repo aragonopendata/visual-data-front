@@ -70,6 +70,9 @@ import { ModalComponent } from './components/common/modal/modal.component';
 import { VisualGrapsService } from './services/visual-graps.service';
 import { ViewHistoryComponent } from './components/histories/view-history/view-history.component';
 
+import { TinyMceModule } from 'angular-tinymce';
+import { tinymceDefaultSettings } from 'angular-tinymce';
+
 // All the routes for the app
 const routes: Routes = [
   // Embed Routes
@@ -125,7 +128,9 @@ const routes: Routes = [
     TreeModule,
     AngularOpenlayersModule,
     RouterModule.forRoot(routes),
-    ReactiveFormsModule
+    ReactiveFormsModule, 
+    TinyMceModule.forRoot(tinymceDefaultSettings())
+
   ],
   declarations: [
     HeaderComponent,

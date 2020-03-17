@@ -42,7 +42,9 @@
     "primeng": "4.2.1",
     "primeui": "4.1.15",
     "rxjs": "5.5.6",
-    "zone.js": "0.8.19"
+    "zone.js": "0.8.19",
+    "tinymce": "4.7.4",
+    "angular-tinymce": "5.0.0"
   },
   "devDependencies": {
     "@angular/cli": "1.7.3",
@@ -52,6 +54,7 @@
     "@types/jasminewd2": "2.0.2",
     "@types/node": "6.0.60",
     "@types/google.analytics": "0.0.36",
+    "@types/tinymce": "4.5.16",
     "codelyzer": "4.0.1",
     "jasmine-core": "2.8.0",
     "jasmine-spec-reporter": "4.2.1",

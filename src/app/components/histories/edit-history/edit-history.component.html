@@ -38,7 +38,9 @@
                 algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
                 la realidad del dato.
               </p>
-              <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción"></textarea>
+              <small *ngIf="invalidDescription" class="text-danger">Campo Obligatorio</small>
+              <angular-tinymce id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
+              <!-- <textarea class="col-12 form-control" formControlName="description" rows="5" cols="150" placeholder="Descripción" [class.is-invalid]="invalidDescription"></textarea> -->
             </div>
             <!-- Categorias historia -->
             <!-- Categoria primaria -->
