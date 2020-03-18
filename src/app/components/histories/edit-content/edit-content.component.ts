@@ -45,7 +45,7 @@ export class EditContentComponent implements OnInit {
   initiateForm(){
     this.contentForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      description: new FormControl(''),
       id_Graph: new FormControl('', Validators.required)
     })
 
@@ -59,6 +59,7 @@ export class EditContentComponent implements OnInit {
     this.contentModel = {title: this.contentForm.get('title').value, 
                          description: this.contentForm.get('description').value, 
                          id_Graph: this.contentForm.get('id_Graph').value};
+                         
     this.contentCreate.emit(this.contentModel);
     this.contentModel = {};
     this.contentForm.reset();

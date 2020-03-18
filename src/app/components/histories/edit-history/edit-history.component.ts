@@ -25,8 +25,10 @@ export class EditHistoryComponent implements OnInit {
   contents: Content[]=[];
   historyModel: History = {};
   historyForm: FormGroup;
+  previewHistoryModel: History = {};
   emailForm: FormGroup;
   emailHistory: string;
+  routerLinkPreviewHistory = Constants.ROUTER_LINK_PREVIEW_HISTORY;
   //settings: any;
   //desc: any;
 
@@ -81,7 +83,8 @@ export class EditHistoryComponent implements OnInit {
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
       category: new FormControl(''),
-      secondCategories: new FormControl('')
+      secondCategories: new FormControl(''),
+      contents: new FormControl('')
     })
     this.emailForm = this._formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$')])
@@ -135,7 +138,7 @@ export class EditHistoryComponent implements OnInit {
 
   getCategoriesSelected(){
     this.secondCategoriesSelected=this.historyForm.get('secondCategories').value;
-    console.log(this.secondCategoriesSelected);
+    //console.log(this.secondCategoriesSelected);
   }
   
 
@@ -151,7 +154,8 @@ export class EditHistoryComponent implements OnInit {
       description: this.historyForm.get('description').value,
       email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected
+      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected,
+      contents: this.contents == undefined ? [] : this.contents
     }
     this._historiesService.setHistory(this.historyModel).subscribe(result => {
       console.log(result)
@@ -164,6 +168,18 @@ export class EditHistoryComponent implements OnInit {
     });
   }
 
+  getHistory(){
+    this.previewHistoryModel = {
+      title: this.historyForm.get('title').value,
+      description: this.historyForm.get('description').value,
+      email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected,
+      contents: this.contents == undefined ? [] : this.contents
+    }
+    console.log(this.previewHistoryModel);
+    this._route.navigate([this.routerLinkPreviewHistory, this.previewHistoryModel]);
+  }
   
   copyToken(){
     if (this.tokenGenerate) {

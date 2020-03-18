@@ -4,6 +4,8 @@ import { HistoriesService } from '../../../services/histories.service';
 import { History, Content } from '../../../models/History';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GraphService } from '../../../services/graph.service';
+//import { constants } from 'os';
+import { Constants } from '../../../app.constants';
 
 @Component({
   selector: 'app-view-history',
@@ -15,6 +17,9 @@ export class ViewHistoryComponent implements OnInit {
   chart = [];
   idHistory: number;
   historySelect: History;
+  previewHistory: History;
+  preview: boolean = false;
+  //historyContents: any;
 
   chartOptions: any = {
     scaleShowVerticalLines: false,
@@ -40,7 +45,17 @@ export class ViewHistoryComponent implements OnInit {
   constructor( private historiesService: HistoriesService, private _graphService: GraphService,
     private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
     this._route.params.subscribe(params => {
-      this.idHistory = params.id;
+      
+      if(params.id!=null){
+        this.idHistory = params.id;
+      }
+      else{
+        this.previewHistory = params;
+        //this.historyContents = params.contents;
+        this.preview=true;
+        //console.log(this.historyContents);
+      }
+      
     });
   }
 
@@ -49,18 +64,30 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   loadHistory() {
+    if(this.preview){
+      this.historySelect = this.previewHistory;
 
-    this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
-      this.historySelect = history[0];
-      this.historySelect.contents.forEach( (element: Content) => {
+      /*this.historyContents.forEach( (element: Content) => {
         this._graphService.getChart(element.id_Graph).subscribe(chart => {
           this.chart.push(chart);
         });
-      });
+      });*/
+    }
 
-    },err => {
-      console.log('Error al obtener las categorias');
-    });
+    else{
+      this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
+        this.historySelect = history[0];
+        this.historySelect.contents.forEach( (element: Content) => {
+          this._graphService.getChart(element.id_Graph).subscribe(chart => {
+            this.chart.push(chart);
+          });
+        });
+
+      },err => {
+        console.log('Error al obtener las categorias');
+      });
+    }
+    
 
   }
 
@@ -70,7 +97,11 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   return(){
-    this._router.navigate(["/"]);
+    if(this.preview){
+      this._router.navigate([Constants.ROUTER_LINK_ADD_HISTORY]);
+    }
+    else{
+      this._router.navigate(["/"]);
+    }
   }
-
 }

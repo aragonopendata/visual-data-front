@@ -87,6 +87,7 @@ const routes: Routes = [
       { path: '', component: HomeFocusComponent },
       { path: Constants.ROUTER_LINK_ADD_HISTORY, component: EditHistoryComponent},
       { path: 'viewHistory/:id', component: ViewHistoryComponent },
+      { path: 'previewHistory', component: ViewHistoryComponent },
       // { path: '', component: ListGraphsComponent, pathMatch: 'full' },
       // { path: 'selectData', component: SelectDataComponent },
       // { path: 'previewData', component: PreviewDataComponent },
