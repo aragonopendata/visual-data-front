@@ -28,7 +28,7 @@ export class EditHistoryComponent implements OnInit {
   previewHistoryModel: History = {};
   emailForm: FormGroup;
   emailHistory: string;
-  routerLinkPreviewHistory = Constants.ROUTER_LINK_PREVIEW_HISTORY;
+  routerLinkPreviewHistory="../../" + Constants.ROUTER_LINK_PREVIEW_HISTORY;
   //settings: any;
   //desc: any;
 
@@ -177,8 +177,9 @@ export class EditHistoryComponent implements OnInit {
       secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected,
       contents: this.contents == undefined ? [] : this.contents
     }
+
     console.log(this.previewHistoryModel);
-    this._route.navigate([this.routerLinkPreviewHistory, this.previewHistoryModel]);
+    localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
   }
   
   copyToken(){

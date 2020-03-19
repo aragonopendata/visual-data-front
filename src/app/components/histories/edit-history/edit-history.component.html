@@ -126,7 +126,8 @@
     <div class="actions">
         <!--<button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" data-target="#emailModalCenter">Guardar historia</button>-->
         <button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=saveHistoryForm()> Guardar historia</button>       
-        <button type="button" class="btn" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=getHistory()> Previsualizar</button>
+        <!--<a [routerLink]="routerLinkPreviewHistory" target="_blank"><button type="button" class="btn" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=getHistory()> Previsualizar</button></a>-->
+        <button type="button" class="btn" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" [routerLink]="[routerLinkPreviewHistory]" (click)=getHistory()> Previsualizar</button>
         <button type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=saveHistoryForm() >Enviar a revisión</button>
     </div>
   </form>

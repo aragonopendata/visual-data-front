@@ -18,7 +18,8 @@
             <div>
                 <h3 class="form-section-title">Título *</h3>
                 <p>Por favor, escribe una denominación del contenido</p>
-                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title">
+                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
+                <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>
   
             <!-- Descripcion contenido -->
@@ -37,12 +38,14 @@
                 te has apoyado para escribir esta historia. Puedeser un conjunto de datos, una vista del GA_OD_Core,
                 una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
               </p>
+              <small *ngIf="invalidGraph" class="text-danger">Campo Obligatorio</small>
   
               <div *ngIf='contentModel.id_Graph'>
                 <p class="form-section-title">El id seleccionado es: {{contentModel.id_Graph}}</p>
               </div>
   
-              <button class="btn-left btn btn-outline-secondary" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
+              <button class="btn-left btn btn-outline-secondary" type="button" (click)='openVisualData()' [class.is-invalid]="invalidGraph">Abrir Open Visual Data</button>
+              
               
             </div>
           </div>
@@ -51,7 +54,7 @@
       </div>
     </div>
     <div class="actions">
-      <button class="btn-left btn btn-primary" type="button" (click)='saveContent()' [disabled]="contentForm.invalid">Guardar contenido</button>
+      <button class="btn-left btn btn-primary" type="button" (click)='saveContent()' [ngClass]="contentForm.invalid ? 'disabled' : '' ">Guardar contenido</button>
     </div>
   </form>
 

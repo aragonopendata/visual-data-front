@@ -740,6 +740,7 @@ export class Constants {
   public static ROUTER_LINK_VIEW_HISTORY='viewHistory';
 
   public static LOCALSTORAGE_KEY_MAIL='email';
+  public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';
   public static ROUTER_LINK_SERVICES_WEB='/services/web';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/entire/history';

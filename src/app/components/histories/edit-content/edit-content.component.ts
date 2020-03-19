@@ -46,23 +46,38 @@ export class EditContentComponent implements OnInit {
     this.contentForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
-      id_Graph: new FormControl('', Validators.required)
+      id_Graph: new FormControl(null, Validators.required)
     })
 
   }
+
+  get invalidTitle(){
+    return this.contentForm.get('title').invalid && this.contentForm.get('title').touched;
+  }
+
+  get invalidGraph(){
+    return this.contentForm.get('id_Graph').invalid;
+  }
+
   openVisualData() {
     document.getElementsByTagName('body')[0].classList.add('no-scroll');
     this._route.navigate([{outlets: {modal: 'visualData'}}]);
   }
 
   saveContent(){
-    this.contentModel = {title: this.contentForm.get('title').value, 
+    if(this.contentForm.invalid){
+      return Object.values(this.contentForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    }else{
+      this.contentModel = {title: this.contentForm.get('title').value, 
                          description: this.contentForm.get('description').value, 
                          id_Graph: this.contentForm.get('id_Graph').value};
                          
-    this.contentCreate.emit(this.contentModel);
-    this.contentModel = {};
-    this.contentForm.reset();
+      this.contentCreate.emit(this.contentModel);
+      this.contentModel = {};
+      this.contentForm.reset();
+    }
+    
   }
-
 }
