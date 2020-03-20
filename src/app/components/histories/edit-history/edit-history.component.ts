@@ -147,27 +147,6 @@ export class EditHistoryComponent implements OnInit {
     console.log(this.emailHistory);
   }*/
 
-
-  saveHistory(){
-    this.historyModel = {
-      title: this.historyForm.get('title').value,
-      description: this.historyForm.get('description').value,
-      email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
-      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected,
-      contents: this.contents == undefined ? [] : this.contents
-    }
-    this._historiesService.setHistory(this.historyModel).subscribe(result => {
-      console.log(result)
-      if (result.status == 200 && result.success) {
-        this.historyModel.id = result.id;
-        $('#successfullModalCenter').modal('show');
-      } else {
-        console.log('error en insercción')
-      }
-    });
-  }
-
   getHistory(){
     this.previewHistoryModel = {
       title: this.historyForm.get('title').value,
@@ -180,6 +159,31 @@ export class EditHistoryComponent implements OnInit {
 
     console.log(this.previewHistoryModel);
     localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
+  }
+
+  saveHistory(){
+    this.historyModel = {
+      title: this.historyForm.get('title').value,
+      description: this.historyForm.get('description').value,
+      email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected,
+      contents: this.contents == undefined ? [] : this.contents
+    }
+    this._historiesService
+      .sendMail(this.historyModel.title).subscribe(result => {
+        console.log('he hecho la llamada')
+      });
+
+    this._historiesService.setHistory(this.historyModel).subscribe(result => {
+      console.log(result)
+      if (result.status == 200 && result.success) {
+        this.historyModel.id = result.id;
+        $('#successfullModalCenter').modal('show');
+      } else {
+        console.log('error en insercción')
+      }
+    });
   }
   
   copyToken(){
