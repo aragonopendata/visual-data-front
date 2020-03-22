@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { VisualGrapsService } from '../../../services/visual-graps.service';
 import { Content } from '../../../models/History';
@@ -11,6 +11,9 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 })
 export class EditContentComponent implements OnInit {
 
+  @Input() posContent: number;
+  @Input() content: Content;
+  
   contentModel: Content = {}
   contentForm: FormGroup;
 
@@ -22,9 +25,9 @@ export class EditContentComponent implements OnInit {
     
     this.settings = {
       selector: '#editorContent',
-      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
-      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
-      baseURL: '/static/public/plugins/tinymce',
+      theme_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/skins/lightgray',
+      baseURL: 'http://opendata.aragon.es/static/public/plugins/tinymce',
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
@@ -33,12 +36,20 @@ export class EditContentComponent implements OnInit {
 
   }
 
+  get invalidTitle(){
+    return this.contentForm.get('title').invalid && this.contentForm.get('title').touched;
+  }
+
   ngOnInit() {
     this.initiateForm();
     this._servicio.getIdGraph().subscribe(id => {
       this.contentModel.id_Graph=id;
       this.contentForm.controls['id_Graph'].setValue(id);
     });
+
+    if(this.content){
+      this.setForm();
+    }
     
   }
 
@@ -46,17 +57,16 @@ export class EditContentComponent implements OnInit {
     this.contentForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
-      id_Graph: new FormControl(null, Validators.required)
-    })
-
+      id_Graph: new FormControl(null)
+    });
   }
 
-  get invalidTitle(){
-    return this.contentForm.get('title').invalid && this.contentForm.get('title').touched;
-  }
-
-  get invalidGraph(){
-    return this.contentForm.get('id_Graph').invalid;
+  setForm(){
+    this.contentForm = this._formBuilder.group({
+      title: this.content.title,
+      description: this.content.description,
+      id_Graph: this.content.id_Graph
+    });
   }
 
   openVisualData() {
@@ -74,10 +84,15 @@ export class EditContentComponent implements OnInit {
                          description: this.contentForm.get('description').value, 
                          id_Graph: this.contentForm.get('id_Graph').value};
                          
-      this.contentCreate.emit(this.contentModel);
+      this.contentCreate.emit({
+        action: this.content ? 'edit':'new',
+        posContent: this.posContent,
+        content: this.contentModel
+      });
+
       this.contentModel = {};
       this.contentForm.reset();
     }
-    
   }
+  
 }

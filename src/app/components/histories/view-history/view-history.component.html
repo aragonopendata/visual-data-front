@@ -20,9 +20,9 @@
           <!-- Description history -->
           <div class="desc-history">
             <h3 class="form-section-title">Descripción: </h3>
-            <p>{{historySelect.description}} </p>
+            <p [innerHTML]="historySelect.description"></p>
           </div>
-
+ 
           <!-- content history -->
           <div class="content-wrap" *ngFor="let content of historySelect.contents; let i = index">
 
@@ -30,9 +30,7 @@
 
             <div class="content">
               <div>
-                <p>
-                  {{content.description}}
-                </p>
+                <p [innerHTML]="content.description"></p>
               </div>
 
               <div class="content-graph">

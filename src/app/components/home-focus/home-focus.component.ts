@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoriesService } from '../../services/histories.service';
 import { Constants } from '../../app.constants';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { History } from '../../models/History';
 import { Category } from '../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -21,7 +21,7 @@ export class HomeFocusComponent implements OnInit {
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router, private _activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.getCategories();
@@ -41,7 +41,8 @@ export class HomeFocusComponent implements OnInit {
 
   createNewHistory(){
     localStorage.removeItem(Constants.LOCALSTORAGE_KEY_MAIL);
-    this._route.navigate([this.routerLinkAddHistory]);
+    this._route.navigate(['focus/addHistory']);
+
 
   }
 

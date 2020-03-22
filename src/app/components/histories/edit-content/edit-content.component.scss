@@ -1,3 +1,11 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'RobotoLight', sans-serif;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    color: #5ea2ba;
+    font-weight: 300;
+}
+
 .form-section-title{
     margin-top: 2%;
 }
@@ -11,20 +19,6 @@
     padding-bottom: 5%;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'RobotoLight', sans-serif;
-    line-height: 1;
-    margin: 2px 0 20px;
-    letter-spacing: 0.1em;
-    color: #5ea2ba;
-    font-weight: 300;
-}
-
-.btn{
-    cursor: pointer;
-    float:left;
-}
-
-.btn-final{
-    float:right;
-}
+// .actions{
+//     text-align: right;
+// }
