@@ -739,7 +739,7 @@ export class Constants {
 
 
 
-  public static ROUTER_LINK_ADD_HISTORY='add/history';
+  public static ROUTER_LINK_ADD_HISTORY='focus/add/history';
   public static ROUTER_LINK_ADD_CONTENT='add/content';
   public static ROUTER_LINK_VIEW_HISTORY='viewHistory';
 
