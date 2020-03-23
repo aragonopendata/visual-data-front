@@ -54,7 +54,7 @@ import { MapComponent } from './components/common/map/map.component';
 import { HomeFocusComponent } from './components/home-focus/home-focus.component';
 
 // Utils
-import { AccordionModule } from 'ngx-bootstrap';
+import { AccordionModule, BsDropdownModule } from 'ngx-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxCarouselModule } from 'ngx-carousel';
@@ -81,11 +81,11 @@ const routes: Routes = [
 
   //No Embed routes
   {
-    path: '',
+    path: 'focus',
     component: BodyComponent,
     children: [
       { path: '', component: HomeFocusComponent },
-      { path: Constants.ROUTER_LINK_ADD_HISTORY, component: EditHistoryComponent},
+      { path: 'addHistory', component: EditHistoryComponent},
       { path: 'viewHistory/:id', component: ViewHistoryComponent },
       { path: 'previewHistory', component: ViewHistoryComponent },
       // { path: '', component: ListGraphsComponent, pathMatch: 'full' },
@@ -106,7 +106,7 @@ const routes: Routes = [
     ]
   },
 
-  
+  { path:'', redirectTo:'focus', pathMatch: 'full'}
 
 ];
 
@@ -128,10 +128,10 @@ const routes: Routes = [
     InputTextModule,
     TreeModule,
     AngularOpenlayersModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, {useHash: true}),
     ReactiveFormsModule, 
-    TinyMceModule.forRoot(tinymceDefaultSettings())
-
+    TinyMceModule.forRoot(tinymceDefaultSettings()),
+    BsDropdownModule.forRoot(),
   ],
   declarations: [
     HeaderComponent,
@@ -170,7 +170,7 @@ const routes: Routes = [
     HistoriesService,
     VisualGrapsService,
 
-    { provide: LocationStrategy, useClass: PathLocationStrategy }
+    // { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

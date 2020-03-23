@@ -1,16 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectorRef } from '@angular/core';
 import { HistoriesService } from '../../../services/histories.service';
 import { History, Content } from '../../../models/History';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../../../app.constants';
-import { typeSourceSpan } from '@angular/compiler';
-
-//import * as tinymce from '../../../../../node_modules/tinymce/tinymce';
 
 declare var $: any;
-
 
 @Component({
   selector: 'app-edit-history',
@@ -21,30 +17,30 @@ export class EditHistoryComponent implements OnInit {
 
   categories: Category[];
   secondCategories: Category[];
-  secondCategoriesSelected: number[];
   contents: Content[]=[];
   historyModel: History = {};
   historyForm: FormGroup;
   previewHistoryModel: History = {};
   emailForm: FormGroup;
   emailHistory: string;
-  routerLinkPreviewHistory="../../" + Constants.ROUTER_LINK_PREVIEW_HISTORY;
-  //settings: any;
-  //desc: any;
 
+  contentToEdit:Content;
+  posToEdit:number;
+  showAddContent = false;
   settings: any;
 
-  @ViewChild('addContent') addContentButton: ElementRef;
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
+  @ViewChild('newContentElement') newContentElement: ElementRef;
 
 
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) { 
+  constructor(private _historiesService: HistoriesService, private _cdRef: ChangeDetectorRef,
+              private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute) { 
 
     this.settings = {
       selector: '#editor',
-      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
-      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
-      baseURL: '/static/public/plugins/tinymce',
+      theme_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/skins/lightgray',
+      baseURL: 'http://opendata.aragon.es/static/public/plugins/tinymce',
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
@@ -99,15 +95,11 @@ export class EditHistoryComponent implements OnInit {
     return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
   }
 
-  newContent( newContent: Content ){
-    console.log(newContent)
-    this.contents.push(newContent);
-    this.falseClickAddContent();
-  }
+  
 
-  falseClickAddContent(){
-    this.addContentButton.nativeElement.click();
-  }
+  // falseClickAddContent(){
+  //   this.addContentButton.nativeElement.click();
+  // }
 
   saveHistoryForm(){
     if(this.historyForm.invalid){
@@ -130,44 +122,56 @@ export class EditHistoryComponent implements OnInit {
   
     else{
       $('#emailModalCenter').modal('hide');
-      localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.emailForm.get('email').value);
+      // localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.emailForm.get('email').value);
       this.saveHistory();
     }
     
   }
 
-  getCategoriesSelected(){
-    this.secondCategoriesSelected=this.historyForm.get('secondCategories').value;
-    //console.log(this.secondCategoriesSelected);
+  getCategoriesSelected(event, cat: Category){
+    event.preventDefault();
+    event.stopPropagation();
+    cat.selected = !cat.selected;
   }
-  
-
-  /*getEmailLocalStorage(){
-    this.emailHistory=localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL);
-    console.log(this.emailHistory);
-  }*/
 
   getHistory(){
+
+    let cat2Selected = [];
+    this.secondCategories.forEach( (element) => {
+      if(element.selected){
+        cat2Selected.push(element.id);
+      }
+    });
+
     this.previewHistoryModel = {
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value,
       email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected,
+      secondary_category: cat2Selected,
       contents: this.contents == undefined ? [] : this.contents
     }
 
     console.log(this.previewHistoryModel);
     localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
+
   }
 
   saveHistory(){
+
+    let cat2Selected = [];
+    this.secondCategories.forEach( (element) => {
+      if(element.selected){
+        cat2Selected.push(element.id);
+      }
+    });
+
     this.historyModel = {
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value,
       email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_category: this.secondCategoriesSelected == undefined ? [] : this.secondCategoriesSelected,
+      secondary_category: cat2Selected,
       contents: this.contents == undefined ? [] : this.contents
     }
     this._historiesService
@@ -185,6 +189,7 @@ export class EditHistoryComponent implements OnInit {
         console.log('error en insercción')
       }
     });
+
   }
   
   copyToken(){
@@ -203,5 +208,57 @@ export class EditHistoryComponent implements OnInit {
   goHome(){
     $('#successfullModalCenter').modal('hide');
     this._route.navigateByUrl("/");
+  }
+
+  /**
+   * Edit content
+   * @param newContent 
+   */
+  editContent( content: Content, i: number ){
+    this.contentToEdit = content;
+    this.posToEdit = i;
+    this.showAddContent = true;
+  }
+
+  /**
+   * Delete content
+   * @param newContent 
+   */
+  deleteContent( content: Content ){
+    this.contents = this.contents.filter( (e) => {
+      return content!==e;
+    });
+  }
+
+  /**
+   * New content add
+   * @param newContent 
+   */
+  newContent( actionContent ){
+
+    if( actionContent.action === 'new' ){
+      this.contents.push(actionContent.content);
+    } else {
+      this.contents[actionContent.posContent] = actionContent.content;
+    }
+    
+    this.closeNewContent();
+  }
+
+  /**
+   * Open modal to add content
+   */
+  addNewContent(){
+    this.showAddContent = true;
+    this._cdRef.detectChanges();
+    this.newContentElement.nativeElement.scrollIntoView({behavior:"smooth"});
+  }
+
+  /**
+   * Close modal to add content
+   */
+  closeNewContent(){
+    this.contentToEdit = null;
+    this.showAddContent = false;
   }
 }

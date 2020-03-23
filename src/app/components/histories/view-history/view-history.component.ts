@@ -62,7 +62,9 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   loadHistory() {
+
     if(this.preview){
+
       console.log(Constants.LOCALSTORAGE_KEY_HISTORY);
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
       console.log(this.historySelect);
@@ -72,9 +74,9 @@ export class ViewHistoryComponent implements OnInit {
           this.chart.push(chart);
         });
       });
-    }
 
-    else{
+    } else {
+
       this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
         this.historySelect = history[0];
         this.historySelect.contents.forEach( (element: Content) => {
@@ -82,10 +84,10 @@ export class ViewHistoryComponent implements OnInit {
             this.chart.push(chart);
           });
         });
-
       },err => {
         console.log('Error al obtener las categorias');
       });
+
     }
   }
 
