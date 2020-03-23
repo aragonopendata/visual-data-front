@@ -7,6 +7,8 @@ export class Constants {
   public static LIST_ALL_HISTORIES_PATH = '/services/histories';
   public static SEND_MAIL_HISTORY_PATH =
     Constants.LIST_ALL_HISTORIES_PATH + '/send_mail';
+  public static SEND_MAIL_HISTORY_PATH_PRUEBA =
+  Constants.LIST_ALL_HISTORIES_PATH + '/prueba';
 
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
   public static SAVE_CHART_PATH =
