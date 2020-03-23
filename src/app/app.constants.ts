@@ -749,7 +749,7 @@ export class Constants {
   public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';
   public static ROUTER_LINK_SERVICES_WEB='/services/web';
   public static ROUTER_LINK_FOCUS='/focus';
-  public static ROUTER_LINK_ENTIRE_HISTORY='/entire/history';
+  public static ROUTER_LINK_ENTIRE_HISTORY='/history';
 
   public static ROUTER_LINK_PREVIEW_HISTORY='previewHistory';
 

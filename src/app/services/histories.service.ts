@@ -41,9 +41,9 @@ export class HistoriesService {
     console.log(history)
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     let requestBodyParams: any = history;
-    //console.log(fullUrl);
+    console.log(fullUrl);
     //console.log(JSON.stringify(requestBodyParams))
-    return this.http.post(fullUrl, history).map(res => res.json());;
+    return this.http.put(fullUrl, history).map(res => res.json());;
   }
 
   public sendMail(title: string){
@@ -56,9 +56,7 @@ export class HistoriesService {
       title: title
     });
 
-    return this.http.post(fullUrl,body,{headers: headers}).map(res => {
-      return JSON.parse(res.text());
-    })
+    return this.http.post(fullUrl,body,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
       .catch(err => {
       console.log('hay eror:' + err)
         return Observable.throw('errorConexion');

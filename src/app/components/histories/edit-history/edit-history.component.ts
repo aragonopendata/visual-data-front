@@ -176,8 +176,10 @@ export class EditHistoryComponent implements OnInit {
     }
     this._historiesService
       .sendMail(this.historyModel.title).subscribe(result => {
-        console.log('aqui ha llegado el result')
-        console.log(result)
+        console.log('mail enviado')
+        if(result.status==200){
+          console.log('correo back OK')
+        }
       });
 
     this._historiesService.setHistory(this.historyModel).subscribe(result => {
