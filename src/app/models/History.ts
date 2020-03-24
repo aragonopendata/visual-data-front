@@ -6,8 +6,8 @@ export class History {
     description?: string;
     email?:string;
     id_reference?:string;
-    main_categories?: number;
-    secondary_category?: number[];
+    main_category?: number;
+    secondary_categories?: number[];
     contents?: Content[];
 
     image?: string;

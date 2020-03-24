@@ -88,6 +88,7 @@ const routes: Routes = [
       { path: 'addHistory', component: EditHistoryComponent},
       { path: 'viewHistory/:id', component: ViewHistoryComponent },
       { path: 'previewHistory', component: ViewHistoryComponent },
+      { path: 'editHistory/:id', component: EditHistoryComponent }
       // { path: '', component: ListGraphsComponent, pathMatch: 'full' },
       // { path: 'selectData', component: SelectDataComponent },
       // { path: 'previewData', component: PreviewDataComponent },

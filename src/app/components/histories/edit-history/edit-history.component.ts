@@ -23,6 +23,7 @@ export class EditHistoryComponent implements OnInit {
   previewHistoryModel: History = {};
   emailForm: FormGroup;
   emailHistory: string;
+  historyBack: History;
 
   contentToEdit:Content;
   posToEdit:number;
@@ -47,12 +48,26 @@ export class EditHistoryComponent implements OnInit {
       branding: false
     }
 
+    this.initiateForms();
+    this.getCategories();
+
+    this._activatedRoute.params.subscribe(params => {
+      console.log(params);
+
+      if(params.id!=null){
+        console.log('get history');
+        this.getHistory(params.id);
+      }
+      else{
+        console.log('initiate forms');
+      }
+      
+    });
+
   }
 
   ngOnInit() {
-    this.getCategories();
-    this.initiateForms();
-    //this.getEmailLocalStorage();
+    
   }
 
   getCategories(){
@@ -134,7 +149,7 @@ export class EditHistoryComponent implements OnInit {
     cat.selected = !cat.selected;
   }
 
-  getHistory(){
+  getPreviewHistory(){
 
     let cat2Selected = [];
     this.secondCategories.forEach( (element) => {
@@ -147,14 +162,52 @@ export class EditHistoryComponent implements OnInit {
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value,
       email: this.emailForm.get('email').value,
-      main_categories: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_category: cat2Selected,
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_categories: cat2Selected,
       contents: (this.contents.length==0)  ? null : this.contents,
     }
 
     console.log(this.previewHistoryModel);
     localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
 
+  }
+
+  getHistory(id: string){
+    console.log("Entro:" + id)
+    this._historiesService.getHistoryBack(id).subscribe(result => {
+      console.log(result.history);
+      console.log('antes if')
+      if(result.success){
+        this.historyBack = result.history;
+
+        this.historyForm.controls['title'].setValue(this.historyBack.title);
+        this.historyForm.controls['description'].setValue(this.historyBack.description);
+        this.historyForm.controls['category'].setValue(this.historyBack.main_category);
+        this.historyForm.controls['secondCategories'].setValue(this.historyBack.secondary_categories);
+        this.historyForm.controls['contents'].setValue(this.historyBack.contents);
+
+        console.log(this.secondCategories);
+        this.historyBack.secondary_categories.forEach(id => {
+          this.secondCategories.forEach(cat => {
+            if(cat.id==id){
+              cat.selected=true;
+              console.log(id);
+            }
+          });
+        });
+        
+        this.contents=this.historyBack.contents;
+        
+
+        console.log(this.historyForm.get('contents').value);
+      }
+    });
+    
+
+      /*this.emailForm = this._formBuilder.group({
+        email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$')])
+      })*/
+    
   }
 
   saveHistory(){
@@ -172,8 +225,8 @@ export class EditHistoryComponent implements OnInit {
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
       email: this.emailForm.get('email').value,
-      main_categories: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_category: cat2Selected,
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_categories: cat2Selected,
       contents: (this.contents.length==0)  ? null : this.contents,
       id_reference:null ////dato a sacar de si viene otra historia o no
     }
