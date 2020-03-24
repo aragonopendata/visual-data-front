@@ -146,10 +146,10 @@ export class EditHistoryComponent implements OnInit {
     this.previewHistoryModel = {
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value,
-      email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
-      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      email: this.emailForm.get('email').value,
+      main_categories: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
       secondary_category: cat2Selected,
-      contents: this.contents == undefined ? [] : this.contents
+      contents: (this.contents.length==0)  ? null : this.contents,
     }
 
     console.log(this.previewHistoryModel);
@@ -167,12 +167,15 @@ export class EditHistoryComponent implements OnInit {
     });
 
     this.historyModel = {
+      id: "", //dato a sacar de si viene otra historia o no
+      state:1, //mirar estado segun corresponda, sacarlo?
       title: this.historyForm.get('title').value,
-      description: this.historyForm.get('description').value,
-      email:localStorage.getItem(Constants.LOCALSTORAGE_KEY_MAIL),
-      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
+      email: this.emailForm.get('email').value,
+      main_categories: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
       secondary_category: cat2Selected,
-      contents: this.contents == undefined ? [] : this.contents
+      contents: (this.contents.length==0)  ? null : this.contents,
+      id_reference:null ////dato a sacar de si viene otra historia o no
     }
     this._historiesService
       .sendMail(this.historyModel.title).subscribe(result => {

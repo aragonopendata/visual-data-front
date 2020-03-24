@@ -37,7 +37,6 @@ export class HistoriesService {
   }
 
   public setHistory(history:History){
-    console.log('servio de set history')
     console.log(history)
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     let requestBodyParams: any = history;
