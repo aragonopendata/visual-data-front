@@ -755,6 +755,12 @@ export class Constants {
   public static ROUTER_LINK_PREVIEW_HISTORY='previewHistory';
 
 
+  public static PREVIEW_HISTORY="PREVIEW"
+  public static SAVE_HISTORY="SAVE"
+  public static UPDATE_HISTORY="UPDATE"
+
+
+
 
 
 

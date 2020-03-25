@@ -114,8 +114,8 @@
   </div>
   <div class="actions">
       <a target="_blank" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " [routerLink]="['/focus/previewHistory']" (click)=getHistory()> Previsualizar</a>
-      <button type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=saveHistoryForm()> Guardar historia</button>       
-      <button type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=saveHistoryForm() >Enviar a revisión</button>
+      <button #btnSave id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=getHistoryForm(btnSave)> Guardar historia</button>       
+      <button #btnRevision id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=getHistoryForm(btnRevision) >Enviar a revisión</button>
   </div>
 </form>
 

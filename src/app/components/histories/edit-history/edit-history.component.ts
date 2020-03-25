@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../../../app.constants';
+import { State } from '../../../models/State';
 
 declare var $: any;
 
@@ -30,6 +31,8 @@ export class EditHistoryComponent implements OnInit {
   showAddContent = false;
   settings: any;
 
+  stateHistory:any =0;
+
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
   @ViewChild('newContentElement') newContentElement: ElementRef;
 
@@ -47,130 +50,23 @@ export class EditHistoryComponent implements OnInit {
       menubar: false,
       branding: false
     }
+
     this.initiateForms();
+
     this._historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
       this.secondCategories = categories;
       this._activatedRoute.params.subscribe(params => {
-        console.log(params);
-  
         if(params.id!=null){
-          console.log('get history');
           this.getHistory(params.id);
         }
-        else{
-          console.log('initiate forms');
-        }
-        
       });
 		},err => {
       console.log('Error al obtener las categorias');
     });
-    
-
   }
 
   ngOnInit() {
-    
-  }
-
-  getSecondaryCategories(){
-    this.secondCategories = [];
-    for (let category of this.categories)
-    {
-      if(category.id!==this.historyForm.get('category').value){
-        this.secondCategories.push(category);
-      }
-    }
-  }
-
-  initiateForms(){
-    this.historyForm = this._formBuilder.group({
-      title: new FormControl('', Validators.required),
-      description: new FormControl(''),
-      category: new FormControl(''),
-      secondCategories: new FormControl(''),
-      contents: new FormControl('')
-    })
-    this.emailForm = this._formBuilder.group({
-      email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$')])
-    })
-  }
-
-  get invalidTitle(){
-    return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
-  }
-
-  get invalidEmail(){
-    return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
-  }
-
-  
-
-  // falseClickAddContent(){
-  //   this.addContentButton.nativeElement.click();
-  // }
-
-  saveHistoryForm(){
-    if(this.historyForm.invalid){
-      return Object.values(this.historyForm.controls).forEach(control => {
-        control.markAsTouched();
-      })
-    }else{
-      if(this.historyBack.email){
-        this.emailForm.controls['email'].setValue(this.historyBack.email);
-        this.updateHistory();
-      }
-      else{
-        this.emailForm.reset();
-        $("#emailModalCenter").modal('show');
-      }
-    }
-  }
-
-  
-  saveMailForm(){
-    if(this.emailForm.invalid){
-      return Object.values(this.emailForm.controls).forEach(control => {
-        control.markAsTouched();
-      })
-    }
-  
-    else{
-      $('#emailModalCenter').modal('hide');
-      // localStorage.setItem(Constants.LOCALSTORAGE_KEY_MAIL, this.emailForm.get('email').value);
-      this.saveHistory();
-    }
-    
-  }
-
-  getCategoriesSelected(event, cat: Category){
-    event.preventDefault();
-    event.stopPropagation();
-    cat.selected = !cat.selected;
-  }
-
-  getPreviewHistory(){
-
-    let cat2Selected = [];
-    this.secondCategories.forEach( (element) => {
-      if(element.selected){
-        cat2Selected.push(element.id);
-      }
-    });
-
-    this.previewHistoryModel = {
-      title: this.historyForm.get('title').value,
-      description: this.historyForm.get('description').value,
-      email: this.emailForm.get('email').value,
-      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_categories: cat2Selected,
-      contents: (this.contents.length==0)  ? null : this.contents,
-    }
-
-    console.log(this.previewHistoryModel);
-    localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
-
   }
 
   getHistory(id: string){
@@ -206,14 +102,83 @@ export class EditHistoryComponent implements OnInit {
       }
     });
     
-
-      /*this.emailForm = this._formBuilder.group({
-        email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$')])
-      })*/
     
   }
 
-  updateHistory(){
+  initiateForms(){
+    this.historyForm = this._formBuilder.group({
+      title: new FormControl('', Validators.required),
+      description: new FormControl(''),
+      category: new FormControl(''),
+      secondCategories: new FormControl(''),
+      contents: new FormControl('')
+    })
+    this.emailForm = this._formBuilder.group({
+      email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$')])
+    })
+  }
+
+
+  get invalidTitle(){
+    return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
+  }
+
+  get invalidEmail(){
+    return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
+  }
+
+  getCategoriesSelected(event, cat: Category){
+    event.preventDefault();
+    event.stopPropagation();
+    cat.selected = !cat.selected;
+  }
+
+
+  getHistoryForm(button){
+    this.getState(button);
+    if(this.historyForm.invalid){
+      return Object.values(this.historyForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    }else{
+      if(this.historyBack.email){
+        this.operateWithHistory(Constants.UPDATE_HISTORY);
+      }
+      else{
+        this.emailForm.reset();
+        $("#emailModalCenter").modal('show');
+      }
+    }
+  }
+
+  getState(button){
+    console.log(button.id)
+    if(button.id=="btnSendRevision"){
+      this.stateHistory=State["borrador"]
+      console.log("entro a get de sendRevision")
+    }else{
+      this.stateHistory=State["revision"]
+    }
+  }
+  
+
+  saveMailForm(){
+    if(this.emailForm.invalid){
+      return Object.values(this.emailForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    }
+    else{
+      $('#emailModalCenter').modal('hide');
+      this.operateWithHistory(Constants.SAVE_HISTORY)
+      //this.saveHistory();
+    }
+    
+  }
+
+  
+
+  getPreviewHistory(){
 
     let cat2Selected = [];
     this.secondCategories.forEach( (element) => {
@@ -221,10 +186,45 @@ export class EditHistoryComponent implements OnInit {
         cat2Selected.push(element.id);
       }
     });
+
+    /*
+    id solo nos interesa si viene de la bbdd
+    state nos interesa el estado presente (en privisualización este valor no da igual no aplica)
+    email, si viene de bbdd, ya lo tenemos, si va a guardar por primera vez, el que entroduce, si visualiza no interesa
+    title siempre del formulario
+    descripcion siempre del formulario
+    main catefory siempre del formulario
+    secondary siempre del formulario
+    contentes siempre de lo que tengamos
+    id_reference... por el momento siempre nulo
+    */
+
+
+    this.previewHistoryModel = {
+      title: this.historyForm.get('title').value,
+      description: this.historyForm.get('description').value,
+      email: this.emailForm.get('email').value,
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_categories: cat2Selected,
+      contents: (this.contents.length==0)  ? null : this.contents,
+    }
+    console.log(this.previewHistoryModel);
+    localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
+  }
+
+  /*
+  updateHistory(){
+    let cat2Selected = [];
+    this.secondCategories.forEach( (element) => {
+      if(element.selected){
+        cat2Selected.push(element.id);
+      }
+    });
     
+
     this.historyModel = {
       id: this.historyBack.id, //dato a sacar de si viene otra historia o no
-      state:this.historyBack.state, //mirar estado segun corresponda, sacarlo?
+      state:this.stateHistory,
       email: this.historyBack.email,
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
@@ -255,8 +255,8 @@ export class EditHistoryComponent implements OnInit {
     });
 
     this.historyModel = {
-      id: "idXXX", //dato a sacar de si viene otra historia o no
-      state:1, //mirar estado segun corresponda, sacarlo?
+      id: "", //dato a sacar de si viene otra historia o no
+      state:this.stateHistory,
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
       email: this.emailForm.get('email').value,
@@ -266,35 +266,100 @@ export class EditHistoryComponent implements OnInit {
       id_reference:null ////dato a sacar de si viene otra historia o no
     }
 
-    //guardar id en la historia antes!
-    this._historiesService
-      .sendAdminMail(this.historyModel.title).subscribe(result => {
-        console.log('mail enviado')
-        if(result.status==200){
-          console.log('correo back OK')
-        }
-      });
-
-    this._historiesService
-      .sendUserMail(this.historyModel).subscribe(result => {
-        console.log(result)
-        if(result.status==200){
-          console.log('correo usuario OK')
-        }
-      });
-
-    
-
+    this._historiesService.sendAdminMail(this.historyModel.title).subscribe(result => {
+      console.log('mail enviado')
+      if(result.status==200){
+        console.log('correo back OK')
+      }
+    });
 
     this._historiesService.setHistory(this.historyModel).subscribe(result => {
       console.log(result)
       if (result.status == 200 && result.success) {
         this.historyModel.id = result.id;
         $('#successfullModalCenter').modal('show');
+        this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
+          console.log(result)
+          if(result.status==200){
+            console.log('correo usuario OK')
+          }
+        });
       } else {
-        console.log('error en insercción')
+        console.log('Error en insercción')
       }
     });
+  }
+  */
+
+  operateWithHistory(action){
+    let cat2Selected = [];
+    this.secondCategories.forEach( (element) => {
+      if(element.selected){
+        cat2Selected.push(element.id);
+      }
+    });
+
+    console.log(this.stateHistory)
+
+    this.historyModel = {
+      id: this.historyBack.id ? this.historyBack.id : null, 
+      state:this.stateHistory,
+      email: this.historyBack.email? this.historyBack.email : this.emailForm.get('email').value,
+      title: this.historyForm.get('title').value,
+      description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_categories: cat2Selected,
+      contents: (this.contents.length==0)  ? null : this.contents,
+      id_reference:null ////dato a sacar de si viene otra historia o no, de momento nulo
+    }
+
+    console.log("envio desde aqui esta historia")
+    console.log(this.historyModel)
+
+    if(action==Constants.PREVIEW_HISTORY){
+      localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
+
+
+    }else if(action==Constants.SAVE_HISTORY){
+      this._historiesService.setHistory(this.historyModel).subscribe(result => {
+        if (result.status == 200 && result.success) {
+          console.log("Guardado de historia correcto")
+          this.historyModel.id = result.id;
+          $('#successfullModalCenter').modal('show');
+          this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
+            if(result.status==200){
+              console.log('correo usuario OK')
+              if(this.stateHistory==State.revision){
+                this._historiesService.sendAdminMail(this.historyModel.title).subscribe(result => {
+                  console.log('mail enviado')
+                  if(result.status==200){
+                    console.log('correo admin OK')
+                  }
+                });
+              }
+            }
+          });
+        } else {
+          console.log('Error GUARDANDO historia')
+        }
+      });
+    }else if(action==Constants.UPDATE_HISTORY){
+      this._historiesService.updateHistory(this.historyModel).subscribe(result => {
+        console.log(result)
+        if (result.status == 200 && result.success) {
+          console.log('actualizado Ok MOSTRAR MODAL OK');
+          this._historiesService.sendAdminMail(this.historyModel.title).subscribe(result => {
+            console.log('mail enviado')
+            if(result.status==200){
+              console.log('correo admin OK')
+            }
+          });
+        } else {
+          console.log('error en ACTUALIZACION MOSTRAR MODAL KO')
+        }
+      });
+    }
+
   }
   
   copyToken(){
