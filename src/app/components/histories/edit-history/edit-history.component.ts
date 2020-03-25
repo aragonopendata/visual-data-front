@@ -269,12 +269,22 @@ export class EditHistoryComponent implements OnInit {
       id_reference:null ////dato a sacar de si viene otra historia o no
     }
     this._historiesService
-      .sendMail(this.historyModel.title).subscribe(result => {
+      .sendAdminMail(this.historyModel.title).subscribe(result => {
         console.log('mail enviado')
         if(result.status==200){
           console.log('correo back OK')
         }
       });
+
+    this._historiesService
+      .sendUserMail(this.historyModel.title, this.historyModel.email).subscribe(result => {
+        if(result.status==200){
+          console.log('correo usuario OK')
+        }
+      });
+
+    
+
 
     this._historiesService.setHistory(this.historyModel).subscribe(result => {
       console.log(result)

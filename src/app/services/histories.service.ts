@@ -59,9 +59,9 @@ export class HistoriesService {
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
 
-  public sendMail(title: string){
+  public sendAdminMail(title: string){
     const headers = new Headers();
-    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_HISTORY_PATH;
+    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_ADMIN_HISTORY_PATH;
     headers.append('Content-Type', 'application/json');
     console.log('dentro de send email');
 
@@ -74,6 +74,24 @@ export class HistoriesService {
       console.log('hay eror:' + err)
         return Observable.throw('errorConexion');
       });
+  }
+
+  public sendUserMail(title: string, email: string){
+    const headers = new Headers();
+    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_USER_HISTORY_PATH;
+    headers.append('Content-Type', 'application/json');
+
+    const body = JSON.stringify({
+      title: title,
+      email: email
+    });
+
+    return this.http.post(fullUrl,body,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
+      .catch(err => {
+      console.log('hay eror:' + err)
+        return Observable.throw('errorConexion');
+      });
+      
   }
 
 }
