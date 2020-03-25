@@ -255,7 +255,7 @@ export class EditHistoryComponent implements OnInit {
     });
 
     this.historyModel = {
-      id: "", //dato a sacar de si viene otra historia o no
+      id: "idXXX", //dato a sacar de si viene otra historia o no
       state:1, //mirar estado segun corresponda, sacarlo?
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
@@ -265,6 +265,8 @@ export class EditHistoryComponent implements OnInit {
       contents: (this.contents.length==0)  ? null : this.contents,
       id_reference:null ////dato a sacar de si viene otra historia o no
     }
+
+    //guardar id en la historia antes!
     this._historiesService
       .sendAdminMail(this.historyModel.title).subscribe(result => {
         console.log('mail enviado')
@@ -274,7 +276,8 @@ export class EditHistoryComponent implements OnInit {
       });
 
     this._historiesService
-      .sendUserMail(this.historyModel.title, this.historyModel.email).subscribe(result => {
+      .sendUserMail(this.historyModel).subscribe(result => {
+        console.log(result)
         if(result.status==200){
           console.log('correo usuario OK')
         }
@@ -292,7 +295,6 @@ export class EditHistoryComponent implements OnInit {
         console.log('error en insercción')
       }
     });
-
   }
   
   copyToken(){

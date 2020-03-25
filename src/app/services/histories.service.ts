@@ -76,17 +76,19 @@ export class HistoriesService {
       });
   }
 
-  public sendUserMail(title: string, email: string){
+  public sendUserMail(history:History){
     const headers = new Headers();
     let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_USER_HISTORY_PATH;
     headers.append('Content-Type', 'application/json');
 
+    /*
     const body = JSON.stringify({
       title: title,
       email: email
     });
+    */
 
-    return this.http.post(fullUrl,body,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
+    return this.http.post(fullUrl,history,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
       .catch(err => {
       console.log('hay eror:' + err)
         return Observable.throw('errorConexion');
