@@ -37,7 +37,6 @@ export class HistoriesService {
   }
 
   public setHistory(history:History){
-    console.log('esta se manda')
     console.log(history)
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     let requestBodyParams: any = history;
@@ -47,9 +46,17 @@ export class HistoriesService {
   }
 
   public getHistoryBack(id: string){
-    console.log("entrada get history back")
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     return this.http.get(fullUrl + '/' + id).map(res => res.json());;
+  }
+
+  public updateHistory(history:History){
+    console.log(history)
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    let requestBodyParams: any = history;
+    console.log(fullUrl);
+    //console.log(JSON.stringify(requestBodyParams))
+    return this.http.post(fullUrl, history).map(res => res.json());;
   }
 
   public sendMail(title: string){

@@ -49,34 +49,32 @@ export class EditHistoryComponent implements OnInit {
     }
 
     this.initiateForms();
-    this.getCategories();
 
-    this._activatedRoute.params.subscribe(params => {
-      console.log(params);
-
-      if(params.id!=null){
-        console.log('get history');
-        this.getHistory(params.id);
-      }
-      else{
-        console.log('initiate forms');
-      }
-      
+    
+    this._historiesService.getCategories().subscribe( (categories: Category[]) => {
+      this.categories = categories;
+      this.secondCategories = categories;
+      this._activatedRoute.params.subscribe(params => {
+        console.log(params);
+  
+        if(params.id!=null){
+          console.log('get history');
+          this.getHistory(params.id);
+        }
+        else{
+          console.log('initiate forms');
+        }
+        
+      });
+		},err => {
+      console.log('Error al obtener las categorias');
     });
+    
 
   }
 
   ngOnInit() {
     
-  }
-
-  getCategories(){
-    this._historiesService.getCategories().subscribe( (categories: Category[]) => {
-      this.categories = categories;
-      this.secondCategories = categories;
-		},err => {
-      console.log('Error al obtener las categorias');
-    });
   }
 
   getSecondaryCategories(){
@@ -122,8 +120,14 @@ export class EditHistoryComponent implements OnInit {
         control.markAsTouched();
       })
     }else{
-      this.emailForm.reset();
-      $("#emailModalCenter").modal('show');
+      if(this.historyBack.email){
+        this.emailForm.controls['email'].setValue(this.historyBack.email);
+        this.updateHistory();
+      }
+      else{
+        this.emailForm.reset();
+        $("#emailModalCenter").modal('show');
+      }
     }
   }
 
@@ -186,6 +190,7 @@ export class EditHistoryComponent implements OnInit {
         this.historyForm.controls['secondCategories'].setValue(this.historyBack.secondary_categories);
         this.historyForm.controls['contents'].setValue(this.historyBack.contents);
 
+        
         console.log(this.secondCategories);
         this.historyBack.secondary_categories.forEach(id => {
           this.secondCategories.forEach(cat => {
@@ -195,6 +200,7 @@ export class EditHistoryComponent implements OnInit {
             }
           });
         });
+        
         
         this.contents=this.historyBack.contents;
         
@@ -208,6 +214,38 @@ export class EditHistoryComponent implements OnInit {
         email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$')])
       })*/
     
+  }
+
+  updateHistory(){
+
+    let cat2Selected = [];
+    this.secondCategories.forEach( (element) => {
+      if(element.selected){
+        cat2Selected.push(element.id);
+      }
+    });
+    
+    this.historyModel = {
+      id: this.historyBack.id, //dato a sacar de si viene otra historia o no
+      state:this.historyBack.state, //mirar estado segun corresponda, sacarlo?
+      email: this.historyBack.email,
+      title: this.historyForm.get('title').value,
+      description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
+      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
+      secondary_categories: cat2Selected,
+      contents: (this.contents.length==0)  ? null : this.contents,
+      id_reference:null ////dato a sacar de si viene otra historia o no
+    }
+    this._historiesService.updateHistory(this.historyModel).subscribe(result => {
+      console.log(result)
+      if (result.status == 200 && result.success) {
+        //this.historyModel.id = result.id;
+        //$('#successfullModalCenter').modal('show');
+        console.log('actualizado');
+      } else {
+        console.log('error en insercción')
+      }
+    });
   }
 
   saveHistory(){
