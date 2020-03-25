@@ -23,7 +23,7 @@ export class EditHistoryComponent implements OnInit {
   previewHistoryModel: History = {};
   emailForm: FormGroup;
   emailHistory: string;
-  historyBack: History;
+  historyBack: History={};
 
   contentToEdit:Content;
   posToEdit:number;
@@ -47,10 +47,7 @@ export class EditHistoryComponent implements OnInit {
       menubar: false,
       branding: false
     }
-
     this.initiateForms();
-
-    
     this._historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
       this.secondCategories = categories;
