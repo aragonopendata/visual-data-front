@@ -744,10 +744,10 @@ export class Constants {
 
 
   public static ROUTER_LINK_ADD_HISTORY='focus/add/history';
-  public static ROUTER_LINK_PREVIEW_HISTORY='focus/previewHistory';
+  public static ROUTER_LINK_PREVIEW_HISTORY='/focus/previewHistory';
 
   public static ROUTER_LINK_ADD_CONTENT='add/content';
-  public static ROUTER_LINK_VIEW_HISTORY='viewHistory';
+  public static ROUTER_LINK_VIEW_HISTORY='focus/viewHistory';
 
   public static LOCALSTORAGE_KEY_MAIL='email';
   public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';
