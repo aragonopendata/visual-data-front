@@ -72,7 +72,7 @@ export class HomeFocusComponent implements OnInit {
       let token=this.tokenForm.get('token').value
       let route = Constants.ROUTER_LINK_EDIT_HISTORY + "/" + token;
       this._historiesService.getHistoryBack(token).subscribe(result =>{
-        if(result.success==200 && result.history!=null){
+        if(result.success && result.history!=null){
           if(result.history.state==1){
             $("#homeModalCenter").modal('hide');
             this._route.navigate([route]);
