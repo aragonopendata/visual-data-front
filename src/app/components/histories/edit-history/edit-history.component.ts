@@ -74,28 +74,31 @@ export class EditHistoryComponent implements OnInit {
     this._historiesService.getHistoryBack(id).subscribe(result => {
       if(result.success){
         this.historyBack = result.history;
-
-        this.historyForm.controls['title'].setValue(this.historyBack.title);
-        this.historyForm.controls['description'].setValue(this.historyBack.description);
-        this.historyForm.controls['category'].setValue(this.historyBack.main_category);
-        this.historyForm.controls['secondCategories'].setValue(this.historyBack.secondary_categories);
-        this.historyForm.controls['contents'].setValue(this.historyBack.contents);
-        
-        this.historyBack.secondary_categories.forEach(id => {
-          this.secondCategories.forEach(cat => {
-            if(cat.id==id){
-              cat.selected=true;
-              console.log(id);
-            }
-          });
-        });
-        
-        this.contents=this.historyBack.contents;
-        
+        this.updateWithBackHistory();
       }
     });
     
     
+  }
+
+  updateWithBackHistory(){
+      this.historyForm.controls['title'].setValue(this.historyBack.title);
+      this.historyForm.controls['description'].setValue(this.historyBack.description);
+      this.historyForm.controls['category'].setValue(this.historyBack.main_category);
+      this.historyForm.controls['secondCategories'].setValue(this.historyBack.secondary_categories);
+      this.historyForm.controls['contents'].setValue(this.historyBack.contents);
+      
+      this.historyBack.secondary_categories.forEach(id => {
+        this.secondCategories.forEach(cat => {
+          if(cat.id==id){
+            cat.selected=true;
+            console.log(id);
+          }
+        });
+      });
+      
+      this.contents=this.historyBack.contents== null? [] : this.historyBack.contents;
+
   }
 
   initiateForms(){
@@ -129,13 +132,19 @@ export class EditHistoryComponent implements OnInit {
 
   getHistoryForm(button){
     this.getState(button);
+    console.log(this.stateHistory)
     if(this.historyForm.invalid){
       return Object.values(this.historyForm.controls).forEach(control => {
         control.markAsTouched();
       })
     }else{
       if(this.historyBack.email){
-        this.operateWithHistory(Constants.UPDATE_HISTORY);
+        if(this.historyBack.state==State["borrador"]){//unico estado de momento editable
+          this.operateWithHistory(Constants.UPDATE_HISTORY);
+        }else{
+          console.log("no presenta un estado editable")
+          this.openModalError()
+        }
       }
       else{
         this.emailForm.reset();
@@ -147,10 +156,10 @@ export class EditHistoryComponent implements OnInit {
   getState(button){
     console.log(button.id)
     if(button.id=="btnSendRevision"){
-      this.stateHistory=State["borrador"]
+      this.stateHistory=State["revision"]
       console.log("entro a get de sendRevision")
     }else{
-      this.stateHistory=State["revision"]
+      this.stateHistory=State["borrador"]
     }
   }
   
@@ -167,6 +176,18 @@ export class EditHistoryComponent implements OnInit {
       //this.saveHistory();
     }
     
+  }
+
+  openModalError(){
+    $('#successfullModalCenter').modal('hide');
+    $('#emailModalCenter').modal('hide');
+    $('#errorModalCenter').modal('show');
+  }
+
+  closeModalError(){
+    $('#successfullModalCenter').modal('hide');
+    $('#emailModalCenter').modal('hide');
+    $('#errorModalCenter').modal('hide');
   }
 
   
@@ -208,13 +229,14 @@ export class EditHistoryComponent implements OnInit {
         if (result.status == 200 && result.success) {
           console.log("Guardado de historia correcto")
           this.historyModel.id = result.id;
+          this.historyBack = this.historyModel;
+          this.updateWithBackHistory();
           $('#successfullModalCenter').modal('show');
           this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){
               console.log('correo usuario OK')
               if(this.stateHistory==State.revision){
                 this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
-                  console.log('mail enviado')
                   if(result.status==200){
                     console.log('correo admin OK')
                   }
@@ -231,9 +253,9 @@ export class EditHistoryComponent implements OnInit {
         console.log(result)
         if (result.status == 200 && result.success) {
           console.log('actualizado Ok MOSTRAR MODAL OK');
+          this.historyBack = this.historyModel;
           if(this.stateHistory==State.revision){
             this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
-              console.log('mail enviado')
               if(result.status==200){
                 console.log('correo admin OK')
               }
@@ -241,6 +263,7 @@ export class EditHistoryComponent implements OnInit {
           }
         } else {
           console.log('error en ACTUALIZACION MOSTRAR MODAL KO')
+          this.openModalError()
         }
       });
     }
