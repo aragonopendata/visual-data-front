@@ -220,7 +220,7 @@ export class EditHistoryComponent implements OnInit {
             if(result.status==200){
               console.log('correo usuario OK')
               if(this.stateHistory==State.revision){
-                this._historiesService.sendAdminMail(this.historyModel.title).subscribe(result => {
+                this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
                   console.log('mail enviado')
                   if(result.status==200){
                     console.log('correo admin OK')
@@ -238,12 +238,14 @@ export class EditHistoryComponent implements OnInit {
         console.log(result)
         if (result.status == 200 && result.success) {
           console.log('actualizado Ok MOSTRAR MODAL OK');
-          this._historiesService.sendAdminMail(this.historyModel.title).subscribe(result => {
-            console.log('mail enviado')
-            if(result.status==200){
-              console.log('correo admin OK')
-            }
-          });
+          if(this.stateHistory==State.revision){
+            this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
+              console.log('mail enviado')
+              if(result.status==200){
+                console.log('correo admin OK')
+              }
+            });
+          }
         } else {
           console.log('error en ACTUALIZACION MOSTRAR MODAL KO')
         }
