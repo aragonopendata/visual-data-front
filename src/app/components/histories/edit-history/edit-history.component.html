@@ -151,7 +151,7 @@
       </div>
       <form [formGroup]="emailForm">
         <div class="modal-body">
-          <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$" formControlName="email">
+          <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email">
           <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
         </div>
         <div class="modal-footer">
