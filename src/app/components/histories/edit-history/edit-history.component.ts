@@ -72,8 +72,6 @@ export class EditHistoryComponent implements OnInit {
   getHistory(id: string){
     console.log("Entro:" + id)
     this._historiesService.getHistoryBack(id).subscribe(result => {
-      console.log(result.history);
-      console.log('antes if')
       if(result.success){
         this.historyBack = result.history;
 
@@ -82,9 +80,7 @@ export class EditHistoryComponent implements OnInit {
         this.historyForm.controls['category'].setValue(this.historyBack.main_category);
         this.historyForm.controls['secondCategories'].setValue(this.historyBack.secondary_categories);
         this.historyForm.controls['contents'].setValue(this.historyBack.contents);
-
         
-        console.log(this.secondCategories);
         this.historyBack.secondary_categories.forEach(id => {
           this.secondCategories.forEach(cat => {
             if(cat.id==id){
@@ -94,11 +90,8 @@ export class EditHistoryComponent implements OnInit {
           });
         });
         
-        
         this.contents=this.historyBack.contents;
         
-
-        console.log(this.historyForm.get('contents').value);
       }
     });
     

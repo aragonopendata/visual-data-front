@@ -68,7 +68,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="homeModalCenterTitle">Va crear una nueva historia</h5>
+        <h5 class="modal-title" id="homeModalCenterTitle">Gestión de historias</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -99,13 +99,21 @@
             <div class="modal-body">
               <input type="text" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token">
               <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
+              <div *ngIf=tokenError class="alert alert-danger"  role="alert">
+                <p> El token introducido es incorrecto. </p>
+                <p> Por favor, compruebe que el token corresponde con el que se le proporcionó </p>
+              </div>
+              <div *ngIf=stateError class="alert alert-danger"  role="alert">
+                <p>La historia a la que esta intentando acceder no puede editar, por estar [poner en función del estado?]</p>
+              </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWitToken()">Buscar</button>
+              <button type="button" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
             </div>
           </form>
         </div>
       </div>
+
       
     </div>
   </div>

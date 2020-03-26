@@ -22,11 +22,13 @@ export class HomeFocusComponent implements OnInit {
   histories: History[];
   createHistory: boolean = true;
   tokenForm: FormGroup;
+  tokenError:boolean= false;
+  stateError:boolean=false;
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
   constructor(private _historiesService: HistoriesService, private _route: Router, private _activatedRoute: ActivatedRoute,
-    private _formBuilder: FormBuilder) { }
+    private _formBuilder: FormBuilder, ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -61,17 +63,38 @@ export class HomeFocusComponent implements OnInit {
     this._route.navigate(['focus/addHistory']);
   }
 
-  updateHistoryWitToken(){
-    let token=this.tokenForm.get('token').value
-    let route = Constants.ROUTER_LINK_EDIT_HISTORY + "/" + token;
-    $("#homeModalCenter").modal('hide');
-    this._route.navigate([route]);
-
+  updateHistoryWithToken(){
+    if(this.tokenForm.invalid){
+      return Object.values(this.tokenForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
+    }else{
+      let token=this.tokenForm.get('token').value
+      let route = Constants.ROUTER_LINK_EDIT_HISTORY + "/" + token;
+      this._historiesService.getHistoryBack(token).subscribe(result =>{
+        if(result.success==200 && result.history!=null){
+          if(result.history.state==1){
+            $("#homeModalCenter").modal('hide');
+            this._route.navigate([route]);
+          }else{
+            this.stateError=true
+            this.tokenError=false
+            console.log("Historia existe, pero no se puede modificar")
+          }
+        }else{
+          this.tokenError=true
+          this.stateError=false
+          console.log('Historia no existe')
+        }
+      })
+    }
   }
 
   updateHistoryHiperLink(){
     this.tokenForm.reset();
+    this.tokenError=false;
     this.createHistory=false;
+    this.stateError=false;
   }
 
 
