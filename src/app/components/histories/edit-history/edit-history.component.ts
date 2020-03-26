@@ -179,117 +179,10 @@ export class EditHistoryComponent implements OnInit {
   
 
   getPreviewHistory(){
-
-    let cat2Selected = [];
-    this.secondCategories.forEach( (element) => {
-      if(element.selected){
-        cat2Selected.push(element.id);
-      }
-    });
-
-    /*
-    id solo nos interesa si viene de la bbdd
-    state nos interesa el estado presente (en privisualización este valor no da igual no aplica)
-    email, si viene de bbdd, ya lo tenemos, si va a guardar por primera vez, el que entroduce, si visualiza no interesa
-    title siempre del formulario
-    descripcion siempre del formulario
-    main catefory siempre del formulario
-    secondary siempre del formulario
-    contentes siempre de lo que tengamos
-    id_reference... por el momento siempre nulo
-    */
-
-
-    this.previewHistoryModel = {
-      title: this.historyForm.get('title').value,
-      description: this.historyForm.get('description').value,
-      email: this.emailForm.get('email').value,
-      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_categories: cat2Selected,
-      contents: (this.contents.length==0)  ? null : this.contents,
-    }
-    console.log(this.previewHistoryModel);
-    localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
+    this.stateHistory=this.historyBack.state?  this.historyBack.state: 0 ;
+    this.operateWithHistory(Constants.PREVIEW_HISTORY);
   }
 
-  /*
-  updateHistory(){
-    let cat2Selected = [];
-    this.secondCategories.forEach( (element) => {
-      if(element.selected){
-        cat2Selected.push(element.id);
-      }
-    });
-    
-
-    this.historyModel = {
-      id: this.historyBack.id, //dato a sacar de si viene otra historia o no
-      state:this.stateHistory,
-      email: this.historyBack.email,
-      title: this.historyForm.get('title').value,
-      description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
-      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_categories: cat2Selected,
-      contents: (this.contents.length==0)  ? null : this.contents,
-      id_reference:null ////dato a sacar de si viene otra historia o no
-    }
-    this._historiesService.updateHistory(this.historyModel).subscribe(result => {
-      console.log(result)
-      if (result.status == 200 && result.success) {
-        //this.historyModel.id = result.id;
-        //$('#successfullModalCenter').modal('show');
-        console.log('actualizado');
-      } else {
-        console.log('error en insercción')
-      }
-    });
-  }
-
-  saveHistory(){
-
-    let cat2Selected = [];
-    this.secondCategories.forEach( (element) => {
-      if(element.selected){
-        cat2Selected.push(element.id);
-      }
-    });
-
-    this.historyModel = {
-      id: "", //dato a sacar de si viene otra historia o no
-      state:this.stateHistory,
-      title: this.historyForm.get('title').value,
-      description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
-      email: this.emailForm.get('email').value,
-      main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
-      secondary_categories: cat2Selected,
-      contents: (this.contents.length==0)  ? null : this.contents,
-      id_reference:null ////dato a sacar de si viene otra historia o no
-    }
-
-    this._historiesService.sendAdminMail(this.historyModel.title).subscribe(result => {
-      console.log('mail enviado')
-      if(result.status==200){
-        console.log('correo back OK')
-      }
-    });
-
-    this._historiesService.setHistory(this.historyModel).subscribe(result => {
-      console.log(result)
-      if (result.status == 200 && result.success) {
-        this.historyModel.id = result.id;
-        $('#successfullModalCenter').modal('show');
-        this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
-          console.log(result)
-          if(result.status==200){
-            console.log('correo usuario OK')
-          }
-        });
-      } else {
-        console.log('Error en insercción')
-      }
-    });
-  }
-  */
 
   operateWithHistory(action){
     let cat2Selected = [];
@@ -299,7 +192,6 @@ export class EditHistoryComponent implements OnInit {
       }
     });
 
-    console.log(this.stateHistory)
 
     this.historyModel = {
       id: this.historyBack.id ? this.historyBack.id : null, 
@@ -313,13 +205,11 @@ export class EditHistoryComponent implements OnInit {
       id_reference:null ////dato a sacar de si viene otra historia o no, de momento nulo
     }
 
-    console.log("envio desde aqui esta historia")
-    console.log(this.historyModel)
 
     if(action==Constants.PREVIEW_HISTORY){
-      localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.previewHistoryModel));
-
-
+      localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.historyModel));
+      let urlPreview="/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
+      window.open(urlPreview, '_blank');
     }else if(action==Constants.SAVE_HISTORY){
       this._historiesService.setHistory(this.historyModel).subscribe(result => {
         if (result.status == 200 && result.success) {

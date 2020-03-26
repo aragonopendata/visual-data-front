@@ -28,6 +28,8 @@ export class Constants {
   // URLS
   public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
   public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
+  public static FOCUS_URL = 'http://localhost:4201/aod';
+
 
 
   public static AOD_BASE_URL = 'https://preopendata.aragon.es';
@@ -742,6 +744,8 @@ export class Constants {
 
 
   public static ROUTER_LINK_ADD_HISTORY='focus/add/history';
+  public static ROUTER_LINK_PREVIEW_HISTORY='focus/previewHistory';
+
   public static ROUTER_LINK_ADD_CONTENT='add/content';
   public static ROUTER_LINK_VIEW_HISTORY='viewHistory';
 
@@ -752,7 +756,7 @@ export class Constants {
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
   public static ROUTER_LINK_EDIT_HISTORY='/editHistory';
 
-  public static ROUTER_LINK_PREVIEW_HISTORY='previewHistory';
+  //public static ROUTER_LINK_PREVIEW_HISTORY='previewHistory';
 
 
   public static PREVIEW_HISTORY="PREVIEW"
