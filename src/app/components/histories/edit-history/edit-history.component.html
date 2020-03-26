@@ -174,7 +174,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
+        <p *ngIf="historyBack.state == 1">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
+        <p *ngIf="historyBack.state == 2">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
         <div class="tokenSite col-12">
           <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.id}}</textarea>
           <button type="button" class="btn btn-primary fa fa-copy" (click)="copyToken()">Copiar Token</button>
@@ -198,10 +199,11 @@
       </div>
       <div class="modal-body">
         <p>Se ha producido un error al procesar la acción solicitada</p>
-        <p *ngIf="stateHistory == 2"> Una vez que la historia ha sido enviada a aprobación, no se pueden hacer nuevas modificaciones</p>
+        <p *ngIf="historyBack.state == 2"> Una vez que la historia ha sido enviada a aprobación, no se pueden hacer nuevas modificaciones</p>
         <button type="button" class="btn btn-primary" (click)="goHome()">Ir a Open Data</button>
         <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
       </div>
     </div>
   </div>
 </div>
+

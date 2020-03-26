@@ -254,6 +254,7 @@ export class EditHistoryComponent implements OnInit {
         if (result.status == 200 && result.success) {
           console.log('actualizado Ok MOSTRAR MODAL OK');
           this.historyBack = this.historyModel;
+          $('#successfullModalCenter').modal('show');
           if(this.stateHistory==State.revision){
             this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
               if(result.status==200){
