@@ -69,23 +69,28 @@ export class ViewHistoryComponent implements OnInit {
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
       console.log(this.historySelect);
 
-      this.historySelect.contents.forEach( (element: Content) => {
-        this._graphService.getChart(element.id_Graph).subscribe(chart => {
-          this.chart.push(chart);
-        });
-      });
-
-    } else {
-
-      this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
-        this.historySelect = history[0];
+      if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
           this._graphService.getChart(element.id_Graph).subscribe(chart => {
             this.chart.push(chart);
           });
         });
+      }
+
+
+    } else {
+
+      this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
+        this.historySelect = history[0];
+        if(this.historySelect.contents){
+          this.historySelect.contents.forEach( (element: Content) => {
+            this._graphService.getChart(element.id_Graph).subscribe(chart => {
+              this.chart.push(chart);
+            });
+          });
+        }
       },err => {
-        console.log('Error al obtener las categorias');
+        console.log('Error al obtener la historia');
       });
 
     }
