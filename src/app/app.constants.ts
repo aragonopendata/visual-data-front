@@ -744,7 +744,9 @@ export class Constants {
 
 
   public static ROUTER_LINK_ADD_HISTORY='focus/add/history';
+  public static ROUTER_LINK_EDIT_HISTORY='focus/editHistory';
   public static ROUTER_LINK_PREVIEW_HISTORY='/focus/previewHistory';
+
 
   public static ROUTER_LINK_ADD_CONTENT='add/content';
   public static ROUTER_LINK_VIEW_HISTORY='focus/viewHistory';
@@ -754,9 +756,6 @@ export class Constants {
   public static ROUTER_LINK_SERVICES_WEB='/services/web';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
-  public static ROUTER_LINK_EDIT_HISTORY='/editHistory';
-
-  //public static ROUTER_LINK_PREVIEW_HISTORY='previewHistory';
 
 
   public static PREVIEW_HISTORY="PREVIEW"

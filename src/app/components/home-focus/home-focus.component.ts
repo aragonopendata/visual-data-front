@@ -6,6 +6,8 @@ import { History } from '../../models/History';
 import { Category } from '../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
+declare var $: any;
+
 @Component({
   selector: 'app-home-focus',
   templateUrl: './home-focus.component.html',
@@ -18,14 +20,18 @@ export class HomeFocusComponent implements OnInit {
   categoriesVisible: Category[];
   viewMoreCategories: boolean = false;
   histories: History[];
+  createHistory: boolean = true;
+  tokenForm: FormGroup;
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _activatedRoute: ActivatedRoute) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router, private _activatedRoute: ActivatedRoute,
+    private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getCategories();
     this.getHistories();
+    this.initiateForm();
   }
 
   getCategories(){
@@ -39,12 +45,35 @@ export class HomeFocusComponent implements OnInit {
     });
   }
 
+  initiateForm(){
+    this.tokenForm = this._formBuilder.group({
+      token: new FormControl('', [Validators.required])
+    })
+  }
+
+  get invalidToken(){
+    return this.tokenForm.get('token').invalid && this.tokenForm.get('token').touched;
+  }
+
   createNewHistory(){
     localStorage.removeItem(Constants.LOCALSTORAGE_KEY_MAIL);
+    $("#homeModalCenter").modal('hide');
     this._route.navigate(['focus/addHistory']);
+  }
 
+  updateHistoryWitToken(){
+    let token=this.tokenForm.get('token').value
+    let route = Constants.ROUTER_LINK_EDIT_HISTORY + "/" + token;
+    $("#homeModalCenter").modal('hide');
+    this._route.navigate([route]);
 
   }
+
+  updateHistoryHiperLink(){
+    this.tokenForm.reset();
+    this.createHistory=false;
+  }
+
 
   getHistories(){
     this._historiesService.getHistories().subscribe( (histories: History[]) => {
@@ -55,6 +84,12 @@ export class HomeFocusComponent implements OnInit {
   getHistory( id: string ){
     console.log(id);
     this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
+  }
+
+  openHomeFocusModal(){
+    this.createHistory=true;
+    $("#homeModalCenter").modal('show');
+
   }
 
   searchHistory( value: string ){ }

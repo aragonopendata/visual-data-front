@@ -7,7 +7,7 @@
           <!-- Search -->
           <div class="input-group col-8">
 
-            <button class="btn btn-primary" type="button"  data-toggle="modal" data-target="#homeModalCenter">
+            <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()">
               <i class="fa fa-plus"></i> Crear historia
             </button>
 
@@ -73,18 +73,40 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit fugit, mollitia suscipit adipisci maxime libero totam quis quaerat quidem vero ratione tenetur non cumque voluptatum consectetur, quas repellendus odio iste!
-        </p>
-        <p>
-          Si lo que quiere es modificar una historia que creo previamente haga click en el siguiente enlace.
-        </p>
-        <a target="_blank" href="https://www.google.com/"> Modificar</a>
+      <div *ngIf= createHistory>
+        <div class="modal-body">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit fugit, mollitia suscipit adipisci maxime libero totam quis quaerat quidem vero ratione tenetur non cumque voluptatum consectetur, quas repellendus odio iste!
+          </p>
+          <p>
+            Si lo que quiere es modificar una historia que creo previamente haga click en el siguiente enlace.
+          </p>
+          <!--<a target="_blank" href="https://www.google.com/"> Modificar</a>--->
+          <a (click)="updateHistoryHiperLink()" > Modificar</a>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
+
+      <div *ngIf= !createHistory>
+        <div class="modal-body">
+          <p>
+            Introduzca su token para poder modificar su historia
+          </p>
+          <form [formGroup]="tokenForm">
+            <div class="modal-body">
+              <input type="text" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token">
+              <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWitToken()">Buscar</button>
+            </div>
+          </form>
+        </div>
       </div>
+      
     </div>
   </div>
 </div>
