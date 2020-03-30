@@ -19,7 +19,7 @@ export class Content {
     id?: string;
     title?: string;
     description?: string;
-    id_Graph?: string;
+    id_visualContent?: string;
     urlGraph?:string;
 
     constructor() {}

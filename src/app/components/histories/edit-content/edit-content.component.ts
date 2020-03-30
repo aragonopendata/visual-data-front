@@ -43,8 +43,8 @@ export class EditContentComponent implements OnInit {
   ngOnInit() {
     this.initiateForm();
     this._servicio.getIdGraph().subscribe(id => {
-      this.contentModel.id_Graph=id;
-      this.contentForm.controls['id_Graph'].setValue(id);
+      this.contentModel.id_visualContent=id;
+      this.contentForm.controls['id_visualContent'].setValue(id);
     });
 
     if(this.content){
@@ -57,7 +57,8 @@ export class EditContentComponent implements OnInit {
     this.contentForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
-      id_Graph: new FormControl(null)
+      id_visualContent: new FormControl(null),
+      visualContent: new FormControl('')
     });
   }
 
@@ -65,7 +66,7 @@ export class EditContentComponent implements OnInit {
     this.contentForm = this._formBuilder.group({
       title: this.content.title,
       description: this.content.description,
-      id_Graph: this.content.id_Graph
+      id_visualContent: this.content.id_visualContent
     });
   }
 
@@ -82,14 +83,12 @@ export class EditContentComponent implements OnInit {
     }else{
       this.contentModel = {title: this.contentForm.get('title').value, 
                          description: this.contentForm.get('description').value, 
-                         id_Graph: this.contentForm.get('id_Graph').value};
-                         
+                         id_visualContent: this.contentForm.get('id_visualContent').value};
       this.contentCreate.emit({
         action: this.content ? 'edit':'new',
         posContent: this.posContent,
         content: this.contentModel
       });
-
       this.contentModel = {};
       this.contentForm.reset();
     }
