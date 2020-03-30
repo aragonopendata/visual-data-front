@@ -58,7 +58,8 @@ export class EditContentComponent implements OnInit {
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
       id_visualContent: new FormControl(null),
-      visualContent: new FormControl('')
+      visualContent: new FormControl(''),
+      align: new FormControl('')
     });
   }
 
@@ -66,7 +67,8 @@ export class EditContentComponent implements OnInit {
     this.contentForm = this._formBuilder.group({
       title: this.content.title,
       description: this.content.description,
-      id_visualContent: this.content.id_visualContent
+      id_visualContent: this.content.id_visualContent,
+      align: this.content.align
     });
   }
 
@@ -83,12 +85,14 @@ export class EditContentComponent implements OnInit {
     }else{
       this.contentModel = {title: this.contentForm.get('title').value, 
                          description: this.contentForm.get('description').value, 
-                         id_visualContent: this.contentForm.get('id_visualContent').value};
+                         id_visualContent: this.contentForm.get('id_visualContent').value,
+                         align: this.contentForm.get('align').value};
       this.contentCreate.emit({
         action: this.content ? 'edit':'new',
         posContent: this.posContent,
         content: this.contentModel
       });
+      console.log(this.contentModel);
       this.contentModel = {};
       this.contentForm.reset();
     }

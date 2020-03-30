@@ -21,6 +21,7 @@ export class Content {
     description?: string;
     id_visualContent?: string;
     urlGraph?:string;
+    align?:string;
 
     constructor() {}
 }
