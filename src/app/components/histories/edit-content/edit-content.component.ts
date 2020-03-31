@@ -63,10 +63,10 @@ export class EditContentComponent implements OnInit {
   }
 
   getEnums(){
-    this.contentsTypes = Object.entries(TypesContents).filter(e => !isNaN(e[0] as any)).map(e => ({ type: e[1], id: e[0] }));
-    this.alignsTypes = Object.entries(Aligns).filter(e => !isNaN(e[0] as any)).map(e => ({ align: e[1], id: e[0] }));
-
+    this.contentsTypes = Object.entries(TypesContents).filter(e => !isNaN(e[0] as any)).map(e => ({ type: e[1], id: +e[0] }));
+    this.alignsTypes = Object.entries(Aligns).filter(e => !isNaN(e[0] as any)).map(e => ({ align: e[1], id: +e[0] }));
   }
+
   initiateForm(){
     this.contentForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
