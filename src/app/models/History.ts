@@ -20,6 +20,7 @@ export class Content {
     title?: string;
     description?: string;
     id_visualContent?: string;
+    visualContent?:string;
     urlGraph?:string;
     align?:string;
 

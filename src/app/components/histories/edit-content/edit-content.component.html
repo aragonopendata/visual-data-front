@@ -35,40 +35,38 @@
               una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
             </p>
 
-            <form [formGroup]="contentForm">
-              <label class='form-row align-items-center'>
-                <input type="radio" value='graph' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Gráfica</span> 
-              </label>
+            <label class='form-row align-items-center'>
+              <input type="radio" value='graph' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Gráfica</span> 
+            </label>
 
-              <div *ngIf='contentModel.id_visualContent'>
-                <p class="form-section-title">El id seleccionado es: {{contentModel.id_visualContent}}</p>
-              </div>
-              <button *ngIf="contentForm.get('visualContent').value=='graph'" class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
-              
-              <label class='form-row align-items-center'>
-                <input type="radio" value='youtubeLink' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Enlace Youtube</span>
-              </label>
+            <div *ngIf='contentModel.id_visualContent'>
+              <p class="form-section-title">El id seleccionado es: {{contentModel.id_visualContent}}</p>
+            </div>
+            <button *ngIf="contentForm.get('visualContent').value=='graph'" class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
+            
+            <label class='form-row align-items-center'>
+              <input type="radio" value='youtubeLink' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Enlace Youtube</span>
+            </label>
 
-              <form [formGroup]="contentForm" *ngIf="contentForm.get('visualContent').value=='youtubeLink'">
-                <div class="form-row align-items-center">
-                  <div class="col-auto">
-                    <label class="sr-only" for="idYoutube">Id del video</label>
-                    <div class="input-group mb-2">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">https://www.youtube.com/watch?=</div>
-                      </div>
-                      <input type="text" class="form-control" formControlName="id_visualContent" id="idYoutube" placeholder="Id del video">
+            <div *ngIf="contentForm.get('visualContent').value=='youtubeLink'">
+              <div class="form-row align-items-center">
+                <div class="col-auto">
+                  <label class="sr-only" for="idYoutube">Id del video</label>
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">https://www.youtube.com/watch?=</div>
                     </div>
+                    <input type="text" class="form-control" formControlName="id_visualContent" id="idYoutube" placeholder="Id del video">
                   </div>
                 </div>
-              </form>
+              </div>
+            </div>
 
-              <label class='form-row align-items-center'>
-                <input type="radio" value='slideShare' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Enlace Share Slides</span>
-              </label>
-            </form>
+            <label class='form-row align-items-center'>
+              <input type="radio" value='slideShare' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Enlace Share Slides</span>
+            </label>
 
-            <form [formGroup]="contentForm" *ngIf="contentForm.get('visualContent').value=='slideShare'">
+            <div *ngIf="contentForm.get('visualContent').value=='slideShare'">
               <div class="form-row align-items-center mb-2">
                 <div class="col-auto">
                   <label class="sr-only" for="idSlideShare">Id de Slide share</label>
@@ -80,7 +78,7 @@
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
 
           </div>
 

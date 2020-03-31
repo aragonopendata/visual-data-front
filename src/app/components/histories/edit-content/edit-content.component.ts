@@ -68,6 +68,7 @@ export class EditContentComponent implements OnInit {
       title: this.content.title,
       description: this.content.description,
       id_visualContent: this.content.id_visualContent,
+      visualContent: this.content.visualContent,
       align: this.content.align
     });
   }
@@ -83,10 +84,14 @@ export class EditContentComponent implements OnInit {
         control.markAsTouched();
       })
     }else{
-      this.contentModel = {title: this.contentForm.get('title').value, 
-                         description: this.contentForm.get('description').value, 
-                         id_visualContent: this.contentForm.get('id_visualContent').value,
-                         align: this.contentForm.get('align').value};
+      this.contentModel = {
+        title: this.contentForm.get('title').value, 
+        description: this.contentForm.get('description').value, 
+        visualContent: this.contentForm.get('visualContent').value,
+        id_visualContent: this.contentForm.get('id_visualContent').value,
+        align: this.contentForm.get('align').value
+      };
+
       this.contentCreate.emit({
         action: this.content ? 'edit':'new',
         posContent: this.posContent,
