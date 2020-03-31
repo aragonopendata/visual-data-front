@@ -22,7 +22,7 @@ export class Content {
     visual_content?: string;
     type_content?:string;
     urlGraph?:string;
-    align?:string;
+    align?:number;
 
     constructor() {}
 }

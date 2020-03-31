@@ -19,7 +19,7 @@ export class ViewHistoryComponent implements OnInit {
   historySelect: History;
   previewHistory: History;
   preview: boolean = false;
-  align: string;
+  align: number;
   //historyContents: any;
 
   chartOptions: any = {
