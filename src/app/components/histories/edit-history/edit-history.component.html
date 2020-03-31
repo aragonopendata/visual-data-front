@@ -103,7 +103,7 @@
 
           <div #newContentElement *ngIf="showAddContent">
             <div class="card card-body">
-              <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)"></app-edit-content>
+              <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()"></app-edit-content>
             </div>
           </div>
 
