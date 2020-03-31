@@ -216,7 +216,10 @@ export class EditHistoryComponent implements OnInit {
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
       secondary_categories: cat2Selected,
       contents: (this.contents.length==0)  ? null : this.contents,
+      create_date:this.historyBack.create_date? this.historyBack.create_date :null,
+      update_date:this.historyBack.update_date? this.historyBack.update_date:null,      
       id_reference:null ////dato a sacar de si viene otra historia o no, de momento nulo
+
     }
 
 

@@ -9,6 +9,8 @@ export class History {
     main_category?: number;
     secondary_categories?: number[];
     contents?: Content[];
+    create_date?: Date;
+    update_date?:Date;
 
     image?: string;
     constructor() {}
