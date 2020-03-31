@@ -19,8 +19,8 @@ export class Content {
     id?: string;
     title?: string;
     description?: string;
-    id_visualContent?: string;
-    visualContent?:string;
+    visualContent?: string;
+    typeContent?:string;
     urlGraph?:string;
     align?:string;
 

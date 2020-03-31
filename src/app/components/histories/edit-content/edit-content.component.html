@@ -36,19 +36,19 @@
             </p>
 
             <label class='form-row align-items-center'>
-              <input type="radio" value='graph' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Gráfica</span> 
+              <input type="radio" value='graph' formControlName="typeContent" (click)="contentForm.controls['visualContent'].reset()"><span>Gráfica</span> 
             </label>
 
-            <div *ngIf='contentModel.id_visualContent'>
-              <p class="form-section-title">El id seleccionado es: {{contentModel.id_visualContent}}</p>
+            <div *ngIf='contentModel.visualContent'>
+              <p class="form-section-title">El id seleccionado es: {{contentModel.visualContent}}</p>
             </div>
-            <button *ngIf="contentForm.get('visualContent').value=='graph'" class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
+            <button *ngIf="contentForm.get('typeContent').value=='graph'" class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
             
             <label class='form-row align-items-center'>
-              <input type="radio" value='youtubeLink' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Enlace Youtube</span>
+              <input type="radio" value='youtubeLink' formControlName="typeContent" (click)="contentForm.controls['visualContent'].reset()"><span>Enlace Youtube</span>
             </label>
 
-            <div *ngIf="contentForm.get('visualContent').value=='youtubeLink'">
+            <div *ngIf="contentForm.get('typeContent').value=='youtubeLink'">
               <div class="form-row align-items-center">
                 <div class="col-auto">
                   <label class="sr-only" for="idYoutube">Id del video</label>
@@ -56,17 +56,17 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text">https://www.youtube.com/watch?=</div>
                     </div>
-                    <input type="text" class="form-control" formControlName="id_visualContent" id="idYoutube" placeholder="Id del video">
+                    <input type="text" class="form-control" formControlName="visualContent" id="idYoutube" placeholder="Id del video">
                   </div>
                 </div>
               </div>
             </div>
 
             <label class='form-row align-items-center'>
-              <input type="radio" value='slideShare' formControlName="visualContent" (click)="contentForm.controls['id_visualContent'].reset()"><span>Enlace Share Slides</span>
+              <input type="radio" value='slideShare' formControlName="typeContent" (click)="contentForm.controls['visualContent'].reset()"><span>Enlace Share Slides</span>
             </label>
 
-            <div *ngIf="contentForm.get('visualContent').value=='slideShare'">
+            <div *ngIf="contentForm.get('typeContent').value=='slideShare'">
               <div class="form-row align-items-center mb-2">
                 <div class="col-auto">
                   <label class="sr-only" for="idSlideShare">Id de Slide share</label>
@@ -74,7 +74,7 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text">https://www.slideshare.net/</div>
                     </div>
-                    <input type="text" class="form-control" formControlName="id_visualContent" id="idSlideShare" placeholder="Id del Slide share">
+                    <input type="text" class="form-control" formControlName="visualContent" id="idSlideShare" placeholder="Id del Slide share">
                   </div>
                 </div>
               </div>

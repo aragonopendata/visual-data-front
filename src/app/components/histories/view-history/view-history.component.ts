@@ -71,7 +71,7 @@ export class ViewHistoryComponent implements OnInit {
 
       if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
-          this._graphService.getChart(element.id_visualContent).subscribe(chart => {
+          this._graphService.getChart(element.visualContent).subscribe(chart => {
             this.chart.push(chart);
           });
         });
@@ -84,7 +84,7 @@ export class ViewHistoryComponent implements OnInit {
         this.historySelect = history[0];
         if(this.historySelect.contents){
           this.historySelect.contents.forEach( (element: Content) => {
-            this._graphService.getChart(element.id_visualContent).subscribe(chart => {
+            this._graphService.getChart(element.visualContent).subscribe(chart => {
               this.chart.push(chart);
             });
           });
