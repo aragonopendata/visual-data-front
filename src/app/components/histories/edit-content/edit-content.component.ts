@@ -20,6 +20,7 @@ export class EditContentComponent implements OnInit {
   settings: any;
 
   @Output() contentCreate = new EventEmitter<any>();
+  @Output() closeContent = new EventEmitter<any>();
 
   constructor( private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder) { 
     
@@ -101,6 +102,10 @@ export class EditContentComponent implements OnInit {
       this.contentModel = {};
       this.contentForm.reset();
     }
+  }  
+
+  closeComponentContent(){
+    this.closeContent.emit();
+
   }
-  
 }

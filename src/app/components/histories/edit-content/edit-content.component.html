@@ -1,6 +1,9 @@
   
 <div class="row">
     <h2>Crear un nuevo contenido</h2>
+    <button type="button" class="close" aria-label="Close" (click)="closeComponentContent()">
+      <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <form [formGroup]="contentForm">
