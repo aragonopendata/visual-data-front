@@ -19,6 +19,7 @@ export class ViewHistoryComponent implements OnInit {
   historySelect: History;
   previewHistory: History;
   preview: boolean = false;
+  align: number;
   //historyContents: any;
 
   chartOptions: any = {
@@ -69,8 +70,12 @@ export class ViewHistoryComponent implements OnInit {
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
       console.log(this.historySelect);
 
+
       if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
+
+          this.align=element.align;
+          console.log(this.align);
           this._graphService.getChart(element.visual_content).subscribe(chart => {
             this.chart.push(chart);
           });
