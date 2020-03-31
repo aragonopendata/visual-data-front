@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 import { VisualGrapsService } from '../../../services/visual-graps.service';
 import { Content } from '../../../models/History';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { TypesContents } from '../../../models/TypesContents';
+import { Aligns } from '../../../models/Aligns';
+
+
 
 @Component({
   selector: 'app-edit-content',
@@ -16,6 +20,8 @@ export class EditContentComponent implements OnInit {
   
   contentModel: Content = {}
   contentForm: FormGroup;
+  contentsTypes: any;
+  alignsTypes:any;
 
   settings: any;
 
@@ -48,18 +54,25 @@ export class EditContentComponent implements OnInit {
       this.contentForm.controls['visual_content'].setValue(id);
     });
 
+    this.getEnums();
+
     if(this.content){
       this.setForm();
     }
     
   }
 
+  getEnums(){
+    this.contentsTypes = Object.entries(TypesContents).filter(e => !isNaN(e[0] as any)).map(e => ({ type: e[1], id: e[0] }));
+    this.alignsTypes = Object.entries(Aligns).filter(e => !isNaN(e[0] as any)).map(e => ({ align: e[1], id: e[0] }));
+
+  }
   initiateForm(){
     this.contentForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
       visual_content: new FormControl(null),
-      type_content: new FormControl(''),
+      type_content: new FormControl(null),
       align: new FormControl('')
     });
   }
@@ -88,6 +101,7 @@ export class EditContentComponent implements OnInit {
       this.contentModel = {
         title: this.contentForm.get('title').value, 
         description: this.contentForm.get('description').value, 
+        //type_content: this.contentForm.get('type_content').value ? TypesContents[this.contentForm.get('type_content').value] : null,
         type_content: this.contentForm.get('type_content').value,
         visual_content: this.contentForm.get('visual_content').value,
         align: this.contentForm.get('align').value
