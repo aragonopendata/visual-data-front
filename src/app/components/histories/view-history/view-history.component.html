@@ -28,15 +28,21 @@
 
             <div><p class="title">{{content.title}}</p></div>
 
+
             <div class="content">
-              <div>
+
+              <div *ngIf="content.align === 'Derecha'">
                 <p [innerHTML]="content.description"></p>
               </div>
 
               <div class="content-graph">
-                <canvas *ngIf='chart[i]' 
+                <canvas *ngIf='chart[i]'
                 baseChart [datasets]="chart[i].data" [labels]="chart[i].labels" 
                 [options]="chartOptions" [chartType]=chart[i].type [colors]=chart[i].color></canvas>
+              </div>
+              
+              <div *ngIf="content.align === 'Izquierda'">
+                <p [innerHTML]="content.description"></p>
               </div>
               
 
