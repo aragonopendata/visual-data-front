@@ -45,7 +45,7 @@
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.id)&&(contentForm.get('type_content').value==contentsTypes[0].id))">
                 <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
-                <p class="form-section-title">El id seleccionado es: {{contentModel.visual_content}}</p>
+                <p *ngIf="contentModel.visual_content" class="form-section-title">El id seleccionado es: {{contentModel.visual_content}}</p>
               </div>
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.id)&&(contentForm.get('type_content').value==contentsTypes[1].id))">
