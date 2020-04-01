@@ -30,7 +30,7 @@
 
           <!-- Descripcion historia -->
           <div>
-            <h4 class="form-section-title">Descripción *</h4>
+            <h4 class="form-section-title">Descripción</h4>
             <p>
               La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente
               qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
@@ -44,7 +44,7 @@
           <!-- Categorias historia -->
           <!-- Categoria primaria -->
           <div>
-            <h4 class="form-section-title">Categorización *</h4>
+            <h4 class="form-section-title">Categorización</h4>
             <p>
               Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
               para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
@@ -186,8 +186,10 @@
           <p *ngIf="historyBack.state == 1">Su historia {{historyModel.title}}, se ha guardado correctamente</p>
           <p *ngIf="historyBack.state == 2">Su historia {{historyModel.title}}, se ha enviado correctamente</p>
         </div>
-        <button type="button" class="btn btn-primary" (click)="goHome()">Ir a Open Data</button>
-        <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
+        <div class="modal-buttons">
+          <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
+          <button type="button" class="btn btn-primary button-right" (click)="goHome()">Ir a Open Data</button>
+        </div>
       </div>
     </div>
   </div>
@@ -208,8 +210,10 @@
       <div class="modal-body">
         <p *ngIf="historyBack.state != 2">Se ha producido un error al procesar la acción solicitada</p>
         <p *ngIf="historyBack.state == 2"> Una vez que la historia ha sido enviada a aprobación, no se pueden hacer nuevas modificaciones</p>
-        <button type="button" class="btn btn-primary" (click)="goHome()">Ir a Open Data</button>
-        <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
+        <div class="modal-buttons">
+          <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
+          <button type="button" class="btn btn-primary button-right" (click)="goHome()">Ir a Open Data</button>
+        </div>
       </div>
     </div>
     
