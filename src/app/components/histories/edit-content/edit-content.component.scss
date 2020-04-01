@@ -15,8 +15,36 @@ h1, h2, h3, h4, h5, h6 {
     text-align: justify;
 }
 
+.title{
+    margin: 3rem 0;
+}
+
 .tab-content{
-    padding-bottom: 5%;
+    .tab-pane{
+        >div{
+            margin-bottom: 3rem;
+        }
+        .group{
+            margin: 2rem 0;
+        }
+        
+        .contents-select {
+            span{
+                font-weight: bold;
+            }
+        }
+        
+        .select-cat2{
+            button{
+                margin-left: 0;
+                width: 100%;
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
 }
 
 .actions{
