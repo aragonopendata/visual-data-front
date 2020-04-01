@@ -30,6 +30,7 @@ export class EditHistoryComponent implements OnInit {
   posToEdit:number;
   showAddContent = false;
   settings: any;
+  firstTime:boolean =true;
 
   stateHistory:any =0;
 
@@ -140,6 +141,7 @@ export class EditHistoryComponent implements OnInit {
     }else{
       if(this.historyBack.email){
         if(this.historyBack.state==State["borrador"]){//unico estado de momento editable
+          this.firstTime=false;
           this.operateWithHistory(Constants.UPDATE_HISTORY);
         }else{
           console.log("no presenta un estado editable")
@@ -172,6 +174,7 @@ export class EditHistoryComponent implements OnInit {
     }
     else{
       $('#emailModalCenter').modal('hide');
+      this.firstTime=true;
       this.operateWithHistory(Constants.SAVE_HISTORY)
       //this.saveHistory();
     }
@@ -216,7 +219,10 @@ export class EditHistoryComponent implements OnInit {
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
       secondary_categories: cat2Selected,
       contents: (this.contents.length==0)  ? null : this.contents,
+      create_date:this.historyBack.create_date? this.historyBack.create_date :null,
+      update_date:this.historyBack.update_date? this.historyBack.update_date:null,      
       id_reference:null ////dato a sacar de si viene otra historia o no, de momento nulo
+
     }
 
 
@@ -246,6 +252,7 @@ export class EditHistoryComponent implements OnInit {
           });
         } else {
           console.log('Error GUARDANDO historia')
+          this.openModalError()
         }
       });
     }else if(action==Constants.UPDATE_HISTORY){

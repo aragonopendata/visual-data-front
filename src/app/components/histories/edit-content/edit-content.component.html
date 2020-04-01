@@ -94,6 +94,7 @@
     </div>
   </div>
   <div class="actions">
+    <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent()> Descartar contenido</button>       
     <button class="btn-left btn btn-primary" type="button" (click)='saveContent()' [ngClass]="contentForm.invalid ? 'disabled' : '' ">Guardar contenido</button>
   </div>
 </form>
