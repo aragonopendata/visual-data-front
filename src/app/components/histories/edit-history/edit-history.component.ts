@@ -33,6 +33,8 @@ export class EditHistoryComponent implements OnInit {
   firstTime:boolean =true;
 
   stateHistory:any =0;
+  stateEnum: typeof State = State;
+
 
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
   @ViewChild('newContentElement') newContentElement: ElementRef;
@@ -140,7 +142,7 @@ export class EditHistoryComponent implements OnInit {
       })
     }else{
       if(this.historyBack.email){
-        if(this.historyBack.state==State["borrador"]){//unico estado de momento editable
+        if(this.historyBack.state==this.stateEnum.borrador){//unico estado de momento editable
           this.firstTime=false;
           this.operateWithHistory(Constants.UPDATE_HISTORY);
         }else{
@@ -158,10 +160,10 @@ export class EditHistoryComponent implements OnInit {
   getState(button){
     console.log(button.id)
     if(button.id=="btnSendRevision"){
-      this.stateHistory=State["revision"]
+      this.stateHistory=this.stateEnum.revision
       console.log("entro a get de sendRevision")
     }else{
-      this.stateHistory=State["borrador"]
+      this.stateHistory=this.stateEnum.borrador
     }
   }
   
@@ -196,7 +198,7 @@ export class EditHistoryComponent implements OnInit {
   
 
   getPreviewHistory(){
-    this.stateHistory=this.historyBack.state?  this.historyBack.state: 0 ;
+    this.stateHistory=this.historyBack.state?  this.historyBack.state: this.stateEnum.sinDefinir;
     this.operateWithHistory(Constants.PREVIEW_HISTORY);
   }
 
@@ -241,7 +243,7 @@ export class EditHistoryComponent implements OnInit {
           this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){
               console.log('correo usuario OK')
-              if(this.stateHistory==State.revision){
+              if(this.stateHistory==this.stateEnum.revision){
                 this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
                   if(result.status==200){
                     console.log('correo admin OK')
@@ -262,7 +264,7 @@ export class EditHistoryComponent implements OnInit {
           console.log('actualizado Ok MOSTRAR MODAL OK');
           this.historyBack = this.historyModel;
           $('#successfullModalCenter').modal('show');
-          if(this.stateHistory==State.revision){
+          if(this.stateHistory==this.stateEnum.revision){
             this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
               if(result.status==200){
                 console.log('correo admin OK')

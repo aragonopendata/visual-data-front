@@ -20,9 +20,9 @@ export class EditContentComponent implements OnInit {
   
   contentModel: Content = {}
   contentForm: FormGroup;
-  contentsTypes: any;
+  contentsTypes: any = Constants.CONTENTS_TYPES;
   contentEnum: typeof Contents = Contents;
-  alignsTypes:any;
+  alignsTypes:any =Constants.ALIGNS_TYPES;;
 
   settings: any;
 
@@ -56,17 +56,10 @@ export class EditContentComponent implements OnInit {
       this.contentForm.controls['visual_content'].setValue(id);
     });
 
-    this.getEnums();
-
     if(this.content){
       this.setForm();
     }
     
-  }
-
-  getEnums(){
-    this.contentsTypes = Constants.CONTENTS_TYPES;
-    this.alignsTypes=Constants.ALIGNS_TYPES;
   }
 
   initiateForm(){

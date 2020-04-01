@@ -31,29 +31,29 @@
 
             <div class="content">
 
-              <div *ngIf="content.align == 2">
+              <div *ngIf="content.align == alignEnum.right">
                 <p [innerHTML]="content.description"></p>
               </div>
 
-              <div class="content-graph" *ngIf="content.type_content==1">
+              <div class="content-graph" *ngIf="content.type_content==contentEnum.chart">
                 <canvas *ngIf='chart[i]'
                 baseChart [datasets]="chart[i].data" [labels]="chart[i].labels" 
                 [options]="chartOptions" [chartType]=chart[i].type [colors]=chart[i].color></canvas>
               </div>
 
-              <div *ngIf="content.type_content==2">
+              <div *ngIf="content.type_content==contentEnum.youtube">
                 <iframe width="560" height="315" [src]='urlYoutube(content.visual_content)'
                 frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
               </div>
 
-              <div *ngIf="content.type_content==3">
+              <div *ngIf="content.type_content==contentEnum.shareSlides">
                 <iframe width="595" height="485" [src]='urlSlideShare(content.visual_content)' marginwidth="0" scrolling = "no"
                 style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
                 allowfullscreen></iframe>
               </div>
               
-              <div *ngIf="content.align == 1">
+              <div *ngIf="content.align == alignEnum.left">
                 <p [innerHTML]="content.description"></p>
               </div>
               

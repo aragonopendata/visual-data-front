@@ -175,16 +175,16 @@
       </div>
       <div class="modal-body">
         <div *ngIf=firstTime>
-          <p *ngIf="historyBack.state == 1">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
-          <p *ngIf="historyBack.state == 2">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
+          <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
+          <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
           <div class="tokenSite col-12">
             <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.id}}</textarea>
             <button type="button" class="btn btn-primary fa fa-copy" (click)="copyToken()">Copiar Token</button>
           </div>
         </div>
         <div *ngIf=!firstTime>
-          <p *ngIf="historyBack.state == 1">Su historia {{historyModel.title}}, se ha guardado correctamente</p>
-          <p *ngIf="historyBack.state == 2">Su historia {{historyModel.title}}, se ha enviado correctamente</p>
+          <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente</p>
+          <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente</p>
         </div>
         <div class="modal-buttons">
           <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
@@ -201,15 +201,15 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 *ngIf="historyBack.state != 2"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h5>
-        <h5 *ngIf="historyBack.state == 2"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h5>
+        <h5 *ngIf="historyBack.state !=stateEnum.revision"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h5>
+        <h5 *ngIf="historyBack.state == stateEnum.revision"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p *ngIf="historyBack.state != 2">Se ha producido un error al procesar la acción solicitada</p>
-        <p *ngIf="historyBack.state == 2"> Una vez que la historia ha sido enviada a aprobación, no se pueden hacer nuevas modificaciones</p>
+        <p *ngIf="historyBack.state != stateEnum.revision">Se ha producido un error al procesar la acción solicitada</p>
+        <p *ngIf="historyBack.state == stateEnum.revision"> Una vez que la historia ha sido enviada a aprobación, no se pueden hacer nuevas modificaciones</p>
         <div class="modal-buttons">
           <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
           <button type="button" class="btn btn-primary button-right" (click)="goHome()">Ir a Open Data</button>

@@ -7,6 +7,7 @@ import { GraphService } from '../../../services/graph.service';
 //import { constants } from 'os';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
+import { Aligns } from '../../../models/Aligns';
 
 
 @Component({
@@ -23,6 +24,10 @@ export class ViewHistoryComponent implements OnInit {
   preview: boolean = false;
   align: number;
   url: string;
+  contentEnum: typeof Contents = Contents;
+  alignEnum: typeof Aligns = Aligns;
+
+
   //historyContents: any;
 
   chartOptions: any = {
