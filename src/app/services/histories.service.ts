@@ -26,10 +26,18 @@ export class HistoriesService {
     );
   }
   
+  /*
   public getHistories(): Observable<History[]>{
     return this.http.get('/assets/mocks/histories.json').map(res => res.json());
     ;
   }
+  */
+
+ public getHistories(): Observable<any>{
+  let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
+  return this.http.get(fullUrl).map(res => res.json());
+}
+
 
   public getHistory( id: number ): Observable<History>{
     return this.http.get('/assets/mocks/histories.json').pipe(

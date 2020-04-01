@@ -15,7 +15,7 @@ import { Constants } from '../../../app.constants';
 export class ViewHistoryComponent implements OnInit {
 
   chart = [];
-  idHistory: number;
+  idHistory: string;
   historySelect: History;
   previewHistory: History;
   preview: boolean = false;
@@ -85,17 +85,21 @@ export class ViewHistoryComponent implements OnInit {
 
     } else {
 
-      this.historiesService.getHistory(this.idHistory).subscribe( (history: History) => {
-        this.historySelect = history[0];
-        if(this.historySelect.contents){
-          this.historySelect.contents.forEach( (element: Content) => {
-            this._graphService.getChart(element.visual_content).subscribe(chart => {
-              this.chart.push(chart);
+      this.historiesService.getHistoryBack(this.idHistory).subscribe( response => {
+        if(response.success){
+          this.historySelect = response.history;
+          if(this.historySelect.contents){
+            this.historySelect.contents.forEach( (element: Content) => {
+              this._graphService.getChart(element.visual_content).subscribe(chart => {
+                this.chart.push(chart);
+              });
             });
-          });
+          }
+
+        }else{
+          console.log('no se encuentra la historia')
         }
-      },err => {
-        console.log('Error al obtener la historia');
+
       });
 
     }

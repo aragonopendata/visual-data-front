@@ -26,6 +26,7 @@ export class HomeFocusComponent implements OnInit {
   stateError:boolean=false;
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
+  image:string="/assets/img/university.svg"
 
   constructor(private _historiesService: HistoriesService, private _route: Router, private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder, ) { }
@@ -99,8 +100,13 @@ export class HomeFocusComponent implements OnInit {
 
 
   getHistories(){
-    this._historiesService.getHistories().subscribe( (histories: History[]) => {
-      this.histories=histories;
+    this._historiesService.getHistories().subscribe( response => {
+      if(response.success){
+        console.log(response.history)
+        this.histories=response.history;
+      }else{
+        console.log("error cargando historias")
+      }
     });
   }
 

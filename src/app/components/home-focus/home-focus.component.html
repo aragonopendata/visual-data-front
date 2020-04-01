@@ -48,11 +48,12 @@
           <!-- histories -->
           <div class="histories">
             <div>
-
-              <div class="card" style="width: 18rem;" *ngFor="let history of histories" (click)="getHistory(history.id)">
-                <img [src]="history.image" class="card-img-top" alt="...">
-                <div class="opacity"></div>
-                <div class="text"><span>{{history.title}}</span></div>
+              <div *ngFor="let history of histories">
+                <div class="card" style="width: 18rem;" (click)="getHistory(history.id)">
+                  <img [src]="image" class="card-img-top" alt="...">
+                  <div class="opacity"></div>
+                  <div class="text"><span>{{history.title}}</span></div>
+                </div>
               </div>
             </div>
           </div>

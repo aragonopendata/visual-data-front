@@ -756,6 +756,8 @@ export class Constants {
   public static ROUTER_LINK_SERVICES_WEB='/services/web';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
+  public static ROUTER_LINK_ALL_HISTORIES='/histories';
+
 
 
   public static PREVIEW_HISTORY="PREVIEW"
