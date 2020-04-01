@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GraphService } from '../../../services/graph.service';
 //import { constants } from 'os';
 import { Constants } from '../../../app.constants';
-import { TypesContents } from '../../../models/TypesContents';
+import { Contents } from '../../../models/Contents';
 
 
 @Component({
@@ -79,7 +79,7 @@ export class ViewHistoryComponent implements OnInit {
 
           this.align=element.align;
           console.log(this.align);
-          if(element.type_content ==  TypesContents["Gráfica"]){
+          if(element.type_content ==  Contents.graph){
             this._graphService.getChart(element.visual_content).subscribe(chart => {
               this.chart.push(chart);
             });

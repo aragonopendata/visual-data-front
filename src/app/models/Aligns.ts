@@ -1,4 +1,15 @@
+export class AlignsType{
+    text: string;
+    type: Aligns
+
+    constructor (_text: string, _type: Aligns){
+        this.text=_text;
+        this.type=_type;
+    }
+}
+
+
 export enum Aligns {
-    "Descripción a la derecha, fuente de datos a la izquierda" = 1,
-    "Descripción a la izquierda, fuente de datos a la derecha" = 2
+    right = 1,
+    left = 2
 }
