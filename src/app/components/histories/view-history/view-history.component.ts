@@ -6,6 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GraphService } from '../../../services/graph.service';
 //import { constants } from 'os';
 import { Constants } from '../../../app.constants';
+import { TypesContents } from '../../../models/TypesContents';
+
 
 @Component({
   selector: 'app-view-history',
@@ -20,6 +22,7 @@ export class ViewHistoryComponent implements OnInit {
   previewHistory: History;
   preview: boolean = false;
   align: number;
+  url: string;
   //historyContents: any;
 
   chartOptions: any = {
@@ -76,9 +79,11 @@ export class ViewHistoryComponent implements OnInit {
 
           this.align=element.align;
           console.log(this.align);
-          this._graphService.getChart(element.visual_content).subscribe(chart => {
-            this.chart.push(chart);
-          });
+          if(element.type_content ==  TypesContents["Gráfica"]){
+            this._graphService.getChart(element.visual_content).subscribe(chart => {
+              this.chart.push(chart);
+            });
+          }
         });
       }
 
@@ -103,6 +108,18 @@ export class ViewHistoryComponent implements OnInit {
 
   urlGraph(id: string) {
     let url = 'https://opendata.aragon.es/servicios/visualdata/charts/embed/'+id;
+    return this._sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  urlYoutube(id: string) {
+    let url = "https://www.youtube.com/embed/"+id;
+    console.log(url)
+    return this._sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  urlSlideShare(id: string) {
+    let url = "https://www.slideshare.net/"+id;
+    console.log(url)
     return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
