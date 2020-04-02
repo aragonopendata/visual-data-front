@@ -9,9 +9,15 @@
     height: 100vh;
     z-index: 9999;
     width: 100vw;
+    align-items: center ;
     .modal-container__wrap{
-        width: 80%;
         align-items: center;
+        width: 90%;
+        border-radius: 9px;
+        background: white;
+        padding: 21px;
+        height: 90%;
+        overflow-y: auto;
     }
     button.close{
         color: white;
