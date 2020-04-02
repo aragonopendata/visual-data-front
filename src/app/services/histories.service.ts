@@ -63,7 +63,6 @@ export class HistoriesService {
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     let requestBodyParams: any = history;
     console.log(fullUrl);
-    //console.log(JSON.stringify(requestBodyParams))
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
 
@@ -72,12 +71,6 @@ export class HistoriesService {
     let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_ADMIN_HISTORY_PATH;
     headers.append('Content-Type', 'application/json');
     console.log('dentro de send email');
-
-    /*
-    const body = JSON.stringify({
-      title: title
-    });
-    */
 
     return this.http.post(fullUrl,history,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
       .catch(err => {
@@ -91,18 +84,22 @@ export class HistoriesService {
     let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_USER_HISTORY_PATH;
     headers.append('Content-Type', 'application/json');
 
-    /*
-    const body = JSON.stringify({
-      title: title,
-      email: email
-    });
-    */
-
     return this.http.post(fullUrl,history,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
       .catch(err => {
       console.log('hay eror:' + err)
         return Observable.throw('errorConexion');
       });
+      
+  }
+
+
+  public getEmbedUrlSlideShare(url:string){
+
+    let fullUrl= Constants.API_SLIDESHARE_CONVERT_URL_TO_EMBED + "?url=" + url + "&format=json" 
+
+    console.log(fullUrl);
+
+    return this.http.get(fullUrl).map(res => res.json());;
       
   }
 

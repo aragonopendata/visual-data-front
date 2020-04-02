@@ -126,11 +126,41 @@ export class ViewHistoryComponent implements OnInit {
     return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
+  
   urlSlideShare(id: string) {
     let url = "https://www.slideshare.net/"+id;
-    console.log(url)
-    return this._sanitizer.bypassSecurityTrustResourceUrl(url);
+    console.log('entro Slide')
+    var urlSlideEmbed;
+    
+    this.historiesService.getEmbedUrlSlideShare(url).subscribe( response => {
+      if(response.html){
+        let iframeInfo=response.html
+        console.log(iframeInfo)
+        urlSlideEmbed = iframeInfo.substring(
+          iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
+          iframeInfo.lastIndexOf("\" width=")
+        );
+        console.log(urlSlideEmbed)
+      }
+    });
+    /*
+   let iframeInfo = "<iframe src=\"https://www.slideshare.net/slideshow/embed_code/key/ymrpsJU8z3e4dx\" width=\"427\" height=\"356\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" style=\"border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;\" allowfullscreen> </iframe> <div style=\"margin-bottom:5px\"> <strong> <a href=\"https://www.slideshare.net/nwinkelman/the-language-of-coaching-a-story-about-learning\" title=\"The Language of Coaching - A Story About Learning\" target=\"_blank\">The Language of Coaching - A Story About Learning</a> </strong> from <strong><a href=\"https://www.slideshare.net/nwinkelman\" target=\"_blank\">Nick Winkelman, PhD</a></strong> </div>\n\n"
+
+   var urlSlideEmbed = iframeInfo.substring(
+     iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
+     iframeInfo.lastIndexOf("\" width=")
+    );
+    console.log(urlSlideEmbed)
+    */
+
+    //let regexp= new RegExp('(?<=src=\\\\)(.*)(?=\\\\" width=)');
+    //var data = regexp.exec(iframeInfo)
+    //console.log(iframeInfo.match(/(?<=src=\\)(.*)(?=\\" width=)/g))
+    //console.log(iframeInfo.match(/(embed_code\/key\/)(.*)(?=" width)/g))
+
+    return this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed);
   }
+  
 
   return(){
     if(this.preview){

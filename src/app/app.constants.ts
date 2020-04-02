@@ -781,6 +781,7 @@ export class Constants {
   public static CONTENT_SHARESLIDES = new ContentsType(Constants.CONTENT_SHARESLIDES_TEXT, Contents.shareSlides)
   public static CONTENTS_TYPES =[Constants.CONTENT_GRAPH, Constants.CONTENT_YOUTUBE, Constants.CONTENT_SHARESLIDES]
 
+  public static API_SLIDESHARE_CONVERT_URL_TO_EMBED = "https://www.slideshare.net/api/oembed/2"
 
 
 }
