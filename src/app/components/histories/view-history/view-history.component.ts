@@ -17,7 +17,7 @@ import { Aligns } from '../../../models/Aligns';
 })
 export class ViewHistoryComponent implements OnInit {
 
-  chart = [];
+   chart = [];
   idHistory: string;
   historySelect: History;
   previewHistory: History;
@@ -118,7 +118,7 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   urlGraph(id: string) {
-    let url = 'https://opendata.aragon.es/servicios/visualdata/charts/embed/'+id;
+    let url = 'http://localhost:4075/#/charts/embed/'+id;
     return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
@@ -142,4 +142,5 @@ export class ViewHistoryComponent implements OnInit {
       this._router.navigate(["/"]);
     }
   }
+  
 }

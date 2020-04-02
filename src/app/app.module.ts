@@ -72,6 +72,7 @@ import { ViewHistoryComponent } from './components/histories/view-history/view-h
 
 import { TinyMceModule } from 'angular-tinymce';
 import { tinymceDefaultSettings } from 'angular-tinymce';
+import { IFrameResizerDirective } from './directives/iframe-resizer.directive';
 
 // All the routes for the app
 const routes: Routes = [
@@ -104,6 +105,11 @@ const routes: Routes = [
     outlet: 'modal',
     children: [
       { path: '', component: ListGraphsComponent },
+      { path: 'selectData', component: SelectDataComponent },
+      { path: 'previewData', component: PreviewDataComponent },
+      { path: 'previewGraph', component: PreviewGraphComponent },
+      { path: 'endGraphic/:id', component: EndGraphComponent },
+      { path: 'charts/:id', component: EndGraphComponent }
     ]
   },
 
@@ -152,7 +158,8 @@ const routes: Routes = [
     EditHistoryComponent,
     EditContentComponent,
     ModalComponent,
-    ViewHistoryComponent
+    ViewHistoryComponent,
+    IFrameResizerDirective,
   ],
   providers: [
     DatePipe,

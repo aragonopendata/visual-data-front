@@ -1,4 +1,4 @@
-.container{
+.container-view{
     margin-top: 3rem;
     .title{
         text-align: center;
@@ -28,6 +28,18 @@
                 width: auto;
                 width: 700px !important;
                 //margin-left: 20px;
+            }
+            .content-text{
+                width: 30%;
+            }
+            .content-visual{
+                width: 70%;
+                &.graph{
+                    iframe {
+                        width: 1px;
+                        min-width: 100%;
+                      }
+                }
             }
         }
     }
