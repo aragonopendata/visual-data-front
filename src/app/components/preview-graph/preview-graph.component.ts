@@ -39,6 +39,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   public chartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true,
+    elements: {
+      line: {
+              fill: false
+      }
+    },
     scales: {
       xAxes: [
         {
