@@ -31,6 +31,7 @@ export class EditHistoryComponent implements OnInit {
   showAddContent = false;
   settings: any;
   firstTime:boolean =true;
+  loading: boolean = true;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -63,6 +64,10 @@ export class EditHistoryComponent implements OnInit {
         if(params.id!=null){
           this.getHistory(params.id);
         }
+        else{
+
+          this.loading = false;
+        }
       });
 		},err => {
       console.log('Error al obtener las categorias');
@@ -80,8 +85,6 @@ export class EditHistoryComponent implements OnInit {
         this.updateWithBackHistory();
       }
     });
-    
-    
   }
 
   updateWithBackHistory(){
@@ -102,6 +105,7 @@ export class EditHistoryComponent implements OnInit {
       
       this.contents=this.historyBack.contents== null? [] : this.historyBack.contents;
 
+      return this.loading=false;
   }
 
   initiateForms(){

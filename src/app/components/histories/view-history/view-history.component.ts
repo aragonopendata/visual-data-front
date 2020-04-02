@@ -26,6 +26,7 @@ export class ViewHistoryComponent implements OnInit {
   url: string;
   contentEnum: typeof Contents = Contents;
   alignEnum: typeof Aligns = Aligns;
+  loading : boolean = true;
 
 
   //historyContents: any;
@@ -60,6 +61,7 @@ export class ViewHistoryComponent implements OnInit {
       }
       else{
         this.preview=true;
+        this.loading=false;
       }
       console.log(this.preview);
       
@@ -105,7 +107,7 @@ export class ViewHistoryComponent implements OnInit {
               });
             });
           }
-
+          return this.loading=false;
         }else{
           console.log('no se encuentra la historia')
         }
