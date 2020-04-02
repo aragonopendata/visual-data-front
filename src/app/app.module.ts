@@ -82,7 +82,7 @@ const routes: Routes = [
 
   //No Embed routes
   {
-    path: 'focus',
+    path: '',
     component: BodyComponent,
     children: [
       { path: '', component: HomeFocusComponent },

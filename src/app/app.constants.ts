@@ -30,7 +30,7 @@ export class Constants {
   public static PATH_MODIFIER = '';
   // URLS
   public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
-  public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
+  public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4999/aod';
   public static FOCUS_URL = 'http://localhost:4201/aod';
 
 
@@ -746,13 +746,13 @@ export class Constants {
 
 
 
-  public static ROUTER_LINK_ADD_HISTORY='focus/add/history';
-  public static ROUTER_LINK_EDIT_HISTORY='focus/editHistory';
-  public static ROUTER_LINK_PREVIEW_HISTORY='/focus/previewHistory';
+  public static ROUTER_LINK_ADD_HISTORY='/add/history';
+  public static ROUTER_LINK_EDIT_HISTORY='/editHistory';
+  public static ROUTER_LINK_PREVIEW_HISTORY='previewHistory';
 
 
   public static ROUTER_LINK_ADD_CONTENT='add/content';
-  public static ROUTER_LINK_VIEW_HISTORY='focus/viewHistory';
+  public static ROUTER_LINK_VIEW_HISTORY='/viewHistory';
 
   public static LOCALSTORAGE_KEY_MAIL='email';
   public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';

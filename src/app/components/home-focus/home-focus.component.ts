@@ -61,7 +61,7 @@ export class HomeFocusComponent implements OnInit {
   createNewHistory(){
     localStorage.removeItem(Constants.LOCALSTORAGE_KEY_MAIL);
     $("#homeModalCenter").modal('hide');
-    this._route.navigate(['focus/addHistory']);
+    this._route.navigate(['/addHistory']);
   }
 
   updateHistoryWithToken(){
