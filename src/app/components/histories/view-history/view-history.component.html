@@ -1,75 +1,89 @@
-<div class="container" *ngIf="historySelect">
-
-  <button type="button" class="btn btn-link" (click)="return()">Volver</button>
-
-
-  <div class="row title">
-		<div class=" col-md-12">
-      <img [src]="historySelect.image" class="card-img-top" alt="...">
-			<h1>{{historySelect.title}}</h1>
-		</div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <div class="tab-content">
-
-        <!-- Content Tab -->
-				<div class="tab-pane active" id="content_tab" role="tabpanel">
-          
-          <!-- Description history -->
-          <div class="desc-history">
-            <h3 class="form-section-title">Descripción: </h3>
-            <p [innerHTML]="historySelect.description"></p>
-          </div>
- 
-          <!-- content history -->
-          <div class="content-wrap" *ngFor="let content of historySelect.contents; let i = index">
-
-            <div><p class="title">{{content.title}}</p></div>
+<div class="text-center" *ngIf="loading">
+  <div class="loadingText">Cargando historia</div><br/><br/>
+  <i  class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; 
+font-weight: 400;"></i><br/><br/> 
+</div>
 
 
-            <div class="content">
+<div *ngIf="!loading">
+  <div class="container-view" *ngIf="historySelect">
 
-              <div *ngIf="content.align == alignEnum.right">
-                <p [innerHTML]="content.description"></p>
-              </div>
-
-              <div class="content-graph" *ngIf="content.type_content==contentEnum.chart">
-                <canvas *ngIf='chart[i]'
-                baseChart [datasets]="chart[i].data" [labels]="chart[i].labels" 
-                [options]="chartOptions" [chartType]=chart[i].type [colors]=chart[i].color></canvas>
-              </div>
-
-              <div *ngIf="content.type_content==contentEnum.youtube">
-                <iframe width="560" height="315" [src]='urlYoutube(content.visual_content)'
-                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-              </div>
-
-              <div *ngIf="content.type_content==contentEnum.shareSlides">
-                <iframe width="595" height="485" [src]='urlSlideShare(content.visual_content)' marginwidth="0" scrolling = "no"
-                style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
-                allowfullscreen></iframe>
-              </div>
-              
-              <div *ngIf="content.align == alignEnum.left">
-                <p [innerHTML]="content.description"></p>
-              </div>
-              
-
-              <!-- <iframe [src]='urlGraph(content.idGraph)' style="width: 100%; height: 100%;" frameborder="0"></iframe> -->
+    <button type="button" class="btn btn-link" (click)="return()">Volver</button>
+  
+  
+    <div class="row title">
+      <div class=" col-md-12">
+        <img [src]="historySelect.image" class="card-img-top" alt="...">
+        <h1>{{historySelect.title}}</h1>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tab-content">
+  
+          <!-- Content Tab -->
+          <div class="tab-pane active" id="content_tab" role="tabpanel">
+            
+            <!-- Description history -->
+            <div class="desc-history">
+              <h3 class="form-section-title">Descripción: </h3>
+              <p [innerHTML]="historySelect.description"></p>
             </div>
+   
+            <!-- content history -->
+            <div class="content-wrap" *ngFor="let content of historySelect.contents; let i = index">
+  
+              <div><p class="title">{{content.title}}</p></div>
+  
+  
+              <div class="content">
+  
+                <div class="content-text" *ngIf="content.align == alignEnum.right">
+                  <p [innerHTML]="content.description"></p>
+                </div>
+  
+                <div class="content-visual graph " *ngIf="content.type_content==contentEnum.graph">
 
+                  <iframe appIframeResizer
+                    class="thread-content"
+                    [src]="urlGraph(content.visual_content)"
+                    title="Thread Content"
+                    scrolling="no" frameborder="0"></iframe>
+
+                  <!-- <iframe [src]='urlGraph(content.visual_content)' iframe-resizer></iframe> -->
+                  <!-- <canvas *ngIf='chart[i]'
+                  baseChart [datasets]="chart[i].data" [labels]="chart[i].labels" 
+                  [options]="chartOptions" [chartType]=chart[i].type [colors]=chart[i].color></canvas> -->
+                 
+                </div>
+  
+                <div class="content-visual" *ngIf="content.type_content==contentEnum.youtube">
+                  <iframe width="560" height="315" [src]='urlYoutube(content.visual_content)'
+                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+                </div>
+  
+                <div class="content-visual" *ngIf="content.type_content==contentEnum.shareSlides">
+                  <iframe width="595" height="485" [src]='urlSlideShare(content.visual_content)' marginwidth="0" scrolling = "no"
+                  style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
+                  allowfullscreen></iframe>
+                </div>
+                
+                <div class="content-text" *ngIf="content.align == alignEnum.left">
+                  <p [innerHTML]="content.description"></p>
+                </div>
+                
+  
+              </div>
+  
+            </div>
+  
+  
+            
           </div>
-
-
-          
         </div>
       </div>
     </div>
   </div>
-
-
-
 </div>

@@ -1,223 +1,194 @@
-
-  
-<div class="row title">
-  <h2>Crear una nueva historia</h2>
+<div class="text-center" *ngIf="loading">
+  <div class="loadingText">Cargando historia</div><br/><br/>
+  <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; 
+font-weight: 400;"></i><br/><br/> 
 </div>
 
-<!-- <div class="row title">
-  <div class="col-md-12">
-    <h5>{{emailHistory}}</h5>
+<div *ngIf="!loading">
+
+  <div class="row title">
+    <h2>Crear una nueva historia</h2>
   </div>
-</div> -->
-
-<form [formGroup]="historyForm">
-
-  <div class="row">
-    <div class="col-md-12">
-      <div class="tab-content">
-        <!-- Content Tab -->
-        <div class="tab-pane active" id="content_tab" role="tabpanel">
-
-          <!-- Titulo historia -->
-          <div>
-              <h4 class="form-section-title">Título *</h4>
-              <p>
-                  Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
-              </p>
-              <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
-              <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
-          </div>
-
-          <!-- Descripcion historia -->
-          <div>
-            <h4 class="form-section-title">Descripción</h4>
-            <p>
-              La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente
-              qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
-              es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En
-              algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
-              la realidad del dato.
-            </p>
-            <angular-tinymce id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
-          </div>
-
-          <!-- Categorias historia -->
-          <!-- Categoria primaria -->
-          <div>
-            <h4 class="form-section-title">Categorización</h4>
-            <p>
-              Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
-              para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
-              utilizadas.
-            </p>
-            
-            <div class="group">
-              <h6>Categoría principal</h6>
-              <select class="form-control select-cat1" formControlName="category" >
-                <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
-              </select>
+  
+  <form [formGroup]="historyForm">
+  
+    <div class="row">
+      <div class="col-md-12">
+        <div class="tab-content">
+          <!-- Content Tab -->
+          <div class="tab-pane active" id="content_tab" role="tabpanel">
+            <!-- Titulo historia -->
+            <div>                        
+                <h4 class="form-section-title">Título *</h4>
+                <p>
+                    Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
+                </p>
+                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
+                <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>
-            
-            <div class="group">
-              <h6>Categorías secundarias</h6>
-
-              <div class="btn-group select-cat2" dropdown> 
-                <button id="button-cat2" dropdownToggle type="button" class="btn btn-outline-secondary dropdown-toggle">
-                  Seleccione las categorias <span class="caret"></span>
-                </button>
-                <div id="dropdown-cat2" *dropdownMenu class="dropdown-menu">
-                  <div class="form-check" *ngFor="let category of secondCategories" (click)="getCategoriesSelected($event, category)">
-                    <label class="container">
-                      <span class="checkmark" [ngClass]="{'selected': category.selected}"></span>
-                      {{category.name}}
-                    </label>
+  
+            <!-- Descripcion historia -->
+            <div>
+              <h4 class="form-section-title">Descripción</h4>
+              <p>
+                La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente
+                qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
+                es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En
+                algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
+                la realidad del dato.
+              </p>
+              <angular-tinymce id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
+            </div>
+  
+            <!-- Categorias historia -->
+            <!-- Categoria primaria -->
+            <div>
+              <h4 class="form-section-title">Categorización</h4>
+              <p>
+                Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
+                para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
+                utilizadas.
+              </p>
+              
+              <div class="group">
+                <h6>Categoría principal</h6>
+                <select class="form-control select-cat1" formControlName="category" >
+                  <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+                </select>
+              </div>
+              
+              <div class="group">
+                <h6>Categorías secundarias</h6>
+  
+                <div class="btn-group select-cat2" dropdown> 
+                  <button id="button-cat2" dropdownToggle type="button" class="btn btn-outline-secondary dropdown-toggle">
+                    Seleccione las categorias <span class="caret"></span>
+                  </button>
+                  <div id="dropdown-cat2" *dropdownMenu class="dropdown-menu">
+                    <div class="form-check" *ngFor="let category of secondCategories" (click)="getCategoriesSelected($event, category)">
+                      <label class="container">
+                        <span class="checkmark" [ngClass]="{'selected': category.selected}"></span>
+                        {{category.name}}
+                      </label>
+                    </div>
                   </div>
                 </div>
+  
+                <div class="cat-selected">
+                  <ng-container *ngFor="let category of secondCategories">
+                    <div class="tag" *ngIf="category.selected">
+                      <span>{{category.name}}</span>
+                    </div>
+                  </ng-container>
+                </div>
               </div>
-
-              <div class="cat-selected">
-                <ng-container *ngFor="let category of secondCategories">
-                  <div class="tag" *ngIf="category.selected">
-                    <span>{{category.name}}</span>
-                  </div>
-                </ng-container>
+              
+            </div>
+  
+            <!-- Lista de contenidos -->
+            <div class="contents-select" *ngIf="contents && contents.length > 0">
+              <h4 class="form-section-title">Contenidos</h4>
+              <div *ngFor="let content of contents; let i = index">
+                <i class="fa fa-edit" (click)="editContent(content, i)"></i>
+                <i class="fa fa-trash" (click)="deleteContent(content)"></i>
+                <p><span>Titulo: </span>{{content.title}} </p>
+              </div>
+            </div> 
+  
+            <!-- Add content -->
+            <button *ngIf="!showAddContent" class="btn-add-content btn btn-outline-secondary" type="button" (click)="addNewContent()">
+              <i class="fa fa-plus"></i> Añadir contenido
+            </button>
+  
+            <div #newContentElement *ngIf="showAddContent">
+              <div class="card card-body">
+                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()"></app-edit-content>
               </div>
             </div>
-            
+  
           </div>
-
-          <!-- Lista de contenidos -->
-          <div class="contents-select" *ngIf="contents && contents.length > 0">
-            <h4 class="form-section-title">Contenidos</h4>
-            <div *ngFor="let content of contents; let i = index">
-              <i class="fa fa-edit" (click)="editContent(content, i)"></i>
-              <i class="fa fa-trash" (click)="deleteContent(content)"></i>
-              <p><span>Titulo: </span>{{content.title}} </p>
-            </div>
-          </div> 
-
-          <!-- Add content -->
-          <button *ngIf="!showAddContent" class="btn-add-content btn btn-outline-secondary" type="button" (click)="addNewContent()">
-            <i class="fa fa-plus"></i> Añadir contenido
+  
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+        <button class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
+        <button #btnSave id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=getHistoryForm(btnSave)> Guardar historia</button>       
+        <button #btnRevision id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=getHistoryForm(btnRevision) >Enviar a revisión</button>
+    </div>
+  </form>
+  
+  <!-- Modal Email -->
+  <div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="emailModalCenterTitle">Introduce tu Email:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
-
-          <div #newContentElement *ngIf="showAddContent">
-            <div class="card card-body">
-              <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()"></app-edit-content>
+        </div>
+        <form [formGroup]="emailForm">
+          <div class="modal-body">
+            <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email">
+            <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm()">Continuar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Successfull History -->
+  <div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf=firstTime>
+            <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
+            <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
+            <div class="tokenSite col-12">
+              <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.id}}</textarea>
+              <button type="button" class="btn fa fa-copy" (click)="copyToken()"></button>
             </div>
           </div>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="actions">
-      <a type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</a>
-      <button #btnSave id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=getHistoryForm(btnSave)> Guardar historia</button>       
-      <button #btnRevision id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=getHistoryForm(btnRevision) >Enviar a revisión</button>
-  </div>
-</form>
-
-<!-- Modal add content -->
-<div class="modal fade" id="contentModalCenter" tabindex="-1" role="dialog" aria-labelledby="contentModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="contentModalCenterTitle">Seleccione una opcion:</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-footer">
-        <button #addContent class="btn btn-primary btn-block" data-dismiss="modal" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"> 
-          Insertar gráfica
-        </button>
-        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" >Enlace externo</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Email -->
-<div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="emailModalCenterTitle">Introduce tu Email:</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form [formGroup]="emailForm">
-        <div class="modal-body">
-          <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email">
-          <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm()">Continuar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<!-- Modal Successfull History -->
-<div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div *ngIf=firstTime>
-          <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token.</p>
-          <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
-          <div class="tokenSite col-12">
-            <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.id}}</textarea>
-            <button type="button" class="btn btn-primary fa fa-copy" (click)="copyToken()">Copiar Token</button>
+          <div *ngIf=!firstTime>
+            <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente</p>
+            <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente</p>
           </div>
         </div>
-        <div *ngIf=!firstTime>
-          <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente</p>
-          <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Error History -->
+  <div class="modal fade errorModal" id="errorModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="historyBack.state !=stateEnum.revision"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h5>
+          <h5 *ngIf="historyBack.state == stateEnum.revision"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-        <div class="modal-buttons">
-          <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
-          <button type="button" class="btn btn-primary button-right" (click)="goHome()">Ir a Open Data</button>
+        <div class="modal-body">
+          <p *ngIf="historyBack.state != stateEnum.revision">Se ha producido un error al procesar la acción solicitada</p>
+          <p *ngIf="historyBack.state == stateEnum.revision"> Una vez que la historia ha sido enviada a aprobación, no se pueden hacer nuevas modificaciones</p>
         </div>
       </div>
     </div>
   </div>
+
 </div>
 
-
-<!-- Modal Error History -->
-<div class="modal fade errorModal" id="errorModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 *ngIf="historyBack.state !=stateEnum.revision"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h5>
-        <h5 *ngIf="historyBack.state == stateEnum.revision"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p *ngIf="historyBack.state != stateEnum.revision">Se ha producido un error al procesar la acción solicitada</p>
-        <p *ngIf="historyBack.state == stateEnum.revision"> Una vez que la historia ha sido enviada a aprobación, no se pueden hacer nuevas modificaciones</p>
-        <div class="modal-buttons">
-          <button type="button" class="btn btn-primary" (click)="closeModalError()">Cerrar</button>
-          <button type="button" class="btn btn-primary button-right" (click)="goHome()">Ir a Open Data</button>
-        </div>
-      </div>
-    </div>
-    
-  </div>
-</div>
 
 

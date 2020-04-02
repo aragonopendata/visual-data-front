@@ -136,7 +136,8 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       }
     }
     if (con) {
-      this.router.navigate(['/previewGraph/']);
+      // this.router.navigate(['/previewGraph/']);
+      this.router.navigate([{outlets: {modal: 'visualData/previewGraph'}}]);
     } else {
       this.nextStep = false;
     }

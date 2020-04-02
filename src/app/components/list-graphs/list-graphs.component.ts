@@ -149,7 +149,9 @@ export class ListGraphsComponent implements OnInit {
   goBack() {}
 
   openChart(id) {
-    this.router.navigate(['/charts/' + id]);
+    // this.router.navigate(['/charts/' + id]);
+    this.router.navigate([{outlets: {modal: 'visualData/charts/' + id}}]);
+
   }
 
   openEmbedChart(id) {
@@ -203,7 +205,8 @@ export class ListGraphsComponent implements OnInit {
   }
 
   next() {
-    this.router.navigate(['/selectData/']);
+    this.router.navigate([{outlets: {modal: 'visualData/selectData'}}]);
+    // this.router.navigate(['/selectData/']);
   }
 
   getOpenedMenu(){

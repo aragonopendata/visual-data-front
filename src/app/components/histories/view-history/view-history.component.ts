@@ -17,7 +17,7 @@ import { Aligns } from '../../../models/Aligns';
 })
 export class ViewHistoryComponent implements OnInit {
 
-  chart = [];
+   chart = [];
   idHistory: string;
   historySelect: History;
   previewHistory: History;
@@ -26,6 +26,7 @@ export class ViewHistoryComponent implements OnInit {
   url: string;
   contentEnum: typeof Contents = Contents;
   alignEnum: typeof Aligns = Aligns;
+  loading : boolean = true;
 
 
   //historyContents: any;
@@ -60,6 +61,7 @@ export class ViewHistoryComponent implements OnInit {
       }
       else{
         this.preview=true;
+        this.loading=false;
       }
       console.log(this.preview);
       
@@ -105,7 +107,7 @@ export class ViewHistoryComponent implements OnInit {
               });
             });
           }
-
+          return this.loading=false;
         }else{
           console.log('no se encuentra la historia')
         }
@@ -116,7 +118,7 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   urlGraph(id: string) {
-    let url = 'https://opendata.aragon.es/servicios/visualdata/charts/embed/'+id;
+    let url = 'http://localhost:4075/#/charts/embed/'+id;
     return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
@@ -170,4 +172,5 @@ export class ViewHistoryComponent implements OnInit {
       this._router.navigate(["/"]);
     }
   }
+  
 }

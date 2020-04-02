@@ -31,6 +31,7 @@ export class EditHistoryComponent implements OnInit {
   showAddContent = false;
   settings: any;
   firstTime:boolean =true;
+  loading: boolean = true;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -45,9 +46,9 @@ export class EditHistoryComponent implements OnInit {
 
     this.settings = {
       selector: '#editor',
-      theme_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/themes/modern/theme.js',
-      skin_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/skins/lightgray',
-      baseURL: 'http://opendata.aragon.es/static/public/plugins/tinymce',
+      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
+      baseURL: '/static/public/plugins/tinymce',
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
@@ -62,6 +63,10 @@ export class EditHistoryComponent implements OnInit {
       this._activatedRoute.params.subscribe(params => {
         if(params.id!=null){
           this.getHistory(params.id);
+        }
+        else{
+
+          this.loading = false;
         }
       });
 		},err => {
@@ -80,8 +85,6 @@ export class EditHistoryComponent implements OnInit {
         this.updateWithBackHistory();
       }
     });
-    
-    
   }
 
   updateWithBackHistory(){
@@ -102,6 +105,7 @@ export class EditHistoryComponent implements OnInit {
       
       this.contents=this.historyBack.contents== null? [] : this.historyBack.contents;
 
+      return this.loading=false;
   }
 
   initiateForms(){
@@ -189,19 +193,22 @@ export class EditHistoryComponent implements OnInit {
     $('#errorModalCenter').modal('show');
   }
 
-  closeModalError(){
-    $('#successfullModalCenter').modal('hide');
-    $('#emailModalCenter').modal('hide');
-    $('#errorModalCenter').modal('hide');
-  }
+  // closeModalError(){
+  //   $('#successfullModalCenter').modal('hide');
+  //   $('#emailModalCenter').modal('hide');
+  //   $('#errorModalCenter').modal('hide');
+  // }
 
   
-
-  getPreviewHistory(){
-    this.stateHistory=this.historyBack.state?  this.historyBack.state: this.stateEnum.sinDefinir;
-    this.operateWithHistory(Constants.PREVIEW_HISTORY);
+  /**
+   * Peview history
+   */
+  getPreviewHistory() {
+    if(!this.historyForm.invalid){
+      this.stateHistory=this.historyBack.state?  this.historyBack.state: this.stateEnum.sinDefinir;
+      this.operateWithHistory(Constants.PREVIEW_HISTORY);
+    }
   }
-
 
   operateWithHistory(action){
     let cat2Selected = [];

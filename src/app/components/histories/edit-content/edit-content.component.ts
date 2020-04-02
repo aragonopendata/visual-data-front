@@ -7,7 +7,6 @@ import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 
 
-
 @Component({
   selector: 'app-edit-content',
   templateUrl: './edit-content.component.html',
@@ -26,7 +25,6 @@ export class EditContentComponent implements OnInit {
 
   settings: any;
 
-
   @Output() contentCreate = new EventEmitter<any>();
   @Output() closeContent = new EventEmitter<any>();
 
@@ -34,9 +32,9 @@ export class EditContentComponent implements OnInit {
     
     this.settings = {
       selector: '#editorContent',
-      theme_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/themes/modern/theme.js',
-      skin_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/skins/lightgray',
-      baseURL: 'http://opendata.aragon.es/static/public/plugins/tinymce',
+      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
+      baseURL: '/static/public/plugins/tinymce',
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,

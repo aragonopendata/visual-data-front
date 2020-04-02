@@ -463,7 +463,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.topRows
             )
             .subscribe(data => {
-              this.router.navigate(['/endGraphic/' + dataLink.id]);
+              // this.router.navigate(['/endGraphic/' + dataLink.id]);
+              this.router.navigate([{outlets: {modal: 'visualData/endGraphic/' + dataLink.id}}]);
             });
         });
     }
