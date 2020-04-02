@@ -18,14 +18,14 @@
                     <div class="col-8 pointer" data-toggle="tooltip" title=" {{chart.title}}" (click)="openChart(chart.id)"  tabindex="{{openedMenu ? -1 : 0}}">
                         {{(chart.title.length>23)? (chart.title | slice:0:23) + '...': (chart.title)}}
                     </div>
-                    <div class="col-2">
+                    <div class="col-1">
                         <button tabindex="-1" data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id, chart.title)" class="button3 float-right">
                             <i class="fa fa-refresh"></i>
                         </button>
                     </div>
-                    <div class="col-2">
-                        <button tabindex="-1"  (click)="selectChart(chart.id, chart.title)" class="button3 float-right"> 
-                            <i class="fa fa-check-circle"></i> 
+                    <div class="col-3">
+                        <button tabindex="-1"  (click)="selectChart(chart.id, chart.title)" class="btn-outline-primary"> 
+                            Añadir al contenido
                         </button>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                         <!--<button (click)="openChart(chart.id)" class="button2 py-1 w-100">Abrir</button>-->
                     </div>
                     <div class="col-md-7 col-lg-7 col-xs-12 col-sm-12">
-                        <img id="logo" class="img-fluid" src="/static/public/header/images/AOD-Logo.png">
+                        <img id="logo" class="img-fluid" src="http://opendata.aragon.es/static/public/header/images/AOD-Logo.png">
                     </div>
                 </div>
             </div>
