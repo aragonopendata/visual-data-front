@@ -193,19 +193,22 @@ export class EditHistoryComponent implements OnInit {
     $('#errorModalCenter').modal('show');
   }
 
-  closeModalError(){
-    $('#successfullModalCenter').modal('hide');
-    $('#emailModalCenter').modal('hide');
-    $('#errorModalCenter').modal('hide');
-  }
+  // closeModalError(){
+  //   $('#successfullModalCenter').modal('hide');
+  //   $('#emailModalCenter').modal('hide');
+  //   $('#errorModalCenter').modal('hide');
+  // }
 
   
-
-  getPreviewHistory(){
-    this.stateHistory=this.historyBack.state?  this.historyBack.state: this.stateEnum.sinDefinir;
-    this.operateWithHistory(Constants.PREVIEW_HISTORY);
+  /**
+   * Peview history
+   */
+  getPreviewHistory() {
+    if(!this.historyForm.invalid){
+      this.stateHistory=this.historyBack.state?  this.historyBack.state: this.stateEnum.sinDefinir;
+      this.operateWithHistory(Constants.PREVIEW_HISTORY);
+    }
   }
-
 
   operateWithHistory(action){
     let cat2Selected = [];
