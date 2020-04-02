@@ -11,7 +11,7 @@ export function removeDuplicates(chartLabels, chartData) {
       element.data = aux;
     }
   });
-
+  
   // Delete duplicates and sum their numeric info
   duplicates.forEach(element => {
     const findFirst = chartLabels.indexOf(element);
@@ -19,7 +19,9 @@ export function removeDuplicates(chartLabels, chartData) {
       if (element === chartLabels[i]) {
         // Duplicate Data
         chartData.forEach((d, index) => {
-          d.data[findFirst] = Number(d.data[findFirst]) + Number(d.data[i]);
+          d.data[findFirst] = Number(d.data[findFirst]);
+          if(d.data[i])
+            d.data[findFirst] += Number(d.data[i])
           d.data.splice(i, 1);
         });
         chartLabels.splice(i, 1);

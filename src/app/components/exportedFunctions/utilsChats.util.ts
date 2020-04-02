@@ -22,11 +22,12 @@ export class UtilsGraphService {
     private gaodcService: GaodcService,
     private virtuosoService: VirtuosoService,
     private urlService: URLService
-  ) {}
+  ) { }
 
   // Process to update all the charts
   prepareAndSave(dataProcess, headerTable, dataTable) {
-    const dataSelected = [];
+    let dataSelected = [];
+    let dataGroup = [];
     let checkedData = [];
     if (dataProcess.isMap) {
       checkedData = dataProcess.columnsLabel.concat(
@@ -48,12 +49,19 @@ export class UtilsGraphService {
     // Preparing the initial table with the correct columns and order
     checkedData.forEach(element => {
       const i = headerTable.indexOf(element);
+      const groupIndex = headerTable.indexOf(dataProcess.groupRow);
 
       const auxArray = [];
+      const auxArrayGroup = [];
       for (let index = 0; index < dataTable.length; index++) {
         auxArray.push(dataTable[index][i]);
+
+        if (groupIndex != -1) {
+          auxArrayGroup.push(dataTable[index][groupIndex]);
+        }
       }
       dataSelected.push(auxArray);
+      dataGroup = auxArrayGroup;
     });
 
     // Prepare the two arrays of data
@@ -77,12 +85,35 @@ export class UtilsGraphService {
       });
     }
 
-    dataSelected.forEach((element, index) => {
-      dataSelected[index] = {
-        data: dataSelected[index],
-        label: dataProcess.legend[index].label
-      };
-    });
+
+    if (!dataProcess.groupRow) {
+      dataSelected.forEach((element, index) => {
+        dataSelected[index] = {
+          data: dataSelected[index],
+          label: dataProcess.legend[index].label
+        };
+      });
+    } else {
+
+      let groupedData = {};
+      dataGroup.forEach((element,i) => {
+        //Join group
+        if(!groupedData[element])
+          groupedData[element] = [];
+        for (let x = groupedData[element].length; x < i; x++) {
+            groupedData[element].push("0");
+        };
+        groupedData[element].push(dataSelected[0][i]);
+      });
+      dataSelected =[];
+      for (const key in groupedData) {
+        dataSelected.push({
+          data: groupedData[key],
+          label: key
+        });
+      }
+    }
+
 
     let chartData = dataSelected;
 
@@ -91,7 +122,7 @@ export class UtilsGraphService {
       //removeDuplicates(chartLabels, chartData);
       const resultado = removeDuplicates(chartLabels, chartData);
       chartData = resultado[1];
-      if(dataProcess.topRows != -1 && dataProcess.topRows != null && dataProcess.topRows != 0){
+      if (dataProcess.topRows != -1 && dataProcess.topRows != null && dataProcess.topRows != 0) {
         chartLabels = chartLabels.splice(0, dataProcess.topRows);
         chartData = chartData.splice(0, dataProcess.topRows);
       }
@@ -118,7 +149,6 @@ export class UtilsGraphService {
         index++;
       } while (index < chartLabels.length);
     }
-
     // Update the chart with the new data
 
     this.listGraphService
@@ -152,7 +182,8 @@ export class UtilsGraphService {
               dataProcess.legend,
               dataProcess.widthGraph,
               dataLink.id,
-              dataProcess.topRows
+              dataProcess.topRows,
+              dataProcess.groupRow
             )
             .subscribe(
               data => {

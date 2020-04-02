@@ -84,6 +84,13 @@
             <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar t&iacute;tulo gr&aacute;fica" type="text" style="width: 100%" [(ngModel)]="title" pInputText>
         </div>
 
+        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar Agrupar Datos"> - Agrupar por:</strong>
+            </p>
+            <p-dropdown (onChange)="onEditComplete($event)" [(ngModel)]="groupRow" [options]="headersDropdown" class="ui-fluid"></p-dropdown>
+        </div>
+
         <div *ngIf="chartType != 'doughnut' && !chartMap" style="margin-top:20px">
             <p>
                 <strong> - Legenda</strong>

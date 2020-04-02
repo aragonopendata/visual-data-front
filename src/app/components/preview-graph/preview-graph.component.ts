@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
-import { SpinnerModule, InputTextModule } from 'primeng/primeng';
+import { SpinnerModule, InputTextModule, DropdownModule } from 'primeng/primeng';
 import { removeDuplicates, typeOfArray, getRandomColor } from '../exportedFunctions/lib';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
@@ -83,6 +83,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   openedMenu: boolean;
 
   topRows: number;
+
+  groupRow: string = null;
+
+  headersDropdown: Array<any> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -218,6 +222,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     this.columnsType = [];
     this.data = this.dataservice.dataSelected;
     this.columns = this.dataservice.headerSelected;
+    this.headersDropdown.push({label: "Agrupar", value: null});
+    this.columns.forEach(element => {
+      this.headersDropdown.push({label: element, value: element});
+    });
+
     this.realColumns = this.dataservice.realHeadersSelected;
 
     this.data.forEach(element => {
@@ -251,17 +260,43 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     } else {
       this.defaultsChats(0);
     }
-
+    
     // Prepare the Data for the chart with the data indicate in columnsData
     if (this.columnsData && this.columnsData.length !== 0 && this.data) {
       this.chartData = [];
       let i = 0;
       this.columnsData.forEach(element => {
         const indexData = this.columns.findIndex(x => x === element);
-        this.chartData.push({
-          data: this.data[indexData],
-          label: this.legend[i++].label
-        });
+
+        if(this.groupRow == null) {
+          this.chartData.push({
+            data: this.data[indexData],
+            label: this.legend[i++].label
+          });
+        }else{
+          const indexgroup = this.columns.findIndex(x => x === this.groupRow);
+          const indexData = this.columns.findIndex(x => x === element);
+          let groupHeader = this.data[indexgroup];
+          let groupedData = {};
+          groupHeader.forEach((element,i) => {
+            //Join group
+            if(!groupedData[element])
+              groupedData[element] = [];
+            for (let x = groupedData[element].length; x < i; x++) {
+                groupedData[element].push("0");
+            };
+            
+            groupedData[element].push(this.data[indexData][i]);
+          });
+
+          for (const key in groupedData) {
+            this.chartData.push({
+              data: groupedData[key],
+              label: key
+            });
+          }
+
+        }
       });
     } else {
       // Default Values
@@ -308,6 +343,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       } else {
         const aux = JSON.parse(JSON.stringify(this.data));
         const resultado = removeDuplicates(this.chartLabels, this.chartData);
+        
         this.chartLabels = resultado[0];
         this.chartData = resultado[1];
         if(this.chartType === 'bar'){
@@ -460,7 +496,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.legend,
               this.widthGraph,
               dataLink.id,
-              this.topRows
+              this.topRows,
+              this.groupRow
             )
             .subscribe(data => {
               this.router.navigate(['/endGraphic/' + dataLink.id]);
