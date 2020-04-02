@@ -449,7 +449,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/']);
+    //this.router.navigate(['/']);
+    this.router.navigate([{outlets: {modal: 'visualData'}}]);
     // this.location.back();
   }
 
@@ -483,7 +484,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         (this.opened === 'VIRTUOSO' && !this.loading[3])) &&
       this.dataTable
     ) {
-      this.router.navigate(['/previewData/']);
+      //this.router.navigate(['/previewData/']);
+      this.router.navigate([{outlets: {modal: 'visualData/previewData'}}]);
     } else {
       this.nextStep = false;
     }

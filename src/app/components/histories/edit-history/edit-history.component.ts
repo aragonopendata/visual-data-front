@@ -46,9 +46,9 @@ export class EditHistoryComponent implements OnInit {
 
     this.settings = {
       selector: '#editor',
-      theme_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/themes/modern/theme.js',
-      skin_url: 'http://opendata.aragon.es/static/public/plugins/tinymce/skins/lightgray',
-      baseURL: 'http://opendata.aragon.es/static/public/plugins/tinymce',
+      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
+      baseURL: '/static/public/plugins/tinymce',
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
