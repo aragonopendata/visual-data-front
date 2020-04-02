@@ -1,3 +1,6 @@
+import { Aligns, AlignsType } from "./models/Aligns";
+import { ContentsType, Contents } from "./models/Contents";
+
 export class Constants {
   //public static SERVER_URL = 'https://opendata.aragon.es';
   //public static VISUAL_BACK_SERVER_URL =
@@ -764,8 +767,19 @@ export class Constants {
   public static SAVE_HISTORY="SAVE"
   public static UPDATE_HISTORY="UPDATE"
 
+  public static ALIGN_LEFT_TEXT="Descripción a la derecha, fuente de datos a la izquierda"
+  public static ALIGN_LEFT = new AlignsType(Constants.ALIGN_LEFT_TEXT, Aligns.left)
+  public static ALIGN_RIGHT_TEXT="Descripción a la izquierda, fuente de datos a la derecha"
+  public static ALIGN_RIGHT = new AlignsType(Constants.ALIGN_RIGHT_TEXT, Aligns.right)
+  public static ALIGNS_TYPES =[Constants.ALIGN_LEFT, Constants.ALIGN_RIGHT]
 
-
+  public static CONTENT_GRAPH_TEXT="Gráfica"
+  public static CONTENT_GRAPH = new ContentsType(Constants.CONTENT_GRAPH_TEXT, Contents.graph)
+  public static CONTENT_YOUTUBE_TEXT="Enlace YouTube"
+  public static CONTENT_YOUTUBE = new ContentsType(Constants.CONTENT_YOUTUBE_TEXT, Contents.youtube)
+  public static CONTENT_SHARESLIDES_TEXT="Enlace Share Slides"
+  public static CONTENT_SHARESLIDES = new ContentsType(Constants.CONTENT_SHARESLIDES_TEXT, Contents.shareSlides)
+  public static CONTENTS_TYPES =[Constants.CONTENT_GRAPH, Constants.CONTENT_YOUTUBE, Constants.CONTENT_SHARESLIDES]
 
 
 
