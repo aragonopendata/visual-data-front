@@ -8,14 +8,33 @@ font-weight: 400;"></i><br/><br/>
 <div *ngIf="!loading">
   <div class="container-view" *ngIf="historySelect">
 
-    <button type="button" class="btn btn-link" (click)="return()">Volver</button>
-  
+    <!-- <button type="button" class="btn btn-link back" (click)="return()">
+      <i class="fa fa-angle-left"></i>
+      Volver
+    </button>
+   -->
   
     <div class="row title">
-      <div class=" col-md-12">
-        <img [src]="historySelect.image" class="card-img-top" alt="...">
-        <h1>{{historySelect.title}}</h1>
+      <div class="col-md-12 img-background">
+        <!-- {{historySelect.main_category}} -->
+        <!-- <img [src]="historySelect.image" class="card-img-top" alt="..."> -->
+
+        <!-- salud -->
+        <img *ngIf="historySelect.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="...">
+        <img *ngIf="historySelect.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="...">
+        <img *ngIf="historySelect.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="...">
+        <img *ngIf="historySelect.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="...">
+        <img *ngIf="historySelect.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="...">
+        <img *ngIf="historySelect.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="...">
+        <img *ngIf="historySelect.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="...">
+
+        
       </div>
+      <div class="col-md-12 content-title">
+        <h1>{{historySelect.title}}</h1>
+        <p [innerHTML]="historySelect.description"></p>
+      </div>
+
     </div>
   
     <div class="row">
@@ -26,10 +45,10 @@ font-weight: 400;"></i><br/><br/>
           <div class="tab-pane active" id="content_tab" role="tabpanel">
             
             <!-- Description history -->
-            <div class="desc-history">
+            <!-- <div class="desc-history">
               <h3 class="form-section-title">Descripción: </h3>
-              <p [innerHTML]="historySelect.description"></p>
-            </div>
+              
+            </div> -->
    
             <!-- content history -->
             <div class="content-wrap" *ngFor="let content of historySelect.contents; let i = index">
@@ -50,11 +69,6 @@ font-weight: 400;"></i><br/><br/>
                     [src]="urlGraph(content.visual_content)"
                     title="Thread Content"
                     scrolling="no" frameborder="0"></iframe>
-
-                  <!-- <iframe [src]='urlGraph(content.visual_content)' iframe-resizer></iframe> -->
-                  <!-- <canvas *ngIf='chart[i]'
-                  baseChart [datasets]="chart[i].data" [labels]="chart[i].labels" 
-                  [options]="chartOptions" [chartType]=chart[i].type [colors]=chart[i].color></canvas> -->
                  
                 </div>
   
