@@ -17,12 +17,12 @@ declare var jQuery: any;
   styleUrls: ['./end-graph.component.scss']
 })
 export class EndGraphComponent implements OnInit {
-  public chartLegend = false;
+  public chartLegend = true;
   public chartOptions: any = {
     responsive: true,
     elements: {
       line: {
-              fill: false
+        fill: false
       }
     },
     scales: {
@@ -30,7 +30,7 @@ export class EndGraphComponent implements OnInit {
         {
           ticks: {
             beginAtZero: true,
-            callback: function(value, index, array) {
+            callback: function (value, index, array) {
               return null;
             }
           }
@@ -118,8 +118,19 @@ export class EndGraphComponent implements OnInit {
               this.title = chart.title;
 
               if (chart.type === 'bar') {
-                for(let i = 0; i< chart.data.length; i++ ){
+                for (let i = 0; i < chart.data.length; i++) {
                   this.color.push(getRandomColor(i));
+                }
+              }
+
+              if (process.axisXActivator != 0) {
+                this.chartOptions.scales.xAxes[0].ticks = {
+                  beginAtZero: true,
+                  callback: (value, index, array) => {
+                    if (index % process.axisXActivator === 0) {
+                      return value;
+                    }
+                  }
                 }
               }
 
@@ -145,7 +156,7 @@ export class EndGraphComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   goBack(): void {
     this.location.back();
@@ -180,13 +191,13 @@ export class EndGraphComponent implements OnInit {
     this.utilsGraphService.virtuosoReloadChart(this.dataProcess);
   }
 
-  getOpenedMenu(){
+  getOpenedMenu() {
     this.utilsService.openedMenuChange.subscribe(value => {
       this.openedMenu = value;
     });
   }
 
   toggleOpenedMenu() {
-      this.utilsService.tooggleOpenedMenu();
+    this.utilsService.tooggleOpenedMenu();
   }
 }

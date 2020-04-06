@@ -22,7 +22,8 @@ import {
   DataTableModule,
   AutoCompleteModule,
   SpinnerModule,
-  InputTextModule
+  InputTextModule,
+  CheckboxModule
 } from 'primeng/primeng';
 // Main
 import { AppComponent } from './app.component';
@@ -90,6 +91,7 @@ const routes: Routes = [
     HttpModule,
     BrowserAnimationsModule,
     DropdownModule,
+    CheckboxModule,
     AccordionModule.forRoot(),
     AutoCompleteModule,
     DataTableModule,

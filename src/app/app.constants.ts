@@ -1,9 +1,9 @@
 export class Constants {
-  public static SERVER_URL = 'https://opendata.aragon.es';
-  public static VISUAL_BACK_SERVER_URL =
-    Constants.SERVER_URL + '/apivisualdata';
-  // public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
-  // public static SERVER_URL = 'http://localhost:8080';
+  //public static SERVER_URL = 'https://opendata.aragon.es';
+  //public static VISUAL_BACK_SERVER_URL =
+  //  Constants.SERVER_URL + '/apivisualdata';
+   public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
+   public static SERVER_URL = 'http://localhost:8080';
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
   public static SAVE_CHART_PATH =
     Constants.LIST_ALL_CHARTS_PATH + '/save_chart';

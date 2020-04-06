@@ -183,7 +183,8 @@ export class UtilsGraphService {
               dataProcess.widthGraph,
               dataLink.id,
               dataProcess.topRows,
-              dataProcess.groupRow
+              dataProcess.groupRow,
+              dataProcess.axisXActivator
             )
             .subscribe(
               data => {
