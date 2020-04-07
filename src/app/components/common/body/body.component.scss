@@ -9,3 +9,10 @@
   height: auto;
   margin-top: 20vh;
 }
+
+@media screen and (max-width: 768px) {
+  .opendatamargin {
+      margin-top: 10vh;
+      max-width: 100vw;
+  }
+}
