@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
-import { SpinnerModule, InputTextModule, DropdownModule } from 'primeng/primeng';
+import { SpinnerModule, InputTextModule, DropdownModule, CheckboxModule } from 'primeng/primeng';
 import { removeDuplicates, typeOfArray, getRandomColor } from '../exportedFunctions/lib';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
@@ -58,6 +58,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
   };
   public chartLegend = false;
+  public axisXActivator = 0;
 
   // To save Data
 
@@ -383,6 +384,24 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   }
 
   onEditComplete(event) {
+    if(this.axisXActivator != 0){
+      this.chartOptions.scales.xAxes[0].ticks = {
+        beginAtZero: true,
+        autoSkip: false,
+        callback: (value, index, array) => {
+          if(index % this.axisXActivator === 0){
+            return value;
+          }
+        }
+      }
+    }else{
+      this.chartOptions.scales.xAxes[0].ticks = {
+        beginAtZero: true,
+        callback: function(value, index, array) {
+          return null;
+        }
+      }
+    }
     this.onDrop('refresh');
   }
 
@@ -502,7 +521,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.widthGraph,
               dataLink.id,
               this.topRows,
-              this.groupRow
+              this.groupRow,
+              this.axisXActivator
             )
             .subscribe(data => {
               this.router.navigate(['/endGraphic/' + dataLink.id]);
