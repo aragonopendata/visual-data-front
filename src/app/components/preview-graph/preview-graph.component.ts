@@ -387,6 +387,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     if(this.axisXActivator != 0){
       this.chartOptions.scales.xAxes[0].ticks = {
         beginAtZero: true,
+        autoSkip: false,
         callback: (value, index, array) => {
           if(index % this.axisXActivator === 0){
             return value;
