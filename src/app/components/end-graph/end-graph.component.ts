@@ -126,6 +126,7 @@ export class EndGraphComponent implements OnInit {
               if (process.axisXActivator != 0) {
                 this.chartOptions.scales.xAxes[0].ticks = {
                   beginAtZero: true,
+                  autoSkip: false,
                   callback: (value, index, array) => {
                     if (index % process.axisXActivator === 0) {
                       return value;
