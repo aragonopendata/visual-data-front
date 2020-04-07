@@ -20,6 +20,7 @@ export class EndGraphComponent implements OnInit {
   public chartLegend = true;
   public chartOptions: any = {
     responsive: true,
+    maintainAspectRatio: false,
     elements: {
       line: {
         fill: false
