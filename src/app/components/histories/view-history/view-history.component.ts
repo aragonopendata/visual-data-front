@@ -118,7 +118,7 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   urlGraph(id: string) {
-    let url = 'http://localhost:4075/#/charts/embed/'+id;
+    let url = 'http://localhost:4201/#/charts/embed/'+id;
     return this._sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 

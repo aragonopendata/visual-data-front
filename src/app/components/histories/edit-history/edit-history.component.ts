@@ -32,6 +32,7 @@ export class EditHistoryComponent implements OnInit {
   settings: any;
   firstTime:boolean =true;
   loading: boolean = true;
+  isAdmin:boolean=true;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -146,10 +147,16 @@ export class EditHistoryComponent implements OnInit {
       })
     }else{
       if(this.historyBack.email){
-        if(this.historyBack.state==this.stateEnum.borrador){//unico estado de momento editable
+        if(this.historyBack.state==this.stateEnum.borrador){//unico estado de momento editable por usuario o admin
+          console.log('se pcece a actualizar la historia')
           this.firstTime=false;
           this.operateWithHistory(Constants.UPDATE_HISTORY);
-        }else{
+        }else if((this.historyBack.state==this.stateEnum.revision)&&(this.isAdmin)){//caso de que el admin vaya a actualizar estado
+          console.log('admin va a actualizar estado')
+          this.firstTime=false;
+          this.operateWithHistory(Constants.POST_HISTORY_ADMIN);
+        }
+        else{
           console.log("no presenta un estado editable")
           this.openModalError()
         }
@@ -166,7 +173,11 @@ export class EditHistoryComponent implements OnInit {
     if(button.id=="btnSendRevision"){
       this.stateHistory=this.stateEnum.revision
       console.log("entro a get de sendRevision")
-    }else{
+    }else if(button.id=="btnSendPublicar"){
+      this.stateHistory=this.stateEnum.publicada
+      console.log("entro a get de sendPublicar")
+    }
+    else{
       this.stateHistory=this.stateEnum.borrador
     }
   }
@@ -236,55 +247,78 @@ export class EditHistoryComponent implements OnInit {
 
 
     if(action==Constants.PREVIEW_HISTORY){
-      localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.historyModel));
-      let urlPreview="/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
-      window.open(urlPreview, '_blank');
+      this.sendToPreviewPage();
     }else if(action==Constants.SAVE_HISTORY){
-      this._historiesService.setHistory(this.historyModel).subscribe(result => {
-        if (result.status == 200 && result.success) {
-          console.log("Guardado de historia correcto")
-          this.historyModel.id = result.id;
-          this.historyBack = this.historyModel;
-          this.updateWithBackHistory();
-          $('#successfullModalCenter').modal('show');
-          this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
-            if(result.status==200){
-              console.log('correo usuario OK')
-              if(this.stateHistory==this.stateEnum.revision){
-                this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
-                  if(result.status==200){
-                    console.log('correo admin OK')
-                  }
-                });
-              }
-            }
-          });
-        } else {
-          console.log('Error GUARDANDO historia')
-          this.openModalError()
-        }
-      });
+      this.saveHistoryUser()
     }else if(action==Constants.UPDATE_HISTORY){
-      this._historiesService.updateHistory(this.historyModel).subscribe(result => {
-        console.log(result)
-        if (result.status == 200 && result.success) {
-          console.log('actualizado Ok MOSTRAR MODAL OK');
-          this.historyBack = this.historyModel;
-          $('#successfullModalCenter').modal('show');
-          if(this.stateHistory==this.stateEnum.revision){
-            this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
-              if(result.status==200){
-                console.log('correo admin OK')
-              }
-            });
-          }
-        } else {
-          console.log('error en ACTUALIZACION MOSTRAR MODAL KO')
-          this.openModalError()
-        }
-      });
+      this.updateHistoryUser();
+    } else if (action==Constants.POST_HISTORY_ADMIN){
+      this.postHistoryAdmin();
     }
 
+  }
+
+  sendToPreviewPage(){
+    localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.historyModel));
+    let urlPreview="/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
+    window.open(urlPreview, '_blank');
+  }
+
+  saveHistoryUser(){
+    this._historiesService.setHistory(this.historyModel).subscribe(result => {
+      if (result.status == 200 && result.success) {
+        console.log("Guardado de historia correcto")
+        this.historyModel.id = result.id;
+        this.historyBack = this.historyModel;
+        this.updateWithBackHistory();
+        $('#successfullModalCenter').modal('show');
+        this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
+          if(result.status==200){
+            console.log('correo usuario OK')
+            if(this.stateHistory==this.stateEnum.revision){
+              this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
+                if(result.status==200){
+                  console.log('correo admin OK')
+                }
+              });
+            }
+          }
+        });
+      } else {
+        console.log('Error GUARDANDO historia')
+        this.openModalError()
+      }
+    });
+
+  }
+
+  postHistoryAdmin(){
+    //crear llamada para actualizar estado a puclicada en admin
+    console.log('peticion admin postear historia')
+    this.historyBack = this.historyModel;
+    $('#successfullModalCenter').modal('show');
+  }
+
+
+  updateHistoryUser(){
+    this._historiesService.updateHistory(this.historyModel).subscribe(result => {
+      console.log(result)
+      if (result.status == 200 && result.success) {
+        console.log('actualizado Ok MOSTRAR MODAL OK');
+        this.historyBack = this.historyModel;
+        $('#successfullModalCenter').modal('show');
+        if(this.stateHistory==this.stateEnum.revision){
+          this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
+            if(result.status==200){
+              console.log('correo admin OK')
+            }
+          });
+        }
+      } else {
+        console.log('error en ACTUALIZACION MOSTRAR MODAL KO')
+        this.openModalError()
+      }
+    });
   }
   
   copyToken(){

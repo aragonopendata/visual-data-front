@@ -30,7 +30,7 @@ export class Constants {
   public static PATH_MODIFIER = '';
   // URLS
   public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
-  public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4999/aod';
+  public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
   public static FOCUS_URL = 'http://localhost:4201/aod';
 
 
@@ -766,6 +766,8 @@ export class Constants {
   public static PREVIEW_HISTORY="PREVIEW"
   public static SAVE_HISTORY="SAVE"
   public static UPDATE_HISTORY="UPDATE"
+  public static POST_HISTORY_ADMIN="UPDATE_ADMIN"
+
 
   public static ALIGN_LEFT_TEXT="Descripción a la derecha, fuente de datos a la izquierda"
   public static ALIGN_LEFT = new AlignsType(Constants.ALIGN_LEFT_TEXT, Aligns.left)

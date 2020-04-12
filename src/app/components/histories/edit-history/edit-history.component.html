@@ -114,7 +114,8 @@ font-weight: 400;"></i><br/><br/>
     <div class="actions">
         <button class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
         <button #btnSave id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)=getHistoryForm(btnSave)> Guardar historia</button>       
-        <button #btnRevision id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=getHistoryForm(btnRevision) >Enviar a revisión</button>
+        <button #btnRevision *ngIf="!isAdmin" id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=getHistoryForm(btnRevision) >Enviar a revisión</button>
+        <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)=getHistoryForm(btnPublicar) >Publicar</button>
     </div>
   </form>
   
@@ -146,7 +147,8 @@ font-weight: 400;"></i><br/><br/>
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h5>
+          <h5 class="modal-title" *ngIf="historyBack.state != stateEnum.publicada" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h5>
+          <h5 class="modal-title" *ngIf="historyBack.state == stateEnum.publicada" id="successfullModalCenterTitle">¡Historia publicada correctamente!</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -163,6 +165,7 @@ font-weight: 400;"></i><br/><br/>
           <div *ngIf=!firstTime>
             <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente</p>
             <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente</p>
+            <p *ngIf="historyBack.state == stateEnum.publicada">La historia {{historyModel.title}} ha sido publicada</p>
           </div>
         </div>
       </div>

@@ -38,8 +38,11 @@ export class HomeFocusComponent implements OnInit {
   }
 
   getCategories(){
+    console.log('entro a obtener categorias')
     this._historiesService.getCategories().subscribe( (categories: Category[]) => {
+      console.log(categories)
       if( categories.length > 0 ){
+        console.log('he entrado')
         this.categoriesVisible = categories.slice(0,4);
         this.categoriesHidden = categories.slice(4,categories.length);
       }
