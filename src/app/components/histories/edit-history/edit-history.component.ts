@@ -32,7 +32,8 @@ export class EditHistoryComponent implements OnInit {
   settings: any;
   firstTime:boolean =true;
   loading: boolean = true;
-  isAdmin:boolean=true;
+  admin: Object={};
+  isAdmin: boolean=false;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -54,6 +55,15 @@ export class EditHistoryComponent implements OnInit {
       toolbar: ' bold italic underline | link ',
       menubar: false,
       branding: false
+    }
+
+    if(localStorage.getItem('currentUser')){
+
+      this.admin=JSON.parse(localStorage.getItem('currentUser'));
+
+      if(this.admin['rol'] == "global_adm"){
+        this.isAdmin = true;
+      }
     }
 
     this.initiateForms();
