@@ -57,7 +57,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       ]
     }
   };
-  public chartLegend = false;
+  public chartLegend = true;
   public axisXActivator = 0;
 
   // To save Data
