@@ -10,7 +10,34 @@ import { filter } from 'rxjs/operator/filter';
 @Injectable()
 export class HistoriesService {
 
-  constructor(private http: Http) { }
+  currentUser: any;
+
+  constructor(private http: Http) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser')); 
+  }
+
+
+  private createAuthorizationHeader(headers: Headers) {
+		if (this.currentUser && this.currentUser.token && this.currentUser.key) {
+			//Authorization header: API_KEY:JWT_Token
+			let authorizationHeaderValue = this.currentUser.token + ':' + this.currentUser.key;
+      headers.append('Authorization', authorizationHeaderValue);
+      console.log(authorizationHeaderValue);
+		}
+	}
+
+  private buildRequestHeaders() {
+		let headers = new Headers();
+		this.createAuthorizationHeader(headers);
+		headers.append('Content-Type', ' application/json');
+		return headers;
+  }
+  
+  createJsonFromString(field, value) {
+		let JSONElement: any = {};
+		JSONElement[field] = value;
+		return JSONElement;
+	}
 
   public getCategories(): Observable<Category[]> {
     let fullUrl=Constants.AOD_BASE_URL_LOCAL + Constants.SERVER_API_LINK_GA_OD_CORE_PUBLIC +Constants.SERVER_API_LINK_GA_OD_CORE_PUBLIC_PREVIEW;
@@ -65,6 +92,14 @@ export class HistoriesService {
     console.log(fullUrl);
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
+
+  public publishHistory(id: string) {
+    let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+		let headers = this.buildRequestHeaders();
+		console.log(fullUrl)
+		let requestBodyParams: any = this.createJsonFromString('id', id);
+		return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json());
+	}
 
   public sendAdminMail(history:History){
     const headers = new Headers();

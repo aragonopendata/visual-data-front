@@ -31,6 +31,7 @@ export class Constants {
   // URLS
   public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
   public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
+  public static AOD_BASE_API_ADMIN_FOCUS = 'http://localhost:4200/aod';
   public static FOCUS_URL = 'http://localhost:4201/aod';
 
 
@@ -757,6 +758,7 @@ export class Constants {
   public static LOCALSTORAGE_KEY_MAIL='email';
   public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';
   public static ROUTER_LINK_SERVICES_WEB='/services/web';
+  public static ROUTER_LINK_SERVICES_ADMIN='/services/admin';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
   public static ROUTER_LINK_ALL_HISTORIES='/histories';

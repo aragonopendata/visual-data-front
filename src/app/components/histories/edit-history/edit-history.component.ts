@@ -304,9 +304,11 @@ export class EditHistoryComponent implements OnInit {
 
   postHistoryAdmin(){
     //crear llamada para actualizar estado a puclicada en admin
-    console.log('peticion admin postear historia')
-    this.historyBack = this.historyModel;
-    $('#successfullModalCenter').modal('show');
+    this._historiesService.publishHistory(this.historyBack.id).subscribe(result => {
+      console.log('peticion admin postear historia')
+      this.historyBack = this.historyModel;
+      $('#successfullModalCenter').modal('show');
+    })
   }
 
 
