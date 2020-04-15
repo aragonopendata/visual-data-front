@@ -23,7 +23,7 @@ font-weight: 400;"></i><br/><br/>
                 <p>
                     Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
                 </p>
-                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
+                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event, 'category')">
                 <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>
   
@@ -52,7 +52,7 @@ font-weight: 400;"></i><br/><br/>
               
               <div class="group">
                 <h6>Categoría principal</h6>
-                <select class="form-control select-cat1" formControlName="category" >
+                <select class="form-control select-cat1" formControlName="category" id="category" >
                   <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
                 </select>
               </div>
@@ -131,7 +131,7 @@ font-weight: 400;"></i><br/><br/>
         </div>
         <form [formGroup]="emailForm">
           <div class="modal-body">
-            <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email">
+            <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm()">
             <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
           </div>
           <div class="modal-footer">

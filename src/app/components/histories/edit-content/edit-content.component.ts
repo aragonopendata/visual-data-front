@@ -21,7 +21,8 @@ export class EditContentComponent implements OnInit {
   contentForm: FormGroup;
   contentsTypes: any = Constants.CONTENTS_TYPES;
   contentEnum: typeof Contents = Contents;
-  alignsTypes:any =Constants.ALIGNS_TYPES;;
+  alignsTypes:any =Constants.ALIGNS_TYPES;
+  graphTitle: string;
 
   settings: any;
 
@@ -54,6 +55,11 @@ export class EditContentComponent implements OnInit {
       this.contentForm.controls['visual_content'].setValue(id);
     });
 
+    this._servicio.getTitleGraph().subscribe(title => {
+      this.graphTitle=title;
+      console.log(this.graphTitle);
+    });
+
     if(this.content){
       this.setForm();
     }
@@ -78,6 +84,12 @@ export class EditContentComponent implements OnInit {
       type_content: this.content.type_content,
       align: this.content.align
     });
+  }
+
+  saltaCampo(e, id){
+    console.log(e);
+    e.preventDefault();
+    document.getElementById(id).focus();
   }
 
   openVisualData() {

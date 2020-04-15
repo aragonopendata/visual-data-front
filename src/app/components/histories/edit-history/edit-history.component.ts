@@ -133,6 +133,14 @@ export class EditHistoryComponent implements OnInit {
   }
 
 
+  saltaCampo(e, id){
+    console.log(e);
+    e.preventDefault();
+    e.stopPropagation();
+    document.getElementById(id).focus();
+  }
+
+
   get invalidTitle(){
     return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
   }

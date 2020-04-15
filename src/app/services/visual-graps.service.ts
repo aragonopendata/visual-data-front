@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class VisualGrapsService {
 
   private idGraph$ = new Subject<string>();
+  private titleGraph$ = new Subject<string>();
 
   constructor() {}
   
@@ -13,8 +14,16 @@ export class VisualGrapsService {
     this.idGraph$.next(id);
   }
 
+  setTitleGraph(title: string) {
+    this.titleGraph$.next(title);
+  }
+
   getIdGraph(): Observable<string> {
     return this.idGraph$.asObservable();  
+  }
+
+  getTitleGraph(): Observable<string> {
+    return this.titleGraph$.asObservable();  
   }
 
 }

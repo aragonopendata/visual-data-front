@@ -18,7 +18,7 @@
           <div class="group">
               <h4 class="form-section-title">Título *</h4>
               <p>Por favor, escribe una denominación del contenido</p>
-              <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
+              <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event,'alineacion')">
               <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
           </div>
 
@@ -38,14 +38,14 @@
               una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
             </p>
 
-            <div *ngFor="let contentType of contentsTypes">
+            <div *ngFor="let contentType of contentsTypes" id="contents">
               <label class='form-row align-items-center'>
                 <input type="radio" [value]='contentType.type' formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span> 
               </label>
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
                 <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
-                <p *ngIf="contentModel.visual_content" class="form-section-title">El id seleccionado es: {{contentModel.visual_content}}</p>
+                <p *ngIf="contentModel.visual_content" class="form-section-title">El id seleccionado es: {{graphTitle}}</p>
               </div>
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.youtube))">
@@ -83,7 +83,7 @@
 
           <div class="group">
             <h4 class="form-section-title">Alineacion del contenido</h4>
-            <select class="form-control select-cat1" formControlName="align" >
+            <select class="form-control select-cat1" formControlName="align" id="alineacion">
               <option  *ngFor="let align of alignsTypes" [ngValue]="align.type">{{align.text}}</option>
             </select>
           </div>

@@ -185,6 +185,7 @@ export class ListGraphsComponent implements OnInit {
     document.getElementsByTagName('body')[0].classList.remove('no-scroll');
     this.router.navigate([{outlets: {modal: null}}]);
     this.myService.setIdGraph(id);
+    this.myService.setTitleGraph(title);
   }
 
   callUpdateVirtuoso() {

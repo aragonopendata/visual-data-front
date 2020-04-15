@@ -107,7 +107,7 @@
           </p>
           <form [formGroup]="tokenForm">
             <div class="modal-body">
-              <input type="text" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token">
+              <input type="text" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
               <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
               <div *ngIf=tokenError class="alert alert-danger"  role="alert">
                 <p> El token introducido es incorrecto. </p>
