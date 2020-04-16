@@ -12,6 +12,8 @@ export class History {
     create_date?: Date;
     update_date?:Date;
 
+    url?: string;
+
     image?: string;
     constructor() {}
 }

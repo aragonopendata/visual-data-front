@@ -290,6 +290,7 @@ export class EditHistoryComponent implements OnInit {
         this.historyBack = this.historyModel;
         this.updateWithBackHistory();
         $('#successfullModalCenter').modal('show');
+        this.historyModel.url=Constants.FOCUS_URL;
         this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
           if(result.status==200){
             console.log('correo usuario OK')
@@ -311,8 +312,8 @@ export class EditHistoryComponent implements OnInit {
   }
 
   postHistoryAdmin(){
-    //crear llamada para actualizar estado a puclicada en admin
     this._historiesService.publishHistory(this.historyBack.id).subscribe(result => {
+      console.log(result)
       console.log('peticion admin postear historia')
       this.historyBack = this.historyModel;
       $('#successfullModalCenter').modal('show');

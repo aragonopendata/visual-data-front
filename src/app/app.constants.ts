@@ -9,9 +9,9 @@ export class Constants {
   public static SERVER_URL = 'http://localhost:8080';
   public static LIST_ALL_HISTORIES_PATH = '/services/histories';
   public static SEND_MAIL_ADMIN_HISTORY_PATH =
-    Constants.LIST_ALL_HISTORIES_PATH + '/send_admin_mail';
+    Constants.LIST_ALL_HISTORIES_PATH + '/send_save_admin_mail';
     public static SEND_MAIL_USER_HISTORY_PATH =
-    Constants.LIST_ALL_HISTORIES_PATH + '/send_user_mail';
+    Constants.LIST_ALL_HISTORIES_PATH + '/send_save_user_mail';
 
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
   public static SAVE_CHART_PATH =
@@ -29,14 +29,14 @@ export class Constants {
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';
   public static PATH_MODIFIER = '';
   // URLS
-  public static AOD_BASE_URL_LOCAL = 'http://localhost:7030';
   public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
   public static AOD_BASE_API_ADMIN_FOCUS = 'http://localhost:4200/aod';
-  public static FOCUS_URL = 'http://localhost:4201/aod';
+  public static FOCUS_URL = 'http://localhost:4201/';
+  public static AOD_BASE_URL = 'http://localhost:7030';
 
 
 
-  public static AOD_BASE_URL = 'https://preopendata.aragon.es';
+  //public static AOD_BASE_URL = 'https://preopendata.aragon.es';
   public static PRESUPUESTOS_BASE_URL = 'http://prepresupuesto.aragon.es';
   public static AOD_ASSETS_BASE_URL = 'https://preopendata.aragon.es/static';
   public static AOD_API_WEB_BASE_URL =
