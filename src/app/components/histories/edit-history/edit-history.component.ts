@@ -32,6 +32,7 @@ export class EditHistoryComponent implements OnInit {
   settings: any;
   firstTime:boolean =true;
   loading: boolean = true;
+  editAdmin:boolean =false;
   admin: Object={};
   isAdmin: boolean=false;
 
@@ -165,7 +166,7 @@ export class EditHistoryComponent implements OnInit {
       })
     }else{
       if(this.historyBack.email){
-        if(this.historyBack.state==this.stateEnum.borrador){//unico estado de momento editable por usuario o admin
+        if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)){//unico estado de momento editable por usuario o admin
           console.log('se pcece a actualizar la historia')
           this.firstTime=false;
           this.operateWithHistory(Constants.UPDATE_HISTORY);
@@ -194,6 +195,10 @@ export class EditHistoryComponent implements OnInit {
     }else if(button.id=="btnSendPublicar"){
       this.stateHistory=this.stateEnum.publicada
       console.log("entro a get de sendPublicar")
+    }else if((button.id=="btnSaveHistory")&&(this.isAdmin)){
+      this.stateHistory=this.historyBack.state;
+      this.editAdmin=true;
+      console.log("entro a get de sendGuardar desde admin")
     }
     else{
       this.stateHistory=this.stateEnum.borrador
@@ -299,9 +304,13 @@ export class EditHistoryComponent implements OnInit {
                 if(result.status==200){
                   console.log('correo admin OK')
                 }
+              },err => {
+                console.log('Error al obtener las categorias');
               });
             }
           }
+        },err => {
+          console.log('Error al obtener las categorias');
         });
       } else {
         console.log('Error GUARDANDO historia')
@@ -324,6 +333,8 @@ export class EditHistoryComponent implements OnInit {
           }else{
             console.log('error envio mail!')
           }
+        }, err =>{
+          console.log('error envio mail con error!')
         });
 
       }else{
@@ -340,7 +351,7 @@ export class EditHistoryComponent implements OnInit {
         console.log('actualizado Ok MOSTRAR MODAL OK');
         this.historyBack = this.historyModel;
         $('#successfullModalCenter').modal('show');
-        if(this.stateHistory==this.stateEnum.revision){
+        if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin)){
           this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
             if(result.status==200){
               console.log('correo admin OK')
@@ -352,6 +363,8 @@ export class EditHistoryComponent implements OnInit {
         this.openModalError()
       }
     });
+    this.editAdmin=false;
+
   }
   
   copyToken(){
