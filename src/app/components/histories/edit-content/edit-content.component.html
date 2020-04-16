@@ -45,7 +45,7 @@
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
                 <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
-                <p *ngIf="contentModel.visual_content" class="form-section-title">El id seleccionado es: {{graphTitle}}</p>
+                <p *ngIf="contentModel.visual_content" class="form-section-title">La gráfica seleccionada es: {{graphTitle}}</p>
               </div>
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.youtube))">
