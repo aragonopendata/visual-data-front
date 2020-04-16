@@ -101,28 +101,41 @@ export class HistoriesService {
 		return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json());
 	}
 
-  public sendAdminMail(history:History){
+  public sendSaveAdminMail(history:History){
     const headers = new Headers();
-    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_ADMIN_HISTORY_PATH;
+    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_SAVE_ADMIN_HISTORY_PATH;
     headers.append('Content-Type', 'application/json');
     console.log('dentro de send email');
 
     return this.http.post(fullUrl,history,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
       .catch(err => {
       console.log('hay eror:' + err)
-        return Observable.throw('errorConexion');
+        return Observable.throw('error envío correo');
       });
   }
 
-  public sendUserMail(history:History){
+  public sendSaveUserMail(history:History){
     const headers = new Headers();
-    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_USER_HISTORY_PATH;
+    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_SAVE_USER_HISTORY_PATH;
     headers.append('Content-Type', 'application/json');
 
     return this.http.post(fullUrl,history,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
       .catch(err => {
       console.log('hay eror:' + err)
-        return Observable.throw('errorConexion');
+        return Observable.throw('error envío correo');
+      });
+      
+  }
+
+  public sendPublicUserMail(history:History){
+    const headers = new Headers();
+    let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_PUBLIC_USER_HISTORY_PATH;
+    headers.append('Content-Type', 'application/json');
+
+    return this.http.post(fullUrl,history,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
+      .catch(err => {
+      console.log('hay eror:' + err)
+        return Observable.throw('error envío correo');
       });
       
   }

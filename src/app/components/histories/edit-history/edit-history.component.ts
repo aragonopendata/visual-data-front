@@ -291,11 +291,11 @@ export class EditHistoryComponent implements OnInit {
         this.updateWithBackHistory();
         $('#successfullModalCenter').modal('show');
         this.historyModel.url=Constants.FOCUS_URL;
-        this._historiesService.sendUserMail(this.historyModel).subscribe(result => {
+        this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
           if(result.status==200){
             console.log('correo usuario OK')
             if(this.stateHistory==this.stateEnum.revision){
-              this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
+              this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
                 if(result.status==200){
                   console.log('correo admin OK')
                 }
@@ -313,10 +313,22 @@ export class EditHistoryComponent implements OnInit {
 
   postHistoryAdmin(){
     this._historiesService.publishHistory(this.historyBack.id).subscribe(result => {
-      console.log(result)
-      console.log('peticion admin postear historia')
-      this.historyBack = this.historyModel;
-      $('#successfullModalCenter').modal('show');
+      if(result.success){
+        this.historyBack = this.historyModel;
+        $('#successfullModalCenter').modal('show');
+        this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
+        this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
+          console.log(result)
+          if(result.status==200){
+            console.log('correo usuario publicada OK')
+          }else{
+            console.log('error envio mail!')
+          }
+        });
+
+      }else{
+        console.log('error publicando historia!')
+      }
     })
   }
 
@@ -329,7 +341,7 @@ export class EditHistoryComponent implements OnInit {
         this.historyBack = this.historyModel;
         $('#successfullModalCenter').modal('show');
         if(this.stateHistory==this.stateEnum.revision){
-          this._historiesService.sendAdminMail(this.historyModel).subscribe(result => {
+          this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
             if(result.status==200){
               console.log('correo admin OK')
             }

@@ -8,10 +8,12 @@ export class Constants {
   public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
   public static SERVER_URL = 'http://localhost:8080';
   public static LIST_ALL_HISTORIES_PATH = '/services/histories';
-  public static SEND_MAIL_ADMIN_HISTORY_PATH =
+  public static SEND_MAIL_SAVE_ADMIN_HISTORY_PATH =
     Constants.LIST_ALL_HISTORIES_PATH + '/send_save_admin_mail';
-    public static SEND_MAIL_USER_HISTORY_PATH =
+  public static SEND_MAIL_SAVE_USER_HISTORY_PATH =
     Constants.LIST_ALL_HISTORIES_PATH + '/send_save_user_mail';
+  public static SEND_MAIL_PUBLIC_USER_HISTORY_PATH =
+    Constants.LIST_ALL_HISTORIES_PATH + '/send_public_user_mail';
 
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
   public static SAVE_CHART_PATH =
@@ -31,7 +33,7 @@ export class Constants {
   // URLS
   public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
   public static AOD_BASE_API_ADMIN_FOCUS = 'http://localhost:4200/aod';
-  public static FOCUS_URL = 'http://localhost:4201/';
+  public static FOCUS_URL = 'http://localhost:4201/#';
   public static AOD_BASE_URL = 'http://localhost:7030';
 
 
