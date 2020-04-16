@@ -42,10 +42,12 @@
         <div class="row mb-3">
             <div class="col-12">
                 <div class="float-left">
-                    <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text" size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
+                    <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text"
+                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
                 </div>
                 <div class="float-left">
-                    <button type="button" class="button1" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos" (click)="selectPackage('URL')">Añadir Datos</button>
+                    <button type="button" class="button1" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"
+                        (click)="selectPackage('URL')">Añadir Datos</button>
                 </div>
                 <div *ngIf="loading[2]" class="loader float-left ml-1"></div>
                 <div *ngIf="errorResponse[2]" class="cross float-left ml-1">&times;</div>
@@ -59,7 +61,8 @@
                         </li>
                         <li *ngIf='packagesSelURL != ""'>
                             <strong>DataSet seleccionado:</strong> {{packagesSelURL}}
-                            <button (click)="deletePackage('URL')" class="button3" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Eliminar Datos Cargados">
+                            <button (click)="deletePackage('URL')" class="button3" tabindex="{{openedMenu ? -1 : 0}}"
+                                aria-label="Eliminar Datos Cargados">
                                 <i class="fa fa-remove"></i>
                             </button>
                         </li>
@@ -71,17 +74,19 @@
         <div class="row mb-3" *ngIf="tableToShow == 0">
             <div class="col-12">
                 <span *ngIf="dataTable && !openedMenu">
-                    <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true" [immutable]=false
-                        scrollable="true" #dt>
+                    <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true"
+                        responsive="true" [immutable]=false scrollable="true" #dt>
                         <p-header>Dataset</p-header>
                         <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                             <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
                                 <ng-template let-entry="rowData" pTemplate="body">
-                                    <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;" tabindex="{{openedMenu ? -1 : 0}}">
+                                    <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;"
+                                        tabindex="{{openedMenu ? -1 : 0}}">
                                         {{entry[i]}}
                                     </span>
                                     <span class="row" *ngIf="maxCharacters(entry,i)">
-                                        <button type="button" class="btn btn-light ml-3" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
+                                        <button type="button" class="btn btn-light ml-3" data-toggle="modal"
+                                            (click)="manteinData(entry[i])" data-target="#exampleModal">
                                             <i class="fa fa-info"></i>
                                         </button>
                                     </span>
@@ -95,17 +100,21 @@
 
         <div class="row">
             <div class="col-12" tabindex="-1" *ngIf="!openedMenu">
-                <accordion [closeOthers]=true  >
+                <accordion [closeOthers]=true>
                     <accordion-group heading="Opciones Avanzadas" tabindex="-1">
                         <accordion>
                             <accordion-group heading="SPARQL endpoint" tabindex="-1">
                                 <div class="float-left mb-3">
                                     <div class="ui-float-label">
-                                        <textarea pInputTextarea tabindex="{{openedMenu ? -1 : 0}}" aria-label="A&ntilde;adir consulta SPARQL" style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo" (keyup.enter)="selectPackage('VIRTUOSO')"></textarea>
+                                        <textarea pInputTextarea tabindex="{{openedMenu ? -1 : 0}}"
+                                            aria-label="A&ntilde;adir consulta SPARQL"
+                                            style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo"
+                                            (keyup.enter)="selectPackage('VIRTUOSO')"></textarea>
                                     </div>
                                 </div>
                                 <div class="float-left">
-                                    <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"  type="button" class="button1" (click)="selectPackage('VIRTUOSO')">Añadir Datos</button>
+                                    <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos" type="button"
+                                        class="button1" (click)="selectPackage('VIRTUOSO')">Añadir Datos</button>
                                 </div>
                                 <div *ngIf="loading[3]" class="loader float-left ml-1"></div>
                                 <div *ngIf="errorResponse[3]" class="cross float-left ml-1">&times;</div>
@@ -116,7 +125,8 @@
                                         </li>
                                         <li *ngIf='packagesSelSPARQL != ""'>
                                             <strong>DataSet seleccionado:</strong> {{packagesSelSPARQL}}
-                                            <button (click)="deletePackage('VIRTUOSO')" class="button3" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Eliminar Datos Cargados">
+                                            <button (click)="deletePackage('VIRTUOSO')" class="button3"
+                                                tabindex="{{openedMenu ? -1 : 0}}" aria-label="Eliminar Datos Cargados">
                                                 <i class="fa fa-remove"></i>
                                             </button>
                                         </li>
@@ -127,24 +137,57 @@
                                 <div class="mb-4">
                                     <div class="float-left">
                                         <div>
-                                            <p-autoComplete tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccionar datos cat&aacute;logo."  size="70%" minQueryLength="0" [dropdown]="true" [(ngModel)]="ckanPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+                                            <p-autoComplete tabindex="{{openedMenu ? -1 : 0}}"
+                                                aria-label="Seleccionar datos cat&aacute;logo." size="70%"
+                                                minQueryLength="0" [dropdown]="true" [(ngModel)]="ckanPackagesInfo"
+                                                [suggestions]="results" (completeMethod)="search($event)">
+                                            </p-autoComplete>
                                         </div>
                                     </div>
                                     <div class="float-left">
-                                        <button type="button" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"  class="button1" (click)="selectPackage('CKAN')">Añadir Datos</button>
+                                        <button type="button" tabindex="{{openedMenu ? -1 : 0}}"
+                                            aria-label="Cargar datos" class="button1"
+                                            (click)="selectPackage('CKAN')">Buscar Datos</button>
                                     </div>
                                     <div *ngIf="loading[0]" class="loader float-left ml-1"></div>
                                     <div *ngIf="errorResponse[0]" class="cross float-left">&times;</div>
-                                    <div *ngIf="errorResponse[0]" class="text-danger pt-2"><strong>Recurso no v&aacute;lido</strong></div>
+                                    <div *ngIf="errorResponse[0]" class="text-danger pt-2"><strong>Recurso no
+                                            v&aacute;lido</strong></div>
+                                            <!--
                                     <div class="float-left" style="word-break: break-all;">
                                         <ul>
                                             <li *ngIf='packagesSelCKAN != ""'>
                                                 <strong>DataSet seleccionado:</strong> {{packagesSelCKAN}}
-                                                <button (click)="deletePackage('CKAN')" class="button3" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Eliminar Datos Cargados">
+                                                <button (click)="deletePackage('CKAN')" class="button3"
+                                                    tabindex="{{openedMenu ? -1 : 0}}"
+                                                    aria-label="Eliminar Datos Cargados">
                                                     <i class="fa fa-remove"></i>
                                                 </button>
                                             </li>
                                         </ul>
+                                    </div>
+                                    -->
+                                    <div class="table-responsive pt-5" *ngIf='packagesSelCKAN != ""'>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">DataSet: {{packagesSelCKAN}}</th>
+                                                    <th scope="col">Data</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let resorce of resourcesPackages; index as i;">
+                                                    <th scope="row">{{i + 1}}</th>
+                                                    <td>{{resorce.name}}</td>
+                                                    <td>
+                                                        <button type="button" tabindex="{{openedMenu ? -1 : 0}}"
+                                                        aria-label="Cargar resource"
+                                                        (click)="selectResource(resorce)" [disabled]="loading[0]" [className]="!loading[0] ? 'button1' : 'buttonDisable'">Cargar</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </accordion-group>
@@ -159,8 +202,8 @@
 <div class="row" *ngIf="tableToShow == 1">
     <div class="col-12">
         <span *ngIf="dataTable  && !openedMenu">
-            <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true" [immutable]=false
-                scrollable="true" #dt>
+            <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true"
+                [immutable]=false scrollable="true" #dt>
                 <p-header>Dataset</p-header>
                 <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
                     <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
@@ -169,7 +212,8 @@
                                 {{entry[i]}}
                             </span>
                             <span class="row" *ngIf="maxCharacters(entry,i)">
-                                <button type="button" class="btn btn-light ml-3" data-toggle="modal" (click)="manteinData(entry[i])" data-target="#exampleModal">
+                                <button type="button" class="btn btn-light ml-3" data-toggle="modal"
+                                    (click)="manteinData(entry[i])" data-target="#exampleModal">
                                     <i class="fa fa-info"></i>
                                 </button>
                             </span>
@@ -182,18 +226,20 @@
 </div>
 <div class="row mt-1">
     <div class="col-12">
-        <div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar un dataset o esperar a terminar la carga</div>
+        <div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar un dataset o esperar a terminar la
+            carga</div>
     </div>
 </div>
 <div class="row mt-3 justify-content-end">
     <div class="col-12 justify-content-end">
-        <button (click)="next()" tabindex="{{openedMenu ? -1 : 0}}"  class="button2 float-right">Siguiente</button>
-        <button (click)="goBack()" tabindex="{{openedMenu ? -1 : 0}}"  class="button2 float-right">Volver</button>
+        <button (click)="next()" tabindex="{{openedMenu ? -1 : 0}}" class="button2 float-right">Siguiente</button>
+        <button (click)="goBack()" tabindex="{{openedMenu ? -1 : 0}}" class="button2 float-right">Volver</button>
     </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog mt-5" role="document">
         <div class="modal-content">
             <div class="modal-header">

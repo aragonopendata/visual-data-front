@@ -100,6 +100,7 @@ export class UtilsGraphService {
         //Join group
         if(!groupedData[element])
           groupedData[element] = [];
+        //This is done to take care that the function removeDuplicates dont delete duplicate data of other group
         for (let x = groupedData[element].length; x < i; x++) {
             groupedData[element].push("0");
         };
@@ -203,7 +204,7 @@ export class UtilsGraphService {
 
   // Update the Chart of the CKAN
   ckanReloadChart(dataProcess) {
-    this.ckanService.getPackageInfo([dataProcess.dataset]).subscribe(data => {
+    this.ckanService.getPackageResource({url: dataProcess.url, format: dataProcess.dataset}).subscribe(data => {
       this.loading.next(true);
 
       let headerTable;

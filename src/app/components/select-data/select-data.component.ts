@@ -38,6 +38,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   dataTable: any;
 
+  resourcesPackages: any;
+
   headerTable: string[];
 
   // Loading dataset
@@ -74,6 +76,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   virtuosoPackagesInfo: string;
 
   packagesInfo: string;
+  resourceInfo: string; //Selected resource from a package
+  formatDataInfo: string; //CSV, PX...
 
   packagesSelCKAN: string;
   packagesSelURL: string;
@@ -113,6 +117,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const aux = [];
+    //Prepare the ckan list of packages
     this.ckanservice.getPackageList().subscribe(
       data => {
         data.forEach(element => {
@@ -182,11 +187,17 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.dataservice.url = this.ckanPackagesInfo;
       }
     }
-    this.dataservice.datasetSelected = this.packagesInfo;
+    if (this.opened === 'CKAN'){
+      this.dataservice.url = this.resourceInfo;
+      this.dataservice.datasetSelected = this.formatDataInfo;
+    } else{
+      this.dataservice.datasetSelected = this.packagesInfo;
+    }
+    
     this.dataservice.datasetHeader = this.headerTable;
     this.dataservice.dataset = this.dataTable;
   }
-
+  //Where to call depending on the user input CKAN, Virtuoso, URL...
   selectPackage(opened: string) {
     this.opened = opened;
     this.tableToShow = 1;
@@ -195,6 +206,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.packagesSelURL = '';
     this.packagesSelSPARQL = '';
     if (this.opened === 'CKAN') {
+      this.errorResponse[0] = false;
       const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
       if (exist > -1 && this.ckanPackagesInfo !== '') {
         this.loading[0] = true;
@@ -287,50 +299,99 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
   }
 
+  //Retrieve the list of data from a package
   ckanCall(namePackage: string, url: boolean) {
     if (url === false) {
       this.packagesSelCKAN = namePackage;
     }
+    
     this.ckanservice.getPackageInfo([namePackage]).subscribe(
       data => {
-        this.packagesInfo = namePackage;
-        this.errorResponse[0] = false;
-        if (data.result.length !== 0) {
-          data.result.forEach((element, index) => {
-            if (index === 0) {
-              this.headerTable = [];
-              this.dataTable = [];
+        if(data.success == true){
+          let prepareResource = [];
+          //This is meant to delete duplicates entries because the data can
+          //duplicate itself with diferents formats CSV, PX, XLS...
+          data.result.resources.forEach((element,i) => {
+            if(element.format.toUpperCase() == "CSV" || element.format.toUpperCase() == "PX"){
+              if(!prepareResource[element.name]){
+                prepareResource[element.name] = {};
+                prepareResource[element.name].name = element.name;
+                prepareResource[element.name].resources = [];
+              }
+              prepareResource[element.name].resources.push({url: element.url, format: element.format.toUpperCase()});
             }
-
-            if (element.format === 'PX') {
-              const resultado = parsePXFile(element.data);
-              this.headerTable = resultado[0];
-              this.dataTable = resultado[1];
-              this.loading[0] = false;
-            } else if (element.format === 'CSV') {
-              const resultado = parseCSVFile(element.data, index);
-              this.headerTable = resultado[0];
-              this.dataTable = this.dataTable.concat(resultado[1]);
-              this.loading[0] = false;
-            } else {
-              this.packagesSelCKAN = '';
-              this.loading[0] = false;
-              this.errorResponse[0] = true;
-            }
-            this.loading[2] = false;
           });
-        } else {
+          //Now we create a normal array without the duplicate entries
+          this.resourcesPackages = [];
+          for (const key in prepareResource) {
+            this.resourcesPackages.push(prepareResource[key]);
+          }
+          this.loading[0] = false;
+        }else{
           this.packagesSelCKAN = '';
           this.loading[0] = false;
           this.errorResponse[0] = true;
         }
       },
       error => {
+        console.log(error);
         this.packagesSelCKAN = '';
         this.loading[0] = false;
         this.errorResponse[0] = true;
       }
     );
+  }
+
+  //CKAN Function to retrieve the data (CSV, PX...) the user has selected 
+  //from resource list from a package of data 
+  selectResource(resource){
+    if(resource.resources.length != 0){
+      this.loading[0] = true;
+      this.resourceInfo = resource.resources[0].url;
+      this.formatDataInfo = resource.resources[0].format;
+      this.ckanservice.getPackageResource(resource.resources[0]).subscribe(
+        data => {
+          this.errorResponse[0] = false;
+          if (data.result.length !== 0) {
+            data.result.forEach((element, index) => {
+              if (index === 0) {
+                this.headerTable = [];
+                this.dataTable = [];
+              }
+
+              if (element.format === 'PX') {
+                const resultado = parsePXFile(element.data);
+                this.headerTable = resultado[0];
+                this.dataTable = resultado[1];
+                this.loading[0] = false;
+              } else if (element.format === 'CSV') {
+                const resultado = parseCSVFile(element.data, index);
+                this.headerTable = resultado[0];
+                this.dataTable = this.dataTable.concat(resultado[1]);
+                this.loading[0] = false;
+              } else {
+                this.packagesSelCKAN = '';
+                this.loading[0] = false;
+                this.errorResponse[0] = true;
+              }
+              this.loading[2] = false;
+            });
+          } else {
+            this.packagesSelCKAN = '';
+            this.loading[0] = false;
+            this.errorResponse[0] = true;
+          }
+        },
+        error => {
+          console.log(error);
+          this.packagesSelCKAN = '';
+          this.loading[0] = false;
+          this.errorResponse[0] = true;
+        }
+      );
+    }else{
+      this.errorResponse[0] = true;
+    }
   }
 
   urlCall(namePackage: string) {

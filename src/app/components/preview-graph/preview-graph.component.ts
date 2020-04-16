@@ -144,69 +144,6 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       });
     } catch (error) {}
 
-    // TODO: Delete the next IF
-
-    if (
-      !this.dataservice.dataSelected ||
-      this.dataservice.dataSelected.length === 0
-    ) {
-      //this.router.navigate(['/selectData/']);
-      this.location.back();
-      this.typeOfData = 'TEST';
-      this.dataservice.headerSelected = [
-        '-'
-      ];
-      this.dataservice.dataSelected = [
-        [-65]
-      ];
-      this.dataservice.dataSelected.lenght = 1;
-      /*
-      this.dataservice.type = 'TEST';
-      this.dataservice.dataset = 'TEST';
-      this.dataservice.headerSelected = [
-        'Datos',
-        'de',
-        'prueba',
-        'Año',
-        'Ciudad',
-        'lat',
-        'long',
-        'desc'
-      ];
-      this.dataservice.dataSelected = [
-        [-65, 59, 80, 81, 56, 55, 40, 100, 100],
-        [20, 2, 3, 81, 4, 55, 5, 20, 40],
-        ['HTP', 'ASD', 'RDX', 'SAS', 'PACK', 'AA', 'DD', 'SAS', 'AA'],
-        [
-          '1992',
-          '1992',
-          '1992',
-          '1993',
-          '1992',
-          '1992',
-          '1993',
-          '1993',
-          '1993'
-        ],
-        [
-          'Teruel',
-          'Teruel',
-          'Teruel',
-          'Zaragoza',
-          'Zaragoza',
-          'Zaragoza',
-          'Teruel',
-          'Teruel',
-          'Zaragoza'
-        ],
-        [42.1213634, 42.1213634, 42.10673031],
-        [-0.07070538, -0.07070538, -0.3007088],
-        ['Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt']
-      ];
-      this.dataservice.dataSelected.lenght = 3;
-      */
-    }
-
     if (
       this.dataservice.dataSelected &&
       this.dataservice.dataSelected.length !== 0
@@ -288,6 +225,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             //Join group
             if(!groupedData[element])
               groupedData[element] = [];
+            //This is done to take care that the function removeDuplicates dont delete duplicate data of other group
             for (let x = groupedData[element].length; x < i; x++) {
                 groupedData[element].push("0");
             };
