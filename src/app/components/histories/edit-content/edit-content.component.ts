@@ -16,8 +16,8 @@ export class EditContentComponent implements OnInit {
 
   @Input() posContent: number;
   @Input() content: Content;
-  
   contentModel: Content = {}
+  actualValuesContent: Content = {}
   contentForm: FormGroup;
   contentsTypes: any = Constants.CONTENTS_TYPES;
   contentEnum: typeof Contents = Contents;
@@ -28,6 +28,7 @@ export class EditContentComponent implements OnInit {
 
   @Output() contentCreate = new EventEmitter<any>();
   @Output() closeContent = new EventEmitter<any>();
+  @Output() changeContent = new EventEmitter<any>();
 
   constructor( private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder) { 
     
@@ -63,6 +64,17 @@ export class EditContentComponent implements OnInit {
     if(this.content){
       this.setForm();
     }
+    this.contentForm.valueChanges.subscribe(val => {
+      this.actualValuesContent ={
+        title: this.contentForm.get('title').value, 
+        description: this.contentForm.get('description').value, 
+        type_content: this.contentForm.get('type_content').value,
+        visual_content: this.contentForm.get('visual_content').value,
+        align: this.contentForm.get('align').value == ""? null: this.contentForm.get('visual_content').value
+      };
+      
+      this.changeContent.emit({content: this.actualValuesContent})
+    });
     
   }
 

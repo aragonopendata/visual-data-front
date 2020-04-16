@@ -27,7 +27,10 @@ export class EditHistoryComponent implements OnInit {
   historyBack: History={};
 
   contentToEdit:Content;
+  actualContent:Content=null;
+  contentToDelete:Content;
   posToEdit:number;
+  actualPosToEdit:number;
   showAddContent = false;
   settings: any;
   firstTime:boolean =true;
@@ -390,9 +393,33 @@ export class EditHistoryComponent implements OnInit {
    * @param newContent 
    */
   editContent( content: Content, i: number ){
-    this.contentToEdit = content;
-    this.posToEdit = i;
-    this.showAddContent = true;
+    if(!this.showAddContent){
+      this.contentToEdit = content;
+      this.actualContent=this.contentToEdit;
+      this.posToEdit = i;
+      this.actualPosToEdit =this.posToEdit;
+      this.showAddContent = true;
+    }else if ((this.showAddContent)&&(i!=this.posToEdit)){
+      this.contentToEdit = content;
+      this.posToEdit = i;
+      this.showAddContent = false;
+      $('#questionContPrevious').modal('show');
+    }
+  }
+
+  /**
+   * Confirm edit content
+   * @param discardPrevious 
+   */
+  confirmEditContent(discardPrevious: boolean){
+    if(discardPrevious){
+      this.showAddContent = true;
+    }else{
+      this.contentToEdit=this.actualContent;
+      this.posToEdit=this.actualPosToEdit;
+      this.showAddContent = true;
+    }
+    $('#questionContPrevious').modal('hide');
   }
 
   /**
@@ -400,9 +427,22 @@ export class EditHistoryComponent implements OnInit {
    * @param newContent 
    */
   deleteContent( content: Content ){
+    this.contentToDelete=content;
+    $('#questionDeleteContent').modal('show');
+  }
+
+  /**
+   * Confirm delete of a content
+   */
+  confirmDeleteContent(){
+    $('#questionDeleteContent').modal('hide');
     this.contents = this.contents.filter( (e) => {
-      return content!==e;
+      return this.contentToDelete!==e;
     });
+  }
+
+  closeDeleteContentModal(){
+    $('#questionDeleteContent').modal('hide');
   }
 
   /**
@@ -420,10 +460,15 @@ export class EditHistoryComponent implements OnInit {
     this.closeNewContent();
   }
 
+  changeContent( changeContent ){
+    this.actualContent=changeContent.content;
+  }
+
   /**
    * Open modal to add content
    */
   addNewContent(){
+    this.posToEdit=this.contents.length;
     this.showAddContent = true;
     this._cdRef.detectChanges();
     this.newContentElement.nativeElement.scrollIntoView({behavior:"smooth"});

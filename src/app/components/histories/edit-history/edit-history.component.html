@@ -84,7 +84,7 @@ font-weight: 400;"></i><br/><br/>
               </div>
               
             </div>
-  
+
             <!-- Lista de contenidos -->
             <div class="contents-select" *ngIf="contents && contents.length > 0">
               <h4 class="form-section-title">Contenidos</h4>
@@ -102,7 +102,7 @@ font-weight: 400;"></i><br/><br/>
   
             <div #newContentElement *ngIf="showAddContent">
               <div class="card card-body">
-                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()"></app-edit-content>
+                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
               </div>
             </div>
   
@@ -190,6 +190,52 @@ font-weight: 400;"></i><br/><br/>
       </div>
     </div>
   </div>
+
+
+
+    <!-- Question History -->
+    <div class="modal fade errorModal" id="questionContPrevious" tabindex="-1" role="dialog" aria-labelledby="questionContPreviousTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="questionContPreviousTitle">Info contenido</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p >Si edita el contenido, perderá los cambios del contenido que se está editando en este momento con título . ¿Desea continuar?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="confirmEditContent(false)">Cancelar</button>
+            <button type="button" class="btn btn-primary" (click)="confirmEditContent(true)">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Question History -->
+    <div class="modal fade errorModal" id="questionDeleteContent" tabindex="-1" role="dialog" aria-labelledby="questionDeleteContentTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="questionDeleteContentTitle">Borrar contenido</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p *ngIf="showAddContent">Por favor, antes de eliminar un contenido, guarde o cierre el contenido que se está editando</p>
+            <p *ngIf="!showAddContent">¿Está seguro que quiere eliminar el contenido? Una vez eliminado, no se podrá recuperar</p>
+          </div>
+          <div class="modal-footer">
+            <button *ngIf="showAddContent" type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Volver</button>
+            <button *ngIf="!showAddContent" type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Cancelar</button>
+            <button *ngIf="!showAddContent" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </div>
 
