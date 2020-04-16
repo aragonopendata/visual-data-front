@@ -108,9 +108,9 @@ export class EditContentComponent implements OnInit {
         description: this.contentForm.get('description').value, 
         type_content: this.contentForm.get('type_content').value,
         visual_content: this.contentForm.get('visual_content').value,
-        align: this.contentForm.get('align').value
+        align: this.contentForm.get('align').value == ""? null: this.contentForm.get('visual_content').value
       };
-
+      
       this.contentCreate.emit({
         action: this.content ? 'edit':'new',
         posContent: this.posContent,
