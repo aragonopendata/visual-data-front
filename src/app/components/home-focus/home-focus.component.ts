@@ -18,6 +18,7 @@ export class HomeFocusComponent implements OnInit {
 
   categoriesHidden: Category[];
   categoriesVisible: Category[];
+  textSearch:string="";
   viewMoreCategories: boolean = false;
   histories: History[];
   createHistory: boolean = true;
@@ -28,12 +29,13 @@ export class HomeFocusComponent implements OnInit {
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
   image:string="/assets/img/university.svg"
 
+
   constructor(private _historiesService: HistoriesService, private _route: Router, private _activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder, ) { }
 
   ngOnInit() {
     this.getCategories();
-    this.getHistories();
+    this.getHistories(null);
     this.initiateForm();
   }
 
@@ -102,8 +104,9 @@ export class HomeFocusComponent implements OnInit {
   }
 
 
-  getHistories(){
-    this._historiesService.getHistories().subscribe( response => {
+  getHistories(text){
+    this.textSearch = (text != null ? text : this.textSearch);
+    this._historiesService.getHistoriesBySearch(this.textSearch).subscribe( response => {
       if(response.success){
         console.log(response.history)
         this.histories=response.history;
