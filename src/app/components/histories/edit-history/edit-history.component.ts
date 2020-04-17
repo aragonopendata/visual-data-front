@@ -25,6 +25,7 @@ export class EditHistoryComponent implements OnInit {
   emailForm: FormGroup;
   emailHistory: string;
   historyBack: History={};
+  isNewContent:boolean;
 
   contentToEdit:Content;
   actualContent:Content=null;
@@ -38,6 +39,7 @@ export class EditHistoryComponent implements OnInit {
   editAdmin:boolean =false;
   admin: Object={};
   isAdmin: boolean=false;
+  previousButton:string=null;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -160,33 +162,45 @@ export class EditHistoryComponent implements OnInit {
   }
 
 
-  getHistoryForm(button){
-    this.getState(button);
-    console.log(this.stateHistory)
+  getHistoryForm(button, primerAviso){
     if(this.historyForm.invalid){
       return Object.values(this.historyForm.controls).forEach(control => {
         control.markAsTouched();
       })
     }else{
-      if(this.historyBack.email){
-        if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)){//unico estado de momento editable por usuario o admin
-          console.log('se pcece a actualizar la historia')
-          this.firstTime=false;
-          this.operateWithHistory(Constants.UPDATE_HISTORY);
-        }else if((this.historyBack.state==this.stateEnum.revision)&&(this.isAdmin)){//caso de que el admin vaya a actualizar estado
-          console.log('admin va a actualizar estado')
-          this.firstTime=false;
-          this.operateWithHistory(Constants.POST_HISTORY_ADMIN);
+      if(this.showAddContent && primerAviso){
+        this.previousButton=button;
+        $('#questionDeleteContent').modal('show');
+      }else{
+        $('#questionDeleteContent').modal('hide');
+        if(this.previousButton){
+          button=this.previousButton;
+          this.previousButton=null;
+        }
+        this.showAddContent = false;
+        this.getState(button);
+        console.log(this.stateHistory)
+        if(this.historyBack.email){
+          if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)){//unico estado de momento editable por usuario o admin
+            console.log('se pcece a actualizar la historia')
+            this.firstTime=false;
+            this.operateWithHistory(Constants.UPDATE_HISTORY);
+          }else if((this.historyBack.state==this.stateEnum.revision)&&(this.isAdmin)){//caso de que el admin vaya a actualizar estado
+            console.log('admin va a actualizar estado')
+            this.firstTime=false;
+            this.operateWithHistory(Constants.POST_HISTORY_ADMIN);
+          }
+          else{
+            console.log("no presenta un estado editable")
+            this.openModalError()
+          }
         }
         else{
-          console.log("no presenta un estado editable")
-          this.openModalError()
+          this.emailForm.reset();
+          $("#emailModalCenter").modal('show');
         }
       }
-      else{
-        this.emailForm.reset();
-        $("#emailModalCenter").modal('show');
-      }
+      
     }
   }
 
@@ -399,6 +413,7 @@ export class EditHistoryComponent implements OnInit {
       this.posToEdit = i;
       this.actualPosToEdit =this.posToEdit;
       this.showAddContent = true;
+      this.isNewContent=false;
     }else if ((this.showAddContent)&&(i!=this.posToEdit)){
       this.contentToEdit = content;
       this.posToEdit = i;
@@ -413,6 +428,7 @@ export class EditHistoryComponent implements OnInit {
    */
   confirmEditContent(discardPrevious: boolean){
     if(discardPrevious){
+      this.isNewContent=false;
       this.showAddContent = true;
     }else{
       this.contentToEdit=this.actualContent;
@@ -443,6 +459,7 @@ export class EditHistoryComponent implements OnInit {
 
   closeDeleteContentModal(){
     $('#questionDeleteContent').modal('hide');
+    this.previousButton=null;
   }
 
   /**
@@ -468,6 +485,7 @@ export class EditHistoryComponent implements OnInit {
    * Open modal to add content
    */
   addNewContent(){
+    this.isNewContent=true;
     this.posToEdit=this.contents.length;
     this.showAddContent = true;
     this._cdRef.detectChanges();
@@ -480,5 +498,6 @@ export class EditHistoryComponent implements OnInit {
   closeNewContent(){
     this.contentToEdit = null;
     this.showAddContent = false;
+    this.isNewContent=false;
   }
 }
