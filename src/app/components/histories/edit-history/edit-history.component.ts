@@ -25,6 +25,7 @@ export class EditHistoryComponent implements OnInit {
   emailForm: FormGroup;
   emailHistory: string;
   historyBack: History={};
+  isNewContent:boolean;
 
   contentToEdit:Content;
   actualContent:Content=null;
@@ -412,6 +413,7 @@ export class EditHistoryComponent implements OnInit {
       this.posToEdit = i;
       this.actualPosToEdit =this.posToEdit;
       this.showAddContent = true;
+      this.isNewContent=false;
     }else if ((this.showAddContent)&&(i!=this.posToEdit)){
       this.contentToEdit = content;
       this.posToEdit = i;
@@ -426,6 +428,7 @@ export class EditHistoryComponent implements OnInit {
    */
   confirmEditContent(discardPrevious: boolean){
     if(discardPrevious){
+      this.isNewContent=false;
       this.showAddContent = true;
     }else{
       this.contentToEdit=this.actualContent;
@@ -482,6 +485,7 @@ export class EditHistoryComponent implements OnInit {
    * Open modal to add content
    */
   addNewContent(){
+    this.isNewContent=true;
     this.posToEdit=this.contents.length;
     this.showAddContent = true;
     this._cdRef.detectChanges();
@@ -494,5 +498,6 @@ export class EditHistoryComponent implements OnInit {
   closeNewContent(){
     this.contentToEdit = null;
     this.showAddContent = false;
+    this.isNewContent=false;
   }
 }

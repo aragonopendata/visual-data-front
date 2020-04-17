@@ -102,7 +102,7 @@ font-weight: 400;"></i><br/><br/>
   
             <div #newContentElement *ngIf="showAddContent">
               <div class="card card-body">
-                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
+                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit"  [newContent]="isNewContent" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
               </div>
             </div>
   
