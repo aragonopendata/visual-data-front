@@ -19,6 +19,7 @@ export class HomeFocusComponent implements OnInit {
   categoriesHidden: Category[];
   categoriesVisible: Category[];
   textSearch:string="";
+  categorySearch:string=null;
   viewMoreCategories: boolean = false;
   histories: History[];
   createHistory: boolean = true;
@@ -35,7 +36,7 @@ export class HomeFocusComponent implements OnInit {
 
   ngOnInit() {
     this.getCategories();
-    this.getHistories(null);
+    this.getHistories(null, null);
     this.initiateForm();
   }
 
@@ -104,9 +105,17 @@ export class HomeFocusComponent implements OnInit {
   }
 
 
-  getHistories(text){
+
+  getHistories(text, category){
+    if(category== this.categorySearch){
+      console.log('igual que anterior')
+      this.categorySearch=null;
+    }else{
+      this.categorySearch = (category != null ? category : this.categorySearch)
+    }
+
     this.textSearch = (text != null ? text : this.textSearch);
-    this._historiesService.getHistoriesBySearch(this.textSearch).subscribe( response => {
+    this._historiesService.getHistoriesBySearch(this.textSearch, this.categorySearch).subscribe( response => {
       if(response.success){
         console.log(response.history)
         this.histories=response.history;

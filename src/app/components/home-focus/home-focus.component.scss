@@ -27,6 +27,11 @@
             margin-top: 1rem;
             .nav-item{
                 cursor: pointer;
+                .selected{
+                    background-color: gray;
+                    color: white;
+                    border-radius: 2em;
+                }
             }
         }
         .view-more{

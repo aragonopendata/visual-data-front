@@ -65,10 +65,11 @@ export class HistoriesService {
   return this.http.get(fullUrl).map(res => res.json());
 }
 
-public getHistoriesBySearch(text:string) {
+public getHistoriesBySearch(text:string, category:string) {
   let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
   let params = new URLSearchParams();
   params.append("text", text)
+  params.append("category", category)
 
   return this.http.get(fullUrl, {search: params  }).pipe(map((res:Response) => res.json()));
 }
