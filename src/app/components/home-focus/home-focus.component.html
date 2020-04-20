@@ -26,14 +26,14 @@
           <!-- categories -->
           <ul class="list-categories nav justify-content-center">
             <li class="nav-item" *ngFor="let category of categoriesVisible">
-              <span class="nav-link" [ngClass]="category.id==categorySearch ? 'selected' : 'text-primary'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+              <span class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
             </li>
           </ul>
 
           <div *ngIf='viewMoreCategories' class="list-categories">
             <ul class="nav justify-content-center">
               <li class="nav-item" *ngFor="let category of categoriesHidden">
-                <span class="nav-link"  [ngClass]="category.id==categorySearch ? 'selected' : 'text-primary'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+                <span class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
               </li>
             </ul>
           </div>
