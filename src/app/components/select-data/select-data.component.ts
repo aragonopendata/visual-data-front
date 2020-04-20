@@ -80,10 +80,13 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   formatDataInfo: string; //CSV, PX...
 
   packagesSelCKAN: string;
+  packagesSelGAODC: string;
   packagesSelURL: string;
   packagesSelSPARQL: string;
 
   openedMenu: boolean;
+
+  gaodcDataExcluded = [78,79,80,81,82,83,84,85,266,267];
 
   constructor(
     private ckanservice: CkanService,
@@ -106,6 +109,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.packagesSelCKAN = '';
     this.packagesSelURL = '';
     this.packagesSelSPARQL = '';
+    this.packagesSelGAODC = '';
     this.headerTable = [];
     this.loading = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
     this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
@@ -126,7 +130,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           });
         });
 
-        aux.sort(function(a, b) {
+        aux.sort(function (a, b) {
           if (a.title < b.title) {
             return -1;
           }
@@ -137,12 +141,12 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         });
 
         var duplicateTitle = "";
-        var  i = 0;
+        var i = 0;
         aux.forEach(element => {
-          if(element.title == duplicateTitle){
+          if (element.title == duplicateTitle) {
             i++;
             element.title = element.title.concat(" (" + i + ")");
-          }else{
+          } else {
             duplicateTitle = element.title;
             i = 0;
           }
@@ -161,19 +165,20 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.errorResponse[0] = true;
       }
     );
-    /*
-        this.gaodcservice.getPackageList().subscribe(data => {
-            this.listGaodc = [];
-            data.forEach(element => {
-                this.listGaodc.push(element[1]);
-            });
-            this.loading[1] = false;
-        },
-        error => {
-            this.loading[1] = false;
-            this.errorResponse[1] = true;
-        },);
-        */
+
+    this.gaodcservice.getPackageList().subscribe(data => {
+      this.listGaodc = [];
+      data.forEach(element => {
+        if(!this.gaodcDataExcluded.includes(element[0])){
+          this.listGaodc.push(element[1]);
+        }
+      });
+      this.loading[1] = false;
+    },
+      error => {
+        this.loading[1] = false;
+        this.errorResponse[1] = true;
+      });
   }
 
   ngOnDestroy() {
@@ -187,24 +192,24 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         this.dataservice.url = this.ckanPackagesInfo;
       }
     }
-    if (this.opened === 'CKAN'){
+    if (this.opened === 'CKAN') {
       this.dataservice.url = this.resourceInfo;
       this.dataservice.datasetSelected = this.formatDataInfo;
-    } else{
+    } else {
       this.dataservice.datasetSelected = this.packagesInfo;
     }
-    
+
     this.dataservice.datasetHeader = this.headerTable;
     this.dataservice.dataset = this.dataTable;
   }
   //Where to call depending on the user input CKAN, Virtuoso, URL...
-  selectPackage(opened: string) {
-    this.opened = opened;
+  selectPackage() {
     this.tableToShow = 1;
     this.dataTable = null;
     this.packagesSelCKAN = '';
     this.packagesSelURL = '';
     this.packagesSelSPARQL = '';
+    this.packagesSelGAODC = '';
     if (this.opened === 'CKAN') {
       this.errorResponse[0] = false;
       const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
@@ -304,21 +309,21 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     if (url === false) {
       this.packagesSelCKAN = namePackage;
     }
-    
+
     this.ckanservice.getPackageInfo([namePackage]).subscribe(
       data => {
-        if(data.success == true){
+        if (data.success == true) {
           let prepareResource = [];
           //This is meant to delete duplicates entries because the data can
           //duplicate itself with diferents formats CSV, PX, XLS...
-          data.result.resources.forEach((element,i) => {
-            if(element.format.toUpperCase() == "CSV" || element.format.toUpperCase() == "PX"){
-              if(!prepareResource[element.name]){
+          data.result.resources.forEach((element, i) => {
+            if (element.format.toUpperCase() == "CSV" || element.format.toUpperCase() == "PX") {
+              if (!prepareResource[element.name]) {
                 prepareResource[element.name] = {};
                 prepareResource[element.name].name = element.name;
                 prepareResource[element.name].resources = [];
               }
-              prepareResource[element.name].resources.push({url: element.url, format: element.format.toUpperCase()});
+              prepareResource[element.name].resources.push({ url: element.url, format: element.format.toUpperCase() });
             }
           });
           //Now we create a normal array without the duplicate entries
@@ -327,7 +332,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             this.resourcesPackages.push(prepareResource[key]);
           }
           this.loading[0] = false;
-        }else{
+        } else {
           this.packagesSelCKAN = '';
           this.loading[0] = false;
           this.errorResponse[0] = true;
@@ -344,8 +349,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   //CKAN Function to retrieve the data (CSV, PX...) the user has selected 
   //from resource list from a package of data 
-  selectResource(resource){
-    if(resource.resources.length != 0){
+  selectResource(resource) {
+    if (resource.resources.length != 0) {
       this.loading[0] = true;
       this.resourceInfo = resource.resources[0].url;
       this.formatDataInfo = resource.resources[0].format;
@@ -389,7 +394,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           this.errorResponse[0] = true;
         }
       );
-    }else{
+    } else {
       this.errorResponse[0] = true;
     }
   }
@@ -433,26 +438,24 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     );
   }
 
-  gaodcCall(name: String, numberPackage: number) {
-    /*
-        this.packagesList.push(name);
-        this.gaodcservice.getPackageInfo(numberPackage).subscribe(data => {
-            this.headerTable = data[0];
-            data.splice(0, 1);
-            this.dataTable = data;
+  gaodcCall(name: string, numberPackage: number) {
+    this.packagesSelGAODC = name;
+    this.gaodcservice.getPackageInfo(numberPackage).subscribe(data => {
+      this.headerTable = data[0];
+      data.splice(0, 1);
+      this.dataTable = data;
 
-            this.openedWithURL = 'GAODC';
+      this.openedWithURL = 'GAODC';
 
-            this.packagesInfo = numberPackage.toString();
-            this.loading[1] = false;
-            this.loading[2] = false;
-        },
-        error => {
-           this.loading[1] = false;
-           this.loading[2] = false;
-           this.errorResponse[1] = true;
-        },);
-        */
+      this.packagesInfo = numberPackage.toString();
+      this.loading[1] = false;
+      this.loading[2] = false;
+    },
+      error => {
+        this.loading[1] = false;
+        this.loading[2] = false;
+        this.errorResponse[1] = true;
+      });
   }
 
   virtuosoCall(namePackage: string) {
@@ -480,20 +483,22 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   search(event: any) {
+    /*
     this.results = Object.assign([], this.listCkan).filter(
       item => item.indexOf(event.query) > -1
     );
-    /*
-        if (this.opened === 'CKAN') {
-            this.results = Object.assign([], this.listCkan).filter(
-                item => item.indexOf(event.query) > -1
-            );
-        } else if (this.opened === 'GAODC') {
-            this.results = Object.assign([], this.listGaodc).filter(
-                item => item.indexOf(event.query) > -1
-            );
-        }
-        */
+    */
+
+    if (this.opened === 'CKAN') {
+      this.results = Object.assign([], this.listCkan).filter(
+        item => item.indexOf(event.query) > -1
+      );
+    } else if (this.opened === 'GAODC') {
+      this.results = Object.assign([], this.listGaodc).filter(
+        item => item.indexOf(event.query) > -1
+      );
+    }
+
   }
 
   deletePackage(name) {
@@ -550,7 +555,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     }
   }
 
-  getOpenedMenu(){
+  getOpenedMenu() {
     this.openedMenu = false;
     this.utilsService.openedMenuChange.subscribe(value => {
       this.openedMenu = value;
@@ -558,6 +563,14 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   toggleOpenedMenu() {
-      this.utilsService.tooggleOpenedMenu();
+    this.utilsService.tooggleOpenedMenu();
+  }
+
+  whoIsOpen(who) {
+    this.opened = who;
+
+    this.dataTable = null;
+
+    this.gaodcPackagesInfo = "";
   }
 }

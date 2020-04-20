@@ -240,7 +240,6 @@ export class UtilsGraphService {
 
         const headerTable = dataTable[0];
         dataTable.splice(0, 1);
-
         this.prepareAndSave(dataProcess, headerTable, dataTable);
       });
   }

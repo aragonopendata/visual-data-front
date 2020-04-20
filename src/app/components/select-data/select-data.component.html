@@ -102,8 +102,8 @@
             <div class="col-12" tabindex="-1" *ngIf="!openedMenu">
                 <accordion [closeOthers]=true>
                     <accordion-group heading="Opciones Avanzadas" tabindex="-1">
-                        <accordion>
-                            <accordion-group heading="SPARQL endpoint" tabindex="-1">
+                        <accordion  [closeOthers]=true>
+                            <accordion-group heading="SPARQL endpoint" tabindex="-1" (isOpenChange)="whoIsOpen('SPARQL')">
                                 <div class="float-left mb-3">
                                     <div class="ui-float-label">
                                         <textarea pInputTextarea tabindex="{{openedMenu ? -1 : 0}}"
@@ -133,7 +133,37 @@
                                     </ul>
                                 </div>
                             </accordion-group>
-                            <accordion-group heading="Banco de datos (API)" tabindex="-1">
+                            <accordion-group heading="Gobierno de Aragón Open Data Core GA_OD_Core" (isOpenChange)="whoIsOpen('GAODC')">
+                                <div style="float:left" class="mb-3">
+                                    <div>
+                                        <p-autoComplete size="70%" minQueryLength="0" [dropdown]="true" [(ngModel)]="gaodcPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+                                    </div>
+                                </div>
+                                <div style="float:left">
+                                    <button type="button" class="button1" (click)="selectPackage()">Cargar Datos</button>
+                                </div>
+                                <div *ngIf="loading[1]" class="loader" style="float:left; margin-left: 2%"></div>
+                                <div *ngIf="errorResponse[1]" class="cross" style="float:left; margin-left: 2%">&times;</div>
+                                <div class="table-responsive pt-2" *ngIf='packagesSelGAODC != ""'>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Datos seleccionados: {{packagesSelGAODC}}</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <!--
+                                <div style="float:left ;margin-left: 1%; word-break: break-all;">
+                                    <ul>
+                                        <li *ngIf="gaodcPackagesInfo">
+                                            <strong>DataSet seleccionado:</strong> {{gaodcPackagesInfo}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                -->
+                            </accordion-group>
+                            <accordion-group heading="Banco de datos (API)" tabindex="-1" (isOpenChange)="whoIsOpen('CKAN')">
                                 <div class="mb-4">
                                     <div class="float-left">
                                         <div>
