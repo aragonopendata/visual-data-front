@@ -1,9 +1,6 @@
   
 <div class="row">
     <h2>Crear un nuevo contenido</h2>
-    <button type="button" class="close" aria-label="Close" (click)="closeComponentContent()">
-      <span aria-hidden="true">&times;</span>
-    </button>
 </div>
 
 <form [formGroup]="contentForm">
@@ -94,7 +91,7 @@
     </div>
   </div>
   <div class="actions">
-    <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent()> Descartar contenido</button>       
+    <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent()> Cancelar</button>      
     <button class="btn-left btn btn-primary" type="button" (click)='saveContent()' [ngClass]="contentForm.invalid ? 'disabled' : '' ">Guardar contenido</button>
   </div>
 </form>

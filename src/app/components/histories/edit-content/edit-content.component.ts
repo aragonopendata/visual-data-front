@@ -16,7 +16,6 @@ export class EditContentComponent implements OnInit {
 
   @Input() posContent: number;
   @Input() content: Content;
-  @Input() newContent: boolean;
 
   contentModel: Content = {}
   actualValuesContent: Content = {}

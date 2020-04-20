@@ -102,7 +102,7 @@ font-weight: 400;"></i><br/><br/>
   
             <div #newContentElement *ngIf="showAddContent">
               <div class="card card-body">
-                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit"  [newContent]="isNewContent" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
+                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
               </div>
             </div>
   
@@ -199,9 +199,6 @@ font-weight: 400;"></i><br/><br/>
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="questionContPreviousTitle">Info contenido</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
           <div class="modal-body">
             <p >Si edita el contenido, perderá los cambios del contenido que se está editando en este momento con título . ¿Desea continuar?</p>
@@ -220,7 +217,7 @@ font-weight: 400;"></i><br/><br/>
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="questionDeleteContentTitle">Borrar contenido</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDeleteContentModal()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
