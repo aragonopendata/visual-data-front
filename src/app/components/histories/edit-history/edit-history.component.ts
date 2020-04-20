@@ -44,6 +44,7 @@ export class EditHistoryComponent implements OnInit {
   stateHistory:any =0;
   stateEnum: typeof State = State;
 
+  routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
   @ViewChild('newContentElement') newContentElement: ElementRef;
@@ -289,7 +290,7 @@ export class EditHistoryComponent implements OnInit {
     if(action==Constants.PREVIEW_HISTORY){
       this.sendToPreviewPage();
     }else if(action==Constants.SAVE_HISTORY){
-      this.saveHistoryUser()
+      this.saveHistoryUser();
     }else if(action==Constants.UPDATE_HISTORY){
       this.updateHistoryUser();
     } else if (action==Constants.POST_HISTORY_ADMIN){
@@ -400,6 +401,16 @@ export class EditHistoryComponent implements OnInit {
   goHome(){
     $('#successfullModalCenter').modal('hide');
     this._route.navigateByUrl("/");
+  }
+
+  viewHistory(){
+    if(this.isAdmin){
+      $('#successfullModalCenter').modal('hide');
+      this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
+    }
+    else{
+      this.goHome();
+    }
   }
 
   /**
