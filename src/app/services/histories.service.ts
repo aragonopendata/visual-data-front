@@ -105,7 +105,8 @@ public getHistoriesBySearch(text:string, category:string) {
     let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
 		let headers = this.buildRequestHeaders();
 		console.log(fullUrl)
-		let requestBodyParams: any = this.createJsonFromString('id', id);
+    let requestBodyParams: any = this.createJsonFromString('id', id);
+    console.log(requestBodyParams)
 		return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json());
 	}
 
