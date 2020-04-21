@@ -4,11 +4,9 @@ import { HistoriesService } from '../../../services/histories.service';
 import { History, Content } from '../../../models/History';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GraphService } from '../../../services/graph.service';
-//import { constants } from 'os';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { Aligns } from '../../../models/Aligns';
-
 
 @Component({
   selector: 'app-view-history',
@@ -17,7 +15,6 @@ import { Aligns } from '../../../models/Aligns';
 })
 export class ViewHistoryComponent implements OnInit {
 
-   chart = [];
   idHistory: string;
   historySelect: History;
   previewHistory: History;
@@ -27,30 +24,6 @@ export class ViewHistoryComponent implements OnInit {
   contentEnum: typeof Contents = Contents;
   alignEnum: typeof Aligns = Aligns;
   loading : boolean = true;
-
-
-  //historyContents: any;
-
-  chartOptions: any = {
-    scaleShowVerticalLines: false,
-    scaleShowValues: true,
-    responsive: true,
-    legend: {
-      display: false
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-            callback: function(value, index, array) {
-              return null;
-            }
-          }
-        }
-      ]
-    }
-  };
 
   constructor( private historiesService: HistoriesService, private _graphService: GraphService,
     private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
@@ -76,30 +49,13 @@ export class ViewHistoryComponent implements OnInit {
 
     if(this.preview){
 
-      console.log(Constants.LOCALSTORAGE_KEY_HISTORY);
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
-      console.log(this.historySelect);
-
 
       if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
-
-          this.align=element.align;
-          console.log(this.align);
-          if(element.type_content ==  Contents.graph){
-            this._graphService.getChart(element.visual_content).subscribe(chart => {
-              this.chart.push(chart);
-            });
-          } else if (element.type_content ==  Contents.youtube) {
-            element.srcYoutube = this.urlYoutube(element.visual_content);
-          } else if (element.type_content ==  Contents.shareSlides) {
-            this.urlSlideShare(element.visual_content).then( (url) => {
-              element.srcSlideShare = url;
-            });
-          }
+          element = this.getInfoContents(element);
         });
       }
-
 
     } else {
 
@@ -108,44 +64,56 @@ export class ViewHistoryComponent implements OnInit {
           this.historySelect = response.history;
           if(this.historySelect.contents){
             this.historySelect.contents.forEach( (element: Content) => {
-              this.align=element.align;
-              console.log(this.align);
-              if(element.type_content ==  Contents.graph){
-                this._graphService.getChart(element.visual_content).subscribe(chart => {
-                  this.chart.push(chart);
-                });
-              } else if (element.type_content ==  Contents.youtube) {
-                element.srcYoutube = this.urlYoutube(element.visual_content);
-              } else if (element.type_content ==  Contents.shareSlides) {
-                this.urlSlideShare(element.visual_content).then( (url) => {
-                  element.srcSlideShare = url;
-                });
-              }
+              element = this.getInfoContents(element);
             });
           }
           return this.loading=false;
-        }else{
-          console.log('no se encuentra la historia')
         }
-
       });
 
     }
   }
 
-  urlGraph(id: string) {
-    let url = 'http://localhost:4201/#/charts/embed/'+id;
-    return this._sanitizer.bypassSecurityTrustResourceUrl(url);
+
+  private getInfoContents(element): Content {
+
+    this.align=element.align;
+
+    if(element.type_content ==  Contents.graph){
+      this.urlGraph(element.visual_content).then( (url) => {
+        element.srcYoutube = url;
+        return element
+      });
+    } else if (element.type_content ==  Contents.youtube) {
+      this.urlYoutube(element.visual_content).then( (url) => {
+        element.srcYoutube = url;
+        return element
+      });
+    } else if (element.type_content ==  Contents.shareSlides) {
+      this.urlSlideShare(element.visual_content).then( (url) => {
+        element.srcSlideShare = url;
+        return element
+      });
+    }else{
+      return element
+    }
   }
 
-  urlYoutube(id: string) {
-    let url = "https://www.youtube.com/embed/"+id;
-    console.log(url)
-    return this._sanitizer.bypassSecurityTrustResourceUrl(url);
+  private urlGraph(id: string) {
+    return new Promise((resolve, reject) => {
+      let url = 'http://localhost:4201/#/charts/embed/'+id;
+      resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
+    });
   }
 
+  private urlYoutube(id: string) {
+    return new Promise((resolve, reject) => {
+      let url = "https://www.youtube.com/embed/"+id;
+      resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
+    });
+  }
   
-  urlSlideShare(id: string) {
+  private urlSlideShare(id: string) {
 
     return new Promise((resolve, reject) => {
 

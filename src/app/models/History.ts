@@ -28,6 +28,7 @@ export class Content {
     visual_content?: string;
     type_content?:number;
     
+    srcGraph?: SafeResourceUrl;
     srcYoutube?: SafeResourceUrl;
     srcSlideShare?: SafeResourceUrl;
 
