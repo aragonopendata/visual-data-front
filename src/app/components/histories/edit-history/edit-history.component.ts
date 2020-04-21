@@ -405,8 +405,8 @@ export class EditHistoryComponent implements OnInit {
     console.log('entro update')
     this._historiesService.updateHistory(this.historyModel).subscribe(result => {
       if (result.status == 200 && result.success) {
-        this.historyBack = this.historyModel;
         if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin && !this.publishing)){
+          this.historyBack = this.historyModel;
           $('#successfullModalCenter').modal('show');
           console.log('empiezo a enviar correo')
           this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
