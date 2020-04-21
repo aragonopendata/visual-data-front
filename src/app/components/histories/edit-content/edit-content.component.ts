@@ -71,7 +71,7 @@ export class EditContentComponent implements OnInit {
         description: this.contentForm.get('description').value, 
         type_content: this.contentForm.get('type_content').value,
         visual_content: this.contentForm.get('visual_content').value,
-        align: this.contentForm.get('align').value == ""? null: this.contentForm.get('visual_content').value
+        align: this.contentForm.get('align').value == ""? null: this.contentForm.get('align').value
       };
       
       this.changeContent.emit({content: this.actualValuesContent})
@@ -85,7 +85,7 @@ export class EditContentComponent implements OnInit {
       description: new FormControl(''),
       visual_content: new FormControl(null),
       type_content: new FormControl(null),
-      align: new FormControl('')
+      align: new FormControl(1)
     });
   }
 
@@ -121,7 +121,7 @@ export class EditContentComponent implements OnInit {
         description: this.contentForm.get('description').value, 
         type_content: this.contentForm.get('type_content').value,
         visual_content: this.contentForm.get('visual_content').value,
-        align: this.contentForm.get('align').value == ""? null: this.contentForm.get('visual_content').value
+        align: this.contentForm.get('align').value == 1? null: this.contentForm.get('align').value
       };
       
       this.contentCreate.emit({

@@ -64,22 +64,22 @@ font-weight: 400;"></i><br/><br/>
   
                 <div class="content-visual graph " *ngIf="content.type_content==contentEnum.graph">
 
-                  <iframe appIframeResizer
+                  <iframe appIframeResizer *ngIf="content.srcGraph" 
                     class="thread-content"
-                    [src]="urlGraph(content.visual_content)"
+                    [src]="content.srcGraph"
                     title="Thread Content"
                     scrolling="no" frameborder="0"></iframe>
                  
                 </div>
   
                 <div class="content-visual" *ngIf="content.type_content==contentEnum.youtube">
-                  <iframe width="560" height="315" [src]='urlYoutube(content.visual_content)'
+                  <iframe *ngIf="content.srcYoutube" width="560" height="315" [src]="content.srcYoutube"
                   frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
                 </div>
   
                 <div class="content-visual" *ngIf="content.type_content==contentEnum.shareSlides">
-                  <iframe width="595" height="485" [src]='urlSlideShare(content.visual_content)' marginwidth="0" scrolling = "no"
+                  <iframe *ngIf="content.srcSlideShare" width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
                   style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
                   allowfullscreen></iframe>
                 </div>
@@ -88,13 +88,9 @@ font-weight: 400;"></i><br/><br/>
                   <p [innerHTML]="content.description"></p>
                 </div>
                 
-  
               </div>
   
             </div>
-  
-  
-            
           </div>
         </div>
       </div>

@@ -30,7 +30,9 @@ export class Constants {
     Constants.LIST_ALL_CHARTS_PATH + '/download_all_process/';
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';
   public static PATH_MODIFIER = '';
+
   // URLS
+  //CAMBIAR CUANDO SE SUBA A DES!!!!!!!!!!
   public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
   public static AOD_BASE_API_ADMIN_FOCUS = 'http://localhost:4200/aod';
   public static FOCUS_URL = 'http://localhost:4201/#';
