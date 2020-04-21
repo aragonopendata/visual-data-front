@@ -22,7 +22,6 @@ export class HistoriesService {
 			//Authorization header: API_KEY:JWT_Token
 			let authorizationHeaderValue = this.currentUser.token + ':' + this.currentUser.key;
       headers.append('Authorization', authorizationHeaderValue);
-      console.log(authorizationHeaderValue);
 		}
 	}
 
