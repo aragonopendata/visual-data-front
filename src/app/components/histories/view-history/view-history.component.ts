@@ -90,6 +90,12 @@ export class ViewHistoryComponent implements OnInit {
             this._graphService.getChart(element.visual_content).subscribe(chart => {
               this.chart.push(chart);
             });
+          } else if (element.type_content ==  Contents.youtube) {
+            element.srcYoutube = this.urlYoutube(element.visual_content);
+          } else if (element.type_content ==  Contents.shareSlides) {
+            this.urlSlideShare(element.visual_content).then( (url) => {
+              element.srcSlideShare = url;
+            });
           }
         });
       }
@@ -102,9 +108,19 @@ export class ViewHistoryComponent implements OnInit {
           this.historySelect = response.history;
           if(this.historySelect.contents){
             this.historySelect.contents.forEach( (element: Content) => {
-              this._graphService.getChart(element.visual_content).subscribe(chart => {
-                this.chart.push(chart);
-              });
+              this.align=element.align;
+              console.log(this.align);
+              if(element.type_content ==  Contents.graph){
+                this._graphService.getChart(element.visual_content).subscribe(chart => {
+                  this.chart.push(chart);
+                });
+              } else if (element.type_content ==  Contents.youtube) {
+                element.srcYoutube = this.urlYoutube(element.visual_content);
+              } else if (element.type_content ==  Contents.shareSlides) {
+                this.urlSlideShare(element.visual_content).then( (url) => {
+                  element.srcSlideShare = url;
+                });
+              }
             });
           }
           return this.loading=false;
@@ -130,40 +146,25 @@ export class ViewHistoryComponent implements OnInit {
 
   
   urlSlideShare(id: string) {
-    let url = "https://www.slideshare.net/"+id;
-    console.log('entro Slide')
-    var urlSlideEmbed;
-    
-    this.historiesService.getEmbedUrlSlideShare(url).subscribe( response => {
-      if(response.html){
-        let iframeInfo=response.html
-        console.log(iframeInfo)
-        urlSlideEmbed = iframeInfo.substring(
-          iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
-          iframeInfo.lastIndexOf("\" width=")
-        );
-        console.log(urlSlideEmbed)
-      }
+
+    return new Promise((resolve, reject) => {
+
+      let url = "https://www.slideshare.net/"+id;
+      var urlSlideEmbed;
+      
+      this.historiesService.getEmbedUrlSlideShare(url).subscribe( (response:any) => {
+        if(response.html){
+          let iframeInfo=response.html
+          urlSlideEmbed = iframeInfo.substring(
+            iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
+            iframeInfo.lastIndexOf("\" width=")
+          );
+          resolve(this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed));
+        }
+      });
     });
-    /*
-   let iframeInfo = "<iframe src=\"https://www.slideshare.net/slideshow/embed_code/key/ymrpsJU8z3e4dx\" width=\"427\" height=\"356\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" style=\"border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;\" allowfullscreen> </iframe> <div style=\"margin-bottom:5px\"> <strong> <a href=\"https://www.slideshare.net/nwinkelman/the-language-of-coaching-a-story-about-learning\" title=\"The Language of Coaching - A Story About Learning\" target=\"_blank\">The Language of Coaching - A Story About Learning</a> </strong> from <strong><a href=\"https://www.slideshare.net/nwinkelman\" target=\"_blank\">Nick Winkelman, PhD</a></strong> </div>\n\n"
-
-   var urlSlideEmbed = iframeInfo.substring(
-     iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
-     iframeInfo.lastIndexOf("\" width=")
-    );
-    console.log(urlSlideEmbed)
-    */
-
-    //let regexp= new RegExp('(?<=src=\\\\)(.*)(?=\\\\" width=)');
-    //var data = regexp.exec(iframeInfo)
-    //console.log(iframeInfo.match(/(?<=src=\\)(.*)(?=\\" width=)/g))
-    //console.log(iframeInfo.match(/(embed_code\/key\/)(.*)(?=" width)/g))
-
-    return this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed);
   }
   
-
   return(){
     if(this.preview){
       this._router.navigate([Constants.ROUTER_LINK_ADD_HISTORY]);

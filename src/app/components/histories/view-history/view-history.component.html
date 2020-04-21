@@ -73,13 +73,14 @@ font-weight: 400;"></i><br/><br/>
                 </div>
   
                 <div class="content-visual" *ngIf="content.type_content==contentEnum.youtube">
-                  <iframe width="560" height="315" [src]='urlYoutube(content.visual_content)'
+                  {{content.srcYoutube}}
+                  <iframe width="560" height="315" [src]="content.srcYoutube"
                   frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
                 </div>
   
                 <div class="content-visual" *ngIf="content.type_content==contentEnum.shareSlides">
-                  <iframe width="595" height="485" [src]='urlSlideShare(content.visual_content)' marginwidth="0" scrolling = "no"
+                  <iframe *ngIf="content.srcSlideShare" width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
                   style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
                   allowfullscreen></iframe>
                 </div>

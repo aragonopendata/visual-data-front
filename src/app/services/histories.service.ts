@@ -152,10 +152,9 @@ public getHistoriesBySearch(text:string, category:string) {
   public getEmbedUrlSlideShare(url:string){
 
     let fullUrl= Constants.API_SLIDESHARE_CONVERT_URL_TO_EMBED + "?url=" + url + "&format=json" 
-
-    console.log(fullUrl);
-
-    return this.http.get(fullUrl).map(res => res.json());;
+    return this.http.get(fullUrl).map( (res:any) => {
+      return res.json()
+    });
       
   }
 
