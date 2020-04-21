@@ -27,6 +27,7 @@ export class EditHistoryComponent implements OnInit {
   historyBack: History={};
   saved:boolean = false;
   isModified: boolean = false;
+  publishing: boolean = false;
 
   contentToEdit:Content;
   actualContent:Content=null;
@@ -223,7 +224,9 @@ export class EditHistoryComponent implements OnInit {
       this.versionHistory=true;
       console.log("entro a get de sendPublicar")
     }else if(button.id=="btnSendPublicar"){
-      this.stateHistory=this.stateEnum.publicada
+      this.publishing = true;
+      this.stateHistory=this.historyBack.state;
+      //this.stateHistory=this.stateEnum.publicada
       console.log("entro a get de sendPublicar")
     }else if((button.id=="btnSaveHistory")&&(this.isAdmin)){
       this.stateHistory=this.historyBack.state;
@@ -310,7 +313,8 @@ export class EditHistoryComponent implements OnInit {
       this.updateHistoryUser();
       console.log('update');
     } else if (action==Constants.POST_HISTORY_ADMIN){
-      this.postHistoryAdmin();
+      this.saveHistoryUser();
+      //this.postHistoryAdmin();
       console.log('post');
     }
 
@@ -329,24 +333,34 @@ export class EditHistoryComponent implements OnInit {
         this.historyModel.id = result.id;
         this.historyBack = this.historyModel;
         this.updateWithBackHistory();
-        $('#successfullModalCenter').modal('show');
+        
         this.historyModel.url=Constants.FOCUS_URL;
-        this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
-          if(result.status==200){
-            console.log('correo usuario OK')
-            if(this.stateHistory==this.stateEnum.revision){
-              this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
-                if(result.status==200){
-                  console.log('correo admin OK')
-                }
-              },err => {
-                console.log('Error al obtener las categorias');
-              });
+        if(!this.isAdmin){
+          $('#successfullModalCenter').modal('show');
+          this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
+            if(result.status==200){
+              console.log('correo usuario OK')
+              if(this.stateHistory==this.stateEnum.revision){
+                this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
+                  if(result.status==200){
+                    console.log('correo admin OK')
+                  }
+                },err => {
+                  console.log('Error al obtener las categorias');
+                });
+              }
             }
-          }
-        },err => {
-          console.log('Error al obtener las categorias');
-        });
+          },err => {
+            console.log('Error al obtener las categorias');
+          });
+        }
+        else if(this.publishing && this.isAdmin){
+          this.postHistoryAdmin();
+        }
+        else{
+          $('#successfullModalCenter').modal('show');
+        }
+        
       } else {
         console.log('Error GUARDANDO historia')
         this.openModalError()
@@ -362,7 +376,7 @@ export class EditHistoryComponent implements OnInit {
       this._historiesService.publishHistory(this.historyModel).subscribe(result => {
         if(result.success){
           console.log('publicada correctamente!')
-          this.historyBack = this.historyModel;
+          //this.historyBack = this.historyModel;
           $('#successfullModalCenter').modal('show');
           this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
           this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
@@ -390,10 +404,8 @@ export class EditHistoryComponent implements OnInit {
 
   updateHistoryUser(){
     this._historiesService.updateHistory(this.historyModel).subscribe(result => {
-      console.log(result)
       if (result.status == 200 && result.success) {
         this.historyBack = this.historyModel;
-        this.saved=true;
         $('#successfullModalCenter').modal('show');
         if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin)){
           this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
@@ -435,7 +447,7 @@ export class EditHistoryComponent implements OnInit {
       $('#successfullModalCenter').modal('hide');
       this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
     }
-    else if(!this.isAdmin && this.historyBack.state == this.stateEnum.borrador){
+    else if(!this.isAdmin && this.historyBack.state == this.stateEnum.revision){
       this.goHome();
     }
     else{
