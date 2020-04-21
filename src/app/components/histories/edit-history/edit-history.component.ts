@@ -106,10 +106,12 @@ export class EditHistoryComponent implements OnInit {
         this.historyBack = result.history;
         this.updateWithBackHistory();
 
+        /*
         this.historyForm.valueChanges.subscribe(val => {
           this.isModified=true;
           console.log('entro');
         });
+        */
       }
     });
   }
@@ -215,6 +217,9 @@ export class EditHistoryComponent implements OnInit {
   }
 
   getState(button){
+    this.editAdmin=false;
+    this.versionHistory=false;
+    this.publishing=false;
     console.log(button.id)
     if(button.id=="btnSendRevision"){
       this.stateHistory=this.stateEnum.revision
@@ -222,7 +227,7 @@ export class EditHistoryComponent implements OnInit {
     }else if(button.id=="btnSendVersionar"){
       this.stateHistory=this.stateEnum.revision
       this.versionHistory=true;
-      console.log("entro a get de sendPublicar")
+      console.log("entro a get de sendVersionar")
     }else if(button.id=="btnSendPublicar"){
       this.publishing = true;
       this.stateHistory=this.historyBack.state;
@@ -313,7 +318,8 @@ export class EditHistoryComponent implements OnInit {
       this.updateHistoryUser();
       console.log('update');
     } else if (action==Constants.POST_HISTORY_ADMIN){
-      this.saveHistoryUser();
+      //this.saveHistoryUser();
+      this.updateHistoryUser();
       //this.postHistoryAdmin();
       console.log('post');
     }
@@ -335,7 +341,6 @@ export class EditHistoryComponent implements OnInit {
         this.updateWithBackHistory();
         
         this.historyModel.url=Constants.FOCUS_URL;
-        if(!this.isAdmin){
           $('#successfullModalCenter').modal('show');
           this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){
@@ -349,22 +354,16 @@ export class EditHistoryComponent implements OnInit {
                   console.log('Error al obtener las categorias');
                 });
               }
+            } else {
+              console.log('Error GUARDANDO historia')
+              this.openModalError()
             }
           },err => {
             console.log('Error al obtener las categorias');
           });
         }
-        else if(this.publishing && this.isAdmin){
-          this.postHistoryAdmin();
-        }
-        else{
-          $('#successfullModalCenter').modal('show');
-        }
         
-      } else {
-        console.log('Error GUARDANDO historia')
-        this.openModalError()
-      }
+      
     });
 
   }
@@ -372,28 +371,28 @@ export class EditHistoryComponent implements OnInit {
   postHistoryAdmin(){
     console.log('entro desde aqui')
     console.log(this.historyModel)
-    //if(!this.isModified || this.saved){
-      this._historiesService.publishHistory(this.historyModel).subscribe(result => {
-        if(result.success){
-          console.log('publicada correctamente!')
-          //this.historyBack = this.historyModel;
-          $('#successfullModalCenter').modal('show');
-          this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
-          this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
-            console.log(result)
-            if(result.status==200){
-              console.log('correo usuario publicada OK')
-            }else{
-              console.log('error envio mail!')
-            }
-          }, err =>{
-            console.log('error envio mail con error!')
-          });
-  
-        }else{
-          console.log('error publicando historia!')
-        }
-      })
+    this.historyModel.state=this.stateEnum.publicada;
+    this._historiesService.publishHistory(this.historyModel).subscribe(result => {
+      if(result.success){
+        console.log('publicada correctamente!')
+        this.historyBack = this.historyModel;
+        $('#successfullModalCenter').modal('show');
+        this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
+        this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
+          console.log(result)
+          if(result.status==200){
+            console.log('correo usuario publicada OK')
+          }else{
+            console.log('error envio mail!')
+          }
+        }, err =>{
+          console.log('error envio mail con error!')
+        });
+
+      }else{
+        console.log('error publicando historia!')
+      }
+    })
     //}
     /*else
     {
@@ -403,24 +402,29 @@ export class EditHistoryComponent implements OnInit {
 
 
   updateHistoryUser(){
+    console.log('entro update')
     this._historiesService.updateHistory(this.historyModel).subscribe(result => {
       if (result.status == 200 && result.success) {
         this.historyBack = this.historyModel;
-        $('#successfullModalCenter').modal('show');
-        if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin)){
+        if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin && !this.publishing)){
+          $('#successfullModalCenter').modal('show');
+          console.log('empiezo a enviar correo')
           this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
             if(result.status==200){
               console.log('correo admin OK')
             }
           });
+        }else if(this.publishing && this.isAdmin){
+          console.log('despues de guardar voy a publicar')
+          this.postHistoryAdmin();
+        }else{
+          $('#successfullModalCenter').modal('show');
         }
       } else {
         console.log('error en ACTUALIZACION MOSTRAR MODAL KO')
         this.openModalError()
       }
     });
-    this.editAdmin=false;
-    this.versionHistory=false;
 
   }
   
@@ -443,7 +447,7 @@ export class EditHistoryComponent implements OnInit {
   }
 
   viewHistory(){
-    if(this.isAdmin && this.historyBack.state == this.stateEnum.publicada){
+    if(this.isAdmin && this.publishing){
       $('#successfullModalCenter').modal('hide');
       this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
     }
