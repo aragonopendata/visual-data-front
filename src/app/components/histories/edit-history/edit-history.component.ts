@@ -41,6 +41,7 @@ export class EditHistoryComponent implements OnInit {
   admin: Object={};
   isAdmin: boolean=false;
   previousButton:string=null;
+  versionHistory:boolean=false;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -188,7 +189,7 @@ export class EditHistoryComponent implements OnInit {
         this.getState(button);
         console.log(this.stateHistory)
         if(this.historyBack.email){
-          if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)){//unico estado de momento editable por usuario o admin
+          if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)||((this.historyBack.state==this.stateEnum.publicada)&&(this.versionHistory))){//unico estado de momento editable por usuario o guardado de admin o versionar historia publicada
             console.log('se procede a actualizar la historia')
             this.firstTime=false;
             this.operateWithHistory(Constants.UPDATE_HISTORY);
@@ -216,6 +217,10 @@ export class EditHistoryComponent implements OnInit {
     if(button.id=="btnSendRevision"){
       this.stateHistory=this.stateEnum.revision
       console.log("entro a get de sendRevision")
+    }else if(button.id=="btnSendVersionar"){
+      this.stateHistory=this.stateEnum.revision
+      this.versionHistory=true;
+      console.log("entro a get de sendPublicar")
     }else if(button.id=="btnSendPublicar"){
       this.stateHistory=this.stateEnum.publicada
       console.log("entro a get de sendPublicar")
@@ -288,10 +293,12 @@ export class EditHistoryComponent implements OnInit {
       contents: (this.contents.length==0)  ? null : this.contents,
       create_date:this.historyBack.create_date? this.historyBack.create_date :null,
       update_date:this.historyBack.update_date? this.historyBack.update_date:null,      
-      id_reference:null ////dato a sacar de si viene otra historia o no, de momento nulo
-
+      id_reference:this.historyBack.id_reference? this.historyBack.id_reference:null 
     }
 
+    if(this.versionHistory){
+      this.historyModel.id_reference=this.historyModel.id;
+    }
 
     if(action==Constants.PREVIEW_HISTORY){
       this.sendToPreviewPage();
@@ -381,7 +388,6 @@ export class EditHistoryComponent implements OnInit {
     this._historiesService.updateHistory(this.historyModel).subscribe(result => {
       console.log(result)
       if (result.status == 200 && result.success) {
-        console.log('actualizado Ok MOSTRAR MODAL OK');
         this.historyBack = this.historyModel;
         this.saved=true;
         $('#successfullModalCenter').modal('show');
@@ -398,6 +404,7 @@ export class EditHistoryComponent implements OnInit {
       }
     });
     this.editAdmin=false;
+    this.versionHistory=false;
 
   }
   

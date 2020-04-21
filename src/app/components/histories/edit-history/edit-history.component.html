@@ -114,8 +114,10 @@ font-weight: 400;"></i><br/><br/>
     <div class="actions">
         <button class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
         <button #btnSave id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button>       
-        <button #btnRevision *ngIf="!isAdmin" id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
+        <button #btnRevision *ngIf="(!isAdmin)" id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
         <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="button" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
+        <button #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Versionar historia</button>
+
     </div>
   </form>
   
@@ -210,7 +212,7 @@ font-weight: 400;"></i><br/><br/>
 
 
 
-    <!-- Question History -->
+    <!-- Question Content Previous -->
     <div class="modal fade errorModal" id="questionContPrevious" tabindex="-1" role="dialog" aria-labelledby="questionContPreviousTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
