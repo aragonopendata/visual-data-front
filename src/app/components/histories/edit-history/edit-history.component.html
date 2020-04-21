@@ -113,9 +113,9 @@ font-weight: 400;"></i><br/><br/>
     </div>
     <div class="actions">
         <button class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
-        <button #btnSave *ngIf="(isAdmin|| (!isAdmin && (historyBack.state == stateEnum.borrador)))" id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button>       
-        <button #btnRevision *ngIf="(!isAdmin)" id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
-        <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
+        <button #btnSave *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador)))"  id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button>       
+        <button #btnRevision *ngIf="(!isAdmin && (historyBack.state == stateEnum.borrador))" id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
+        <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="button" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
         <button #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Versionar historia</button>
 
     </div>
