@@ -80,6 +80,7 @@ export class EditHistoryComponent implements OnInit {
     this._historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
       this.secondCategories = categories;
+      this.historyBack.state=this.stateEnum.borrador;
       this._activatedRoute.params.subscribe(params => {
         if(params.id!=null){
           this.getHistory(params.id);
@@ -355,9 +356,12 @@ export class EditHistoryComponent implements OnInit {
   }
 
   postHistoryAdmin(){
+    console.log('entro desde aqui')
+    console.log(this.historyModel)
     //if(!this.isModified || this.saved){
-      this._historiesService.publishHistory(this.historyBack.id).subscribe(result => {
+      this._historiesService.publishHistory(this.historyModel).subscribe(result => {
         if(result.success){
+          console.log('publicada correctamente!')
           this.historyBack = this.historyModel;
           $('#successfullModalCenter').modal('show');
           this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
