@@ -25,6 +25,8 @@ export class EditHistoryComponent implements OnInit {
   emailForm: FormGroup;
   emailHistory: string;
   historyBack: History={};
+  saved:boolean = false;
+  isModified: boolean = false;
 
   contentToEdit:Content;
   actualContent:Content=null;
@@ -100,6 +102,11 @@ export class EditHistoryComponent implements OnInit {
       if(result.success){
         this.historyBack = result.history;
         this.updateWithBackHistory();
+
+        this.historyForm.valueChanges.subscribe(val => {
+          this.isModified=true;
+          console.log('entro');
+        });
       }
     });
   }
@@ -182,7 +189,7 @@ export class EditHistoryComponent implements OnInit {
         console.log(this.stateHistory)
         if(this.historyBack.email){
           if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)){//unico estado de momento editable por usuario o admin
-            console.log('se pcece a actualizar la historia')
+            console.log('se procede a actualizar la historia')
             this.firstTime=false;
             this.operateWithHistory(Constants.UPDATE_HISTORY);
           }else if((this.historyBack.state==this.stateEnum.revision)&&(this.isAdmin)){//caso de que el admin vaya a actualizar estado
@@ -273,9 +280,9 @@ export class EditHistoryComponent implements OnInit {
     this.historyModel = {
       id: this.historyBack.id ? this.historyBack.id : null, 
       state:this.stateHistory,
-      email: this.historyBack.email? this.historyBack.email : this.emailForm.get('email').value,
       title: this.historyForm.get('title').value,
       description: this.historyForm.get('description').value  == '' ? null : this.historyForm.get('description').value,
+      email: this.historyBack.email? this.historyBack.email : this.emailForm.get('email').value,
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
       secondary_categories: cat2Selected,
       contents: (this.contents.length==0)  ? null : this.contents,
@@ -290,10 +297,13 @@ export class EditHistoryComponent implements OnInit {
       this.sendToPreviewPage();
     }else if(action==Constants.SAVE_HISTORY){
       this.saveHistoryUser();
+      console.log('save');
     }else if(action==Constants.UPDATE_HISTORY){
       this.updateHistoryUser();
+      console.log('update');
     } else if (action==Constants.POST_HISTORY_ADMIN){
       this.postHistoryAdmin();
+      console.log('post');
     }
 
   }
@@ -338,26 +348,32 @@ export class EditHistoryComponent implements OnInit {
   }
 
   postHistoryAdmin(){
-    this._historiesService.publishHistory(this.historyBack.id).subscribe(result => {
-      if(result.success){
-        this.historyBack = this.historyModel;
-        $('#successfullModalCenter').modal('show');
-        this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
-        this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
-          console.log(result)
-          if(result.status==200){
-            console.log('correo usuario publicada OK')
-          }else{
-            console.log('error envio mail!')
-          }
-        }, err =>{
-          console.log('error envio mail con error!')
-        });
-
-      }else{
-        console.log('error publicando historia!')
-      }
-    })
+    //if(!this.isModified || this.saved){
+      this._historiesService.publishHistory(this.historyBack.id).subscribe(result => {
+        if(result.success){
+          this.historyBack = this.historyModel;
+          $('#successfullModalCenter').modal('show');
+          this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
+          this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
+            console.log(result)
+            if(result.status==200){
+              console.log('correo usuario publicada OK')
+            }else{
+              console.log('error envio mail!')
+            }
+          }, err =>{
+            console.log('error envio mail con error!')
+          });
+  
+        }else{
+          console.log('error publicando historia!')
+        }
+      })
+    //}
+    /*else
+    {
+      $('#saveModalCenter').modal('show');
+    }*/
   }
 
 
@@ -367,6 +383,7 @@ export class EditHistoryComponent implements OnInit {
       if (result.status == 200 && result.success) {
         console.log('actualizado Ok MOSTRAR MODAL OK');
         this.historyBack = this.historyModel;
+        this.saved=true;
         $('#successfullModalCenter').modal('show');
         if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin)){
           this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
@@ -403,12 +420,15 @@ export class EditHistoryComponent implements OnInit {
   }
 
   viewHistory(){
-    if(this.isAdmin){
+    if(this.isAdmin && this.historyBack.state == this.stateEnum.publicada){
       $('#successfullModalCenter').modal('hide');
       this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
     }
-    else{
+    else if(!this.isAdmin && this.historyBack.state == this.stateEnum.borrador){
       this.goHome();
+    }
+    else{
+      $('#successfullModalCenter').modal('hide');
     }
   }
 

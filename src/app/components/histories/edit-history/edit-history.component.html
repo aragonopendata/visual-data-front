@@ -115,7 +115,7 @@ font-weight: 400;"></i><br/><br/>
         <button class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
         <button #btnSave id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button>       
         <button #btnRevision *ngIf="!isAdmin" id="btnSendRevision" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
-        <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="button" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
+        <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="button" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
     </div>
   </form>
   
@@ -191,7 +191,24 @@ font-weight: 400;"></i><br/><br/>
     </div>
   </div>
 
- 
+  <!-- Modal Save Changes -->
+  <!--<div class="modal fade errorModal" id="saveModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="errorModalCenterTitle">No ha guardado los cambios</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p >Asegurese de guardar los cambios efectuados antes de publicar la historia.</p>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+
 
     <!-- Question History -->
     <div class="modal fade errorModal" id="questionContPrevious" tabindex="-1" role="dialog" aria-labelledby="questionContPreviousTitle" aria-hidden="true">
