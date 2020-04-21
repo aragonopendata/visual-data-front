@@ -447,7 +447,7 @@ export class EditHistoryComponent implements OnInit {
       $('#successfullModalCenter').modal('hide');
       this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
     }
-    else if(!this.isAdmin && this.historyBack.state == this.stateEnum.revision){
+    else if((!this.isAdmin) && (this.historyBack.state == this.stateEnum.revision)){
       this.goHome();
     }
     else{
