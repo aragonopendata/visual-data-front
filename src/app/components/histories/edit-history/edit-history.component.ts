@@ -315,11 +315,10 @@ export class EditHistoryComponent implements OnInit {
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
       secondary_categories: cat2Selected,
       contents: (this.contents.length==0)  ? null : this.contents,
-      create_date:this.historyBack.create_date? this.historyBack.create_date :null,
-      update_date:this.historyBack.update_date? this.historyBack.update_date:null,      
+      create_date:this.historyBack.create_date? this.historyBack.create_date : new Date().toISOString(),
+      update_date:this.historyBack.create_date? new Date().toISOString():null,      
       id_reference:this.historyBack.id_reference? this.historyBack.id_reference:null 
     }
-
     if(this.versionHistory){
       this.historyModel.id_reference=this.historyModel.id;
     }
@@ -367,7 +366,7 @@ export class EditHistoryComponent implements OnInit {
                   console.log('correo admin OK')
                 }
               },err => {
-                console.log('Error al obtener las categorias');
+                console.log('Error al enviar correo al admin');
               });
             }
           } else {
@@ -375,7 +374,7 @@ export class EditHistoryComponent implements OnInit {
             this.openModalError()
           }
         },err => {
-          console.log('Error al obtener las categorias');
+          console.log('Error al enviar correo usario');
         });
       }
         
