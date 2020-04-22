@@ -30,10 +30,11 @@ export class EditHistoryComponent implements OnInit {
   publishing: boolean = false;
 
   contentToEdit:Content;
+  contentToEditAux:Content;
   actualContent:Content=null;
   contentToDelete:Content;
-  posToEdit:number;
-  actualPosToEdit:number;
+  // posToEdit:number;
+  // actualPosToEdit:number;
   showAddContent = false;
   settings: any;
   firstTime:boolean =true;
@@ -472,17 +473,20 @@ export class EditHistoryComponent implements OnInit {
    * Edit content
    * @param newContent 
    */
-  editContent( content: Content, i: number ){
-    if(!this.showAddContent){
+  editContent( content: Content ){
+
+    if ( !this.showAddContent ) {
+
       this.contentToEdit = content;
       this.actualContent=this.contentToEdit;
-      this.posToEdit = i;
-      this.actualPosToEdit =this.posToEdit;
+      // this.posToEdit = i;
+      //this.actualPosToEdit =this.posToEdit;
       this.showAddContent = true;
-    }else if ((this.showAddContent)&&(i!=this.posToEdit)){
-      this.contentToEdit = content;
-      this.posToEdit = i;
-      this.showAddContent = false;
+
+    } else if ( ( this.showAddContent ) && ( this.contentToEdit.id!==content.id ) ){
+      this.contentToEditAux = content;
+      // this.posToEdit = i;
+      //this.showAddContent = false;
       $('#questionContPrevious').modal('show');
     }
   }
@@ -491,13 +495,16 @@ export class EditHistoryComponent implements OnInit {
    * Confirm edit content
    * @param discardPrevious 
    */
-  confirmEditContent(discardPrevious: boolean){
-    if(discardPrevious){
+  confirmEditContent(confirm: boolean){
+    if ( confirm ) {
+      this.showAddContent = false;
+      this._cdRef.detectChanges();
+      this.contentToEdit=this.contentToEditAux;
+      // this.posToEdit=this.actualPosToEdit;
       this.showAddContent = true;
-    }else{
-      this.contentToEdit=this.actualContent;
-      this.posToEdit=this.actualPosToEdit;
-      this.showAddContent = true;
+      this._cdRef.detectChanges();
+    } else {
+      this.contentToEdit = this.actualContent;
     }
     $('#questionContPrevious').modal('hide');
   }
@@ -549,7 +556,7 @@ export class EditHistoryComponent implements OnInit {
    * Open modal to add content
    */
   addNewContent(){
-    this.posToEdit=this.contents.length;
+    //this.posToEdit=this.contents.length;
     this.showAddContent = true;
     this._cdRef.detectChanges();
     this.newContentElement.nativeElement.scrollIntoView({behavior:"smooth"});

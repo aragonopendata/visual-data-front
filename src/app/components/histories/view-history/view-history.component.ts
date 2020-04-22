@@ -81,7 +81,7 @@ export class ViewHistoryComponent implements OnInit {
 
     if(element.type_content ==  Contents.graph){
       this.urlGraph(element.visual_content).then( (url) => {
-        element.srcYoutube = url;
+        element.srcGraph = url;
         return element
       });
     } else if (element.type_content ==  Contents.youtube) {
@@ -100,8 +100,9 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   private urlGraph(id: string) {
+    //TODO: CAMBIAR LOCALHOST
     return new Promise((resolve, reject) => {
-      let url = 'http://localhost:4201/#/charts/embed/'+id;
+      let url = 'http://localhost:4075/#/charts/embed/'+id;
       resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
     });
   }
