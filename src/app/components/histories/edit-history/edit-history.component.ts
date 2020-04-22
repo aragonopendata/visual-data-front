@@ -44,6 +44,7 @@ export class EditHistoryComponent implements OnInit {
   previousButton:string=null;
   versionHistory:boolean=false;
   loadingModal: boolean;
+  previewHistory:boolean=false;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -57,6 +58,14 @@ export class EditHistoryComponent implements OnInit {
   constructor(private _historiesService: HistoriesService, private _cdRef: ChangeDetectorRef,
               private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute) { 
 
+    this._activatedRoute.params.subscribe(params => {
+      if(params.id!=null){
+        this.previewHistory=true;
+      }
+      else{
+        this.previewHistory = false;
+      }
+    });
     this.settings = {
       selector: '#editor',
       theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
