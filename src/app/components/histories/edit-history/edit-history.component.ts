@@ -357,27 +357,27 @@ export class EditHistoryComponent implements OnInit {
         
         this.historyModel.url=Constants.FOCUS_URL;
         this.loadingModal=false;
-          $('#successfullModalCenter').modal('show');
-          this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
-            if(result.status==200){
-              console.log('correo usuario OK')
-              if(this.stateHistory==this.stateEnum.revision){
-                this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
-                  if(result.status==200){
-                    console.log('correo admin OK')
-                  }
-                },err => {
-                  console.log('Error al obtener las categorias');
-                });
-              }
-            } else {
-              console.log('Error GUARDANDO historia')
-              this.openModalError()
+        $('#successfullModalCenter').modal('show');
+        this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
+          if(result.status==200){
+            console.log('correo usuario OK')
+            if(this.stateHistory==this.stateEnum.revision){
+              this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
+                if(result.status==200){
+                  console.log('correo admin OK')
+                }
+              },err => {
+                console.log('Error al obtener las categorias');
+              });
             }
-          },err => {
-            console.log('Error al obtener las categorias');
-          });
-        }
+          } else {
+            console.log('Error GUARDANDO historia')
+            this.openModalError()
+          }
+        },err => {
+          console.log('Error al obtener las categorias');
+        });
+      }
         
       
     });

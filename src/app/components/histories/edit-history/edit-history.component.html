@@ -4,6 +4,12 @@
   <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; 
 font-weight: 400;"></i><br/><br/> 
 </div>
+<div class="loading-overlay" *ngIf="loadingModal">
+  <div class="inner">
+    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; 
+    font-weight: 400;"></i>
+  </div>
+</div>
 
 <div *ngIf="!loading">
 
@@ -123,7 +129,7 @@ font-weight: 400;"></i><br/><br/>
   </form>
   
   <!-- Modal Email -->
-  <div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -144,13 +150,9 @@ font-weight: 400;"></i><br/><br/>
       </div>
     </div>
   </div>
-  
-  <div class="text-center" *ngIf="loadingModal">
-    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; 
-  font-weight: 400;"></i><br/><br/> 
-  </div>
+
   <!-- Modal Successfull History -->
-  <div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true">
+  <div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -180,7 +182,7 @@ font-weight: 400;"></i><br/><br/>
   </div>
   
   <!-- Modal Error History -->
-  <div class="modal fade errorModal" id="errorModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle" aria-hidden="true">
+  <div class="modal fade errorModal" id="errorModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -218,7 +220,7 @@ font-weight: 400;"></i><br/><br/>
 
 
     <!-- Question Content Previous -->
-    <div class="modal fade errorModal" id="questionContPrevious" tabindex="-1" role="dialog" aria-labelledby="questionContPreviousTitle" aria-hidden="true">
+    <div class="modal fade errorModal" id="questionContPrevious" tabindex="-1" role="dialog" aria-labelledby="questionContPreviousTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -236,7 +238,7 @@ font-weight: 400;"></i><br/><br/>
     </div>
 
     <!-- Question History -->
-    <div class="modal fade errorModal" id="questionDeleteContent" tabindex="-1" role="dialog" aria-labelledby="questionDeleteContentTitle" aria-hidden="true">
+    <div class="modal fade errorModal" id="questionDeleteContent" tabindex="-1" role="dialog" aria-labelledby="questionDeleteContentTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
