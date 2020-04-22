@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { History } from '../../models/History';
 import { Category } from '../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { State } from '../../models/State';
+
 
 declare var $: any;
 
@@ -28,6 +30,8 @@ export class HomeFocusComponent implements OnInit {
   stateError:boolean=false;
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
+  stateEnum: typeof State = State;
+
   image:string="/assets/img/university.svg"
 
 
@@ -80,7 +84,7 @@ export class HomeFocusComponent implements OnInit {
       let route = Constants.ROUTER_LINK_EDIT_HISTORY + "/" + token;
       this._historiesService.getHistoryBack(token).subscribe(result =>{
         if(result.success && result.history!=null){
-          if(result.history.state==1){
+          if((result.history.state==this.stateEnum.borrador) || (result.history.state==this.stateEnum.publicada) ){
             $("#homeModalCenter").modal('hide');
             this._route.navigate([route]);
           }else{
