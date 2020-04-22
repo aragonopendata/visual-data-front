@@ -43,6 +43,7 @@ export class EditHistoryComponent implements OnInit {
   isAdmin: boolean=false;
   previousButton:string=null;
   versionHistory:boolean=false;
+  loadingModal: boolean;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -206,6 +207,7 @@ export class EditHistoryComponent implements OnInit {
         }
         else{
           this.emailForm.reset();
+          this.loadingModal=false;
           $("#emailModalCenter").modal('show');
         }
       }
@@ -215,6 +217,8 @@ export class EditHistoryComponent implements OnInit {
 
   getState(button){
     console.log(button.id)
+
+    this.loadingModal=true;
     if(button.id=="btnSendRevision"){
       this.stateHistory=this.stateEnum.revision
       console.log("entro a get de sendRevision")
@@ -256,6 +260,7 @@ export class EditHistoryComponent implements OnInit {
   openModalError(){
     $('#successfullModalCenter').modal('hide');
     $('#emailModalCenter').modal('hide');
+    this.loadingModal=false;
     $('#errorModalCenter').modal('show');
   }
 
@@ -335,6 +340,7 @@ export class EditHistoryComponent implements OnInit {
         
         this.historyModel.url=Constants.FOCUS_URL;
         if(!this.isAdmin){
+          this.loadingModal=true;
           $('#successfullModalCenter').modal('show');
           this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){
@@ -357,6 +363,7 @@ export class EditHistoryComponent implements OnInit {
           this.postHistoryAdmin();
         }
         else{
+          this.loadingModal=false;
           $('#successfullModalCenter').modal('show');
         }
         
@@ -371,7 +378,7 @@ export class EditHistoryComponent implements OnInit {
   postHistoryAdmin(){
     this._historiesService.publishHistory(this.historyBack.id).subscribe(result => {
       if(result.success){
-        //this.historyBack = this.historyModel;
+        this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
         this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
         this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
@@ -391,11 +398,12 @@ export class EditHistoryComponent implements OnInit {
     })
   }
 
-
+  
   updateHistoryUser(){
     this._historiesService.updateHistory(this.historyModel).subscribe(result => {
       if (result.status == 200 && result.success) {
         this.historyBack = this.historyModel;
+        this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
         if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin)){
           this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
