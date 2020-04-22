@@ -446,6 +446,19 @@ export class EditHistoryComponent implements OnInit {
     });
 
   }
+
+  onChangePrimaryCategory({ target }){
+    var valores = target.value.split(" ");
+    var categoryIdSelected = valores[valores.length - 1];
+    console.log(categoryIdSelected)
+    this.secondCategories.forEach(cat => {
+      cat.selectedPrincipal =false;
+      if(cat.id==categoryIdSelected){
+        cat.selected=false;
+        cat.selectedPrincipal=true;
+      }
+    });
+  }
   
   copyToken(){
     if (this.tokenGenerate) {

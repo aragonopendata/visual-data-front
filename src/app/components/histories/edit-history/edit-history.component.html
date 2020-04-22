@@ -59,7 +59,7 @@ font-weight: 400;"></i><br/><br/>
               
               <div class="group">
                 <h6>Categoría principal</h6>
-                <select class="form-control select-cat1" formControlName="category" id="category" >
+                <select class="form-control select-cat1" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)">
                   <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
                 </select>
               </div>
@@ -73,7 +73,7 @@ font-weight: 400;"></i><br/><br/>
                   </button>
                   <div id="dropdown-cat2" *dropdownMenu class="dropdown-menu">
                     <div class="form-check" *ngFor="let category of secondCategories" (click)="getCategoriesSelected($event, category)">
-                      <label class="container">
+                      <label *ngIf="!category.selectedPrincipal" class="container">
                         <span class="checkmark" [ngClass]="{'selected': category.selected}"></span>
                         {{category.name}}
                       </label>

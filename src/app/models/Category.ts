@@ -7,6 +7,8 @@ export class Category {
     nivel: number;
     idPadre: number;
     selected: boolean;
+    selectedPrincipal: boolean;
+
 
     constructor( _id, _alias, _name, _description, _nivel, _idPadre ) {
         this.id = _id;
@@ -16,6 +18,7 @@ export class Category {
         this.nivel = _nivel;
         this.idPadre = _idPadre;
         this.selected = false;
+        this.selectedPrincipal =false;
     }
 
 } 
