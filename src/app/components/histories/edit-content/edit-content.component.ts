@@ -73,7 +73,9 @@ export class EditContentComponent implements OnInit {
         visual_content: this.contentForm.get('visual_content').value,
         align: this.contentForm.get('align').value
       };
-      
+      if (this.contentForm.get("type_content").value!=this.contentEnum.graph){
+        this.graphTitle=undefined;
+      }
       this.changeContent.emit({content: this.actualValuesContent})
     });
     
