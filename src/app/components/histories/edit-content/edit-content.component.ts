@@ -59,7 +59,6 @@ export class EditContentComponent implements OnInit {
 
     this._servicio.getTitleGraph().subscribe(title => {
       this.graphTitle=title;
-      console.log(this.graphTitle);
     });
 
     if(this.content){
@@ -101,11 +100,10 @@ export class EditContentComponent implements OnInit {
     });
   }
 
-  saltaCampo(e, id){
-    console.log(e);
+  /*saltaCampo(e, id){
     e.preventDefault();
     document.getElementById(id).focus();
-  }
+  }*/
 
   openVisualData() {
     document.getElementsByTagName('body')[0].classList.add('no-scroll');
@@ -131,7 +129,6 @@ export class EditContentComponent implements OnInit {
         posContent: this.posContent,
         content: this.contentModel
       });
-      console.log(this.contentModel);
       this.contentModel = {};
       this.contentForm.reset();
     }

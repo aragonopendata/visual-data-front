@@ -37,9 +37,7 @@ export class ViewHistoryComponent implements OnInit {
       else{
         this.preview=true;
         this.loading=false;
-      }
-      console.log(this.preview);
-      
+      }      
     });
   }
 

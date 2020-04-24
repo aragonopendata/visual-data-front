@@ -45,11 +45,8 @@ export class HomeFocusComponent implements OnInit {
   }
 
   getCategories(){
-    console.log('entro a obtener categorias')
     this._historiesService.getCategories().subscribe( (categories: Category[]) => {
-      console.log(categories)
       if( categories.length > 0 ){
-        console.log('he entrado')
         this.categoriesVisible = categories.slice(0,4);
         this.categoriesHidden = categories.slice(4,categories.length);
       }
@@ -112,7 +109,6 @@ export class HomeFocusComponent implements OnInit {
 
   getHistories(text, category){
     if(category== this.categorySearch){
-      console.log('igual que anterior')
       this.categorySearch=null;
     }else{
       this.categorySearch = (category != null ? category : this.categorySearch)
@@ -121,7 +117,6 @@ export class HomeFocusComponent implements OnInit {
     this.textSearch = (text != null ? text : this.textSearch);
     this._historiesService.getHistoriesBySearch(this.textSearch, this.categorySearch).subscribe( response => {
       if(response.success){
-        console.log(response.history)
         this.histories=response.history;
       }else{
         console.log("error cargando historias")
@@ -130,7 +125,6 @@ export class HomeFocusComponent implements OnInit {
   }
 
   getHistory( id: string ){
-    console.log(id);
     this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
   }
 

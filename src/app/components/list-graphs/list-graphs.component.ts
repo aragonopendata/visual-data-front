@@ -180,8 +180,6 @@ export class ListGraphsComponent implements OnInit {
   }
 
   selectChart(id, title){
-    console.log(id);
-    console.log(title);
     document.getElementsByTagName('body')[0].classList.remove('no-scroll');
     this.router.navigate([{outlets: {modal: null}}]);
     this.myService.setIdGraph(id);

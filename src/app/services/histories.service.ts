@@ -80,10 +80,8 @@ public getHistoriesBySearch(text:string, category:string) {
   }
 
   public setHistory(history:History){
-    console.log(history)
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     let requestBodyParams: any = history;
-    console.log(fullUrl);
     //console.log(JSON.stringify(requestBodyParams))
     return this.http.put(fullUrl, history).map(res => res.json());;
   }
@@ -94,17 +92,14 @@ public getHistoriesBySearch(text:string, category:string) {
   }
 
   public updateHistory(history:History){
-    console.log(history)
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     let requestBodyParams: any = history;
-    console.log(fullUrl);
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
 
   public publishHistory(history: History) {
     let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
 		let headers = this.buildRequestHeaders();
-		console.log(fullUrl)
 		let requestBodyParams: any = this.createJsonFromString('history', history);
 		return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json());;
 	}
@@ -113,7 +108,6 @@ public getHistoriesBySearch(text:string, category:string) {
     const headers = new Headers();
     let fullUrl= Constants.VISUAL_BACK_SERVER_URL + Constants.SEND_MAIL_SAVE_ADMIN_HISTORY_PATH;
     headers.append('Content-Type', 'application/json');
-    console.log('dentro de send email');
 
     return this.http.post(fullUrl,history,{headers: headers}).map(res => JSON.parse(JSON.stringify(res)))
       .catch(err => {
