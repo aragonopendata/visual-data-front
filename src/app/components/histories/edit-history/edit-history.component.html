@@ -1,3 +1,19 @@
+<div class="container" *ngIf="errorTitle">
+  <div class="alert alert-info" role="alert">
+      <div class="row">
+          <div class="col-xs-3">
+              <i class="fa fa-exclamation-triangle fa-5x" style="margin:15px;color: #5ea2ba;"></i>
+          </div>
+          <div class="col-xs-9">
+              <h1>{{errorTitle}}</h1>
+              <h2>{{errorMessage}}</h2>
+              <a class="mail" href="mailto:opendata@aragon.es">
+                  <h2> <i class="fa fa-envelope"></i> Contactar con el Administrador</h2>
+              </a>
+          </div>
+      </div>
+  </div>
+</div>
 <div class="text-center" *ngIf="loading">
   <div class="loadingText" *ngIf="previewHistory">Cargando historia</div><br/><br/>
   <div class="loadingText" *ngIf="!previewHistory">Cargando...</div><br/><br/>
@@ -11,7 +27,7 @@ font-weight: 400;"></i><br/><br/>
   </div>
 </div>
 
-<div *ngIf="!loading">
+<div *ngIf="!loading && !errorTitle">
 
   <div class="row title">
     <h2>Crear una nueva historia</h2>

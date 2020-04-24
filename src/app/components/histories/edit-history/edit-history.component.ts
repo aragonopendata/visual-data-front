@@ -28,6 +28,8 @@ export class EditHistoryComponent implements OnInit {
   saved:boolean = false;
   isModified: boolean = false;
   publishing: boolean = false;
+  errorTitle: string;
+  errorMessage: string;
 
   contentToEdit:Content;
   contentToEditAux:Content;
@@ -98,12 +100,13 @@ export class EditHistoryComponent implements OnInit {
           this.getHistory(params.id);
         }
         else{
-
           this.loading = false;
         }
       });
 		},err => {
-      console.log('Error al obtener las categorias');
+      this.errorTitle = 'Se ha producido un error';
+      this.errorMessage = 'Se ha producido un error al cargar la historia, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+      this.loading=false;
     });
   }
 
@@ -124,6 +127,10 @@ export class EditHistoryComponent implements OnInit {
         });
         */
       }
+    },err => {
+      this.errorTitle = 'Se ha producido un error';
+      this.errorMessage = 'Se ha producido un error en la carga de la historia, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+      this.loading=false;
     });
   }
 

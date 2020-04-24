@@ -24,6 +24,8 @@ export class ViewHistoryComponent implements OnInit {
   contentEnum: typeof Contents = Contents;
   alignEnum: typeof Aligns = Aligns;
   loading : boolean = true;
+  errorTitle: string;
+  errorMessage: string;
 
   constructor( private historiesService: HistoriesService, private _graphService: GraphService,
     private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
@@ -69,6 +71,10 @@ export class ViewHistoryComponent implements OnInit {
           }
           return this.loading=false;
         }
+      },err => {
+        this.errorTitle = 'Se ha producido un error';
+        this.errorMessage = 'Se ha producido un error al cargar la historia, vuelva a intentarlo y si el error persiste contacte con el administrador.';
+        this.loading=false;
       });
 
     }
