@@ -60,22 +60,28 @@ export class ViewHistoryComponent implements OnInit {
     } else {
 
       this.historiesService.getHistoryBack(this.idHistory).subscribe( response => {
-        if(response.success){
+        if(response.success && response.history!=null){
           this.historySelect = response.history;
           if(this.historySelect.contents){
             this.historySelect.contents.forEach( (element: Content) => {
               element = this.getInfoContents(element);
             });
           }
-          return this.loading=false;
+        }else{
+          this.objectLoadFailure()
         }
-      },err => {
-        this.errorTitle = 'Se ha producido un error';
-        this.errorMessage = 'Se ha producido un error al cargar la historia, vuelva a intentarlo y si el error persiste contacte con el administrador.';
         this.loading=false;
+      },err => {
+        this.objectLoadFailure()
       });
 
     }
+  }
+
+  objectLoadFailure(){
+    this.errorTitle = Constants.INFO_TITLE_OBJECT_FAILURE;
+    this.errorMessage = Constants.INFO_BODY_HSITORY_FAILURE;
+    this.loading=false;
   }
 
 

@@ -104,9 +104,7 @@ export class EditHistoryComponent implements OnInit {
         }
       });
 		},err => {
-      this.errorTitle = 'Se ha producido un error';
-      this.errorMessage = 'Se ha producido un error al cargar la historia, vuelva a intentarlo y si el error persiste contacte con el administrador.';
-      this.loading=false;
+      this.objectLoadFailure()
     });
   }
 
@@ -115,21 +113,21 @@ export class EditHistoryComponent implements OnInit {
 
   getHistory(id: string){
     this._historiesService.getHistoryBack(id).subscribe(result => {
-      if(result.success){
+      if(result.success && result.history!=null){
         this.historyBack = result.history;
         this.updateWithBackHistory();
-
-        /*
-        this.historyForm.valueChanges.subscribe(val => {
-          this.isModified=true;
-        });
-        */
+      }else{
+        this.objectLoadFailure()
       }
     },err => {
-      this.errorTitle = 'Se ha producido un error';
-      this.errorMessage = 'Se ha producido un error en la carga de la historia, vuelva a intentarlo y si el error persiste contacte con el administrador.';
-      this.loading=false;
+      this.objectLoadFailure()
     });
+  }
+
+  objectLoadFailure(){
+    this.errorTitle = Constants.INFO_TITLE_OBJECT_FAILURE;
+    this.errorMessage = Constants.INFO_BODY_HSITORY_FAILURE;
+    this.loading=false;
   }
 
   updateWithBackHistory(){

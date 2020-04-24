@@ -791,5 +791,9 @@ export class Constants {
 
   public static API_SLIDESHARE_CONVERT_URL_TO_EMBED = "https://www.slideshare.net/api/oembed/2"
 
+  public static INFO_TITLE_OBJECT_FAILURE = "Se ha producido un error"
+  public static INFO_BODY_HSITORY_FAILURE = "Se ha producido un error al cargar la historia, vuelva a intentarlo y si el error persiste contacte con el administrador."
+
+
 
 }
