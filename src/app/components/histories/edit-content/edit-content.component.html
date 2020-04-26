@@ -35,7 +35,7 @@
               una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data...etc
             </p>
 
-            <div *ngFor="let contentType of contentsTypes" id="contents">
+            <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
               <label class='form-row align-items-center'>
                 <input type="radio" [value]='contentType.type' formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span> 
               </label>

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HistoriesService } from '../../../services/histories.service';
 import { History, Content } from '../../../models/History';
 import { DomSanitizer } from '@angular/platform-browser';
-import { GraphService } from '../../../services/graph.service';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { Aligns } from '../../../models/Aligns';
@@ -17,20 +16,16 @@ export class ViewHistoryComponent implements OnInit {
 
   idHistory: string;
   historySelect: History;
-  previewHistory: History;
   preview: boolean = false;
-  align: number;
-  url: string;
   contentEnum: typeof Contents = Contents;
   alignEnum: typeof Aligns = Aligns;
   loading : boolean = true;
   errorTitle: string;
   errorMessage: string;
 
-  constructor( private historiesService: HistoriesService, private _graphService: GraphService,
-    private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
+  constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
+    
     this._route.params.subscribe(params => {
-      
       if(params.id!=null){
         this.idHistory = params.id;
       }
@@ -84,10 +79,7 @@ export class ViewHistoryComponent implements OnInit {
     this.loading=false;
   }
 
-
   private getInfoContents(element): Content {
-
-    this.align=element.align;
 
     if(element.type_content ==  Contents.graph){
       this.urlGraph(element.visual_content).then( (url) => {
@@ -142,15 +134,6 @@ export class ViewHistoryComponent implements OnInit {
         }
       });
     });
-  }
-  
-  return(){
-    if(this.preview){
-      this._router.navigate([Constants.ROUTER_LINK_ADD_HISTORY]);
-    }
-    else{
-      this._router.navigate(["/"]);
-    }
   }
   
 }

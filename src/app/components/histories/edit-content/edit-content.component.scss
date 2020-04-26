@@ -7,7 +7,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .form-section-title{
-    margin-top: 2%;
+    font-weight: bold;
+    font-family: inherit;
+    display: block;
+    margin-top: 0.75rem;
 }
 
 .form-section{
@@ -26,13 +29,26 @@ h1, h2, h3, h4, h5, h6 {
         }
         .group{
             margin: 2rem 0;
-        }
-        
-        .contents-select {
-            span{
-                font-weight: bold;
+            .conten-type{
+                .form-row{
+                    margin-right: 0;
+                    margin-left: 0;
+                    input{
+                        margin-right: 8px;
+                        &[type="radio"]{
+                            height: 21px;
+                        }
+                        
+                    }
+                }
             }
         }
+        
+        // .contents-select {
+        //     span{
+        //         font-weight: bold;
+        //     }
+        // }
         
         .select-cat2{
             button{

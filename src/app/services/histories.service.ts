@@ -16,7 +16,6 @@ export class HistoriesService {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser')); 
   }
 
-
   private createAuthorizationHeader(headers: Headers) {
 		if (this.currentUser && this.currentUser.token && this.currentUser.key) {
 			//Authorization header: API_KEY:JWT_Token
@@ -59,29 +58,27 @@ export class HistoriesService {
   }
   */
 
- public getHistories(): Observable<any>{
-  let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
-  return this.http.get(fullUrl).map(res => res.json());
-}
-
-public getHistoriesBySearch(text:string, category:string) {
-  let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
-  let params = new URLSearchParams();
-  params.append("text", text)
-  params.append("category", category)
-
-  return this.http.get(fullUrl, {search: params  }).pipe(map((res:Response) => res.json()));
-}
-
-
-  public getHistory( id: number ): Observable<History>{
-    return this.http.get('/assets/mocks/histories.json').pipe(
-      map( data => data.json().filter(item => item.id === id)));
+  public getHistories(): Observable<any>{
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
+    return this.http.get(fullUrl).map(res => res.json());
   }
+
+  public getHistoriesBySearch(text:string, category:string) {
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
+    let params = new URLSearchParams();
+    params.append("text", text)
+    params.append("category", category)
+    return this.http.get(fullUrl, {search: params  }).pipe(map((res:Response) => res.json()));
+  }
+
+  // public getHistory( id: number ): Observable<History>{
+  //   return this.http.get('/assets/mocks/histories.json').pipe(
+  //     map( data => data.json().filter(item => item.id === id)));
+  // }
 
   public setHistory(history:History){
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
-    let requestBodyParams: any = history;
+    // let requestBodyParams: any = history;
     //console.log(JSON.stringify(requestBodyParams))
     return this.http.put(fullUrl, history).map(res => res.json());;
   }
@@ -93,7 +90,7 @@ public getHistoriesBySearch(text:string, category:string) {
 
   public updateHistory(history:History){
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
-    let requestBodyParams: any = history;
+    // let requestBodyParams: any = history;
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
 

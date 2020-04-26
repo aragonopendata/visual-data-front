@@ -35,8 +35,9 @@ export class EditHistoryComponent implements OnInit {
   contentToEditAux:Content;
   actualContent:Content=null;
   contentToDelete:Content;
-  // posToEdit:number;
-  // actualPosToEdit:number;
+  posToEdit:number;
+  posToEditAux:number;
+  actualPosToEdit:number;
   showAddContent = false;
   settings: any;
   firstTime:boolean =true;
@@ -69,6 +70,7 @@ export class EditHistoryComponent implements OnInit {
         this.previewHistory = false;
       }
     });
+    
     this.settings = {
       selector: '#editor',
       theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
@@ -79,6 +81,10 @@ export class EditHistoryComponent implements OnInit {
       menubar: false,
       branding: false
     }
+
+  }
+
+  ngOnInit() {
 
     if(localStorage.getItem('currentUser')){
 
@@ -106,9 +112,7 @@ export class EditHistoryComponent implements OnInit {
 		},err => {
       this.objectLoadFailure()
     });
-  }
 
-  ngOnInit() {
   }
 
   getHistory(id: string){
@@ -163,14 +167,6 @@ export class EditHistoryComponent implements OnInit {
     })
   }
 
-
-  /*saltaCampo(e, id){
-    e.preventDefault();
-    e.stopPropagation();
-    document.getElementById(id).focus();
-  }*/
-
-
   get invalidTitle(){
     return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
   }
@@ -184,7 +180,6 @@ export class EditHistoryComponent implements OnInit {
     event.stopPropagation();
     cat.selected = !cat.selected;
   }
-
 
   getHistoryForm(button, primerAviso){
     if(this.historyForm.invalid){
@@ -221,7 +216,6 @@ export class EditHistoryComponent implements OnInit {
           $("#emailModalCenter").modal('show');
         }
       }
-      
     }
   }
 
@@ -472,19 +466,19 @@ export class EditHistoryComponent implements OnInit {
    * Edit content
    * @param newContent 
    */
-  editContent( content: Content ){
+  editContent( content: Content, i: number ){
 
     if ( !this.showAddContent ) {
 
       this.contentToEdit = content;
       this.actualContent=this.contentToEdit;
-      // this.posToEdit = i;
-      //this.actualPosToEdit =this.posToEdit;
+      this.posToEdit = i;
+      this.actualPosToEdit =this.posToEdit;
       this.showAddContent = true;
 
-    } else if ( ( this.showAddContent ) && ( this.contentToEdit.id!==content.id ) ){
+    } else if ( ( this.showAddContent ) && ( this.posToEdit!==i ) ){
       this.contentToEditAux = content;
-      // this.posToEdit = i;
+      this.posToEditAux = i;
       //this.showAddContent = false;
       $('#questionContPrevious').modal('show');
     }
@@ -499,11 +493,12 @@ export class EditHistoryComponent implements OnInit {
       this.showAddContent = false;
       this._cdRef.detectChanges();
       this.contentToEdit=this.contentToEditAux;
-      // this.posToEdit=this.actualPosToEdit;
+      this.posToEdit=this.posToEditAux;
       this.showAddContent = true;
       this._cdRef.detectChanges();
     } else {
       this.contentToEdit = this.actualContent;
+      this.posToEdit=this.actualPosToEdit;
     }
     $('#questionContPrevious').modal('hide');
   }
@@ -555,7 +550,7 @@ export class EditHistoryComponent implements OnInit {
    * Open modal to add content
    */
   addNewContent(){
-    //this.posToEdit=this.contents.length;
+    this.posToEdit=this.contents.length;
     this.showAddContent = true;
     this._cdRef.detectChanges();
     this.newContentElement.nativeElement.scrollIntoView({behavior:"smooth"});

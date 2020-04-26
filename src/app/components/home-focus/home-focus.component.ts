@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HistoriesService } from '../../services/histories.service';
 import { Constants } from '../../app.constants';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { History } from '../../models/History';
 import { Category } from '../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { State } from '../../models/State';
-
 
 declare var $: any;
 
@@ -21,7 +20,7 @@ export class HomeFocusComponent implements OnInit {
   categoriesHidden: Category[];
   categoriesVisible: Category[];
   textSearch:string="";
-  categorySearch:string=null;
+  categorySearch:number=null;
   viewMoreCategories: boolean = false;
   histories: History[];
   createHistory: boolean = true;
@@ -32,11 +31,7 @@ export class HomeFocusComponent implements OnInit {
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
   stateEnum: typeof State = State;
 
-  image:string="/assets/img/university.svg"
-
-
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _activatedRoute: ActivatedRoute,
-    private _formBuilder: FormBuilder, ) { }
+  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder, ) { }
 
   ngOnInit() {
     this.getCategories();
@@ -105,8 +100,6 @@ export class HomeFocusComponent implements OnInit {
     this.stateError=false;
   }
 
-
-
   getHistories(text, category){
     if(category== this.categorySearch){
       this.categorySearch=null;
@@ -115,7 +108,7 @@ export class HomeFocusComponent implements OnInit {
     }
 
     this.textSearch = (text != null ? text : this.textSearch);
-    this._historiesService.getHistoriesBySearch(this.textSearch, this.categorySearch).subscribe( response => {
+    this._historiesService.getHistoriesBySearch(this.textSearch, this.categorySearch===null?null:this.categorySearch.toString()).subscribe( response => {
       if(response.success){
         this.histories=response.history;
       }else{
@@ -134,5 +127,4 @@ export class HomeFocusComponent implements OnInit {
 
   }
 
-  searchHistory( value: string ){ }
 }

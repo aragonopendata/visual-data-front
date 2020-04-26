@@ -1,3 +1,5 @@
+
+<!-- Error -->
 <div class="container" *ngIf="errorTitle">
   <div class="alert alert-info" role="alert">
       <div class="row">
@@ -14,38 +16,30 @@
       </div>
   </div>
 </div>
-<div class="text-center" *ngIf="loading">
+
+<!-- Loading -->
+<div class="loading text-center" *ngIf="loading">
   <div class="loadingText">Cargando historia</div><br/><br/>
-  <i  class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; 
-font-weight: 400;"></i><br/><br/> 
+  <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><br/> 
 </div>
 
-
+<!-- History -->
 <div *ngIf="!loading && !errorTitle">
+
   <div class="container-view" *ngIf="historySelect">
 
-    <!-- <button type="button" class="btn btn-link back" (click)="return()">
-      <i class="fa fa-angle-left"></i>
-      Volver
-    </button>
-   -->
-  
     <div class="row title">
-      <div class="col-md-12 img-background">
-        <!-- {{historySelect.main_category}} -->
-        <!-- <img [src]="historySelect.image" class="card-img-top" alt="..."> -->
 
-        <!-- salud -->
-        <img *ngIf="historySelect.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="...">
-        <img *ngIf="historySelect.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="...">
-        <img *ngIf="historySelect.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="...">
+      <div class="col-md-12 img-background">
+        <img *ngIf="historySelect.main_category === 1263" src="./assets/img/salud.svg" class="icon card-img-top" alt="...">
+        <img *ngIf="historySelect.main_category === 1267" src="./assets/img/agricultura.svg" class="icon card-img-top" alt="...">
+        <img *ngIf="historySelect.main_category === 1264" src="./assets/img/educacion.svg" class="icon card-img-top" alt="...">
         <img *ngIf="historySelect.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="...">
         <img *ngIf="historySelect.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="...">
         <img *ngIf="historySelect.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="...">
-        <img *ngIf="historySelect.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="...">
-
-        
+        <img *ngIf="historySelect.main_category === 1265" src="./assets/img/trabajo.svg" class="icon card-img-top" alt="...">
       </div>
+
       <div class="col-md-12 content-title">
         <h1>{{historySelect.title}}</h1>
         <p [innerHTML]="historySelect.description"></p>
@@ -56,56 +50,44 @@ font-weight: 400;"></i><br/><br/>
     <div class="row">
       <div class="col-md-12">
         <div class="tab-content">
-  
-          <!-- Content Tab -->
-          <div class="tab-pane active" id="content_tab" role="tabpanel">
-            
-            <!-- Description history -->
-            <!-- <div class="desc-history">
-              <h3 class="form-section-title">Descripción: </h3>
-              
-            </div> -->
+            <div class="tab-pane active" id="content_tab" role="tabpanel">
    
             <!-- content history -->
             <div class="content-wrap" *ngFor="let content of historySelect.contents; let i = index">
   
-              <div><p class="title">{{content.title}}</p></div>
-  
-  
-              <div class="content">
-  
+              <div class="content" [ngClass]="{'graph': content.type_content === contentEnum.graph}">
+
                 <div class="content-text" *ngIf="content.align == alignEnum.right">
+                  <p class="title">{{content.title}}</p>
                   <p [innerHTML]="content.description"></p>
                 </div>
   
-                <div class="content-visual graph " *ngIf="content.type_content==contentEnum.graph">
-
+                <div class="content-visual graph " *ngIf="content.type_content === contentEnum.graph">
                   <iframe appIframeResizer *ngIf="content.srcGraph" 
                     class="thread-content"
                     [src]="content.srcGraph"
                     title="Thread Content"
                     scrolling="no" frameborder="0"></iframe>
-                 
                 </div>
   
-                <div class="content-visual" *ngIf="content.type_content==contentEnum.youtube">
+                <div class="content-visual" *ngIf="content.type_content === contentEnum.youtube">
                   <iframe *ngIf="content.srcYoutube" width="560" height="315" [src]="content.srcYoutube"
                   frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
                 </div>
   
-                <div class="content-visual" *ngIf="content.type_content==contentEnum.shareSlides">
+                <div class="content-visual" *ngIf="content.type_content === contentEnum.shareSlides">
                   <iframe *ngIf="content.srcSlideShare" width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
                   style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
                   allowfullscreen></iframe>
                 </div>
                 
-                <div class="content-text" *ngIf="content.align == alignEnum.left">
+                <div class="content-text" *ngIf="content.align === alignEnum.left">
+                  <p class="title">{{content.title}}</p>
                   <p [innerHTML]="content.description"></p>
                 </div>
                 
               </div>
-  
             </div>
           </div>
         </div>

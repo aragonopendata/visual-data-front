@@ -50,8 +50,6 @@
             <div>
               <div *ngFor="let history of histories">
                 <div class="card"  (click)="getHistory(history.id)">
-                  <!-- <img [src]="image" class="card-img-top" alt="..."> -->
-
                   <img *ngIf="history.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="...">
                   <img *ngIf="history.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="...">
                   <img *ngIf="history.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="...">
@@ -59,7 +57,6 @@
                   <img *ngIf="history.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="...">
                   <img *ngIf="history.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="...">
                   <img *ngIf="history.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="...">
-
                   <div class="opacity"></div>
                   <div class="text"><span>{{history.title}}</span></div>
                 </div>
@@ -69,7 +66,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 
@@ -92,7 +88,6 @@
           <p>
             Si lo que quiere es modificar una historia que creo previamente haga click en el siguiente enlace.
           </p>
-          <!--<a target="_blank" href="https://www.google.com/"> Modificar</a>--->
           <a (click)="updateHistoryHiperLink()" class="simulateLink"> Modificar</a>
 
         </div>
@@ -124,8 +119,6 @@
           </form>
         </div>
       </div>
-
-      
     </div>
   </div>
 </div>

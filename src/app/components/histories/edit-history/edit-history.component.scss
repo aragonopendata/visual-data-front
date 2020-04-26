@@ -137,7 +137,7 @@ h1, h2, h3, h4, h5, h6 {
         display: flex;
         align-items: start;
         .tokenTextArea{
-            max-width: 100px;
+            max-width: 150px;
             outline: none;
             color: transparent;
             text-shadow: 0px 0px 0px #5ea2ba;
@@ -169,11 +169,17 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
     z-index: 9999;
 }
-.loading-overlay > .inner
-{
+.loading-overlay > .inner{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
+.loading{
+    i{
+        color: #76a1b8; 
+        font-size: 100px; 
+        font-weight: 400;
+    }
+}

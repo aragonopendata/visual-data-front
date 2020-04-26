@@ -1,3 +1,10 @@
+.loading{
+    i{
+        color: #76a1b8; 
+        font-size: 100px; 
+        font-weight: 400;
+    }
+}
 .container-view{
     margin-top: 3rem;
     .title{
@@ -5,9 +12,15 @@
         margin-bottom: 3rem;
         position: relative;
         .img-background{
-            opacity: 0.3;
+            opacity: 0.2;
+            min-height: 300px;
             img{
-                max-width: 362px;
+                height: 40vh;
+                width: auto;
+                max-height: none;
+                &.icon{
+                    max-width: 362px;
+                }
             }
         }
         .content-title{
@@ -21,7 +34,7 @@
             flex-direction: column;
             align-items: center;
             p{
-                max-width: 500px;
+                max-width: 1200px;
                 margin-top: 19px;
             }
         }
@@ -37,32 +50,50 @@
     .content-wrap{
         margin-bottom: 3rem;
         .title{
-            font-size: 21px;
-            font-weight: bold;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.2;
+            color: inherit;
+            font-size: 1.5rem;
             text-align: left;
         }
         .content{
             display: flex;
-            // align-items: center;
-            p{
-                margin-right: 2rem;
-            }
+            margin-bottom: 8rem;
             canvas{
                 display: block;
                 width: auto;
                 width: 700px !important;
-                //margin-left: 20px;
+            }
+            >div{
+                flex: 1;
+                &:first-of-type{
+                    margin-right: 2rem;
+                }
             }
             .content-text{
-                width: 30%;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
             }
             .content-visual{
-                width: 70%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 &.graph{
                     iframe {
                         width: 1px;
                         min-width: 100%;
                       }
+                }
+            }
+            &.graph{
+                .content-text{
+                    flex: 1;
+                }
+                .content-visual{
+                    flex: 2;
                 }
             }
         }
