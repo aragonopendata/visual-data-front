@@ -6,6 +6,13 @@
 .customHeight {
   min-height: 25rem;
 }
+.graph-container{
+  min-height: 50vh;
+}
+
+.graph-donut-container{
+  min-height: 50vh;
+}
 
 .button {
   background-color: #0066cc;
@@ -57,5 +64,11 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .graph-donut-container {
+    min-height: 90vh;
   }
 }

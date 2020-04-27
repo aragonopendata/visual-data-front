@@ -94,7 +94,9 @@ export class GraphService {
     legend,
     widthGraph,
     chartDataId,
-    topRows
+    topRows,
+    groupRow,
+    axisXActivator
   ) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -115,7 +117,9 @@ export class GraphService {
       title: title,
       legend: legend,
       widthGraph: widthGraph,
-      topRows: topRows
+      topRows: topRows,
+      groupRow: groupRow,
+      axisXActivator: axisXActivator
     });
     
     return this.http

@@ -10,18 +10,23 @@ import { prepareArrayXY } from '../exportedFunctions/lib';
 })
 export class EmbedGraphComponent implements OnInit {
   // public chartData = [];
-  public chartLegend = false;
+  public chartLegend = true;
   public chartOptions: any = {
     responsive: true,
     legend: {
-      display: false
+      display: true
+    },
+    elements: {
+      line: {
+        fill: false
+      }
     },
     scales: {
       xAxes: [
         {
           ticks: {
             beginAtZero: true,
-            callback: function(value, index, array) {
+            callback: function (value, index, array) {
               return null;
             }
           }
@@ -41,25 +46,41 @@ export class EmbedGraphComponent implements OnInit {
     private router: Router,
     private graphservice: GraphService,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
-    if (this.activatedRoute.snapshot.url[2].path !== '') {
+    let urlId = this.activatedRoute.snapshot.url[2].path;
+    if (urlId !== '') {
       this.graphservice
-        .getChart(this.activatedRoute.snapshot.url[2])
+        .getChart(urlId)
         .subscribe(chart => {
-          this.chart = chart;
-          this.title = chart.title;
-          this.widthGraph = chart.width;
+          this.graphservice.downloadProcess(urlId).subscribe(
+            process => {
+              this.chart = chart;
+              this.title = chart.title;
+              this.widthGraph = chart.width;
 
-          if (!chart.isMap) {
-            this.chart = chart;
-          } else {
-            this.isMap = chart.isMap;
-            this.descriptions = chart.descriptions;
+              if (process.axisXActivator != 0) {
+                this.chartOptions.scales.xAxes[0].ticks = {
+                  beginAtZero: true,
+                  autoSkip: false,
+                  callback: (value, index, array) => {
+                    if (index % process.axisXActivator === 0) {
+                      return value;
+                    }
+                  }
+                }
+              }
 
-            this.points = prepareArrayXY(chart.data[0].data, chart.labels);
-          }
+              if (!chart.isMap) {
+                this.chart = chart;
+              } else {
+                this.isMap = chart.isMap;
+                this.descriptions = chart.descriptions;
+
+                this.points = prepareArrayXY(chart.data[0].data, chart.labels);
+              }
+            });
         });
     }
   }

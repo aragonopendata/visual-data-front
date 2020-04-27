@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { GraphService } from '../../services/graph.service';
 import { DragulaService } from 'ng2-dragula';
-import { SpinnerModule, InputTextModule } from 'primeng/primeng';
+import { SpinnerModule, InputTextModule, DropdownModule, CheckboxModule } from 'primeng/primeng';
 import { removeDuplicates, typeOfArray, getRandomColor } from '../exportedFunctions/lib';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
@@ -39,6 +39,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   public chartOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true,
+    elements: {
+      line: {
+              fill: false
+      }
+    },
     scales: {
       xAxes: [
         {
@@ -52,7 +57,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       ]
     }
   };
-  public chartLegend = false;
+  public chartLegend = true;
+  public axisXActivator = 0;
 
   // To save Data
 
@@ -83,6 +89,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   openedMenu: boolean;
 
   topRows: number;
+
+  groupRow: string = null;
+
+  headersDropdown: Array<any> = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -134,69 +144,6 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       });
     } catch (error) {}
 
-    // TODO: Delete the next IF
-
-    if (
-      !this.dataservice.dataSelected ||
-      this.dataservice.dataSelected.length === 0
-    ) {
-      //this.router.navigate(['/selectData/']);
-      this.location.back();
-      this.typeOfData = 'TEST';
-      this.dataservice.headerSelected = [
-        '-'
-      ];
-      this.dataservice.dataSelected = [
-        [-65]
-      ];
-      this.dataservice.dataSelected.lenght = 1;
-      /*
-      this.dataservice.type = 'TEST';
-      this.dataservice.dataset = 'TEST';
-      this.dataservice.headerSelected = [
-        'Datos',
-        'de',
-        'prueba',
-        'Año',
-        'Ciudad',
-        'lat',
-        'long',
-        'desc'
-      ];
-      this.dataservice.dataSelected = [
-        [-65, 59, 80, 81, 56, 55, 40, 100, 100],
-        [20, 2, 3, 81, 4, 55, 5, 20, 40],
-        ['HTP', 'ASD', 'RDX', 'SAS', 'PACK', 'AA', 'DD', 'SAS', 'AA'],
-        [
-          '1992',
-          '1992',
-          '1992',
-          '1993',
-          '1992',
-          '1992',
-          '1993',
-          '1993',
-          '1993'
-        ],
-        [
-          'Teruel',
-          'Teruel',
-          'Teruel',
-          'Zaragoza',
-          'Zaragoza',
-          'Zaragoza',
-          'Teruel',
-          'Teruel',
-          'Zaragoza'
-        ],
-        [42.1213634, 42.1213634, 42.10673031],
-        [-0.07070538, -0.07070538, -0.3007088],
-        ['Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt', 'Archivo Histórico Provincial de Teruel - http://www.patrimonioculturaldearagon.es/archivo-historico-provincial-de-teruel - http://dara.aragon.es/opac/app/advanced/ahpt']
-      ];
-      this.dataservice.dataSelected.lenght = 3;
-      */
-    }
-
     if (
       this.dataservice.dataSelected &&
       this.dataservice.dataSelected.length !== 0
@@ -218,6 +165,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     this.columnsType = [];
     this.data = this.dataservice.dataSelected;
     this.columns = this.dataservice.headerSelected;
+    this.headersDropdown.push({label: "Agrupar", value: null});
+    this.columns.forEach(element => {
+      this.headersDropdown.push({label: element, value: element});
+    });
+
     this.realColumns = this.dataservice.realHeadersSelected;
 
     this.data.forEach(element => {
@@ -251,17 +203,44 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     } else {
       this.defaultsChats(0);
     }
-
+    
     // Prepare the Data for the chart with the data indicate in columnsData
     if (this.columnsData && this.columnsData.length !== 0 && this.data) {
       this.chartData = [];
       let i = 0;
       this.columnsData.forEach(element => {
         const indexData = this.columns.findIndex(x => x === element);
-        this.chartData.push({
-          data: this.data[indexData],
-          label: this.legend[i++].label
-        });
+
+        if(this.groupRow == null) {
+          this.chartData.push({
+            data: this.data[indexData],
+            label: this.legend[i++].label
+          });
+        }else{
+          const indexgroup = this.columns.findIndex(x => x === this.groupRow);
+          const indexData = this.columns.findIndex(x => x === element);
+          let groupHeader = this.data[indexgroup];
+          let groupedData = {};
+          groupHeader.forEach((element,i) => {
+            //Join group
+            if(!groupedData[element])
+              groupedData[element] = [];
+            //This is done to take care that the function removeDuplicates dont delete duplicate data of other group
+            for (let x = groupedData[element].length; x < i; x++) {
+                groupedData[element].push("0");
+            };
+            
+            groupedData[element].push(this.data[indexData][i]);
+          });
+
+          for (const key in groupedData) {
+            this.chartData.push({
+              data: groupedData[key],
+              label: key
+            });
+          }
+
+        }
       });
     } else {
       // Default Values
@@ -308,6 +287,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       } else {
         const aux = JSON.parse(JSON.stringify(this.data));
         const resultado = removeDuplicates(this.chartLabels, this.chartData);
+        
         this.chartLabels = resultado[0];
         this.chartData = resultado[1];
         if(this.chartType === 'bar'){
@@ -342,6 +322,24 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   }
 
   onEditComplete(event) {
+    if(this.axisXActivator != 0){
+      this.chartOptions.scales.xAxes[0].ticks = {
+        beginAtZero: true,
+        autoSkip: false,
+        callback: (value, index, array) => {
+          if(index % this.axisXActivator === 0){
+            return value;
+          }
+        }
+      }
+    }else{
+      this.chartOptions.scales.xAxes[0].ticks = {
+        beginAtZero: true,
+        callback: function(value, index, array) {
+          return null;
+        }
+      }
+    }
     this.onDrop('refresh');
   }
 
@@ -460,7 +458,9 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.legend,
               this.widthGraph,
               dataLink.id,
-              this.topRows
+              this.topRows,
+              this.groupRow,
+              this.axisXActivator
             )
             .subscribe(data => {
               // this.router.navigate(['/endGraphic/' + dataLink.id]);

@@ -29,7 +29,7 @@ export class CkanService {
       });
   }
 
-  // Make the call to get all the package iniformation
+  // Make the call to get all the package information
   getPackageInfo(data: String[]) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -40,13 +40,41 @@ export class CkanService {
       })
       .map(res => {
         let result = JSON.parse(res.text().toString());
-        if (result.result.length !== 0 && Object.keys(result.result[0].data[0])[0].includes("!DOCTYPE HTML PUBLIC")) {
-          throw "301 html";
-        }
+        try {
+          if (result.result.length !== 0 && Object.keys(result.result[0].data[0])[0].includes("!DOCTYPE HTML PUBLIC")) {
+            throw "301 html";
+          }
+        } catch (error) { }
+
         return result;
       })
       .catch(err => {
         return Observable.throw('errorConexion');
       });
   }
+
+  // Make the call to get the resource (The data CSV, PX...)
+  getPackageResource(resource) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');;
+    const body = JSON.stringify(resource);
+    return this.http
+      .post(this.serverURL + '/services/ckan/packageResource', body, {
+        headers: headers
+      })
+      .map(res => {
+        let result = JSON.parse(res.text().toString());
+        try {
+          if (result.result.length !== 0 && Object.keys(result.result[0].data[0])[0].includes("!DOCTYPE HTML PUBLIC")) {
+            throw "301 html";
+          }
+        } catch (error) { }
+
+        return result;
+      })
+      .catch(err => {
+        return Observable.throw('errorConexion');
+      });
+  }
+
 }

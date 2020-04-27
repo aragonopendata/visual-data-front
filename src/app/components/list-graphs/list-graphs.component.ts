@@ -41,6 +41,11 @@ export class ListGraphsComponent implements OnInit {
     legend: {
       display: false
     },
+    elements: {
+      line: {
+              fill: false
+      }
+    },
     scales: {
       xAxes: [
         {

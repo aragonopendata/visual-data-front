@@ -76,12 +76,31 @@
         <p>
             <strong tabindex="{{openedMenu ? -1 : 0}}">Configuraci&oacute;n</strong>
         </p>
+<!--
+        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap">
+            <p-checkbox [(ngModel)]="axisXActivator" binary="true" (onChange)="onEditComplete($event)" ></p-checkbox>Mostrar Eje X
+        </div>
+    -->
 
         <div style="margin-top:20px">
             <p>
                 <strong> - T&iacute;tulo</strong>
             </p>
             <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar t&iacute;tulo gr&aacute;fica" type="text" style="width: 100%" [(ngModel)]="title" pInputText>
+        </div>
+
+        <div style="margin-top:20px">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="EjeX mostrar elementos"> - Mostrar EjeX</strong>
+            </p>
+            <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid"  [(ngModel)]="axisXActivator" (onChange)="onEditComplete($event)"></p-spinner>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar Agrupar Datos"> - Agrupar por:</strong>
+            </p>
+            <p-dropdown (onChange)="onEditComplete($event)" [(ngModel)]="groupRow" [options]="headersDropdown" class="ui-fluid"></p-dropdown>
         </div>
 
         <div *ngIf="chartType != 'doughnut' && !chartMap" style="margin-top:20px">

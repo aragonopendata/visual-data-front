@@ -2,11 +2,9 @@ import { Aligns, AlignsType } from "./models/Aligns";
 import { ContentsType, Contents } from "./models/Contents";
 
 export class Constants {
-  //public static SERVER_URL = 'https://opendata.aragon.es';
-  //public static VISUAL_BACK_SERVER_URL =
-    //Constants.SERVER_URL + '/apivisualdata';
-  public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
-  public static SERVER_URL = 'http://localhost:8080';
+  public static SERVER_URL = 'https://opendata.aragon.es';
+  public static VISUAL_BACK_SERVER_URL =
+    Constants.SERVER_URL + '/apivisualdata';
   public static LIST_ALL_HISTORIES_PATH = '/services/histories';
   public static SEND_MAIL_SAVE_ADMIN_HISTORY_PATH =
     Constants.LIST_ALL_HISTORIES_PATH + '/send_save_admin_mail';
@@ -31,26 +29,23 @@ export class Constants {
   public static GET_CHART_PATH = Constants.LIST_ALL_CHARTS_PATH + '/';
   public static PATH_MODIFIER = '';
 
-  // URLS
-  //CAMBIAR CUANDO SE SUBA A DES!!!!!!!!!!
-  public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
-  public static AOD_BASE_API_ADMIN_FOCUS = 'http://localhost:4200/aod';
-  public static FOCUS_URL = 'http://localhost:4201/#';
-  public static AOD_BASE_URL = 'http://localhost:7030';
+  // URLS FOCUS
+  public static AOD_BASE_API_WEB_FOCUS = '';
+  public static AOD_BASE_API_ADMIN_FOCUS = '';
+  public static FOCUS_URL = '';
 
-
-
-  //public static AOD_BASE_URL = 'https://preopendata.aragon.es';
-  public static PRESUPUESTOS_BASE_URL = 'http://prepresupuesto.aragon.es';
-  public static AOD_ASSETS_BASE_URL = 'https://preopendata.aragon.es/static';
+  // URLS GLOBAL
+  public static AOD_BASE_URL = 'https://opendata.aragon.es';
+  public static PRESUPUESTOS_BASE_URL = 'http://presupuesto.aragon.es';
+  public static AOD_ASSETS_BASE_URL = 'https://opendata.aragon.es/static';
   public static AOD_API_WEB_BASE_URL =
-    'https://preopendata.aragon.es/aod/services/web';
+    'https://opendata.aragon.es/aod/services/web';
   public static AOD_API_ADMIN_BASE_URL =
-    'https://preopendata.aragon.es/aod/services/admin';
+    'https://opendata.aragon.es/aod/services/admin';
   public static AOD_API_SECURITY_BASE_URL =
-    'https://preopendata.aragon.es/aod/services/security';
+    'https://opendata.aragon.es/aod/services/security';
   public static AOD_API_CKAN_BASE_URL =
-    'http://mev-aodfront-01.aragon.local:5000';
+    'http://mov-aodfront-01.aragon.local:5000';
   public static AOD_COLLABORATION_URL =
     'https://aragon.uservoice.com/forums/192552-datos-que-me-gustar%C3%ADa-reutilizar'; 
   public static AOD_GITHUB_URL = 'http://github.com/aragonopendata';
