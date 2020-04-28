@@ -100,11 +100,6 @@ export class EditContentComponent implements OnInit {
     });
   }
 
-  /*saltaCampo(e, id){
-    e.preventDefault();
-    document.getElementById(id).focus();
-  }*/
-
   openVisualData() {
     document.getElementsByTagName('body')[0].classList.add('no-scroll');
     this._route.navigate([{outlets: {modal: 'visualData'}}]);

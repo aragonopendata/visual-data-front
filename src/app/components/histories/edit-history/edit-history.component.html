@@ -145,7 +145,7 @@
   </form>
   
   <!-- Modal Email -->
-  <div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <!--<div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -165,7 +165,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </div>-->
 
   <!-- Modal Successfull History -->
   <div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
@@ -185,6 +185,20 @@
             <div class="tokenSite col-12">
               <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.id}}</textarea>
               <button type="button" class="btn fa fa-copy" (click)="copyToken()"></button>
+            </div>
+            <div *ngIf='sendRevision'>
+              <div class="modal-header">
+                <h5 class="modal-title" id="emailModalCenterTitle">Introduce tu Email:</h5>
+              </div>
+              <form [formGroup]="emailForm">
+                <div class="modal-body">
+                  <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm()">
+                  <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm()">Enviar</button>
+                </div>
+              </form>
             </div>
           </div>
           <div *ngIf=!firstTime>

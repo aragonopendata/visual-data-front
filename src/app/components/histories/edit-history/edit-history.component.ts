@@ -49,6 +49,7 @@ export class EditHistoryComponent implements OnInit {
   versionHistory:boolean=false;
   loadingModal: boolean;
   previewHistory:boolean=false;
+  sendRevision:boolean=false;
 
   stateHistory:any =0;
   stateEnum: typeof State = State;
@@ -198,7 +199,7 @@ export class EditHistoryComponent implements OnInit {
         }
         this.showAddContent = false;
         this.getState(button);
-        if(this.historyBack.email){
+        if(!this.firstTime){
           if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)||((this.historyBack.state==this.stateEnum.publicada)&&(this.versionHistory))){//unico estado de momento editable por usuario o guardado de admin o versionar historia publicada
             this.firstTime=false;
             this.operateWithHistory(Constants.UPDATE_HISTORY);
@@ -211,9 +212,11 @@ export class EditHistoryComponent implements OnInit {
           }
         }
         else{
-          this.emailForm.reset();
+          //this.emailForm.reset();
           this.loadingModal=false;
-          $("#emailModalCenter").modal('show');
+          this.operateWithHistory(Constants.SAVE_HISTORY)
+          this.firstTime=true;
+          $("#successfullModalCenter").modal('show');
         }
       }
     }
@@ -227,6 +230,7 @@ export class EditHistoryComponent implements OnInit {
     this.loadingModal=true;
     if(button.id=="btnSendRevision"){
       this.stateHistory=this.stateEnum.revision
+      this.sendRevision=true;
     }else if(button.id=="btnSendVersionar"){
       this.stateHistory=this.stateEnum.revision
       this.versionHistory=true;
@@ -251,17 +255,15 @@ export class EditHistoryComponent implements OnInit {
       })
     }
     else{
-      $('#emailModalCenter').modal('hide');
-      this.firstTime=true;
+      $('#successfullModalCenter').modal('hide');
+      //this.firstTime=true;
       this.operateWithHistory(Constants.SAVE_HISTORY)
-      //this.saveHistory();
     }
-    
+    this.goHome();
   }
 
   openModalError(){
     $('#successfullModalCenter').modal('hide');
-    $('#emailModalCenter').modal('hide');
     this.loadingModal=false;
     $('#errorModalCenter').modal('show');
   }
@@ -316,9 +318,7 @@ export class EditHistoryComponent implements OnInit {
     }else if(action==Constants.UPDATE_HISTORY){
       this.updateHistoryUser();
     } else if (action==Constants.POST_HISTORY_ADMIN){
-      //this.saveHistoryUser();
       this.updateHistoryUser();
-      //this.postHistoryAdmin();
     }
 
   }
@@ -330,34 +330,43 @@ export class EditHistoryComponent implements OnInit {
   }
 
   saveHistoryUser(){
+    console.log('saveHistory')
+    console.log(this.historyModel)
     this._historiesService.setHistory(this.historyModel).subscribe(result => {
+    
       if (result.status == 200 && result.success) {
-        this.historyModel.id = result.id;
-        this.historyBack = this.historyModel;
-        this.updateWithBackHistory();
-        
-        this.historyModel.url=Constants.FOCUS_URL;
-        this.loadingModal=false;
-        $('#successfullModalCenter').modal('show');
-        this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
-          if(result.status==200){
-            if(this.stateHistory==this.stateEnum.revision){
-              this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
-                if(result.status==200){
-                }
-              },err => {
-                console.log('Error al enviar correo al admin');
-              });
+        if(!this.saved){
+          this.historyModel.id = result.id;
+          this.historyBack = this.historyModel;
+          this.updateWithBackHistory();
+          this.historyModel.url=Constants.FOCUS_URL;
+          this.saved=true;
+        }
+        //this.loadingModal=false;
+        //$('#successfullModalCenter').modal('show');
+        if(this.historyModel.email){
+          this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
+            if(result.status==200){
+              if(this.stateHistory==this.stateEnum.revision){
+                this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
+                  if(result.status==200){
+                  }
+                },err => {
+                  console.log('Error al enviar correo al admin');
+                });
+              }
+            } else {
+              console.log('Error GUARDANDO historia')
+              this.openModalError()
             }
-          } else {
-            console.log('Error GUARDANDO historia')
-            this.openModalError()
-          }
-        },err => {
-          console.log('Error al enviar correo usario');
-        });
+          },err => {
+            console.log('Error al enviar correo usario');
+          });
+        }
       }
-        
+      else{
+        console.log('Error set historia')
+      }
       
     });
 
@@ -385,11 +394,6 @@ export class EditHistoryComponent implements OnInit {
         console.log('error publicando historia!')
       }
     })
-    //}
-    /*else
-    {
-      $('#saveModalCenter').modal('show');
-    }*/
   }
 
   
@@ -412,7 +416,6 @@ export class EditHistoryComponent implements OnInit {
           $('#successfullModalCenter').modal('show');
         }
       } else {
-        //console.log('error en ACTUALIZACION MOSTRAR MODAL KO')
         this.openModalError()
       }
     });
@@ -454,7 +457,10 @@ export class EditHistoryComponent implements OnInit {
       $('#successfullModalCenter').modal('hide');
       this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
     }
-    else if((!this.isAdmin) && (this.historyBack.state == this.stateEnum.revision)){
+    else if(((!this.isAdmin) && (this.historyBack.state == this.stateEnum.revision)) ||
+            ((!this.isAdmin) && this.sendRevision)){
+      $('#successfullModalCenter').modal('hide');
+      this.firstTime=false;
       this.goHome();
     }
     else{
@@ -479,7 +485,6 @@ export class EditHistoryComponent implements OnInit {
     } else if ( ( this.showAddContent ) && ( this.posToEdit!==i ) ){
       this.contentToEditAux = content;
       this.posToEditAux = i;
-      //this.showAddContent = false;
       $('#questionContPrevious').modal('show');
     }
   }
