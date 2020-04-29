@@ -51,9 +51,26 @@ export class HistoriesService {
     );
   }
 
+  public getHistoryBackUserByToken(token: string){
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN;
+    return this.http.get(fullUrl + '/' + token).map(res => res.json());;
+  }
+
+  public getHistoryBackAdminByToken(token: string){
+    let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN;
+		let headers = this.buildRequestHeaders();
+    return this.http.get(fullUrl + '/' + token , { headers: headers }).map(res => res.json());;
+  }
+
+
   public getHistories(): Observable<any>{
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
     return this.http.get(fullUrl).map(res => res.json());
+  }
+
+  public getHistoryBack(id: string){
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    return this.http.get(fullUrl + '/' + id).map(res => res.json());;
   }
 
   public getHistoriesBySearch(text:string, category:string) {
@@ -67,11 +84,6 @@ export class HistoriesService {
   public setHistory(history:History){
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     return this.http.put(fullUrl, history).map(res => res.json());
-  }
-
-  public getHistoryBack(id: string){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
-    return this.http.get(fullUrl + '/' + id).map(res => res.json());;
   }
 
   public updateHistory(history:History){
