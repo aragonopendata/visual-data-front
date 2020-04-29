@@ -106,12 +106,14 @@
               <input type="text" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
               <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
               <div *ngIf=tokenError class="alert alert-danger"  role="alert">
-                <p> El token introducido es incorrecto. </p>
+                <!--<p> El token introducido es incorrecto. </p>-->
+                <p> La historia no existe.</p>
                 <p> Por favor, compruebe que el token corresponde con el que se le proporcionó </p>
               </div>
               <div *ngIf=stateError class="alert alert-danger"  role="alert">
-                <p>La historia a la que esta intentando acceder no se encuentra en un estado editable.</p>
-              </div>
+                <p *ngIf="state==this.stateEnum.revision">La historia a la que esta intentando acceder no se puede modificar ya que se encuentra en <b>estado de revisión.</b></p>
+                <p *ngIf="state==this.stateEnum.desactivada">La historia no se encuentra disponible.</p>
+                </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>

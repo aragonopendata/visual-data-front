@@ -30,6 +30,7 @@ export class HomeFocusComponent implements OnInit {
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
   stateEnum: typeof State = State;
+  state: number;
 
   constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder, ) { }
 
@@ -74,12 +75,19 @@ export class HomeFocusComponent implements OnInit {
     }else{
       let token=this.tokenForm.get('token').value
       let route = Constants.ROUTER_LINK_EDIT_HISTORY + "/" + token;
-      this._historiesService.getHistoryBack(token).subscribe(result =>{
-        if(result.success && result.history!=null){
-          if((result.history.state==this.stateEnum.borrador) || (result.history.state==this.stateEnum.publicada) ){
+        this._historiesService.getTokenState(token).subscribe(result =>{
+          this.state=result.state;
+        if(result.success && !(result==null || this.state==this.stateEnum.versionada)){
+          if((this.state==this.stateEnum.borrador) || (this.state==this.stateEnum.publicada) ){
             $("#homeModalCenter").modal('hide');
             this._route.navigate([route]);
-          }else{
+          }
+          else if(this.state==this.stateEnum.desactivada){
+            this.stateError=true
+            this.tokenError=false
+            console.log("Historia no esta disponible")
+          }
+          else{
             this.stateError=true
             this.tokenError=false
             console.log("Historia existe, pero no se puede modificar")
