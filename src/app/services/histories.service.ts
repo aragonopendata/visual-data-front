@@ -97,6 +97,12 @@ export class HistoriesService {
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
 
+  public updateMailHistoryUser(history:History){
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_AND_EMAIL;
+    console.log(fullUrl)
+    return this.http.post(fullUrl, history).map(res => res.json());;
+  }
+
   public publishHistory(history: History) {
     let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
 		let headers = this.buildRequestHeaders();
