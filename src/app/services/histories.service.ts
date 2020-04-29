@@ -77,7 +77,8 @@ export class HistoriesService {
   public getHistoryBackAdminById(id: string){
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     console.log(fullUrl);
-    return this.http.get(fullUrl + '/' + id).map(res => res.json());;
+    let headers = this.buildRequestHeaders();
+    return this.http.get(fullUrl + '/' + id,  { headers: headers }).map(res => res.json());;
   }
 
   public getHistoriesBySearch(text:string, category:string) {
@@ -99,9 +100,17 @@ export class HistoriesService {
     return this.http.get(fullUrl + '/' + token).map(res => res.json());;
   }
 
-  public updateHistory(history:History){
+  public updateHistoryUser(history:History){
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     return this.http.post(fullUrl, history).map(res => res.json());;
+  }
+
+  public updateHistoryAdmin(history:History){
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    console.log(fullUrl);
+    let headers = this.buildRequestHeaders();
+		let requestBodyParams: any = this.createJsonFromString('history', history);
+		return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json());
   }
 
   public updateMailHistoryUser(history:History){

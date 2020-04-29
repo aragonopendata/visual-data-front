@@ -335,9 +335,9 @@ export class EditHistoryComponent implements OnInit {
     }else if(action==Constants.SAVE_HISTORY){
       this.saveHistoryUser();
     }else if(action==Constants.UPDATE_HISTORY){
-      this.updateHistoryUser();
+      this.updateHistory();
     } else if (action==Constants.POST_HISTORY_ADMIN){
-      this.updateHistoryUser();
+      this.updateHistory();
     }
 
   }
@@ -352,7 +352,9 @@ export class EditHistoryComponent implements OnInit {
     console.log('saveHistory')
       console.log(this.historyModel)
       this._historiesService.setHistory(this.historyModel).subscribe(result => {
+        console.log(result)
         if (result.status == 200 && result.success) {
+          console.log('ooook!')
           this.firstTime=true;
           this.historyModel.id=result.id;
           this.historyModel.token=result.token;
@@ -384,16 +386,17 @@ export class EditHistoryComponent implements OnInit {
         this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
         this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
-        this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
-          if(result.status==200){
-
-          }else{
-            console.log('error envio mail!')
-          }
-        }, err =>{
-          console.log('error envio mail con error!')
-        });
-
+        if(this.historyModel.email!=null){
+          this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
+            if(result.status==200){
+              //mail enviado correctamente
+            }else{
+              console.log('error envio mail!')
+            }
+          }, err =>{
+            console.log('error envio mail con error!')
+          });
+        }
       }else{
         console.log('error publicando historia!')
       }
@@ -425,29 +428,43 @@ export class EditHistoryComponent implements OnInit {
   }
 
   
-  updateHistoryUser(){
-    this._historiesService.updateHistory(this.historyModel).subscribe(result => {
-      if (result.status == 200 && result.success) {
-        this.historyBack = this.historyModel;
-        if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin && !this.publishing)){
-          this.loadingModal=false;
-          $('#successfullModalCenter').modal('show');
-          this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
-            if(result.status==200){
-            }
-          });
-        }else if(this.publishing && this.isAdmin){
-          this.postHistoryAdmin();
-        }else{
-          this.loadingModal=false;
-          $('#successfullModalCenter').modal('show');
-        }
-      } else {
-        this.openModalError()
-      }
-    });
+  updateHistory(){
+    console.log(this.historyModel)
+    if(this.isAdmin){
+      this._historiesService.updateHistoryAdmin(this.historyModel).subscribe(result => {
+        this.updateHistoryResult(result)
+      });
+
+    }else{
+      this._historiesService.updateHistoryUser(this.historyModel).subscribe(result => {
+        this.updateHistoryResult(result)
+      });
+    }
+  
 
   }
+
+  updateHistoryResult(result){
+    if (result.status == 200 && result.success) {
+      this.historyBack = this.historyModel;
+      if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin && !this.publishing)){
+        this.loadingModal=false;
+        $('#successfullModalCenter').modal('show');
+        this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
+          if(result.status==200){
+          }
+        });
+      }else if(this.publishing && this.isAdmin){
+        this.postHistoryAdmin();
+      }else{
+        this.loadingModal=false;
+        $('#successfullModalCenter').modal('show');
+      }
+    } else {
+      this.openModalError()
+    }
+  }
+
 
   onChangePrimaryCategory({ target }){
     var valores = target.value.split(" ");
@@ -485,7 +502,7 @@ export class EditHistoryComponent implements OnInit {
     this.loadingModal=false;
     if(this.isAdmin && this.publishing){
       $('#successfullModalCenter').modal('hide');
-      this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.token]);
+      this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
     }
     else if(((!this.isAdmin) && (this.historyBack.state == this.stateEnum.revision)) ||
             ((!this.isAdmin) && this.sendRevision)){
