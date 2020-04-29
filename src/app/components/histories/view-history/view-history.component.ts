@@ -66,18 +66,7 @@ export class ViewHistoryComponent implements OnInit {
       if(this.isAdmin){
         console.log('entro admin')
         this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
-          
-          if(response.success && response.history!=null){
-            this.historySelect = response.history;
-            if(this.historySelect.contents){
-              this.historySelect.contents.forEach( (element: Content) => {
-                element = this.getInfoContents(element);
-              });
-            }
-          }else{
-            this.objectLoadFailure()
-          }
-          this.loading=false;
+          this.responseHistory(response);
         },err => {
           this.objectLoadFailure()
         });
@@ -85,23 +74,27 @@ export class ViewHistoryComponent implements OnInit {
       else{
         console.log('entro user')
         this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
-          console.log(response.history)
-          if(response.success && response.history!=null){
-            this.historySelect = response.history;
-            if(this.historySelect.contents){
-              this.historySelect.contents.forEach( (element: Content) => {
-                element = this.getInfoContents(element);
-              });
-            }
-          }else{
-            this.objectLoadFailure()
-          }
-          this.loading=false;
+          this.responseHistory(response)
         },err => {
           this.objectLoadFailure()
         });
       }
     }
+  }
+
+  responseHistory(response){
+    if(response.success && response.history!=null){
+      this.historySelect = response.history;
+      if(this.historySelect.contents){
+        this.historySelect.contents.forEach( (element: Content) => {
+          element = this.getInfoContents(element);
+        });
+      }
+    }else{
+      this.objectLoadFailure()
+    }
+    this.loading=false;
+
   }
 
   objectLoadFailure(){
