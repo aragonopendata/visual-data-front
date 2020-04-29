@@ -74,6 +74,12 @@ export class HistoriesService {
     return this.http.get(fullUrl + '/' + id).map(res => res.json());;
   }
 
+  public getTokenState(token: string){
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY + Constants.ROUTER_LINK_TOKEN_STATE;
+    console.log(fullUrl);
+    return this.http.get(fullUrl + '/' + token).map(res => res.json());;
+  }
+
   public updateHistory(history:History){
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     return this.http.post(fullUrl, history).map(res => res.json());;
