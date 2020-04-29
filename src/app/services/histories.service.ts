@@ -68,8 +68,15 @@ export class HistoriesService {
     return this.http.get(fullUrl).map(res => res.json());
   }
 
-  public getHistoryBack(id: string){
+  public getHistoryBackUserById(id: string){
     let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    console.log(fullUrl);
+    return this.http.get(fullUrl + '/' + id).map(res => res.json());;
+  }
+
+  public getHistoryBackAdminById(id: string){
+    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    console.log(fullUrl);
     return this.http.get(fullUrl + '/' + id).map(res => res.json());;
   }
 

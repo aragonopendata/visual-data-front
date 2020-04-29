@@ -22,6 +22,8 @@ export class ViewHistoryComponent implements OnInit {
   loading : boolean = true;
   errorTitle: string;
   errorMessage: string;
+  isAdmin: boolean=false;
+  admin: Object={};
 
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
     
@@ -37,6 +39,14 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(localStorage.getItem('currentUser')){
+
+      this.admin=JSON.parse(localStorage.getItem('currentUser'));
+
+      if(this.admin['rol'] == "global_adm"){
+        this.isAdmin = true;
+      }
+    }
     this.loadHistory();
   }
 
@@ -53,23 +63,44 @@ export class ViewHistoryComponent implements OnInit {
       }
 
     } else {
-
-      this.historiesService.getHistoryBack(this.idHistory).subscribe( response => {
-        if(response.success && response.history!=null){
-          this.historySelect = response.history;
-          if(this.historySelect.contents){
-            this.historySelect.contents.forEach( (element: Content) => {
-              element = this.getInfoContents(element);
-            });
+      if(this.isAdmin){
+        console.log('entro admin')
+        this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
+          
+          if(response.success && response.history!=null){
+            this.historySelect = response.history;
+            if(this.historySelect.contents){
+              this.historySelect.contents.forEach( (element: Content) => {
+                element = this.getInfoContents(element);
+              });
+            }
+          }else{
+            this.objectLoadFailure()
           }
-        }else{
+          this.loading=false;
+        },err => {
           this.objectLoadFailure()
-        }
-        this.loading=false;
-      },err => {
-        this.objectLoadFailure()
-      });
-
+        });
+      }
+      else{
+        console.log('entro user')
+        this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
+          console.log(response.history)
+          if(response.success && response.history!=null){
+            this.historySelect = response.history;
+            if(this.historySelect.contents){
+              this.historySelect.contents.forEach( (element: Content) => {
+                element = this.getInfoContents(element);
+              });
+            }
+          }else{
+            this.objectLoadFailure()
+          }
+          this.loading=false;
+        },err => {
+          this.objectLoadFailure()
+        });
+      }
     }
   }
 
