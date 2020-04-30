@@ -123,7 +123,11 @@ export class HistoriesService {
     let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
 		let headers = this.buildRequestHeaders();
 		let requestBodyParams: any = this.createJsonFromString('history', history);
-		return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json());;
+    return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json())
+    .catch(err => {
+      console.log('Error haciendo el push de la historia:' + err)
+        return Observable.throw('Error haciendo el push de la historia');
+      });
 	}
 
   public sendSaveAdminMail(history:History){

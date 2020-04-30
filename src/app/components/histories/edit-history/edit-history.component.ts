@@ -411,7 +411,10 @@ export class EditHistoryComponent implements OnInit {
       }else{
         console.log('error publicando historia!')
       }
-    })
+    }),err => {
+      console.log('Error al enviar correo usario');          
+      this.openModalError()
+    }
   }
 
   setMailToHistory(){
