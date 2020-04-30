@@ -38,7 +38,9 @@ export class ViewHistoryComponent implements OnInit {
         this.loading=false;
       }      
     });
+  }
 
+  ngOnInit() {
     if(localStorage.getItem('currentUser')){
 
       this.admin=JSON.parse(localStorage.getItem('currentUser'));
@@ -47,11 +49,10 @@ export class ViewHistoryComponent implements OnInit {
         this._verifyTokenService.canActivate()
         this.isAdmin = true;
       }
+      this.loadHistory()
+    }else{
+      this.loadHistory()
     }
-  }
-
-  ngOnInit() {
-    this.loadHistory()
   }
 
   loadHistory() {

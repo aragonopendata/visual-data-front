@@ -87,6 +87,13 @@ export class EditHistoryComponent implements OnInit {
       branding: false
     }
 
+  }
+
+  ngOnInit() {
+
+    this.initiateForms();
+
+
     if(localStorage.getItem('currentUser')){
 
       this.admin=JSON.parse(localStorage.getItem('currentUser'));
@@ -95,14 +102,16 @@ export class EditHistoryComponent implements OnInit {
         this._verifyTokenService.canActivate()
         this.isAdmin = true;
       }
+      this.loadHistory();
+
+    }else{
+      this.loadHistory();
     }
+
 
   }
 
-  ngOnInit() {
-
-    this.initiateForms();
-
+  loadHistory(){
     this._historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
       this.secondCategories = categories;
@@ -118,7 +127,6 @@ export class EditHistoryComponent implements OnInit {
 		},err => {
       this.objectLoadFailure()
     });
-
   }
 
   getHistory(token: string){
