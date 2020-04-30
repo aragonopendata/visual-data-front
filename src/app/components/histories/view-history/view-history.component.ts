@@ -5,6 +5,7 @@ import { History, Content } from '../../../models/History';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
+import { Category } from '../../../models/Category';
 import { Aligns } from '../../../models/Aligns';
 import { AuthGuard } from '../../../_guards/auth.guard';
 
@@ -25,6 +26,8 @@ export class ViewHistoryComponent implements OnInit {
   errorMessage: string;
   isAdmin: boolean=false;
   admin: Object={};
+  categories: Category[];
+  secondCategories: Category[];
 
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
     private _verifyTokenService: AuthGuard ) { 
@@ -53,13 +56,39 @@ export class ViewHistoryComponent implements OnInit {
     }else{
       this.loadHistory()
     }
+
+    
+    this.historiesService.getCategories().subscribe( (categories: Category[]) => {
+      this.categories = categories;
+      this.secondCategories = categories;
+      this.loadHistory();
+		},err => {
+      this.objectLoadFailure()
+    });
+  }
+
+  getCategories(history: History){
+    history.secondary_categories.forEach(id => {
+      this.secondCategories.forEach(cat => {
+        if(cat.id==id){
+          cat.selected=true;
+          console.log('secundarias:')
+          console.log(cat.name);
+        }
+      });
+    });
   }
 
   loadHistory() {
+        
 
     if(this.preview){
 
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
+      console.log('principal:'+this.historySelect.main_category);
+      if(this.historySelect.secondary_categories){
+        this.getCategories(this.historySelect);
+      }
 
       if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
@@ -71,6 +100,10 @@ export class ViewHistoryComponent implements OnInit {
       if(this.isAdmin){
         console.log('entro admin')
         this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
+          console.log(response.history)
+          if(response.history.secondary_categories!=[]){
+            this.getCategories(response.history);
+          }
           this.responseHistory(response);
         },err => {
           this.objectLoadFailure()
@@ -79,6 +112,9 @@ export class ViewHistoryComponent implements OnInit {
       else{
         console.log('entro user')
         this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
+          if(response.history.secondary_categories!=[]){
+            this.getCategories(response.history);
+          }
           this.responseHistory(response)
         },err => {
           this.objectLoadFailure()

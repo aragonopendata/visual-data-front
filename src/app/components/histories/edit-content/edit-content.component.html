@@ -43,8 +43,8 @@
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
                 <div class="form-row align-items-center">
                   <div class="col-auto">
+                    <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold">La gráfica seleccionada es: {{graphTitle}}</p>
                     <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
-                    <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold">La gráfica seleccionada es: "{{graphTitle}}"</p>
                   </div>
                 </div>
               </div>
