@@ -550,8 +550,8 @@ export class EditHistoryComponent implements OnInit {
       this.showAddContent = true;
       this._cdRef.detectChanges();
     } else {
-      this.contentToEdit = this.actualContent;
-      this.posToEdit=this.actualPosToEdit;
+      //this.contentToEdit = this.actualContent;
+      //this.posToEdit=this.actualPosToEdit;
     }
     this.loadingModal=false;
     $('#questionContPrevious').modal('hide');
