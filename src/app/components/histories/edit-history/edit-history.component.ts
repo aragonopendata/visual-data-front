@@ -63,7 +63,7 @@ export class EditHistoryComponent implements OnInit {
               private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute) { 
 
     this._activatedRoute.params.subscribe(params => {
-      if(params.id!=null){
+      if(params.token!=null){
         this.previewHistory=true;
         this.firstTime =false;
 
@@ -105,8 +105,8 @@ export class EditHistoryComponent implements OnInit {
       this.secondCategories = categories;
       this.historyBack.state=this.stateEnum.borrador;
       this._activatedRoute.params.subscribe(params => {
-        if(params.id!=null){
-          this.getHistory(params.id);
+        if(params.token!=null){
+          this.getHistory(params.token);
         }
         else{
           this.loading = false;
