@@ -49,7 +49,7 @@ export class ViewHistoryComponent implements OnInit {
       this.admin=JSON.parse(localStorage.getItem('currentUser'));
 
       if(this.admin['rol'] == "global_adm"){
-        this._verifyTokenService.canActivate()
+        this._verifyTokenService.probeTokenAdmin()
         this.isAdmin = true;
       }
       this.loadHistory()
@@ -57,7 +57,7 @@ export class ViewHistoryComponent implements OnInit {
       this.loadHistory()
     }
 
-    
+
     this.historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
       this.secondCategories = categories;
