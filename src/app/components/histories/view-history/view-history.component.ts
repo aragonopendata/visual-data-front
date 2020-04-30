@@ -6,6 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { Aligns } from '../../../models/Aligns';
+import { AuthGuard } from '../../../_guards/auth.guard';
 
 @Component({
   selector: 'app-view-history',
@@ -25,7 +26,8 @@ export class ViewHistoryComponent implements OnInit {
   isAdmin: boolean=false;
   admin: Object={};
 
-  constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
+  constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
+    private _verifyTokenService: AuthGuard ) { 
     
     this._route.params.subscribe(params => {
       if(params.id!=null){
@@ -36,18 +38,20 @@ export class ViewHistoryComponent implements OnInit {
         this.loading=false;
       }      
     });
-  }
 
-  ngOnInit() {
     if(localStorage.getItem('currentUser')){
 
       this.admin=JSON.parse(localStorage.getItem('currentUser'));
 
       if(this.admin['rol'] == "global_adm"){
+        this._verifyTokenService.canActivate()
         this.isAdmin = true;
       }
     }
-    this.loadHistory();
+  }
+
+  ngOnInit() {
+    this.loadHistory()
   }
 
   loadHistory() {

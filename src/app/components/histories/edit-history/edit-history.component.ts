@@ -6,6 +6,7 @@ import { Category } from '../../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../../../app.constants';
 import { State } from '../../../models/State';
+import { AuthGuard } from '../../../_guards/auth.guard';
 
 declare var $: any;
 
@@ -60,7 +61,8 @@ export class EditHistoryComponent implements OnInit {
 
 
   constructor(private _historiesService: HistoriesService, private _cdRef: ChangeDetectorRef,
-              private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute) { 
+              private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute,
+              private _verifyTokenService: AuthGuard) { 
 
     this._activatedRoute.params.subscribe(params => {
       if(params.id!=null){
@@ -85,18 +87,19 @@ export class EditHistoryComponent implements OnInit {
       branding: false
     }
 
-  }
-
-  ngOnInit() {
-
     if(localStorage.getItem('currentUser')){
 
       this.admin=JSON.parse(localStorage.getItem('currentUser'));
 
       if(this.admin['rol'] == "global_adm"){
+        this._verifyTokenService.canActivate()
         this.isAdmin = true;
       }
     }
+
+  }
+
+  ngOnInit() {
 
     this.initiateForms();
 
