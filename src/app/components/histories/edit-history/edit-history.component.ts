@@ -277,7 +277,6 @@ export class EditHistoryComponent implements OnInit {
       })
     }
     else{
-      //this.operateWithHistory(Constants.UPDATE_HISTORY);
       this.firstTime=false;
       $('#successfullModalCenter').modal('hide');
       this.loadingModal=true;
