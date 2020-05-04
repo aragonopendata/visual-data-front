@@ -47,7 +47,10 @@
                 <p>
                     Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
                 </p>
-                <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event, 'category')">
+                <label for="">
+                  <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event, 'category')">
+                </label>
+                
                 <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>
   
@@ -90,6 +93,7 @@
                   </button>
                   <div id="dropdown-cat2" *dropdownMenu class="dropdown-menu">
                     <div class="form-check" *ngFor="let category of secondCategories" (click)="getCategoriesSelected($event, category)">
+                      <!--añadir for=-->
                       <label *ngIf="!category.selectedPrincipal" class="container">
                         <span class="checkmark" [ngClass]="{'selected': category.selected}"></span>
                         {{category.name}}
