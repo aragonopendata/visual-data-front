@@ -164,9 +164,8 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   private urlGraph(id: string) {
-    //TODO: CAMBIAR LOCALHOST
     return new Promise((resolve, reject) => {
-      let url = 'http://localhost:4075/#/charts/embed/'+id;
+      let url = Constants.FOCUS_URL+'/charts/embed/'+id;
       resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
     });
   }
