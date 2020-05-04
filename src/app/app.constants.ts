@@ -41,7 +41,7 @@ export class Constants {
 
   //DEFINIR EN DES
   //VISUAL_BACK_SERVER_URL Y SERVER_URL ARRIBA
-  //public static FOCUS_URL = ????;
+  //public static FOCUS_URL = https://preopendata.aragon.es/servicios/focus/# 
   //public static AOD_BASE_URL = 'https://preopendata.aragon.es';
   public static PRESUPUESTOS_BASE_URL = 'http://prepresupuesto.aragon.es';
   public static AOD_ASSETS_BASE_URL = 'https://preopendata.aragon.es/static';
@@ -766,7 +766,7 @@ export class Constants {
   public static ROUTER_LINK_SERVICES_ADMIN='/services/admin';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
-  public static ROUTER_LINK_ENTIRE_HISTORY_AND_EMAIL='/history';
+  public static ROUTER_LINK_ENTIRE_HISTORY_AND_EMAIL='/history/mail';
   public static ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN='/history/token';
   public static ROUTER_LINK_ALL_HISTORIES='/histories';
   public static ROUTER_LINK_TOKEN_STATE='/token/state';
