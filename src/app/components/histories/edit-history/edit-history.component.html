@@ -190,6 +190,7 @@
               <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.token}}</textarea>
               <button type="button" class="btn fa fa-copy" (click)="copyToken()"></button>
             </div>
+            <div *ngIf=!haveMail>
               <div class="modal-header">
                 <h6 class="modal-title" id="emailModalCenterTitle">¿Desea realizar un seguimiento de la historia?</h6>
               </div>
@@ -197,13 +198,14 @@
                 <div class="modal-body">
                   <p>Puede dejar su correo para ser notificado cuando se produzcan algunos cambios en el estado de su historia o si desea recibir el token en su correo electrónico</p>
 
-                  <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm()">
+                  <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm($event)">
                   <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm()">Enviar</button>
+                  <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm($event)">Enviar</button>
                 </div>
-              </form>
+              </form> 
+            </div>
           </div>
           <div *ngIf=!firstTime>
             <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente</p>

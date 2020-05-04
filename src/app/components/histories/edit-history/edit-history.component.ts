@@ -53,6 +53,7 @@ export class EditHistoryComponent implements OnInit {
   sendRevision:boolean=false;
   stateHistory:any =0;
   stateEnum: typeof State = State;
+  haveMail:boolean=false;
 
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
@@ -270,16 +271,19 @@ export class EditHistoryComponent implements OnInit {
   }
   
 
-  saveMailForm(){
+  saveMailForm(event){
+    event.preventDefault();
+    event.stopPropagation();
     if(this.emailForm.invalid){
       return Object.values(this.emailForm.controls).forEach(control => {
         control.markAsTouched();
       })
     }
     else{
-      this.firstTime=false;
-      $('#successfullModalCenter').modal('hide');
       this.loadingModal=true;
+      this.haveMail=true;
+      //this.firstTime=false;
+      //$('#successfullModalCenter').modal('hide');
       this.setMailToHistory()
     }
   }
@@ -414,7 +418,6 @@ export class EditHistoryComponent implements OnInit {
       this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
         if(result.status==200){
           this.loadingModal=false;
-          $('#successfullModalCenter').modal('show');
         } else {
           console.log('Error enviando el token de historia')
           this.openModalError()
@@ -499,7 +502,6 @@ export class EditHistoryComponent implements OnInit {
   }
 
   viewHistory(){
-    this.firstTime=false;
     this.loadingModal=false;
     if(this.isAdmin && this.publishing){
       $('#successfullModalCenter').modal('hide');
@@ -508,11 +510,11 @@ export class EditHistoryComponent implements OnInit {
     else if(((!this.isAdmin) && (this.historyBack.state == this.stateEnum.revision)) ||
             ((!this.isAdmin) && this.sendRevision)){
       $('#successfullModalCenter').modal('hide');
-      this.firstTime=false;
       this.goHome();
     }
     else{
       $('#successfullModalCenter').modal('hide');
+      this.firstTime=false;
     }
   }
 
