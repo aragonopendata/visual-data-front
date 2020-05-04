@@ -52,37 +52,37 @@ export class HistoriesService {
   }
 
   public getHistoryBackUserByToken(token: string){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN;
     return this.http.get(fullUrl + '/' + token).map(res => res.json());;
   }
 
   public getHistoryBackAdminByToken(token: string){
-    let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN;
+    let fullUrl = Constants.AOD_API_ADMIN_BASE_URL + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN;
 		let headers = this.buildRequestHeaders();
     return this.http.get(fullUrl + '/' + token , { headers: headers }).map(res => res.json());;
   }
 
 
   public getHistories(): Observable<any>{
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
     return this.http.get(fullUrl).map(res => res.json());
   }
 
   public getHistoryBackUserById(id: string){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     console.log(fullUrl);
     return this.http.get(fullUrl + '/' + id).map(res => res.json());;
   }
 
   public getHistoryBackAdminById(id: string){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    let fullUrl=Constants.AOD_API_ADMIN_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     console.log(fullUrl);
     let headers = this.buildRequestHeaders();
     return this.http.get(fullUrl + '/' + id,  { headers: headers }).map(res => res.json());;
   }
 
   public getHistoriesBySearch(text:string, category:string) {
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ALL_HISTORIES;
     let params = new URLSearchParams();
     params.append("text", text)
     params.append("category", category)
@@ -90,23 +90,23 @@ export class HistoriesService {
   }
 
   public setHistory(history:History){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     return this.http.put(fullUrl, history).map(res => res.json());
   }
 
   public getTokenState(token: string){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY + Constants.ROUTER_LINK_TOKEN_STATE;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY + Constants.ROUTER_LINK_TOKEN_STATE;
     console.log(fullUrl);
     return this.http.get(fullUrl + '/' + token).map(res => res.json());;
   }
 
   public updateHistoryUser(history:History){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
 
   public updateHistoryAdmin(history:History){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    let fullUrl=Constants.AOD_API_ADMIN_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
     console.log(fullUrl);
     let headers = this.buildRequestHeaders();
 		let requestBodyParams: any = this.createJsonFromString('history', history);
@@ -114,13 +114,13 @@ export class HistoriesService {
   }
 
   public updateMailHistoryUser(history:History){
-    let fullUrl=Constants.AOD_BASE_API_WEB_FOCUS + Constants.ROUTER_LINK_SERVICES_WEB +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_AND_EMAIL;
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL  +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY_AND_EMAIL;
     console.log(fullUrl)
     return this.http.post(fullUrl, history).map(res => res.json());;
   }
 
   public publishHistory(history: History) {
-    let fullUrl = Constants.AOD_BASE_API_ADMIN_FOCUS + Constants.ROUTER_LINK_SERVICES_ADMIN + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
+    let fullUrl = Constants.AOD_API_ADMIN_BASE_URL + Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_ENTIRE_HISTORY;
 		let headers = this.buildRequestHeaders();
 		let requestBodyParams: any = this.createJsonFromString('history', history);
     return this.http.post(fullUrl, JSON.stringify(requestBodyParams), { headers: headers }).map(res => res.json())

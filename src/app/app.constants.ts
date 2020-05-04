@@ -5,8 +5,6 @@ export class Constants {
   //public static SERVER_URL = 'https://opendata.aragon.es';
   //public static VISUAL_BACK_SERVER_URL =
     //Constants.SERVER_URL + '/apivisualdata';
-  public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
-  public static SERVER_URL = 'http://localhost:8080';
   public static LIST_ALL_HISTORIES_PATH = '/services/histories';
   public static SEND_MAIL_SAVE_ADMIN_HISTORY_PATH =
     Constants.LIST_ALL_HISTORIES_PATH + '/send_save_admin_mail';
@@ -33,20 +31,24 @@ export class Constants {
 
   // URLS
   //CAMBIAR CUANDO SE SUBA A DES!!!!!!!!!!
-  public static AOD_BASE_API_WEB_FOCUS = 'http://localhost:4200/aod';
-  public static AOD_BASE_API_ADMIN_FOCUS = 'http://localhost:4200/aod';
+  public static AOD_API_WEB_BASE_URL = 'http://localhost:4200/aod/services/web';
+  public static AOD_API_ADMIN_BASE_URL = 'http://localhost:4200/aod/services/admin';
   public static FOCUS_URL = 'http://localhost:4201/#';
   public static AOD_BASE_URL = 'http://localhost:7030';
+  public static VISUAL_BACK_SERVER_URL = 'http://localhost:8080';
+  public static SERVER_URL = 'http://localhost:8080';
 
 
-
+  //DEFINIR EN DES
+  //VISUAL_BACK_SERVER_URL Y SERVER_URL ARRIBA
+  //public static FOCUS_URL = ????;
   //public static AOD_BASE_URL = 'https://preopendata.aragon.es';
   public static PRESUPUESTOS_BASE_URL = 'http://prepresupuesto.aragon.es';
   public static AOD_ASSETS_BASE_URL = 'https://preopendata.aragon.es/static';
-  public static AOD_API_WEB_BASE_URL =
-    'https://preopendata.aragon.es/aod/services/web';
-  public static AOD_API_ADMIN_BASE_URL =
-    'https://preopendata.aragon.es/aod/services/admin';
+  //public static AOD_API_WEB_BASE_URL =
+    //'https://preopendata.aragon.es/aod/services/web';
+  //public static AOD_API_ADMIN_BASE_URL =
+    //'https://preopendata.aragon.es/aod/services/admin';
   public static AOD_API_SECURITY_BASE_URL =
     'https://preopendata.aragon.es/aod/services/security';
   public static AOD_API_CKAN_BASE_URL =
@@ -761,7 +763,6 @@ export class Constants {
 
   public static LOCALSTORAGE_KEY_MAIL='email';
   public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';
-  public static ROUTER_LINK_SERVICES_WEB='/services/web';
   public static ROUTER_LINK_SERVICES_ADMIN='/services/admin';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
