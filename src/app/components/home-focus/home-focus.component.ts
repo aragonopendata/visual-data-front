@@ -85,17 +85,17 @@ export class HomeFocusComponent implements OnInit {
           else if(this.state==this.stateEnum.desactivada){
             this.stateError=true
             this.tokenError=false
-            console.log("Historia no esta disponible")
+            //console.log("Historia no esta disponible")
           }
           else{
             this.stateError=true
             this.tokenError=false
-            console.log("Historia existe, pero no se puede modificar")
+            //console.log("Historia existe, pero no se puede modificar")
           }
         }else{
           this.tokenError=true
           this.stateError=false
-          console.log('Historia no existe')
+          //console.log('Historia no existe')
         }
       })
     }

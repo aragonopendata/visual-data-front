@@ -71,7 +71,6 @@ export class EditHistoryComponent implements OnInit {
 
       }
       else{
-        console.log('sin params')
         this.previewHistory = false;
       }
     });
@@ -134,7 +133,6 @@ export class EditHistoryComponent implements OnInit {
       this._historiesService.getHistoryBackUserByToken(token).subscribe(result => {
         if(result.success && result.history!=null){
           this.historyBack = result.history;
-          console.log(this.historyBack)
           this.updateWithBackHistory();
         }else{
           this.objectLoadFailure()
@@ -146,7 +144,6 @@ export class EditHistoryComponent implements OnInit {
       this._historiesService.getHistoryBackAdminByToken(token).subscribe(result => {
         if(result.success && result.history!=null){
           this.historyBack = result.history;
-          console.log(this.historyBack)
           this.updateWithBackHistory();
         }else{
           this.objectLoadFailure()
@@ -231,7 +228,6 @@ export class EditHistoryComponent implements OnInit {
         this.showAddContent = false;
         this.getState(button);
         if(!this.firstTime){
-          console.log('no es primera vez')
           if((this.historyBack.state==this.stateEnum.borrador)||(this.editAdmin)||((this.historyBack.state==this.stateEnum.publicada)&&(this.versionHistory))){//unico estado de momento editable por usuario o guardado de admin o versionar historia publicada
             this.operateWithHistory(Constants.UPDATE_HISTORY);
           }else if((this.historyBack.state==this.stateEnum.revision)&&(this.isAdmin)){//caso de que el admin vaya a actualizar estado
@@ -242,8 +238,6 @@ export class EditHistoryComponent implements OnInit {
           }
         }
         else{
-          console.log('es primera vez')
-          //this.emailForm.reset();
           this.operateWithHistory(Constants.SAVE_HISTORY)
         }
       }
@@ -360,12 +354,8 @@ export class EditHistoryComponent implements OnInit {
   }
 
   saveHistoryUser(){
-    console.log('saveHistory')
-      console.log(this.historyModel)
       this._historiesService.setHistory(this.historyModel).subscribe(result => {
-        console.log(result)
         if (result.status == 200 && result.success) {
-          console.log('ooook!')
           this.firstTime=true;
           this.historyModel.id=result.id;
           this.historyModel.token=result.token;
@@ -382,7 +372,7 @@ export class EditHistoryComponent implements OnInit {
           }
         }
         else{
-          console.log('Error set historia')
+          this.openModalError()
         }
       });
 
@@ -402,17 +392,17 @@ export class EditHistoryComponent implements OnInit {
             if(result.status==200){
               //mail enviado correctamente
             }else{
-              console.log('error envio mail!')
+              console.log('Error enviando el mail al usuario, pero historia publicada')
             }
           }, err =>{
-            console.log('error envio mail con error!')
+            console.log('Error enviando el mail al usuario, pero historia publicada')
           });
         }
       }else{
-        console.log('error publicando historia!')
+        this.openModalError()
+        console.log('Error publicando la historia')
       }
     }),err => {
-      console.log('Error al enviar correo usario');          
       this.openModalError()
     }
   }
@@ -424,26 +414,24 @@ export class EditHistoryComponent implements OnInit {
     this._historiesService.updateMailHistoryUser(this.historyModel).subscribe(result => {
       this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
         if(result.status==200){
-          console.log('Correo enviado al usuario')
           this.loadingModal=false;
           $('#successfullModalCenter').modal('show');
         } else {
-          console.log('Error enviandoel token de historia')
+          console.log('Error enviando el token de historia')
           this.openModalError()
         }
       },err => {
-        console.log('Error al enviar correo usario');          
+        console.log('Error enviando el token de historia');          
         this.openModalError()
       });
     },err => {
-      console.log('Error al enviar correo usario');
+      console.log('Error al actualizar correo usario');
       this.openModalError()
     });
   }
 
   
   updateHistory(){
-    console.log(this.historyModel)
     if(this.isAdmin){
       this._historiesService.updateHistoryAdmin(this.historyModel).subscribe(result => {
         this.updateHistoryResult(result)
