@@ -72,8 +72,8 @@ export class ViewHistoryComponent implements OnInit {
       this.secondCategories.forEach(cat => {
         if(cat.id==id){
           cat.selected=true;
-          console.log('secundarias:')
-          console.log(cat.name);
+          //console.log('secundarias:')
+          //console.log(cat.name);
         }
       });
     });
@@ -85,7 +85,7 @@ export class ViewHistoryComponent implements OnInit {
     if(this.preview){
 
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
-      console.log('principal:'+this.historySelect.main_category);
+      //console.log('principal:'+this.historySelect.main_category);
       if(this.historySelect.secondary_categories){
         this.getCategories(this.historySelect);
       }
@@ -98,9 +98,7 @@ export class ViewHistoryComponent implements OnInit {
 
     } else {
       if(this.isAdmin){
-        console.log('entro admin')
         this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
-          console.log(response.history)
           if(response.history.secondary_categories!=[]){
             this.getCategories(response.history);
           }
@@ -110,7 +108,6 @@ export class ViewHistoryComponent implements OnInit {
         });
       }
       else{
-        console.log('entro user')
         this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
           if(response.history.secondary_categories!=[]){
             this.getCategories(response.history);
