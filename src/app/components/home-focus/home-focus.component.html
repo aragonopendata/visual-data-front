@@ -6,13 +6,15 @@
 
         <!-- Search -->
         <div class="input-group col-8">
+          <label for="search" class="ocultar">Search</label>
           <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()">
             <i class="fa fa-plus"></i> Crear historia
           </button>
-
+          
           <div class="input-search">
             <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
-            <input type="text" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
+            
+            <input type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
             <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
             <i class="fa fa-search" aria-hidden="true"></i>
           </div>
@@ -105,7 +107,8 @@
           <form [formGroup]="tokenForm">
             <div class="modal-body">
               <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
-              <input type="text" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
+              <label for="token" class="ocultar">Token</label>
+              <input type="text" id="token" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
               <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
               <div *ngIf=tokenError class="alert alert-danger"  role="alert">
                 <!--<p> El token introducido es incorrecto. </p>-->
@@ -113,13 +116,13 @@
                 <p> Por favor, compruebe que el token corresponde con el que se le proporcionó </p>
               </div>
               <div *ngIf=stateError class="alert alert-danger"  role="alert">
-                <p *ngIf="state==this.stateEnum.revision">La historia a la que esta intentando acceder no se puede modificar ya que se encuentra en <b>estado de revisión.</b></p>
+                <p *ngIf="state==this.stateEnum.revision">La historia a la que esta intentando acceder no se puede modificar ya que se encuentra en <strong>estado de revisión.</strong></p>
                 <p *ngIf="state==this.stateEnum.desactivada">La historia no se encuentra disponible.</p>
               </div>
             </div>
             <div class="modal-footer">
               <!--Poner submit-->
-              <button type="button" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
+              <button type="submit" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
             </div>
           </form>
         </div>

@@ -13,9 +13,11 @@
 
           <!-- Titulo contenido -->
           <div class="group">
+            <label for="title_content">
               <h4 class="form-section-title">Título *</h4>
-              <p>Por favor, escribe una denominación del contenido</p>
-              <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event,'alineacion')">
+            </label>
+              <p>Por favor, escribe una denominación del contenido</p>              
+              <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event,'alineacion')">
               <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
           </div>
 
@@ -36,9 +38,9 @@
             </p>
 
             <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
-              <label class='form-row align-items-center'>
-                <input type="radio" [value]='contentType.type' formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span> 
-              </label>
+              <label class='form-row align-items-center' for="radio" class="ocultar">option</label>
+                <input type="radio" [value]='contentType.type' id="radio" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span> 
+              
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
                 <div class="form-row align-items-center">
@@ -83,7 +85,9 @@
 
 
           <div class="group">
-            <h4 class="form-section-title">Alineacion del contenido</h4>
+            <label for="alineacion">
+              <h4 class="form-section-title">Alineacion del contenido</h4>
+            </label>
             <select class="form-control select-cat1" formControlName="align" id="alineacion">
               <option  *ngFor="let align of alignsTypes" [ngValue]="align.type">{{align.text}}</option>
             </select>
@@ -96,7 +100,7 @@
   </div>
   <div class="actions">
     <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent()> Cancelar</button>      
-    <button class="btn-left btn btn-primary" type="button" (click)='saveContent()' [ngClass]="contentForm.invalid ? 'disabled' : '' ">Guardar contenido</button>
+    <button class="btn-left btn btn-primary" type="submit" (click)='saveContent()' [ngClass]="contentForm.invalid ? 'disabled' : '' ">Guardar contenido</button>
   </div>
 </form>
 

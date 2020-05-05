@@ -42,14 +42,15 @@
         <div class="tab-content">
           <div class="tab-pane active" id="content_tab" role="tabpanel">
             <!-- Titulo historia -->
-            <div>                        
-                <h4 class="form-section-title">Título *</h4>
+            <div>         
+                <label for="title_history">
+                  <h4 class="form-section-title">Título *</h4>
+                </label>               
                 <p>
                     Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
                 </p>
-                <label for="">
-                  <input class="col-12 form-control" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event, 'category')">
-                </label>
+                
+                <input class="col-12 form-control" id="title_history" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event, 'category')">
                 
                 <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>
@@ -78,8 +79,10 @@
               </p>
               
               <div class="group">
-                <h6>Categoría principal</h6>
-                <select class="form-control select-cat1" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)">
+                <label for="category">
+                  <h6>Categoría principal</h6>
+                </label>
+                <select class="form-control select-cat1" id="category" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)">
                   <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
                 </select>
               </div>
@@ -94,7 +97,7 @@
                   <div id="dropdown-cat2" *dropdownMenu class="dropdown-menu">
                     <div class="form-check" *ngFor="let category of secondCategories" (click)="getCategoriesSelected($event, category)">
                       <!--añadir for=-->
-                      <label *ngIf="!category.selectedPrincipal" class="container">
+                      <label *ngIf="!category.selectedPrincipal" class="container" >
                         <span class="checkmark" [ngClass]="{'selected': category.selected}"></span>
                         {{category.name}}
                       </label>
@@ -187,8 +190,9 @@
             <p *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token. Apúntelo para poder gestionar la historia</p>
             <p *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
             <div class="tokenSite col-12">
-              <textarea readonly #tokenGenerate class="tokenTextArea">{{historyModel.token}}</textarea>
-              <button type="button" class="btn fa fa-copy" (click)="copyToken()"></button>
+              <label for="history_token" class="ocultar">Token</label>
+              <textarea readonly #tokenGenerate id="history_token" class="tokenTextArea">{{historyModel.token}}</textarea>
+              <button type="button" class="btn fa fa-copy" (click)="copyToken()" ></button>
             </div>
             <div *ngIf=!haveMail>
               <div class="modal-header">
@@ -197,12 +201,12 @@
               <form [formGroup]="emailForm">
                 <div class="modal-body">
                   <p>Puede dejar su correo para ser notificado cuando se produzcan algunos cambios en el estado de su historia o si desea recibir el token en su correo electrónico</p>
-
-                  <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm($event)">
+                  <label for="email" class="ocultar">email</label>
+                  <input type="text" id="email" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm($event)">
                   <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm($event)">Enviar</button>
+                  <button type="submit" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm($event)">Enviar</button>
                 </div>
               </form> 
             </div>
