@@ -187,8 +187,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title" *ngIf="historyBack.state != stateEnum.publicada" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h1>
-          <h1 class="modal-title" *ngIf="historyBack.state == stateEnum.publicada" id="successfullModalCenterTitle">¡Historia publicada correctamente!</h1>
+          <h3 class="modal-title form-section-title" *ngIf="historyBack.state != stateEnum.publicada" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h3>
+          <h3 class="modal-title form-section-title" *ngIf="historyBack.state == stateEnum.publicada" id="successfullModalCenterTitle">¡Historia publicada correctamente!</h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="viewHistory()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -205,7 +205,7 @@
             <div *ngIf=!haveMail>
               <div class="modal-header">
                 <!--poner como parrafo??-->
-                <h2 class="modal-title" id="emailModalCenterTitle">¿Desea realizar un seguimiento de la historia?</h2>
+                <h4 class="modal-title form-section-title" id="emailModalCenterTitle">¿Desea realizar un seguimiento de la historia?</h4>
               </div>
               <form [formGroup]="emailForm">
                 <div class="modal-body">
