@@ -6,6 +6,7 @@ import { History } from '../../models/History';
 import { Category } from '../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { State } from '../../models/State';
+import { UtilsService } from '../exportedFunctions/utils.service';
 
 declare var $: any;
 
@@ -31,13 +32,23 @@ export class HomeFocusComponent implements OnInit {
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
   stateEnum: typeof State = State;
   state: number;
+  openedMenu: boolean;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder, ) { }
+  constructor(private utilsService: UtilsService, private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) {
+    this.getOpenedMenu();
+   }
 
   ngOnInit() {
     this.getCategories();
     this.getHistories(null, null);
     this.initiateForm();
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+      console.log(value)
+    });
   }
 
   getCategories(){

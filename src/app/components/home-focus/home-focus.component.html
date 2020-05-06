@@ -6,8 +6,8 @@
 
         <!-- Search -->
         <div class="input-group col-8">
-          <label for="search" class="ocultar">Search</label>
-          <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()">
+          <label for="search" class="ocultar" tabindex="{{openedMenu ? -1 : 0}}">Search</label>
+          <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
             <i class="icon fa-plus" aria-hidden="true"></i> Crear historia
             <span class="sr-only">Crear historia</span> 
           </button>
@@ -15,33 +15,33 @@
           <div class="input-search">
             <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
             
-            <input type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
+            <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
             <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
             <i class="icon fa-search" aria-hidden="true"></i>
             <span class="sr-only">Buscar</span> 
           </div>
 
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="getHistories(searchInput.value,null)">Buscar</button>
+            <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-secondary" type="button" (click)="getHistories(searchInput.value,null)">Buscar</button>
           </div>
         </div>
 
         <!-- categories -->
         <ul class="list-categories nav justify-content-center">
           <li class="nav-item" *ngFor="let category of categoriesVisible">
-            <span class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+            <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
           </li>
         </ul>
 
         <div *ngIf='viewMoreCategories' class="list-categories">
           <ul class="nav justify-content-center">
             <li class="nav-item" *ngFor="let category of categoriesHidden">
-              <span class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+              <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
             </li>
           </ul>
         </div>
         
-        <button *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
+        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn btn-view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
           <!--Fallo Se usan 4 elementos o atributos HTML para controlar la presentación del texto (poner title)-->
           <i *ngIf='!viewMoreCategories' class="icon fa-angle-down" aria-hidden="true"></i>
           <span class="sr-only">Ver mas</span> 
@@ -55,14 +55,14 @@
         <div class="histories">
           <div>
             <div *ngFor="let history of histories">
-              <div class="card"  (click)="getHistory(history.id)">
-                <img *ngIf="history.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="" longdesc="salud">
-                <img *ngIf="history.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="" longdesc="agricultura">
-                <img *ngIf="history.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="" longdesc="educacion">
-                <img *ngIf="history.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="" longdesc="transportes">
-                <img *ngIf="history.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="" longdesc="vivienda">
-                <img *ngIf="history.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="" longdesc="cultura">
-                <img *ngIf="history.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="" longdesc="trabajo">
+              <div tabindex="{{openedMenu ? -1 : 0}}" class="card"  (click)="getHistory(history.id)">
+                <img *ngIf="history.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="historia de la categoria salud" longdesc="salud">
+                <img *ngIf="history.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="historia de la categoria agricultura" longdesc="agricultura">
+                <img *ngIf="history.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="historia de la categoria educacion" longdesc="educacion">
+                <img *ngIf="history.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="historia de la categoria transportes" longdesc="transportes">
+                <img *ngIf="history.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="historia de la categoria vivienda" longdesc="vivienda">
+                <img *ngIf="history.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="historia de la categoria cultura" longdesc="cultura">
+                <img *ngIf="history.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="historia de la categoria trabajo" longdesc="trabajo">
                 <div class="opacity"></div>
                 <div class="text"><span>{{history.title}}</span></div>
               </div>
