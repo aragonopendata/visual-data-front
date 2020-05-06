@@ -8,7 +8,8 @@
         <div class="input-group col-8">
           <label for="search" class="ocultar">Search</label>
           <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()">
-            <i class="fa fa-plus"></i> Crear historia
+            <i class="icon fa-plus" aria-hidden="true"></i> Crear historia
+            <span class="sr-only">Crear historia</span> 
           </button>
           
           <div class="input-search">
@@ -16,7 +17,8 @@
             
             <input type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
             <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
-            <i class="fa fa-search" aria-hidden="true"></i>
+            <i class="icon fa-search" aria-hidden="true"></i>
+            <span class="sr-only">Buscar</span> 
           </div>
 
           <div class="input-group-append">
@@ -41,8 +43,10 @@
         
         <button *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
           <!--Fallo Se usan 4 elementos o atributos HTML para controlar la presentación del texto (poner title)-->
-          <i *ngIf='!viewMoreCategories' class="fa fa-angle-down"></i>
-          <i *ngIf='viewMoreCategories' class="fa fa-angle-up"></i>
+          <i *ngIf='!viewMoreCategories' class="icon fa-angle-down" aria-hidden="true"></i>
+          <span class="sr-only">Ver mas</span> 
+          <i *ngIf='viewMoreCategories' class="icon fa-angle-up" aria-hidden="true"></i>
+          <span class="sr-only">Ver menos</span> 
           <span *ngIf='!viewMoreCategories'>Ver mas</span>
           <span *ngIf='viewMoreCategories'>Ver menos</span>
         </button> 
@@ -52,13 +56,13 @@
           <div>
             <div *ngFor="let history of histories">
               <div class="card"  (click)="getHistory(history.id)">
-                <img *ngIf="history.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="...">
-                <img *ngIf="history.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="...">
-                <img *ngIf="history.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="...">
-                <img *ngIf="history.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="...">
-                <img *ngIf="history.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="...">
-                <img *ngIf="history.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="...">
-                <img *ngIf="history.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="...">
+                <img *ngIf="history.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="" longdesc="salud">
+                <img *ngIf="history.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="" longdesc="agricultura">
+                <img *ngIf="history.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="" longdesc="educacion">
+                <img *ngIf="history.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="" longdesc="transportes">
+                <img *ngIf="history.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="" longdesc="vivienda">
+                <img *ngIf="history.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="" longdesc="cultura">
+                <img *ngIf="history.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="" longdesc="trabajo">
                 <div class="opacity"></div>
                 <div class="text"><span>{{history.title}}</span></div>
               </div>

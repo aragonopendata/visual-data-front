@@ -3,13 +3,15 @@
   <div class="alert alert-info" role="alert">
       <div class="row">
           <div class="col-xs-3">
-              <i class="fa fa-exclamation-triangle fa-5x" style="margin:15px;color: #5ea2ba;"></i>
+              <i class="icon fa-exclamation-triangle fa-5x" aria-hidden="true" style="margin:15px;color: #5ea2ba;"></i>
+              <span class="sr-only">Error</span>
           </div>
           <div class="col-xs-9">
               <h1>{{errorTitle}}</h1>
               <h2>{{errorMessage}}</h2>
               <a class="mail" href="mailto:opendata@aragon.es">
-                  <h2> <i class="fa fa-envelope"></i> Contactar con el Administrador</h2>
+                  <h2> <i class="icon fa-envelope" aria-hidden="true"></i> Contactar con el Administrador</h2>
+                  <span class="sr-only">Enviar correo</span>
               </a>
           </div>
       </div>
@@ -20,11 +22,13 @@
 <div class="loading text-center" *ngIf="loading">
   <div class="loadingText" *ngIf="previewHistory">Cargando historia</div><br/><br/>
   <div class="loadingText" *ngIf="!previewHistory">Cargando...</div><br/><br/>
-  <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><br/><br/> 
+  <i class="icon fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i><br/><br/>
+  <span class="sr-only">Cargando</span> 
 </div>
 <div class="loading loading-overlay" *ngIf="loadingModal">
   <div class="inner">
-    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    <i class="icon fa-circle-o-notch fa-spin fa-3x fa-fw" aria-hidden="true"></i>
+    <span class="sr-only">Cargando</span>
   </div>
 </div>
 
@@ -33,7 +37,7 @@
 <div *ngIf="!loading && !errorTitle">
 
   <div class="row title">
-    <h2>Crear una nueva historia</h2>
+    <h2 class="form-section-title">Crear una nueva historia</h2>
   </div>
   
   <form [formGroup]="historyForm">
@@ -44,7 +48,7 @@
             <!-- Titulo historia -->
             <div>         
                 <label for="title_history">
-                  <h4 class="form-section-title">Título *</h4>
+                  <h3 class="form-section-title">Título *</h3>
                 </label>               
                 <p>
                     Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
@@ -57,7 +61,7 @@
   
             <!-- Descripcion historia -->
             <div>
-              <h4 class="form-section-title">Descripción</h4>
+              <h3 class="form-section-title">Descripción</h3>
               <p>
                 La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente
                 qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
@@ -71,7 +75,7 @@
             <!-- Categorias historia -->
             <!-- Categoria primaria -->
             <div>
-              <h4 class="form-section-title">Categorización</h4>
+              <h3 class="form-section-title">Categorización</h3>
               <p>
                 Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
                 para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
@@ -80,7 +84,7 @@
               
               <div class="group">
                 <label for="category">
-                  <h6>Categoría principal</h6>
+                  <h4 class="form-section-title">Categoría principal</h4>
                 </label>
                 <select class="form-control select-cat1" id="category" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)">
                   <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
@@ -88,7 +92,7 @@
               </div>
               
               <div class="group">
-                <h6>Categorías secundarias</h6>
+                <h4 class="form-section-title">Categorías secundarias</h4>
   
                 <div class="btn-group select-cat2" dropdown> 
                   <button id="button-cat2" dropdownToggle type="button" class="btn btn-outline-secondary dropdown-toggle">
@@ -118,17 +122,21 @@
 
             <!-- Lista de contenidos -->
             <div class="contents-select" *ngIf="contents && contents.length > 0">
-              <h4 class="form-section-title">Contenidos</h4>
+              <h3 class="form-section-title">Contenidos</h3>
               <div *ngFor="let content of contents; let i = index">
-                <i class="fa fa-edit" (click)="editContent(content,i)"></i>
-                <i class="fa fa-trash" (click)="deleteContent(content)"></i>
+                <!--<i aria-hidden="true" title="edit" class="fa fa-edit" (click)="editContent(content,i)"></i>-->
+                <i class="icon fa-edit" aria-hidden="true" title="edit" (click)="editContent(content,i)"></i>
+                <span class="sr-only">Editar contenido</span>
+                <i aria-hidden="true" title="eiminar" class="fa fa-trash" (click)="deleteContent(content)"></i>
+                <span class="sr-only">Eliminar contenido</span>
                 <p><span>Titulo: </span>{{content.title}} </p>
               </div>
             </div> 
   
             <!-- Add content -->
             <button *ngIf="!showAddContent" class="btn-add-content btn btn-outline-secondary" type="button" (click)="addNewContent()">
-              <i class="fa fa-plus"></i> Añadir contenido
+              <i class="icon fa-plus"></i> Añadir contenido
+              <span class="sr-only">Añadir contenido</span>
             </button>
   
             <div #newContentElement *ngIf="showAddContent">
@@ -179,8 +187,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" *ngIf="historyBack.state != stateEnum.publicada" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h5>
-          <h5 class="modal-title" *ngIf="historyBack.state == stateEnum.publicada" id="successfullModalCenterTitle">¡Historia publicada correctamente!</h5>
+          <h1 class="modal-title" *ngIf="historyBack.state != stateEnum.publicada" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h1>
+          <h1 class="modal-title" *ngIf="historyBack.state == stateEnum.publicada" id="successfullModalCenterTitle">¡Historia publicada correctamente!</h1>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="viewHistory()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -196,7 +204,8 @@
             </div>
             <div *ngIf=!haveMail>
               <div class="modal-header">
-                <h6 class="modal-title" id="emailModalCenterTitle">¿Desea realizar un seguimiento de la historia?</h6>
+                <!--poner como parrafo??-->
+                <h2 class="modal-title" id="emailModalCenterTitle">¿Desea realizar un seguimiento de la historia?</h2>
               </div>
               <form [formGroup]="emailForm">
                 <div class="modal-body">
@@ -226,8 +235,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 *ngIf="(isAdmin || (historyBack.state != stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h5>
-          <h5 *ngIf="(!isAdmin && (historyBack.state == stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h5>
+          <h1 *ngIf="(isAdmin || (historyBack.state != stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h1>
+          <h1 *ngIf="(!isAdmin && (historyBack.state == stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h1>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -262,7 +271,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="questionContPreviousTitle">Info contenido</h5>
+          <h1 class="modal-title" id="questionContPreviousTitle">Info contenido</h1>
         </div>
         <div class="modal-body">
           <p >Si edita el contenido, perderá los cambios del contenido que se está editando en este momento con título . ¿Desea continuar?</p>
@@ -280,7 +289,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="questionDeleteContentTitle">Borrar contenido</h5>
+          <h1 class="modal-title" id="questionDeleteContentTitle">Borrar contenido</h1>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDeleteContentModal()">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -300,6 +309,3 @@
   </div>
 
 </div>
-
-
-

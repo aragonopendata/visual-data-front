@@ -1,4 +1,17 @@
-h1, h2, h3, h4, h5, h6 {
+/*h1, h2, h3, h4, h5, h6 {
+    font-family: 'RobotoLight', sans-serif;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    color: #5ea2ba;
+    font-weight: 300;
+}*/
+
+.form-section-title{
+    /*font-weight: bold;
+    font-family: inherit;*/
+    display: block;
+    margin-top: 0.75rem;
+
     font-family: 'RobotoLight', sans-serif;
     line-height: 1;
     letter-spacing: 0.1em;
@@ -6,11 +19,15 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 }
 
-.form-section-title{
-    font-weight: bold;
-    font-family: inherit;
-    display: block;
-    margin-top: 0.75rem;
+.icon::before {
+    display: inline-block;
+    margin-right: .5em;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
 }
 
 .form-section{
