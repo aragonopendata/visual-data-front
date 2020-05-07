@@ -8,7 +8,7 @@
         <div class="input-group col-8">
           <label for="search" class="ocultar" tabindex="{{openedMenu ? -1 : 0}}">Search</label>
           <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
-            <i class="icon fa-plus" aria-hidden="true"></i> Crear historia
+            <div class="icon-fa fa fa-plus" tabindex="{{openedMenu ? -1 : 0}}"></div> Crear historia
             <span class="sr-only">Crear historia</span> 
           </button>
           
@@ -17,7 +17,7 @@
             
             <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
             <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
-            <i class="icon fa-search" aria-hidden="true"></i>
+            <div class="icon-fa fa fa-search" tabindex="{{openedMenu ? -1 : 0}}"></div>
             <span class="sr-only">Buscar</span> 
           </div>
 
@@ -43,9 +43,9 @@
         
         <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
           <!--Fallo Se usan 4 elementos o atributos HTML para controlar la presentación del texto (poner title)-->
-          <i *ngIf='!viewMoreCategories' class="icon fa-angle-down" aria-hidden="true"></i>
+          <div *ngIf='!viewMoreCategories' class="icon-fa fa fa-angle-down" tabindex="{{openedMenu ? -1 : 0}}"></div>
           <span class="sr-only">Ver mas</span> 
-          <i *ngIf='viewMoreCategories' class="icon fa-angle-up" aria-hidden="true"></i>
+          <div *ngIf='viewMoreCategories' class="icon-fa fa fa-angle-up" tabindex="{{openedMenu ? -1 : 0}}"></div>
           <span class="sr-only">Ver menos</span> 
           <span *ngIf='!viewMoreCategories'>Ver mas</span>
           <span *ngIf='viewMoreCategories'>Ver menos</span>

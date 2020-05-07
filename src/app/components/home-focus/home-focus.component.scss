@@ -21,6 +21,13 @@
                     top: calc(50% - 9px);
                     color: rgb(108, 117, 125);
                 }
+                .icon-fa{
+                    font-size: 18px;
+                    position: absolute;
+                    right: 14px;
+                    top: calc(50% - 9px);
+                    color: rgb(108, 117, 125);
+                }
             }
         }
         .list-categories {
@@ -44,6 +51,9 @@
                 text-decoration: underline;
             }
             i{
+                font-size: 18px;
+            }
+            .icon-fa{
                 font-size: 18px;
             }
         }
