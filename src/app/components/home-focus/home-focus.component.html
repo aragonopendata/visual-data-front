@@ -27,21 +27,21 @@
         </div>
 
         <!-- categories -->
-        <ul class="list-categories nav justify-content-center">
-          <li class="nav-item" *ngFor="let category of categoriesVisible">
+        <ul class="list-categories nav justify-content-center fist-categories">
+          <li class="nav-item " *ngFor="let category of categoriesVisible">
             <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
           </li>
         </ul>
 
-        <div *ngIf='viewMoreCategories' class="list-categories">
-          <ul class="nav justify-content-center">
+        <div *ngIf='viewMoreCategories'>
+          <ul class="nav justify-content-center list-categories">
             <li class="nav-item" *ngFor="let category of categoriesHidden">
               <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
             </li>
           </ul>
         </div>
         
-        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn btn-view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
+        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
           <!--Fallo Se usan 4 elementos o atributos HTML para controlar la presentación del texto (poner title)-->
           <i *ngIf='!viewMoreCategories' class="icon fa-angle-down" aria-hidden="true"></i>
           <span class="sr-only">Ver mas</span> 

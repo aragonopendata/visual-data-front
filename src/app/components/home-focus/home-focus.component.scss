@@ -24,7 +24,9 @@
             }
         }
         .list-categories {
-            margin-top: 1rem;
+            &.fist-categories{
+                margin-top: 1rem;
+            }
             .nav-item{
                 cursor: pointer;
                 .selected{
@@ -82,12 +84,12 @@
                         top: 0;
                         left: 0;
                         height: 100%;
-                        z-index: 9999;
+                        z-index: 1;
                         width: 100%;
                     }
                     .text {
                         position: absolute;
-                        z-index: 99999;
+                        z-index: 1;
                         font-weight: bold;
                         text-align: center;
                         span{
@@ -110,7 +112,7 @@
 }
 
 .modal{
-    z-index: 99999;
+    z-index: 9999;
     .simulateLink{
         color: #007bff;
         text-decoration: none;
