@@ -41,7 +41,7 @@
           </ul>
         </div>
         
-        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn btn-view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
+        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
           <!--Fallo Se usan 4 elementos o atributos HTML para controlar la presentación del texto (poner title)-->
           <div *ngIf='!viewMoreCategories' class="icon-fa fa fa-angle-down" tabindex="{{openedMenu ? -1 : 0}}"></div>
           <span class="sr-only">Ver mas</span> 
