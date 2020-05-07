@@ -18,6 +18,7 @@
             </label>
               <p>Por favor, escribe una denominación del contenido</p>              
               <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event,'alineacion')">
+              <span class="sr-only">Titulo del contenido</span>
               <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
           </div>
 
@@ -26,6 +27,7 @@
             <h4 class="form-section-title">Contenido</h4>
             <p>El contenido de la historia es lo que quieres contar, con la ayuda de los distintos gráficos que aporta el portal de Aragon Open Data</p>
             <angular-tinymce id="editorContent" [settings]="settings" formControlName="description"></angular-tinymce>
+            <span class="sr-only">Descripcion del contenido</span>
           </div> 
 
           <!-- Fuente de datos -->
@@ -39,7 +41,8 @@
 
             <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
               <label class='form-row align-items-center' for="radio" class="ocultar">option</label>
-                <input type="radio" [value]='contentType.type' id="radio" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span> 
+                <input type="radio" [value]='contentType.type' id="radio" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
+                <span class="sr-only">{{contentType.text}}</span> 
               
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
@@ -47,6 +50,7 @@
                   <div class="col-auto">
                     <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold">La gráfica seleccionada es: {{graphTitle}}</p>
                     <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()'>Abrir Open Visual Data</button>
+                    <span class="sr-only">Abrir Open Visual Data para selecionar grafica</span>
                   </div>
                 </div>
               </div>
@@ -60,6 +64,7 @@
                         <div class="input-group-text">https://www.youtube.com/watch?=</div>
                       </div>
                       <input type="text" class="form-control" formControlName="visual_content" id="idYoutube" placeholder="Id del video">
+                      <span class="sr-only">Id del video de youtube</span>
                     </div>
                   </div>
                 </div>
@@ -74,6 +79,7 @@
                         <div class="input-group-text">https://www.slideshare.net/</div>
                       </div>
                       <input type="text" class="form-control" formControlName="visual_content" id="idSlideShare" placeholder="Id del Slide share">
+                      <span class="sr-only">Id del slideshare</span>
                     </div>
                   </div>
                 </div>
@@ -90,6 +96,7 @@
             </label>
             <select class="form-control select-cat1" formControlName="align" id="alineacion">
               <option  *ngFor="let align of alignsTypes" [ngValue]="align.type">{{align.text}}</option>
+              <span class="sr-only">Alineacion: {{align.text}}</span>
             </select>
           </div>
 
@@ -99,8 +106,10 @@
     </div>
   </div>
   <div class="actions">
-    <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent()> Cancelar</button>      
+    <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent()> Cancelar</button>
+    <span class="sr-only">Cancelar crear contenido</span>      
     <button class="btn-left btn btn-primary" type="submit" (click)='saveContent()' [ngClass]="contentForm.invalid ? 'disabled' : '' ">Guardar contenido</button>
+    <span class="sr-only">Guardar contenido</span>
   </div>
 </form>
 
