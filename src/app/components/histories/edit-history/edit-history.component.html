@@ -88,8 +88,11 @@
                   <h4 class="form-section-title">Categoría principal</h4>
                 </label>
                 <select class="form-control select-cat1" id="category" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)">
-                  <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
-                  <!--<span class="sr-only">Categoria principal: {{category.name}}</span>-->
+                  <div *ngFor="let category of categories">
+                    <option   [ngValue]="category.id">{{category.name}}</option>
+                    <span class="sr-only">Categoria principal: {{category.name}}</span>
+                  </div>
+                  
                 </select>
               </div>
               
@@ -242,8 +245,8 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 *ngIf="(isAdmin || (historyBack.state != stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h1>
-          <h1 *ngIf="(!isAdmin && (historyBack.state == stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h1>
+          <h1 *ngIf="(isAdmin || (historyBack.state != stateEnum.revision))" class="modal-title form-section-title" id="errorModalCenterTitle">Se ha producido un error</h1>
+          <h1 *ngIf="(!isAdmin && (historyBack.state == stateEnum.revision))" class="modal-title form-section-title" id="errorModalCenterTitle">Operación no permitida</h1>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span class="sr-only">Cerrar modal de error</span>
             <span aria-hidden="true">&times;</span>
@@ -279,7 +282,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title" id="questionContPreviousTitle">Info contenido</h1>
+          <h1 class="modal-title form-section-title" id="questionContPreviousTitle">Info contenido</h1>
         </div>
         <div class="modal-body">
           <p >Si edita el contenido, perderá los cambios del contenido que se está editando en este momento con título . ¿Desea continuar?</p>
@@ -297,7 +300,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title" id="questionDeleteContentTitle">Borrar contenido</h1>
+          <h1 class="modal-title form-section-title" id="questionDeleteContentTitle">Borrar contenido</h1>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDeleteContentModal()">
             <span class="sr-only">Cerrar modal borrar contenido</span>
             <span aria-hidden="true">&times;</span>
