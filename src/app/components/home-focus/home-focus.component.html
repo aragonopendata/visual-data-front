@@ -6,9 +6,9 @@
 
         <!-- Search -->
         <div class="input-group col-8">
-          <label for="search" class="ocultar" tabindex="{{openedMenu ? -1 : 0}}">Search</label>
-          <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
-            <div class="icon-fa fa fa-plus" tabindex="{{openedMenu ? -1 : 0}}"></div> Crear historia
+          <label for="crearHistoria" class="ocultar" tabindex="{{openedMenu ? -1 : 0}}">Crear historia</label>
+          <button class="btn btn-primary" id="crearHistoria" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
+            <div class="icon-fa fa fa-plus"></div> Crear historia
             <span class="sr-only">Crear historia</span> 
           </button>
           
@@ -16,13 +16,14 @@
             <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
             
             <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
+            <span class="sr-only">Buscador: Introduce el titulo de una historia</span> 
             <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
-            <div class="icon-fa fa fa-search" tabindex="{{openedMenu ? -1 : 0}}"></div>
-            <span class="sr-only">Buscar</span> 
+            <div class="icon-fa fa fa-search"></div>
           </div>
 
           <div class="input-group-append">
             <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-secondary" type="button" (click)="getHistories(searchInput.value,null)">Buscar</button>
+            <span class="sr-only">Buscar historia</span>
           </div>
         </div>
 
@@ -30,6 +31,7 @@
         <ul class="list-categories nav justify-content-center fist-categories">
           <li class="nav-item " *ngFor="let category of categoriesVisible">
             <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+            <span class="sr-only">Categoria: {{category.name}}</span>
           </li>
         </ul>
 
@@ -37,6 +39,7 @@
           <ul class="nav justify-content-center list-categories">
             <li class="nav-item" *ngFor="let category of categoriesHidden">
               <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+              <span class="sr-only">Categoria: {{category.name}}</span>
             </li>
           </ul>
         </div>
@@ -65,7 +68,9 @@
                 <img *ngIf="history.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="historia de la categoria trabajo" longdesc="trabajo">
                 <div class="opacity"></div>
                 <div class="text"><span>{{history.title}}</span></div>
+                
               </div>
+              <span class="sr-only">Historia: {{history.title}}</span>
             </div>
           </div>
         </div>
@@ -83,6 +88,7 @@
         <!--Fallo En 1 caso los encabezados no están anidados correctamente-->
         <h5 class="modal-title" id="homeModalCenterTitle">Gestión de historias</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span class="sr-only">Cerrar modal gestion de historias</span>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -95,11 +101,12 @@
           <p>
             Si lo que quiere es modificar una historia que creo previamente haga click en el siguiente enlace.
           </p>
-          <a (click)="updateHistoryHiperLink()" class="simulateLink"> Modificar</a>
-
+          <a tabindex="{{openedMenu ? -1 : 0}}" (click)="updateHistoryHiperLink()" (keyup.enter)="updateHistoryHiperLink()" class="simulateLink"> Modificar</a>
+          <span class="sr-only">Modificar historia</span>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
+          <span class="sr-only">Crear una historia nueva</span>
         </div>
       </div>
 
@@ -113,6 +120,7 @@
               <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
               <label for="token" class="ocultar">Token</label>
               <input type="text" id="token" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
+              <span class="sr-only">Introducir token de la historia que quieres modificar</span>
               <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
               <div *ngIf=tokenError class="alert alert-danger"  role="alert">
                 <!--<p> El token introducido es incorrecto. </p>-->
@@ -127,6 +135,7 @@
             <div class="modal-footer">
               <!--Poner submit-->
               <button type="submit" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
+              <span class="sr-only">Buscar</span>
             </div>
           </form>
         </div>

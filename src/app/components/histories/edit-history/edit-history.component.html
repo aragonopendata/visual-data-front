@@ -55,7 +55,7 @@
                 </p>
                 
                 <input class="col-12 form-control" id="title_history" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event, 'category')">
-                
+                <span class="sr-only">Titulo de la historia</span>
                 <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>
   
@@ -70,6 +70,7 @@
                 la realidad del dato.
               </p>
               <angular-tinymce id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
+              <span class="sr-only">Descripcion de la historia</span>
             </div>
   
             <!-- Categorias historia -->
@@ -88,6 +89,7 @@
                 </label>
                 <select class="form-control select-cat1" id="category" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)">
                   <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
+                  <!--<span class="sr-only">Categoria principal: {{category.name}}</span>-->
                 </select>
               </div>
               
@@ -96,14 +98,15 @@
   
                 <div class="btn-group select-cat2" dropdown> 
                   <button id="button-cat2" dropdownToggle type="button" class="btn btn-outline-secondary dropdown-toggle">
+                    <span class="sr-only">Categoria secundaria</span>
                     Seleccione las categorias <span class="caret"></span>
                   </button>
                   <div id="dropdown-cat2" *dropdownMenu class="dropdown-menu">
                     <div class="form-check" *ngFor="let category of secondCategories" (click)="getCategoriesSelected($event, category)">
-                      <!--añadir for=-->
                       <label *ngIf="!category.selectedPrincipal" class="container" for="category">
                         <span class="checkmark" id="category" [ngClass]="{'selected': category.selected}"></span>
                         {{category.name}}
+                        <span class="sr-only">Categoria secundaria: {{category.name}}</span>
                       </label>
                     </div>
                   </div>
@@ -135,6 +138,7 @@
   
             <!-- Add content -->
             <button *ngIf="!showAddContent" class="btn-add-content btn btn-outline-secondary" type="button" (click)="addNewContent()">
+              <span class="sr-only">Añadir contenido</span>
               <div class="icon-fa fa fa-plus" tabindex="{{openedMenu ? -1 : 0}}"></div> Añadir contenido
               <span class="sr-only">Añadir contenido</span>
             </button>
@@ -151,11 +155,11 @@
       </div>
     </div>
     <div class="actions" *ngIf="!loadingModal">
-        <button *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador || historyBack.state == stateEnum.publicada)))" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
-        <button #btnSave *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador)))"  id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button>       
-        <button #btnRevision *ngIf="(!isAdmin && (historyBack.state == stateEnum.borrador))" id="btnSendRevision" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
-        <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="submit" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
-        <button #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Enviar a revision</button>
+        <button *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador || historyBack.state == stateEnum.publicada)))" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button><span class="sr-only">Previsualizar</span>
+        <button #btnSave *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador)))"  id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button><span class="sr-only">Guardar historia</span>       
+        <button #btnRevision *ngIf="(!isAdmin && (historyBack.state == stateEnum.borrador))" id="btnSendRevision" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button><span class="sr-only">Enviar a revisión</span>
+        <button #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="submit" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button><span class="sr-only">Publicar</span>
+        <button #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Enviar a revision</button><span class="sr-only">Enviar a revision</span>
     </div>
   </form>
   
@@ -190,6 +194,7 @@
           <h3 class="modal-title form-section-title" *ngIf="historyBack.state != stateEnum.publicada" id="successfullModalCenterTitle">¡Historia guardada correctamente!</h3>
           <h3 class="modal-title form-section-title" *ngIf="historyBack.state == stateEnum.publicada" id="successfullModalCenterTitle">¡Historia publicada correctamente!</h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="viewHistory()">
+            <span class="sr-only">Cerrar modal historia guardada</span>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -201,6 +206,7 @@
               <label for="history_token" class="ocultar">Token</label>
               <textarea readonly #tokenGenerate id="history_token" class="tokenTextArea">{{historyModel.token}}</textarea>
               <button type="button" class="btn fa fa-copy" (click)="copyToken()" ></button>
+              <span class="sr-only">Copiar Token</span>
             </div>
             <div *ngIf=!haveMail>
               <div class="modal-header">
@@ -216,6 +222,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm($event)">Enviar</button>
+                  <span class="sr-only">Enviar email</span>
                 </div>
               </form> 
             </div>
@@ -238,6 +245,7 @@
           <h1 *ngIf="(isAdmin || (historyBack.state != stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</h1>
           <h1 *ngIf="(!isAdmin && (historyBack.state == stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Operación no permitida</h1>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="sr-only">Cerrar modal de error</span>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -277,8 +285,8 @@
           <p >Si edita el contenido, perderá los cambios del contenido que se está editando en este momento con título . ¿Desea continuar?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="confirmEditContent(false)">Cancelar</button>
-          <button type="button" class="btn btn-primary" (click)="confirmEditContent(true)">Confirmar</button>
+          <button type="button" class="btn btn-primary" (click)="confirmEditContent(false)">Cancelar</button><span class="sr-only">Cancelar, volver a editar</span>
+          <button type="button" class="btn btn-primary" (click)="confirmEditContent(true)">Confirmar</button><span class="sr-only">Confirmar, perder cambios</span>
         </div>
       </div>
     </div>
@@ -291,6 +299,7 @@
         <div class="modal-header">
           <h1 class="modal-title" id="questionDeleteContentTitle">Borrar contenido</h1>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDeleteContentModal()">
+            <span class="sr-only">Cerrar modal borrar contenido</span>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -300,9 +309,9 @@
           <p *ngIf="previousButton">Si realiza esta acción, el contenido que está editando se perderá. ¿Desea continuar con la acción y perderlo o volver para guardar el mismo? </p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Volver</button>
-          <button *ngIf="!showAddContent  && !previousButton" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button>
-          <button *ngIf="previousButton" type="button" class="btn btn-primary" (click)="getHistoryForm(null, false)">Confirmar</button>
+          <button type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Volver</button><span class="sr-only">Volver, no borrar el contenido</span>
+          <button *ngIf="!showAddContent  && !previousButton" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
+          <button *ngIf="previousButton" type="button" class="btn btn-primary" (click)="getHistoryForm(null, false)">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
         </div>
       </div>
     </div>
