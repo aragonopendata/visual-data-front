@@ -40,9 +40,9 @@
             </p>
 
             <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
-              <label class='form-row align-items-center' for="radio" class="ocultar">option</label>
-                <input tabindex="{{openedMenu ? -1 : 0}}" type="radio" [value]='contentType.type' id="radio" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
-                <span class="sr-only">{{contentType.text}}</span> 
+              <label class='form-row align-items-center' for="{{contentType.text}}" class="ocultar">option</label>
+              <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
+              <span class="sr-only">{{contentType.text}}</span> 
               
 
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
@@ -94,9 +94,12 @@
             <label for="alineacion">
               <h4 tabindex="{{openedMenu ? -1 : 0}}" class="form-section-title">Alineacion del contenido</h4>
             </label>
-            <select tabindex="{{openedMenu ? -1 : 0}}" class="form-control select-cat1" formControlName="align" id="alineacion">
-              <option  *ngFor="let align of alignsTypes" [ngValue]="align.type">{{align.text}}</option>
-              <!--<span class="sr-only">Alineacion: {{align.text}}</span>-->
+            <select class="form-control select-cat1" formControlName="align" id="alineacion">
+              <div *ngFor="let align of alignsTypes">
+                <option tabindex="{{openedMenu ? -1 : 0}}"[ngValue]="align.type">{{align.text}}</option>
+                <!--<span class="sr-only">Alineacion: {{align.text}}</span>-->
+              </div>
+              
             </select>
           </div>
 
