@@ -216,9 +216,11 @@ export class EditHistoryComponent implements OnInit {
   getCategoriesSelected(event, cat: Category){
     event.preventDefault();
     event.stopPropagation();
-    console.log(event)
     if(event.keyCode==13 || event.type=="click"){
       cat.selected = !cat.selected;
+    }
+    if(cat == this.secondCategories[this.secondCategories.length-1]){
+      document.getElementById('button-cat2').click();
     }
   }
 

@@ -208,7 +208,7 @@
             <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token. Apúntelo para poder gestionar la historia</p>
             <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
             <div class="tokenSite col-12">
-              <label tabindex="{{openedMenu ? -1 : 0}}" for="history_token" class="ocultar">Token</label>
+              <span class="sr-only">EL token es:</span>
               <textarea tabindex="{{openedMenu ? -1 : 0}}" readonly #tokenGenerate id="history_token" class="tokenTextArea">{{historyModel.token}}</textarea>
               <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn fa fa-copy" (click)="copyToken()" ></button>
               <span class="sr-only">Copiar Token</span>
@@ -220,8 +220,8 @@
               <form [formGroup]="emailForm">
                 <div class="modal-body">
                   <p tabindex="{{openedMenu ? -1 : 0}}"> Puede dejar su correo para ser notificado cuando se produzcan algunos cambios en el estado de su historia o si desea recibir el token en su correo electrónico</p>
-                  <label for="email" class="ocultar">email</label>
                   <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="email" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm($event)">
+                  <span class="sr-only">Introduzca el mal</span>
                   <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
                 </div>
                 <div class="modal-footer">

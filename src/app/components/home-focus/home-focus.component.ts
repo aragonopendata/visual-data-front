@@ -136,8 +136,12 @@ export class HomeFocusComponent implements OnInit {
     });
   }
 
-  getHistory( id: string ){
-    this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
+  getHistory(event, id: string){
+    event.preventDefault();
+    event.stopPropagation();
+    if(event.keyCode==13 || event.type=="click"){
+      this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
+    }
   }
 
   openHomeFocusModal(){

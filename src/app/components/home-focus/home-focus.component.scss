@@ -132,20 +132,14 @@
     .alert{
         margin-top:7px;
     }
-}
-
-.ocultar{
-    display: none;
-}
-
-
-.form-section-title{
-
-    font-family: 'RobotoLight', sans-serif;
-    line-height: 1;
-    letter-spacing: 0.1em;
-    color: #5ea2ba;
-    font-weight: 300;
+    .title-modal{
+        font-size: 1.5rem;
+        font-family: 'RobotoLight', sans-serif;
+        line-height: 1;
+        letter-spacing: 0.1em;
+        color: #5ea2ba;
+        font-weight: 300;
+    }
 }
 
 .icon::before {

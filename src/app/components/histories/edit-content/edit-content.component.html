@@ -40,7 +40,7 @@
             </p>
 
             <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
-              <label class='form-row align-items-center' for="{{contentType.text}}" class="ocultar">option</label>
+              <span class="sr-only">Seleccione una opción de fuente de la historia</span>
               <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
               <span class="sr-only">{{contentType.text}}</span> 
               

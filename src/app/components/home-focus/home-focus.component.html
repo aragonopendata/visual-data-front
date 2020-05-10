@@ -6,7 +6,6 @@
 
         <!-- Search -->
         <div class="input-group col-8">
-          <label for="crearHistoria" class="ocultar" tabindex="{{openedMenu ? -1 : 0}}">Crear historia</label>
           <button class="btn btn-primary" id="crearHistoria" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
             <div class="icon-fa fa fa-plus"></div> Crear historia
             <span class="sr-only">Crear historia</span> 
@@ -15,8 +14,6 @@
           <div class="input-search">
             <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
             <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" #searchInput>
-            <label for="search" class="ocultar">Search</label>
-            <!--<input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>-->
             <span class="sr-only">Buscador: Introduce el titulo de una historia</span> 
             <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
             <div class="icon-fa fa fa-search"></div>
@@ -31,7 +28,7 @@
         <!-- categories -->
         <ul class="list-categories nav justify-content-center fist-categories">
           <li class="nav-item " *ngFor="let category of categoriesVisible">
-            <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+            <span class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
             <span class="sr-only">Categoria: {{category.name}}</span>
           </li>
         </ul>
@@ -59,7 +56,7 @@
         <div class="histories">
           <div>
             <div *ngFor="let history of histories">
-              <div tabindex="{{openedMenu ? -1 : 0}}" class="card"  (click)="getHistory(history.id)">
+              <div tabindex="{{openedMenu ? -1 : 0}}" class="card"  (click)="getHistory($event, history.id)" (keyup)="getHistory($event, history.id)">
                 <img *ngIf="history.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="historia de la categoria salud" longdesc="salud">
                 <img *ngIf="history.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="historia de la categoria agricultura" longdesc="agricultura">
                 <img *ngIf="history.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="historia de la categoria educacion" longdesc="educacion">
@@ -86,56 +83,52 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <!--Fallo En 1 caso los encabezados no están anidados correctamente-->
-        <h5 class="modal-title form-section-title" id="homeModalCenterTitle">Gestión de historias</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title title-modal" id="homeModalCenterTitle">Gestión de historias</div>
+        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span class="sr-only">Cerrar modal gestion de historias</span>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div *ngIf= createHistory>
         <div class="modal-body">
-          <p>
+          <p tabindex="{{openedMenu ? -1 : 0}}">
             En este apartado podrá crear una historia nueva. Recuerde guardar el token que se le proporcione, le servira en caso de querer editarla antes de enviarla a revisión. 
             Una vez enviada, no podrá acceder a ella hasta que haya pasado la revisiòn, se le enviará un correo para notificarle del cambio de estado.
           </p>
-          <p>
+          <p tabindex="{{openedMenu ? -1 : 0}}">
             Si lo que quiere es modificar una historia que creo previamente haga click en el siguiente enlace.
           </p>
           <a tabindex="{{openedMenu ? -1 : 0}}" (click)="updateHistoryHiperLink()" (keyup.enter)="updateHistoryHiperLink()" class="simulateLink"> Modificar</a>
           <span class="sr-only">Modificar historia</span>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
           <span class="sr-only">Crear una historia nueva</span>
         </div>
       </div>
 
       <div *ngIf= !createHistory>
         <div class="modal-body">
-          <p>
+          <p tabindex="{{openedMenu ? -1 : 0}}">
             Introduzca su token para poder modificar su historia
           </p>
           <form [formGroup]="tokenForm">
             <div class="modal-body">
               <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
-              <label for="token" class="ocultar">Token</label>
               <input type="text" id="token" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
               <span class="sr-only">Introducir token de la historia que quieres modificar</span>
-              <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
-              <div *ngIf=tokenError class="alert alert-danger"  role="alert">
-                <!--<p> El token introducido es incorrecto. </p>-->
+              <small tabindex="{{openedMenu ? -1 : 0}}" *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
+              <div tabindex="{{openedMenu ? -1 : 0}}" *ngIf=tokenError class="alert alert-danger"  role="alert">
                 <p> La historia no existe.</p>
                 <p> Por favor, compruebe que el token corresponde con el que se le proporcionó </p>
               </div>
               <div *ngIf=stateError class="alert alert-danger"  role="alert">
-                <p *ngIf="state==this.stateEnum.revision">La historia a la que esta intentando acceder no se puede modificar ya que se encuentra en <strong>estado de revisión.</strong></p>
-                <p *ngIf="state==this.stateEnum.desactivada">La historia no se encuentra disponible.</p>
+                <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="state==this.stateEnum.revision">La historia a la que esta intentando acceder no se puede modificar ya que se encuentra en <strong>estado de revisión.</strong></p>
+                <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="state==this.stateEnum.desactivada">La historia no se encuentra disponible.</p>
               </div>
             </div>
             <div class="modal-footer">
-              <!--Poner submit-->
-              <button type="submit" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
+              <button tabindex="{{openedMenu ? -1 : 0}}" type="submit" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
               <span class="sr-only">Buscar</span>
             </div>
           </form>
