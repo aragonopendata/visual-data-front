@@ -80,14 +80,12 @@ export class EditContentComponent implements OnInit {
         this.graphTitle=undefined;
       }
       this.changeContent.emit({content: this.actualValuesContent})
-    });
-    
+    });    
   }
 
   getOpenedMenu(){
     this.utilsService.openedMenuChange.subscribe(value => {
       this.openedMenu = value;
-      console.log(value)
     });
   }
 
