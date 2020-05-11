@@ -610,7 +610,6 @@ export class EditHistoryComponent implements OnInit {
     } else {
       this.contents[actionContent.posContent] = actionContent.content;
     }
-    
     this.closeNewContent();
   }
 
