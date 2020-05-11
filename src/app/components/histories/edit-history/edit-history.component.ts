@@ -7,6 +7,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Constants } from '../../../app.constants';
 import { State } from '../../../models/State';
 import { AuthGuard } from '../../../_guards/auth.guard';
+import { UtilsService } from '../../exportedFunctions/utils.service';
 
 declare var $: any;
 
@@ -55,6 +56,8 @@ export class EditHistoryComponent implements OnInit {
   stateEnum: typeof State = State;
   haveMail:boolean=false;
 
+  openedMenu: boolean;
+
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
@@ -63,7 +66,7 @@ export class EditHistoryComponent implements OnInit {
 
   constructor(private _historiesService: HistoriesService, private _cdRef: ChangeDetectorRef,
               private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute,
-              private _verifyTokenService: AuthGuard) { 
+              private _verifyTokenService: AuthGuard, private utilsService: UtilsService) { 
 
     this._activatedRoute.params.subscribe(params => {
       if(params.token!=null){
@@ -107,6 +110,8 @@ export class EditHistoryComponent implements OnInit {
     }else{
       this.loadHistory();
     }
+
+        this.getOpenedMenu();
 
 
   }
@@ -153,6 +158,12 @@ export class EditHistoryComponent implements OnInit {
         this.objectLoadFailure()
       });
     }
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
   }
 
   objectLoadFailure(){
@@ -205,17 +216,21 @@ export class EditHistoryComponent implements OnInit {
   getCategoriesSelected(event, cat: Category){
     event.preventDefault();
     event.stopPropagation();
-    cat.selected = !cat.selected;
+    if(event.keyCode==13 || event.type=="click"){
+      cat.selected = !cat.selected;
+    }
+    if(cat == this.secondCategories[this.secondCategories.length-1]){
+      document.getElementById('button-cat2').click();
+    }
   }
 
   getHistoryForm(button, primerAviso){
-    this.loadingModal=true;
-
     if(this.historyForm.invalid){
       return Object.values(this.historyForm.controls).forEach(control => {
         control.markAsTouched();
       })
     }else{
+      this.loadingModal=true;
       if(this.showAddContent && primerAviso){
         this.previousButton=button;
         this.loadingModal=false;
