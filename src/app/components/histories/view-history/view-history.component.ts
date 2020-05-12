@@ -27,8 +27,8 @@ export class ViewHistoryComponent implements OnInit {
   isAdmin: boolean=false;
   admin: Object={};
   categories: Category[];
-  secondCategories: Category[];
-
+  secondCategories: Category[]=[];
+  
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
     private _verifyTokenService: AuthGuard ) { 
     
@@ -68,15 +68,14 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   getCategories(history: History){
-    history.secondary_categories.forEach(id => {
-      this.secondCategories.forEach(cat => {
-        if(cat.id==id){
-          cat.selected=true;
-          //console.log('secundarias:')
-          //console.log(cat.name);
+    for (var i = 0; i < history.secondary_categories.length; i++) {
+      for (var j = 0; j < this.secondCategories.length; j++) {
+        if(this.secondCategories[j].id==history.secondary_categories[i]){
+          this.secondCategories[j].selected=true;
+          //console.log(this.secondCategories[j].name)
         }
-      });
-    });
+      }
+    }
   }
 
   loadHistory() {
