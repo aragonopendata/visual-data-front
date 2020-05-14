@@ -1,6 +1,6 @@
 
 <app-header></app-header>
-<div class="container-fluid opendatamargin">
+<div class="container-fluid adjust-margin" [ngClass]="!viewhistory ? 'opendatamargin' : '' ">
 	<div *ngIf="!viewhistory" class="pagina">
 		<h1 class="visualTitle mb-3"  tabindex="{{openedMenu ? -1 : 0}}">OPEN DATA FOCUS</h1>
 		<!-- <div class="mb-4">
