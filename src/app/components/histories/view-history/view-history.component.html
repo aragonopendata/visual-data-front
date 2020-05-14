@@ -24,74 +24,122 @@
 </div>
 
 <!-- History -->
-<div *ngIf="!loading && !errorTitle">
+<div *ngIf="!loading && !errorTitle && historySelect">
 
-  <div class="container-view" *ngIf="historySelect">
+  <div class="container-view">
 
     <div class="row title">
 
-      <div class="col-md-12 img-background">
-        <img *ngIf="historySelect.main_category === 1263" src="./assets/img/salud.svg" class="icon card-img-top" alt="...">
+      <div class="img-background">
+        <!--<img *ngIf="historySelect.main_category === 1263" src="./assets/img/salud.svg" class="icon card-img-top" alt="...">
         <img *ngIf="historySelect.main_category === 1267" src="./assets/img/agricultura.svg" class="icon card-img-top" alt="...">
         <img *ngIf="historySelect.main_category === 1264" src="./assets/img/educacion.svg" class="icon card-img-top" alt="...">
         <img *ngIf="historySelect.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="...">
         <img *ngIf="historySelect.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="...">
         <img *ngIf="historySelect.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="...">
         <img *ngIf="historySelect.main_category === 1265" src="./assets/img/trabajo.svg" class="icon card-img-top" alt="...">
+         -->
+         <img src="./assets/img/pilar.jpg" class="icon card-img-top" alt="...">
       </div>
 
       <div class="col-md-12 content-title">
-        <h1 tabindex="{{openedMenu ? -1 : 0}}">{{historySelect.title}}</h1>
-        <p [innerHTML]="historySelect.description" tabindex="{{openedMenu ? -1 : 0}}"></p>
+        <h1 tabindex="{{openedMenu ? -1 : 0}}" class="title-text">{{historySelect.title}}</h1>
       </div>
 
     </div>
-  
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tab-content">
-            <div class="tab-pane active" id="content_tab" role="tabpanel">
-   
-            <!-- content history -->
-            <div class="content-wrap" *ngFor="let content of historySelect.contents; let i = index">
-  
-              <div class="content" [ngClass]="{'graph': content.type_content === contentEnum.graph}">
 
-                <div class="content-text" *ngIf="content.align == alignEnum.right">
-                  <p tabindex="{{openedMenu ? -1 : 0}}" class="title">{{content.title}}</p>
-                  <p tabindex="{{openedMenu ? -1 : 0}}" [innerHTML]="content.description"></p>
+    <div class="row subtitle">
+      <div class="container-fluid opendata-style margin-subtitle">
+        <div class="col-md-12 history-description">
+          <p [innerHTML]="historySelect.description" tabindex="{{openedMenu ? -1 : 0}}"></p>
+        </div>
+        <div class="aditional-info">
+          <div *ngFor="let info of aditionalInfo; let i = index">
+            <div class="card">
+              <div class="number-info">{{info.value}}</div>
+              <div class="text-aditional-info">{{info.text}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row secondary-categories" *ngIf="selectedCategories.length != 0">
+      <div class="container-fluid opendata-style margin-secondary-categories">
+        <div class="categories">
+          <div *ngFor="let secondCategory of selectedCategories; let i = index">
+            <div class="card">
+              <img *ngIf="secondCategory.id === 1262" src="http://opendata.aragon.es/static/public/i/temas/18-Sociedad.png" alt="...">
+              <img *ngIf="secondCategory.id === 1263" src="http://opendata.aragon.es/static/public/i/temas/15-Salud.png" alt="...">
+              <img *ngIf="secondCategory.id === 1264" src="http://opendata.aragon.es/static/public/i/temas/07-Educacion.png" alt="...">
+              <img *ngIf="secondCategory.id === 1265" src="http://opendata.aragon.es/static/public/i/temas/08-Empleo.png" alt="...">
+              <img *ngIf="secondCategory.id === 1266" src="http://opendata.aragon.es/static/public/i/temas/02-Comercio.png" alt="...">
+              <img *ngIf="secondCategory.id === 1267" src="http://opendata.aragon.es/static/public/i/temas/14-MedioRural.png" alt="...">
+              <img *ngIf="secondCategory.id === 1268" src="http://opendata.aragon.es/static/public/i/temas/13-Medioambiente.png" alt="...">
+              <img *ngIf="secondCategory.id === 1269" src="http://opendata.aragon.es/static/public/i/temas/11-Industria.png" alt="...">
+              <img *ngIf="secondCategory.id === 1270" src="http://opendata.aragon.es/static/public/i/temas/03-Cultura.png" alt="...">
+              <img *ngIf="secondCategory.id === 1271" src="http://opendata.aragon.es/static/public/i/temas/22-Vivienda.png" alt="...">
+              <img *ngIf="secondCategory.id === 1272" src="http://opendata.aragon.es/static/public/i/temas/19-Transporte.png" alt="...">
+              <div class="text-aditional-info">{{secondCategory.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="all-content">
+      <div *ngFor="let content of historySelect.contents; let i = index" class="row new-content" [ngClass]="i%2==0 ? 'par-background' : 'impar-background'">
+        <div class="container-fluid opendata-style margin">
+          <div class="col-md-12">
+            <div class="tab-content">
+              <div class="tab-pane active" id="content_tab" role="tabpanel">
+                <!-- content history -->
+                <div class="content-wrap">
+      
+                  <div class="content" [ngClass]="{'graph': content.type_content === contentEnum.graph}">
+    
+                    <div class="content-text" *ngIf="content.align == alignEnum.right">
+                      <p tabindex="{{openedMenu ? -1 : 0}}" class="title-content">{{content.title}}</p>
+                      <p tabindex="{{openedMenu ? -1 : 0}}" class="description-content text-tiny" [innerHTML]="content.description"></p>
+                    </div>
+      
+                    <div class="content-visual graph " tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.graph">
+                      <iframe appIframeResizer *ngIf="content.srcGraph" 
+                        class="thread-content"
+                        [src]="content.srcGraph"
+                        title="Thread Content"
+                        scrolling="no" frameborder="0"></iframe>
+                    </div>
+      
+                    <div class="content-visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.youtube">
+                      <iframe *ngIf="content.srcYoutube" width="560" height="315" [src]="content.srcYoutube"
+                      frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen></iframe>
+                    </div>
+      
+                    <div class="content-visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.shareSlides">
+                      <iframe *ngIf="content.srcSlideShare" width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
+                      style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
+                      allowfullscreen></iframe>
+                    </div>
+                    
+                    <div class="content-text" *ngIf="content.align === alignEnum.left">
+                      <p tabindex="{{openedMenu ? -1 : 0}}" class="title">{{content.title}}</p>
+                      <p tabindex="{{openedMenu ? -1 : 0}}" class="description-content text-tiny" [innerHTML]="content.description"></p>
+                    </div>
+                    
+                  </div>
                 </div>
-  
-                <div class="content-visual graph " tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.graph">
-                  <iframe appIframeResizer *ngIf="content.srcGraph" 
-                    class="thread-content"
-                    [src]="content.srcGraph"
-                    title="Thread Content"
-                    scrolling="no" frameborder="0"></iframe>
-                </div>
-  
-                <div class="content-visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.youtube">
-                  <iframe *ngIf="content.srcYoutube" width="560" height="315" [src]="content.srcYoutube"
-                  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-                </div>
-  
-                <div class="content-visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.shareSlides">
-                  <iframe *ngIf="content.srcSlideShare" width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
-                  style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
-                  allowfullscreen></iframe>
-                </div>
-                
-                <div class="content-text" *ngIf="content.align === alignEnum.left">
-                  <p tabindex="{{openedMenu ? -1 : 0}}" class="title">{{content.title}}</p>
-                  <p tabindex="{{openedMenu ? -1 : 0}}" [innerHTML]="content.description"></p>
-                </div>
-                
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+  
+
   </div>
 </div>
