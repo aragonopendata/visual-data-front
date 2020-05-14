@@ -69,17 +69,18 @@
         <div class="categories">
           <div *ngFor="let secondCategory of selectedCategories; let i = index">
             <div class="card">
-              <img *ngIf="secondCategory.id === 1262" src="http://opendata.aragon.es/static/public/i/temas/18-Sociedad.png" alt="...">
-              <img *ngIf="secondCategory.id === 1263" src="http://opendata.aragon.es/static/public/i/temas/15-Salud.png" alt="...">
-              <img *ngIf="secondCategory.id === 1264" src="http://opendata.aragon.es/static/public/i/temas/07-Educacion.png" alt="...">
-              <img *ngIf="secondCategory.id === 1265" src="http://opendata.aragon.es/static/public/i/temas/08-Empleo.png" alt="...">
-              <img *ngIf="secondCategory.id === 1266" src="http://opendata.aragon.es/static/public/i/temas/02-Comercio.png" alt="...">
-              <img *ngIf="secondCategory.id === 1267" src="http://opendata.aragon.es/static/public/i/temas/14-MedioRural.png" alt="...">
-              <img *ngIf="secondCategory.id === 1268" src="http://opendata.aragon.es/static/public/i/temas/13-Medioambiente.png" alt="...">
-              <img *ngIf="secondCategory.id === 1269" src="http://opendata.aragon.es/static/public/i/temas/11-Industria.png" alt="...">
-              <img *ngIf="secondCategory.id === 1270" src="http://opendata.aragon.es/static/public/i/temas/03-Cultura.png" alt="...">
-              <img *ngIf="secondCategory.id === 1271" src="http://opendata.aragon.es/static/public/i/temas/22-Vivienda.png" alt="...">
-              <img *ngIf="secondCategory.id === 1272" src="http://opendata.aragon.es/static/public/i/temas/19-Transporte.png" alt="...">
+              <img *ngIf="history.main_category === 1261" src="http://opendata.aragon.es/static/public/i/temas/12-Justicia.png" alt="Historia de la categoria Derechos y servicios a la ciudadanía" longdesc="Derechos y servicios a la ciudadanía">
+              <img *ngIf="secondCategory.id === 1262" src="http://opendata.aragon.es/static/public/i/temas/18-Sociedad.png"  alt="Historia de la categoria Atención social y dependencia" longdesc="Atención social y dependencia">
+              <img *ngIf="secondCategory.id === 1263" src="http://opendata.aragon.es/static/public/i/temas/15-Salud.png" alt="Historia de la categoria salud" longdesc="Salud">
+              <img *ngIf="secondCategory.id === 1264" src="http://opendata.aragon.es/static/public/i/temas/07-Educacion.png" alt="Historia de la categoria Educación, investigación y desarrollo" longdesc=" Educación, investigación y desarrollo">
+              <img *ngIf="secondCategory.id === 1265" src="http://opendata.aragon.es/static/public/i/temas/08-Empleo.png" alt="Historia de la categoria empleo y trabajo" longdesc="Empleo y trabajo">
+              <img *ngIf="secondCategory.id === 1266" src="http://opendata.aragon.es/static/public/i/temas/02-Comercio.png" alt="Historia de la categoria Empresa, comercio y asociaciones" longdesc="Empresa, comercio y asociaciones">
+              <img *ngIf="secondCategory.id === 1267" src="http://opendata.aragon.es/static/public/i/temas/14-MedioRural.png" alt="Historia de la categoria Medio rural, agrícula y ganadería" longdesc="Medio rural, agrícula y ganadería">
+              <img *ngIf="secondCategory.id === 1268" src="http://opendata.aragon.es/static/public/i/temas/13-Medioambiente.png" alt="Historia de la categoria Medio ambiente" longdesc="Medio ambiente">
+              <img *ngIf="secondCategory.id === 1269" src="http://opendata.aragon.es/static/public/i/temas/11-Industria.png" alt="Historia de la categoria Actividades industriales y energía" longdesc="Actividades industriales y energía">
+              <img *ngIf="secondCategory.id === 1270" src="http://opendata.aragon.es/static/public/i/temas/03-Cultura.png" alt="Historia de la categoria Cultura, ocio y turismo" longdesc="Cultura, ocio y turismo">
+              <img *ngIf="secondCategory.id === 1271" src="http://opendata.aragon.es/static/public/i/temas/22-Vivienda.png" alt="Historia de la categoria Vivienda" longdesc="Vivienda">
+              <img *ngIf="secondCategory.id === 1272" src="http://opendata.aragon.es/static/public/i/temas/19-Transporte.png" alt="Historia de la categoria Infraestructura, transportes y carreteras" longdesc="Infraestructura, transportes y carreteras">
               <div class="text-aditional-info">{{secondCategory.name}}</div>
             </div>
           </div>
