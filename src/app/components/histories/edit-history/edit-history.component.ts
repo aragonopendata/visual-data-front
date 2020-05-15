@@ -297,7 +297,7 @@ export class EditHistoryComponent implements OnInit {
     else{
       this.loadingModal=true;
       this.haveMail=true;
-      //this.firstTime=false;
+      this.firstTime=false;
       //$('#successfullModalCenter').modal('hide');
       this.setMailToHistory()
     }

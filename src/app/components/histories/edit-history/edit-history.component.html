@@ -208,8 +208,8 @@
         </div>
         <div class="modal-body">
           <div *ngIf=firstTime>
-            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente con el siguiente token. Apúntelo para poder gestionar la historia</p>
-            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente para su revisión con el siguiente token.</p>
+            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.borrador">Su historia <b>{{historyModel.title}}</b>, se ha guardado correctamente con el siguiente token. Apúntelo para poder gestionar la historia</p>
+            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.revision">Su historia <b>{{historyModel.title}}</b>, se ha enviado correctamente para su revisión con el siguiente token.</p>
             <div class="tokenSite col-12">
               <span class="sr-only">El token es:</span>
               <textarea tabindex="{{openedMenu ? -1 : 0}}" readonly #tokenGenerate id="history_token" class="tokenTextArea">{{historyModel.token}}</textarea>
@@ -235,9 +235,9 @@
             </div>
           </div>
           <div *ngIf=!firstTime>
-            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.borrador">Su historia {{historyModel.title}}, se ha guardado correctamente</p>
-            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.revision">Su historia {{historyModel.title}}, se ha enviado correctamente</p>
-            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.publicada">La historia {{historyModel.title}} ha sido publicada</p>
+            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.borrador">Su historia  <b>{{historyModel.title}}</b> se ha guardado correctamente</p>
+            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.revision">Su historia  <b>{{historyModel.title}}</b>  se ha enviado correctamente</p>
+            <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.publicada">La historia  <b>{{historyModel.title}}</b>  ha sido publicada</p>
           </div>
         </div>
       </div>
