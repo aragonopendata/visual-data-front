@@ -1,8 +1,13 @@
+@import './assets/scss/open-sans';
+
 @font-face {
   font-family: RobotoLight;
-  src: url('/static/public/fonts/Roboto-Light.ttf');
+  src: url('http://opendata.aragon.es/static/public/fonts/Roboto-Light.ttf');
 }
 
+body{
+  background-color: transparent !important;
+}
 html {
   margin: 0 !important;
 }
