@@ -39,11 +39,12 @@
             align-items: center;
             
             .title-text{
+                font-size:48px;
                 color:white;
                 font-weight: bold;
                 position: absolute;
                 bottom: 15%;
-                font-family: "Open Sans";
+                font-family: "OpenSans-Regular";
                 text-transform: uppercase;
             }
             p{
@@ -55,7 +56,7 @@
     }
     .opendata-style{
         height: auto;
-        font-family: "Open Sans Regular";
+        font-family: "OpenSans-Regular";
         font-size:18px;
         line-height: 33px;
         &.margin-subtitle{
@@ -71,7 +72,7 @@
             //min-width: 200px;
         }
         p{
-            font-family: "Open Sans Regular";
+            font-family: "OpenSans-Regular";
             font-size:18px;
             line-height: 33px;
         }
@@ -103,7 +104,7 @@
                     align-items: center;
                     background-color: transparent ;
                     position: relative;
-                    font-family: "Open Sans SemiBold";
+                    font-family: "OpenSans-Semibold";
                     border: none;
                     .number-info{
                         font-size:60px;
@@ -143,7 +144,7 @@
                     align-items: center;
                     background-color: transparent ;
                     position: relative;
-                    font-family: "Open Sans SemiBold";
+                    font-family: "OpenSans-Semibold";
                     border: none;
                     img{
                         height: 70px;
@@ -203,18 +204,18 @@
                         justify-content: center;
                         flex-direction: column;
                         .title-content{
-                            font-family: "Open Sans Bold";
+                            font-family: "OpenSans-Bold";
                             font-size:24px;
                             line-height: 32px;
                             color: #5EA2BA;
                             margin-bottom: 1rem;
                         }
                         .description-content{
-                            font-family: "Open Sans Regular";
+                            font-family: "OpenSans-Regular";
                             font-size:18px;
                             line-height: 33px;
                             p,li, ul, hr, pre, blockquote, ol, dl, dd {
-                                font-family: "Open Sans Regular";
+                                font-family: "OpenSans-Regular";
                                 font-size:18px;
                                 line-height: 33px;
                                 //color:red;
@@ -254,7 +255,7 @@
     }
     .text-tiny{
         p,li, ul, hr, pre, blockquote, ol, dl, dd {
-            font-family: "Open Sans Regular";
+            font-family: "OpenSans-Regular";
             font-size:18px;
             line-height: 33px;
             //color:red;
