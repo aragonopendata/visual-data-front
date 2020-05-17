@@ -69,7 +69,7 @@
         <div class="categories">
           <div *ngFor="let secondCategory of selectedCategories; let i = index">
             <div class="card">
-              <img *ngIf="history.main_category === 1261" src="http://opendata.aragon.es/static/public/i/temas/12-Justicia.png" alt="Historia de la categoria Derechos y servicios a la ciudadanía" longdesc="Derechos y servicios a la ciudadanía">
+              <img *ngIf="secondCategory.id === 1261" src="http://opendata.aragon.es/static/public/i/temas/12-Justicia.png" alt="Historia de la categoria Derechos y servicios a la ciudadanía" longdesc="Derechos y servicios a la ciudadanía">
               <img *ngIf="secondCategory.id === 1262" src="http://opendata.aragon.es/static/public/i/temas/18-Sociedad.png"  alt="Historia de la categoria Atención social y dependencia" longdesc="Atención social y dependencia">
               <img *ngIf="secondCategory.id === 1263" src="http://opendata.aragon.es/static/public/i/temas/15-Salud.png" alt="Historia de la categoria salud" longdesc="Salud">
               <img *ngIf="secondCategory.id === 1264" src="http://opendata.aragon.es/static/public/i/temas/07-Educacion.png" alt="Historia de la categoria Educación, investigación y desarrollo" longdesc=" Educación, investigación y desarrollo">
