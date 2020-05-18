@@ -94,12 +94,8 @@
             <label for="alineacion">
               <h4 tabindex="{{openedMenu ? -1 : 0}}" class="form-section-title">Alineacion del contenido</h4>
             </label>
-            <select class="form-control select-cat1" formControlName="align" id="alineacion">
-              <div *ngFor="let align of alignsTypes">
-                <option tabindex="{{openedMenu ? -1 : 0}}"[ngValue]="align.type">{{align.text}}</option>
-                <!--<span class="sr-only">Alineacion: {{align.text}}</span>-->
-              </div>
-              
+            <select tabindex="{{openedMenu ? -1 : 0}}" class="form-control select-cat1" id="alineacion" formControlName="align" >
+              <option  *ngFor="let align of alignsTypes" [ngValue]="align.type">{{align.text}}</option>
             </select>
           </div>
 

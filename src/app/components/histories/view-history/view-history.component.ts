@@ -5,6 +5,7 @@ import { History, Content } from '../../../models/History';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
+import { AditionalInfo } from '../../../models/AditionalInfo';
 import { Category } from '../../../models/Category';
 import { Aligns } from '../../../models/Aligns';
 import { AuthGuard } from '../../../_guards/auth.guard';
@@ -26,9 +27,10 @@ export class ViewHistoryComponent implements OnInit {
   errorMessage: string;
   isAdmin: boolean=false;
   admin: Object={};
-  categories: Category[];
-  secondCategories: Category[];
-
+  categories: Category[]=[];
+  selectedCategories: Category[]=[];
+  aditionalInfo :AditionalInfo[]=[];
+  
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
     private _verifyTokenService: AuthGuard ) { 
     
@@ -60,23 +62,44 @@ export class ViewHistoryComponent implements OnInit {
 
     this.historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
-      this.secondCategories = categories;
       this.loadHistory();
 		},err => {
       this.objectLoadFailure()
     });
+
+    this.loadAditionalInfo();
+
+  }
+
+  loadAditionalInfo(){
+    let restarantes = new AditionalInfo("Restaurantes", 1348);
+    let hoteles = new AditionalInfo("Hoteles", 89);
+    let transporte = new AditionalInfo("Paradas de transporte", 30);
+    let turismo = new AditionalInfo("Empresas de turismo activo", 19);
+    this.aditionalInfo.push(restarantes)
+    this.aditionalInfo.push(hoteles)
+    this.aditionalInfo.push(transporte)
+    this.aditionalInfo.push(turismo)
   }
 
   getCategories(history: History){
-    history.secondary_categories.forEach(id => {
-      this.secondCategories.forEach(cat => {
-        if(cat.id==id){
-          cat.selected=true;
-          //console.log('secundarias:')
-          //console.log(cat.name);
+    if(history.main_category!=null){
+      for (var k = 0; k < this.categories.length; k++) {
+        if(this.categories[k].id==history.main_category){
+          this.selectedCategories.push(this.categories[k])
         }
-      });
-    });
+      }
+    }
+    
+    for (var i = 0; i < history.secondary_categories.length; i++) {
+      for (var j = 0; j < this.categories.length; j++) {
+        if(this.categories[j].id==history.secondary_categories[i]){
+          //this.categories[j].selected=true;
+          this.selectedCategories.push(this.categories[j])
+        }
+      }
+    }
+    
   }
 
   loadHistory() {
