@@ -57,7 +57,7 @@
                     Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
                 </p>
                 
-                <input tabindex="{{openedMenu ? -1 : 0}}" class="col-12 form-control" id="title_history" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event, 'category')">
+                <input tabindex="{{openedMenu ? -1 : 0}}" class="col-12 form-control" id="title_history" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
                 <span class="sr-only">Titulo de la historia</span>
                 <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
             </div>

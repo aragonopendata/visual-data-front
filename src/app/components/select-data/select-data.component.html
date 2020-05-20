@@ -43,11 +43,11 @@
             <div class="col-12">
                 <div class="float-left">
                     <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text"
-                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
+                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage()" />
                 </div>
                 <div class="float-left">
                     <button type="button" class="button1" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"
-                        (click)="selectPackage('URL')">Añadir Datos</button>
+                        (click)="selectPackage()">Añadir Datos</button>
                 </div>
                 <div *ngIf="loading[2]" class="loader float-left ml-1"></div>
                 <div *ngIf="errorResponse[2]" class="cross float-left ml-1">&times;</div>
