@@ -5,7 +5,10 @@ import { History, Content } from '../../../models/History';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
+import { AditionalInfo } from '../../../models/AditionalInfo';
+import { Category } from '../../../models/Category';
 import { Aligns } from '../../../models/Aligns';
+import { AuthGuard } from '../../../_guards/auth.guard';
 
 @Component({
   selector: 'app-view-history',
@@ -22,8 +25,14 @@ export class ViewHistoryComponent implements OnInit {
   loading : boolean = true;
   errorTitle: string;
   errorMessage: string;
-
-  constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer ) { 
+  isAdmin: boolean=false;
+  admin: Object={};
+  categories: Category[]=[];
+  selectedCategories: Category[]=[];
+  aditionalInfo :AditionalInfo[]=[];
+  
+  constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
+    private _verifyTokenService: AuthGuard ) { 
     
     this._route.params.subscribe(params => {
       if(params.id!=null){
@@ -37,14 +46,72 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadHistory();
+    if(localStorage.getItem('currentUser')){
+
+      this.admin=JSON.parse(localStorage.getItem('currentUser'));
+
+      if(this.admin['rol'] == "global_adm"){
+        this._verifyTokenService.probeTokenAdmin()
+        this.isAdmin = true;
+      }
+      this.loadHistory()
+    }else{
+      this.loadHistory()
+    }
+
+
+    this.historiesService.getCategories().subscribe( (categories: Category[]) => {
+      this.categories = categories;
+      this.loadHistory();
+		},err => {
+      this.objectLoadFailure()
+    });
+
+    this.loadAditionalInfo();
+
+  }
+
+  loadAditionalInfo(){
+    let restarantes = new AditionalInfo("Restaurantes", 1348);
+    let hoteles = new AditionalInfo("Hoteles", 89);
+    let transporte = new AditionalInfo("Paradas de transporte", 30);
+    let turismo = new AditionalInfo("Empresas de turismo activo", 19);
+    this.aditionalInfo.push(restarantes)
+    this.aditionalInfo.push(hoteles)
+    this.aditionalInfo.push(transporte)
+    this.aditionalInfo.push(turismo)
+  }
+
+  getCategories(history: History){
+    if(history.main_category!=null){
+      for (var k = 0; k < this.categories.length; k++) {
+        if(this.categories[k].id==history.main_category){
+          this.selectedCategories.push(this.categories[k])
+        }
+      }
+    }
+    
+    for (var i = 0; i < history.secondary_categories.length; i++) {
+      for (var j = 0; j < this.categories.length; j++) {
+        if(this.categories[j].id==history.secondary_categories[i]){
+          //this.categories[j].selected=true;
+          this.selectedCategories.push(this.categories[j])
+        }
+      }
+    }
+    
   }
 
   loadHistory() {
+        
 
     if(this.preview){
 
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
+      //console.log('principal:'+this.historySelect.main_category);
+      if(this.historySelect.secondary_categories){
+        this.getCategories(this.historySelect);
+      }
 
       if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
@@ -53,24 +120,52 @@ export class ViewHistoryComponent implements OnInit {
       }
 
     } else {
-
-      this.historiesService.getHistoryBack(this.idHistory).subscribe( response => {
-        if(response.success && response.history!=null){
-          this.historySelect = response.history;
-          if(this.historySelect.contents){
-            this.historySelect.contents.forEach( (element: Content) => {
-              element = this.getInfoContents(element);
-            });
+      if(this.isAdmin){
+        this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
+          if(response.success){
+            if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
+            this.getCategories(response.history);
+            }
           }
-        }else{
+          else{
+            this.objectLoadFailure()
+          }
+          this.responseHistory(response)
+        },err => {
           this.objectLoadFailure()
-        }
-        this.loading=false;
-      },err => {
-        this.objectLoadFailure()
-      });
-
+        });
+      }
+      else{
+        this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
+          if(response.success){
+            if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
+            this.getCategories(response.history);
+            }
+          }
+          else{
+            this.objectLoadFailure()
+          }
+          this.responseHistory(response)
+        },err => {
+          this.objectLoadFailure()
+        });
+      }
     }
+  }
+
+  responseHistory(response){
+    if(response.success && response.history!=null){
+      this.historySelect = response.history;
+      if(this.historySelect.contents){
+        this.historySelect.contents.forEach( (element: Content) => {
+          element = this.getInfoContents(element);
+        });
+      }
+    }else{
+      this.objectLoadFailure()
+    }
+    this.loading=false;
+
   }
 
   objectLoadFailure(){
@@ -102,9 +197,8 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   private urlGraph(id: string) {
-    //TODO: CAMBIAR LOCALHOST
     return new Promise((resolve, reject) => {
-      let url = 'http://localhost:4075/#/charts/embed/'+id;
+      let url = Constants.FOCUS_URL+'/charts/embed/'+id;
       resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
     });
   }

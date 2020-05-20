@@ -23,4 +23,20 @@ export class AuthGuard implements CanActivate {
         window.location.href = Constants.AOD_BASE_URL + '/' + Constants.ROUTER_LINK_LOGIN;
         return false;
     }
+
+    probeTokenAdmin() {
+        if (localStorage.getItem('currentUser')) {
+            const token = JSON.parse(localStorage.getItem('currentUser')).token;
+            const isExpired = this.jwtHelper.isTokenExpired(token);
+            if (!isExpired) {
+                // logged in so return true
+                return true;
+            }else{
+                localStorage.removeItem('currentUser');
+            }
+        }
+        // not logged in so redirect to login page
+        window.location.href = Constants.AOD_BASE_URL + '/' + Constants.ROUTER_LINK_LOGIN;
+        return false;
+    }
 }

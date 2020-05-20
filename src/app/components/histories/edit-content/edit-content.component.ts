@@ -5,6 +5,7 @@ import { Content } from '../../../models/History';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
+import { UtilsService } from '../../exportedFunctions/utils.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class EditContentComponent implements OnInit {
   contentEnum: typeof Contents = Contents;
   alignsTypes:any =Constants.ALIGNS_TYPES;
   graphTitle: string;
+  openedMenu: boolean;
 
   settings: any;
 
@@ -31,7 +33,7 @@ export class EditContentComponent implements OnInit {
   @Output() closeContent = new EventEmitter<any>();
   @Output() changeContent = new EventEmitter<any>();
 
-  constructor( private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder) { 
+  constructor(private utilsService: UtilsService, private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder) { 
     
     this.settings = {
       selector: '#editorContent',
@@ -43,6 +45,8 @@ export class EditContentComponent implements OnInit {
       menubar: false,
       branding: false
     }
+
+    this.getOpenedMenu();
 
   }
 
@@ -76,8 +80,13 @@ export class EditContentComponent implements OnInit {
         this.graphTitle=undefined;
       }
       this.changeContent.emit({content: this.actualValuesContent})
+    });    
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
     });
-    
   }
 
   initiateForm(){
@@ -99,11 +108,6 @@ export class EditContentComponent implements OnInit {
       align: this.content.align
     });
   }
-
-  /*saltaCampo(e, id){
-    e.preventDefault();
-    document.getElementById(id).focus();
-  }*/
 
   openVisualData() {
     document.getElementsByTagName('body')[0].classList.add('no-scroll');

@@ -30,9 +30,7 @@ export class Constants {
   public static PATH_MODIFIER = '';
 
   // URLS FOCUS
-  public static AOD_BASE_API_WEB_FOCUS = '';
-  public static AOD_BASE_API_ADMIN_FOCUS = '';
-  public static FOCUS_URL = '';
+  public static FOCUS_URL = 'https://opendata.aragon.es/servicios/focus/#';
 
   // URLS GLOBAL
   public static AOD_BASE_URL = 'https://opendata.aragon.es';
@@ -756,11 +754,13 @@ export class Constants {
 
   public static LOCALSTORAGE_KEY_MAIL='email';
   public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';
-  public static ROUTER_LINK_SERVICES_WEB='/services/web';
   public static ROUTER_LINK_SERVICES_ADMIN='/services/admin';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
+  public static ROUTER_LINK_ENTIRE_HISTORY_AND_EMAIL='/history/mail';
+  public static ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN='/history/token';
   public static ROUTER_LINK_ALL_HISTORIES='/histories';
+  public static ROUTER_LINK_TOKEN_STATE='/token/state';
 
 
 

@@ -4,65 +4,81 @@
     <div class="col-12">
       <div class="form-group">
 
-          <!-- Search -->
-          <div class="input-group col-8">
-
-            <button class="btn btn-primary" type="button"  data-toggle="modal" (click)="openHomeFocusModal()">
-              <i class="fa fa-plus"></i> Crear historia
-            </button>
-
-            
-            <div class="input-search">
-              <input type="text" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" aria-describedby="button-addon2" #searchInput>
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </div>
-
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" (click)="getHistories(searchInput.value,null)">Buscar</button>
-            </div>
-            
+        <!-- Search -->
+        <div class="input-group col-8">
+          <button class="btn btn-primary" id="crearHistoria" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
+            <div class="icon-fa fa fa-plus"></div> Crear historia
+            <span class="sr-only">Crear historia</span> 
+          </button>
+          
+          <div class="input-search">
+            <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
+            <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" #searchInput>
+            <span class="sr-only">Buscador: Introduce el titulo de una historia</span> 
+            <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
+            <div class="icon-fa fa fa-search"></div>
           </div>
 
-          <!-- categories -->
-          <ul class="list-categories nav justify-content-center">
-            <li class="nav-item" *ngFor="let category of categoriesVisible">
-              <span class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+          <div class="input-group-append">
+            <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-secondary" type="button" (click)="getHistories(searchInput.value,null)">Buscar</button>
+            <span class="sr-only">Buscar historia</span>
+          </div>
+        </div>
+
+        <!-- categories -->
+        <ul class="list-categories nav justify-content-center fist-categories">
+          <li class="nav-item " *ngFor="let category of categoriesVisible">
+            <span class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+            <span class="sr-only">Categoria: {{category.name}}</span>
+          </li>
+        </ul>
+
+        <div *ngIf='viewMoreCategories'>
+          <ul class="nav justify-content-center list-categories">
+            <li class="nav-item" *ngFor="let category of categoriesHidden">
+              <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
+              <span class="sr-only">Categoria: {{category.name}}</span>
             </li>
           </ul>
+        </div>
+        
+        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
+          <!--Fallo Se usan 4 elementos o atributos HTML para controlar la presentación del texto (poner title)-->
+          <div *ngIf='!viewMoreCategories' class="icon-fa fa fa-angle-down" tabindex="{{openedMenu ? -1 : 0}}"></div>
+          <span class="sr-only">Ver mas</span> 
+          <div *ngIf='viewMoreCategories' class="icon-fa fa fa-angle-up" tabindex="{{openedMenu ? -1 : 0}}"></div>
+          <span class="sr-only">Ver menos</span> 
+          <span *ngIf='!viewMoreCategories'>Ver mas</span>
+          <span *ngIf='viewMoreCategories'>Ver menos</span>
+        </button> 
 
-          <div *ngIf='viewMoreCategories' class="list-categories">
-            <ul class="nav justify-content-center">
-              <li class="nav-item" *ngFor="let category of categoriesHidden">
-                <span class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
-              </li>
-            </ul>
-          </div>
+        <!-- histories -->
+        <div class="histories">
+          <div>
+            <div *ngFor="let history of histories">
+              <div tabindex="{{openedMenu ? -1 : 0}}" class="card"  (click)="getHistory($event, history.id)" (keyup)="getHistory($event, history.id)">
+                <img *ngIf="history.main_category === 1261" src="/static/public/i/temas/12-Justicia.png" class="card-img-top" alt="Historia de la categoria Derechos y servicios a la ciudadanía" longdesc="Derechos y servicios a la ciudadanía">
+                <img *ngIf="history.main_category === 1262" src="/static/public/i/temas/18-Sociedad.png" class="card-img-top" alt="Historia de la categoria Atención social y dependencia" longdesc="Atención social y dependencia">
+                <img *ngIf="history.main_category === 1263" src="/static/public/i/temas/15-Salud.png" class="card-img-top" alt="Historia de la categoria salud" longdesc="Salud">
+                <img *ngIf="history.main_category === 1264" src="/static/public/i/temas/07-Educacion.png" class="card-img-top" alt="Historia de la categoria Educación, investigación y desarrollo" longdesc=" Educación, investigación y desarrollo">
+                <img *ngIf="history.main_category === 1265" src="/static/public/i/temas/08-Empleo.png" class="card-img-top" alt="Historia de la categoria empleo y trabajo" longdesc="Empleo y trabajo">
+                <img *ngIf="history.main_category === 1266" src="/static/public/i/temas/02-Comercio.png" class="card-img-top" alt="Historia de la categoria Empresa, comercio y asociaciones" longdesc="Empresa, comercio y asociaciones">
+                <img *ngIf="history.main_category === 1267" src="/static/public/i/temas/14-MedioRural.png" class="card-img-top" alt="Historia de la categoria Medio rural, agrícula y ganadería" longdesc="Medio rural, agrícula y ganadería">
+                <img *ngIf="history.main_category === 1268" src="/static/public/i/temas/13-Medioambiente.png"  class="card-img-top" alt="Historia de la categoria Medio ambiente" longdesc="Medio ambiente">
+                <img *ngIf="history.main_category === 1269" src="/static/public/i/temas/11-Industria.png" class="card-img-top" alt="Historia de la categoria Actividades industriales y energía" longdesc="Actividades industriales y energía">
+                <img *ngIf="history.main_category === 1270" src="/static/public/i/temas/03-Cultura.png" class="card-img-top img" alt="Historia de la categoria Cultura, ocio y turismo" longdesc="Cultura, ocio y turismo">
+                <img *ngIf="history.main_category === 1271" src="/static/public/i/temas/22-Vivienda.png" class="card-img-top img" alt="Historia de la categoria Vivienda" longdesc="Vivienda">
+                <img *ngIf="history.main_category === 1272" src="/static/public/i/temas/19-Transporte.png" class="card-img-top img" alt="Historia de la categoria Infraestructura, transportes y carreteras" longdesc="Infraestructura, transportes y carreteras">
 
-          <button *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
-            <i *ngIf='!viewMoreCategories' class="fa fa-angle-down"></i>
-            <i *ngIf='viewMoreCategories' class="fa fa-angle-up"></i>
-            <span *ngIf='!viewMoreCategories'>Ver mas</span>
-            <span *ngIf='viewMoreCategories'>Ver menos</span>
-          </button> 
+                <div class="opacity"></div>
 
-          <!-- histories -->
-          <div class="histories">
-            <div>
-              <div *ngFor="let history of histories">
-                <div class="card"  (click)="getHistory(history.id)">
-                  <img *ngIf="history.main_category === 1263" src="./assets/img/salud.svg" class="card-img-top" alt="...">
-                  <img *ngIf="history.main_category === 1267" src="./assets/img/agricultura.svg" class="card-img-top" alt="...">
-                  <img *ngIf="history.main_category === 1264" src="./assets/img/educacion.svg" class="card-img-top" alt="...">
-                  <img *ngIf="history.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="...">
-                  <img *ngIf="history.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="...">
-                  <img *ngIf="history.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="...">
-                  <img *ngIf="history.main_category === 1265" src="./assets/img/trabajo.svg" class="card-img-top" alt="...">
-                  <div class="opacity"></div>
-                  <div class="text"><span>{{history.title}}</span></div>
-                </div>
+                <div class="text"><span>{{history.title}}</span></div>
+                
               </div>
+              <span class="sr-only">Historia: {{history.title}}</span>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
@@ -74,47 +90,53 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="homeModalCenterTitle">Gestión de historias</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title " id="homeModalCenterTitle">Gestión de historias</div>
+        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span class="sr-only">Cerrar modal gestion de historias</span>
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div *ngIf= createHistory>
         <div class="modal-body">
-          <p>
+          <p tabindex="{{openedMenu ? -1 : 0}}">
             En este apartado podrá crear una historia nueva. Recuerde guardar el token que se le proporcione, le servira en caso de querer editarla antes de enviarla a revisión. 
             Una vez enviada, no podrá acceder a ella hasta que haya pasado la revisiòn, se le enviará un correo para notificarle del cambio de estado.
           </p>
-          <p>
+          <p tabindex="{{openedMenu ? -1 : 0}}">
             Si lo que quiere es modificar una historia que creo previamente haga click en el siguiente enlace.
           </p>
-          <a (click)="updateHistoryHiperLink()" class="simulateLink"> Modificar</a>
-
+          <a tabindex="{{openedMenu ? -1 : 0}}" (click)="updateHistoryHiperLink()" (keyup.enter)="updateHistoryHiperLink()" class="simulateLink"> Modificar</a>
+          <span class="sr-only">Modificar historia</span>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
+          <span class="sr-only">Crear una historia nueva</span>
         </div>
       </div>
 
       <div *ngIf= !createHistory>
         <div class="modal-body">
-          <p>
+          <p tabindex="{{openedMenu ? -1 : 0}}">
             Introduzca su token para poder modificar su historia
           </p>
           <form [formGroup]="tokenForm">
             <div class="modal-body">
-              <input type="text" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
-              <small *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
-              <div *ngIf=tokenError class="alert alert-danger"  role="alert">
-                <p> El token introducido es incorrecto. </p>
+              <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
+              <input type="text" id="token" class="form-control" placeholder="Token" [class.is-invalid]="invalidToken" formControlName="token" (keyup.enter)="updateHistoryWithToken()">
+              <span class="sr-only">Introducir token de la historia que quieres modificar</span>
+              <small tabindex="{{openedMenu ? -1 : 0}}" *ngIf="invalidToken" class="text-danger">Introduzca un token válido</small>
+              <div tabindex="{{openedMenu ? -1 : 0}}" *ngIf=tokenError class="alert alert-danger"  role="alert">
+                <p> La historia no existe.</p>
                 <p> Por favor, compruebe que el token corresponde con el que se le proporcionó </p>
               </div>
               <div *ngIf=stateError class="alert alert-danger"  role="alert">
-                <p>La historia a la que esta intentando acceder no se encuentra en un estado editable.</p>
+                <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="state==this.stateEnum.revision">La historia a la que esta intentando acceder no se puede modificar ya que se encuentra en <strong>estado de revisión.</strong></p>
+                <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="state==this.stateEnum.desactivada">La historia no se encuentra disponible.</p>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
+              <button tabindex="{{openedMenu ? -1 : 0}}" type="submit" class="btn btn-primary" [ngClass]="tokenForm.invalid ? 'disabled' : '' " (click)="updateHistoryWithToken()">Buscar</button>
+              <span class="sr-only">Buscar</span>
             </div>
           </form>
         </div>
@@ -122,5 +144,3 @@
     </div>
   </div>
 </div>
-
-

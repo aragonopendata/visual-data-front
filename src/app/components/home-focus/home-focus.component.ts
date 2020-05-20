@@ -6,6 +6,7 @@ import { History } from '../../models/History';
 import { Category } from '../../models/Category';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { State } from '../../models/State';
+import { UtilsService } from '../exportedFunctions/utils.service';
 
 declare var $: any;
 
@@ -30,13 +31,24 @@ export class HomeFocusComponent implements OnInit {
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
   stateEnum: typeof State = State;
+  state: number;
+  openedMenu: boolean;
 
-  constructor(private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder, ) { }
+  constructor(private utilsService: UtilsService, private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) {
+    this.getOpenedMenu();
+   }
 
   ngOnInit() {
     this.getCategories();
     this.getHistories(null, null);
     this.initiateForm();
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+      console.log(value)
+    });
   }
 
   getCategories(){
@@ -74,20 +86,27 @@ export class HomeFocusComponent implements OnInit {
     }else{
       let token=this.tokenForm.get('token').value
       let route = Constants.ROUTER_LINK_EDIT_HISTORY + "/" + token;
-      this._historiesService.getHistoryBack(token).subscribe(result =>{
-        if(result.success && result.history!=null){
-          if((result.history.state==this.stateEnum.borrador) || (result.history.state==this.stateEnum.publicada) ){
+        this._historiesService.getTokenState(token).subscribe(result =>{
+          this.state=result.state;
+        if(result.success && !(result==null || this.state==this.stateEnum.versionada)){
+          if((this.state==this.stateEnum.borrador) || (this.state==this.stateEnum.publicada) ){
             $("#homeModalCenter").modal('hide');
             this._route.navigate([route]);
-          }else{
+          }
+          else if(this.state==this.stateEnum.desactivada){
             this.stateError=true
             this.tokenError=false
-            console.log("Historia existe, pero no se puede modificar")
+            //console.log("Historia no esta disponible")
+          }
+          else{
+            this.stateError=true
+            this.tokenError=false
+            //console.log("Historia existe, pero no se puede modificar")
           }
         }else{
           this.tokenError=true
           this.stateError=false
-          console.log('Historia no existe')
+          //console.log('Historia no existe')
         }
       })
     }
@@ -117,8 +136,12 @@ export class HomeFocusComponent implements OnInit {
     });
   }
 
-  getHistory( id: string ){
-    this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
+  getHistory(event, id: string){
+    event.preventDefault();
+    event.stopPropagation();
+    if(event.keyCode==13 || event.type=="click"){
+      this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
+    }
   }
 
   openHomeFocusModal(){
