@@ -1,3 +1,4 @@
+*,p{font-family: "OpenSans-Regular" !important;}
 .loading{
     i{
         color: #76a1b8; 
@@ -59,9 +60,15 @@
         font-family: "OpenSans-Regular";
         font-size:18px;
         line-height: 33px;
-        &.margin-subtitle{
+        /*&.margin-subtitle{
+            max-width: 104vw;
+            
             max-width: 47vw;
             //min-width: 320px;
+        }*/
+        .aditional-info{
+            max-width: 47vw;
+            margin-left: 25%;
         }
         &.margin-secondary-categories{
             max-width: 64vw;
@@ -73,6 +80,7 @@
         }
         p{
             font-family: "OpenSans-Regular";
+            max-width: 104vw;
             font-size:18px;
             line-height: 33px;
         }
@@ -204,18 +212,18 @@
                         justify-content: center;
                         flex-direction: column;
                         .title-content{
-                            font-family: "OpenSans-Bold";
+                            font-family: "OpenSans-Bold" !important;
                             font-size:24px;
                             line-height: 32px;
                             color: #5EA2BA;
                             margin-bottom: 1rem;
                         }
                         .description-content{
-                            font-family: "OpenSans-Regular";
+                            font-family: "OpenSans-Regular" !important;
                             font-size:18px;
                             line-height: 33px;
-                            p,li, ul, hr, pre, blockquote, ol, dl, dd {
-                                font-family: "OpenSans-Regular";
+                            p ,li, ul, hr, pre, blockquote, ol, dl, dd {
+                                font-family: "OpenSans-Regular" !important;
                                 font-size:18px;
                                 line-height: 33px;
                                 //color:red;
@@ -224,16 +232,26 @@
                     }
                     .content-visual{
                         display: flex;
-                        justify-content: center;
+                        justify-content: right;
                         align-items: center;
                         &.graph{
                             iframe {
                                 width: 1px;
                                 min-width: 100%;
+                                /*float: right;
+                                display: block;
+                                height: 406px;
+                                width: 603px;
+                                float: right;*/
                                 canvas{
                                     display: block;
                                     width: auto;
                                     width: 700px !important;
+                                   /* float: right;
+                                    display: block;
+                                    height: 406px;
+                                    width: 603px;
+                                    float: right;*/
                                 }
                             }
                         }
@@ -255,7 +273,7 @@
     }
     .text-tiny{
         p,li, ul, hr, pre, blockquote, ol, dl, dd {
-            font-family: "OpenSans-Regular";
+            font-family: "OpenSans-Regular" !important;
             font-size:18px;
             line-height: 33px;
             //color:red;

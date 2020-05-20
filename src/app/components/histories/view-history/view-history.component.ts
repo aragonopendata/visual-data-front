@@ -122,18 +122,28 @@ export class ViewHistoryComponent implements OnInit {
     } else {
       if(this.isAdmin){
         this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
-          if(response.history.secondary_categories!=[]){
+          if(response.success){
+            if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
             this.getCategories(response.history);
+            }
           }
-          this.responseHistory(response);
+          else{
+            this.objectLoadFailure()
+          }
+          this.responseHistory(response)
         },err => {
           this.objectLoadFailure()
         });
       }
       else{
         this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
-          if(response.history.secondary_categories!=[]){
+          if(response.success){
+            if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
             this.getCategories(response.history);
+            }
+          }
+          else{
+            this.objectLoadFailure()
           }
           this.responseHistory(response)
         },err => {
