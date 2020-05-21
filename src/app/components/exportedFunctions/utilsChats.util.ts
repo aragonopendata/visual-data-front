@@ -118,6 +118,29 @@ export class UtilsGraphService {
 
     let chartData = dataSelected;
 
+    let chartNumber;
+    if (dataProcess.chartType === 'number') {
+      let aux = 0;
+      chartNumber = dataProcess.numberchart;
+      switch (dataProcess.numberchart.numberOption) {
+        case '0':
+          chartNumber.number = chartLabels[chartLabels.length - 1] || '0';
+          break;
+        case '1':
+          chartLabels.forEach(element => {
+            aux = aux + Number(element);
+          });
+          chartNumber.number = aux.toString();
+          break;
+        case '2':
+          chartLabels.forEach(element => {
+            aux = aux + Number(element);
+          });
+          chartNumber.number = (aux / chartLabels.length).toString() ;
+          break;
+      }
+    }
+
     // Delete duplicate values
     if (!dataProcess.isMap) {
       //removeDuplicates(chartLabels, chartData);
@@ -158,6 +181,7 @@ export class UtilsGraphService {
         dataProcess.chartType,
         dataProcess.isMap,
         chartLabels,
+        chartNumber,
         chartData,
         chartDescription,
         dataProcess.title,
@@ -174,6 +198,7 @@ export class UtilsGraphService {
               dataProcess.dataset,
               dataProcess.chartType,
               dataProcess.isMap,
+              chartNumber,
               dataProcess.columnsLabel,
               dataProcess.columnsData,
               dataProcess.columnsDescription,
