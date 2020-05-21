@@ -367,7 +367,7 @@ export class EditHistoryComponent implements OnInit {
 
   sendToPreviewPage(){
     localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.historyModel));
-    let urlPreview="/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
+    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+"/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
     window.open(urlPreview, '_blank');
   }
 
