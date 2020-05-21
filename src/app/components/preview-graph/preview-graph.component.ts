@@ -13,6 +13,7 @@ import { removeDuplicates, typeOfArray, getRandomColor } from '../exportedFuncti
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
 import { UtilsService } from '../exportedFunctions/utils.service';
+import { SelectItem } from '../../models/SelectItem';
 
 @Component({
   selector: 'app-preview-graph',
@@ -58,7 +59,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
   chartType: string;
   chartMap: boolean;
-
+  chartNumber: string;
   public legend: Array<any>;
 
   public widthGraph: number;
@@ -84,6 +85,12 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
   topRows: number;
 
+  numberOptions: SelectItem[];
+  selectedNumberOption: any;
+  numberColor: string = '#000000';
+  numberUnits: string;
+  numberSize: number;
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -98,8 +105,26 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     this.nextStep = '';
     this.chartType = 'line';
     this.changeNumberData = 0;
+    this.numberSize = 100;
+    this.numberUnits = '';
     this.title = "";
     this.chartMap = false;
+    this.chartNumber = '0';
+    this.numberOptions = [
+      {
+        label: 'Último valor',
+        value: '0'
+      },
+      {
+        label: 'Suma de valores',
+        value: '1'
+      },
+      {
+        label: 'Media de valores',
+        value: '2'
+      }
+    ];
+    this.selectedNumberOption = this.numberOptions[0].value;
 
     this.widthGraph = window.screen.width / 2 - 100;
     if (this.widthGraph < 300) {
@@ -114,6 +139,12 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         if (value[2] && value[2].id === 'move-2') {
           if (this.columnsLabel && this.columnsLabel.length > 0) {
             this.columnsLabel.splice(0, 1);
+          }
+        }
+
+        if (value[2] && value[2].id === 'move-1' && this.chartType == 'number') {
+          if (this.columnsData && this.columnsData.length > 0) {
+            this.columnsData.splice(0, 1);
           }
         }
 
@@ -288,6 +319,26 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       });
     }
 
+    if (this.chartType === 'number') {
+      let aux = 0;
+      switch (this.selectedNumberOption) {
+        case '0':
+          this.chartNumber = this.chartData[0].data[this.chartData[0].data.length - 1] || '0';
+          break;
+        case '1':
+          this.chartData[0].data.forEach(element => {
+            aux = aux + Number(element);
+          });
+          this.chartNumber = aux.toString();
+          break;
+        case '2':
+          this.chartData[0].data.forEach(element => {
+            aux = aux + Number(element);
+          });
+          this.chartNumber = (aux / this.chartData[0].data.length).toString() ;
+          break;
+      }
+    }
     // Group Data
     if (
       this.columnsData &&
@@ -329,7 +380,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     if (
       this.chart !== undefined &&
       this.chart.chart !== undefined &&
-      !this.chartMap
+      !this.chartMap && this.chartType !== 'number'
     ) {
       this.chart.chart.destroy();
       this.chart.chart = 0;
@@ -375,6 +426,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
   changeChart(chart) {
     this.chartMap = false;
+    this.chartType = '';
     this.color = [];
     if (chart === 0) {
       this.chartType = 'line';
@@ -384,6 +436,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       this.chartType = 'doughnut';
     } else if (chart === 3) {
       this.chartMap = true;
+    } else if (chart === 4) {
+      this.chartType = 'number';
     }
     this.onDrop('refresh');
   }
@@ -427,16 +481,29 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     if (!this.title || this.title === '') {
       this.nextStep = 'Se necesita un título para la gráfica';
-    } else if (rColumnsData.length === 0 || rColumnsLables.length === 0) {
+    } else if ((rColumnsData.length === 0 || rColumnsLables.length === 0) && this.chartType !== 'number') {
       this.nextStep = 'Se necesitan datos para generar la gráfica.';
     } else {
       // Upload All
+
+      let numberchart = {}
+      if (this.chartType === 'number') {
+        numberchart = {
+          number: this.chartNumber,
+          numberOption: this.selectedNumberOption,
+          numberColor: this.numberColor,
+          numberUnits: this.numberUnits,
+          numberSize: this.numberSize,
+        }
+      }
+
       this.graphservice
         .saveGraph(
           null,
           this.chartType,
           this.chartMap,
           this.chartLabels,
+          numberchart,
           this.chartData,
           this.chartDescriptionPoints,
           this.title,
@@ -451,6 +518,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.dataservice.datasetSelected,
               this.chartType,
               this.chartMap,
+              numberchart,
               rColumnsLables,
               rColumnsData,
               rColumnsDescript,

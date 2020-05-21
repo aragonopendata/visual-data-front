@@ -1,5 +1,5 @@
 <div class="def">
-    <div *ngIf="chart!==undefined && !isMap" class="d-block">
+    <div *ngIf="chart!==undefined && !isMap &&  chart.type !== 'number'" class="d-block">
         <div class="col-12">
             <h3 class="visualTitle">{{title}}
                 <span style="float:right">
@@ -10,6 +10,10 @@
         <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [colors]="chart.colors" [legend]="chartLegend"
             [chartType]="chart.type">
         </canvas>
+    </div>
+    <div *ngIf="chart!==undefined && !isMap &&  chart.type === 'number'" class="d-block" style="display: flex;justify-content: center;font-weight: bold;" [style.color]="chart.number.numberColor" [style.font-size]="chart.number.numberSize + 'px'">
+        <div style="margin-right: 8px;">{{ chart.number.number }}</div>
+        <div>{{ chart.number.numberUnits }}</div>
     </div>
     <div *ngIf="points!==undefined && isMap">
         <div class="col-11">

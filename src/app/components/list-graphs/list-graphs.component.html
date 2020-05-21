@@ -30,8 +30,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card-img-top mt-2" *ngIf="chart!==undefined && !chart.isMap">
+            <div class="card-img-top mt-2" *ngIf="chart!==undefined && !chart.isMap && chart.type !== 'number'">
                 <canvas baseChart [datasets]="chart.data" [labels]="chart.labels" [options]="chartOptions" [chartType]=chart.type [colors]=chart.color></canvas>
+            </div>
+            <div class="card-img-top mt-2" *ngIf="chart!==undefined && !chart.isMap && chart.type === 'number'" style="display: flex;justify-content: center;font-weight: bold;" [style.color]="chart.number.numberColor" [style.font-size]="chart.number.numberSize + 'px'">
+                <div style="margin-right: 8px;">{{ chart.number.number }}</div>
+                <div>{{ chart.number.numberUnits }}</div>
             </div>
             <div class="card-img-top" *ngIf="mapsPoints[i] && chart.isMap">
                 <app-map [descriptionPoints]="chart.descriptions" [points]="mapsPoints[i]" zoom="6" turnDescript=fals                           e></app-map>

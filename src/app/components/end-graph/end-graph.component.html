@@ -1,5 +1,5 @@
 <div class="w-100">
-    <div *ngIf="chart!==undefined && !isMap" class="w-100">
+    <div *ngIf="chart!==undefined && !isMap && chart.type !== 'number'" class="w-100">
         <div class="row">
             <div class="col-12">
                 <h3 class="visualTitle">{{chart.title}}</h3>
@@ -56,6 +56,37 @@
         <div class="row">
             <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 mx-auto customHeight">
                 <app-map [descriptionPoints]="descriptions" [points]="points" zoom="7" turnDescript=true></app-map>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="chart!==undefined && !isMap && chart.type === 'number'" class="w-100">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="visualTitle">{{chart.title}}</h3>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 justify-content-end mx-auto">
+                <button tabindex="-1" data-toggle="modal" data-target="#listModal" (click)="updateChart(chart.id)" class="button3 float-right">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                <span class="social-media-icons float-right">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Facebook" href="https://www.facebook.com/sharer.php?u={{actualRoute}}">
+                        <img alt="Facebook" src="/static/public/contenido-general/social/facebookIcon.png">
+                    </a>
+                </span>
+                <span class="social-media-icons float-right">
+                    <a tabindex="{{openedMenu ? -1 : 0}}" aria-label="Compartir en Twitter" href="https://twitter.com/share?url={{actualRoute}}">
+                        <img alt="Twitter" src="/static/public/contenido-general/social/twitterIcon.png">
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="row mx-auto w-100">
+            <div class="col-sm-12 col-xs-12 col-md-8 col-lg-8 mx-auto" style="display: flex;justify-content: center;font-weight: bold;" [style.color]="chart.number.numberColor" [style.font-size]="chart.number.numberSize + 'px'">
+                <div style="margin-right: 8px;">{{ chart.number.number }}</div>
+                <div>{{ chart.number.numberUnits }}</div>
             </div>
         </div>
     </div>

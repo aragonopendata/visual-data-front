@@ -17,6 +17,9 @@
         <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Mapa de puntos" (click)="changeChart(3)" class="button">
             <i class="fa fa-map"></i>
         </button>
+        <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de numeros" (click)="changeChart(4)" class="button">
+            <i class="fa fa-sort-numeric-asc"></i>
+        </button>
     </div>
     <div class="col-md-12" style="margin-bottom: 10px">
         <p>
@@ -47,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col" style="margin-bottom: 10px">
+            <div class="col" style="margin-bottom: 10px" *ngIf="chartType !== 'number'">
                 <span *ngIf="!chartMap" class="titleMapper" tabindex="{{openedMenu ? -1 : 0}}">Eje X</span>
                 <span *ngIf="chartMap" class="titleMapper" tabindex="{{openedMenu ? -1 : 0}}">Longitud / X</span>
                 <span style="font-size: 11; float: right" tabindex="{{openedMenu ? -1 : 0}}">(Arrastrar tipo: Number, String)</span>
@@ -84,7 +87,7 @@
             <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar t&iacute;tulo gr&aacute;fica" type="text" style="width: 100%" [(ngModel)]="title" pInputText>
         </div>
 
-        <div *ngIf="chartType != 'doughnut' && !chartMap" style="margin-top:20px">
+        <div *ngIf="chartType != 'doughnut' && chartType != 'number' && !chartMap" style="margin-top:20px">
             <p>
                 <strong> - Legenda</strong>
             </p>
@@ -93,14 +96,42 @@
             </p-dataTable>
         </div>
 
-        <div style="margin-top:20px">
+        <div style="margin-top:20px" *ngIf="chartType == 'number'">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Último valor</strong>
+            </p>
+            <p-dropdown [options]="numberOptions" [(ngModel)]="selectedNumberOption" [style]="{'width':'100%'}" (onChange)="onDrop('refresh')"></p-dropdown>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="chartType != 'number'">
             <p>
                 <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar tama&ntilde;o Gr&aacute;fica"> - Tama&ntilde;o Gr&aacute;fica</strong>
             </p>
             <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid" [(ngModel)]="widthGraph"></p-spinner>
         </div>
 
-        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap">
+        <div style="margin-top:20px" *ngIf="chartType == 'number'">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Color del texto</strong>
+            </p>
+            <input [(colorPicker)]="numberColor" [style.background]="numberColor" [style.width]="'100%'"/>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="chartType == 'number'">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Tama&ntilde;o del texto</strong>
+            </p>
+            <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid" [(ngModel)]="numberSize" ></p-spinner>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="chartType == 'number'">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Unidades</strong>
+            </p>
+            <input tabindex="{{openedMenu ? -1 : 0}}" type="text" style="width: 100%" [(ngModel)]="numberUnits" pInputText>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap && chartType != 'number'">
             <p>
                 <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar tama&ntilde;o Gr&aacute;fica"> - Cantidad Datos Gr&aacute;fica</strong>
             </p>
@@ -108,24 +139,31 @@
         </div>
     </div>
 
-    <div class="col-md-8" style="margin-bottom: 10px;" [style.width.px]="widthGraph">
+    <div class="col-md-8" style="margin-bottom: 10px;display: flex;flex-direction: column;" [style.width.px]="widthGraph">
         <p>
             <strong>Gr&aacute;fica</strong>
         </p>
-        <div *ngIf="!chartMap" style="display: block;">
+        <div *ngIf="!chartMap && chartType !== 'number'" style="display: block;">
             <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend" [chartType]="chartType"
                 [colors]="color"></canvas>
+        </div>
+        <div *ngIf="!chartMap && chartType === 'number'" style="display: flex;justify-content: center;height: 100%;align-items: center;font-weight: bold;" [style.color]="numberColor" [style.font-size]="numberSize + 'px'"
+        >
+            <div style="margin-right: 8px;">{{ chartNumber }}</div>
+            <div>{{ numberUnits }}</div>
         </div>
         <div *ngIf="chartMap">
             <app-map [descriptionPoints]="chartDescriptionPoints" [points]="points" zoom="8" (description)="showDescription($event)"
                 turnDescript=true></app-map>
         </div>
     </div>
-    <div class="row mt-1">
-        <div class="col-12">
-            <div *ngIf="nextStep!=''" class="alert alert-warning">{{nextStep}}</div>
-        </div>
+</div>
+<div class="row mt-1">
+    <div class="col-12">
+        <div *ngIf="nextStep!=''" class="alert alert-warning">{{nextStep}}</div>
     </div>
+</div>
+<div class="row">
     <div class="col-md-12" style="text-align:center;">
         <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button">Finalizar</button>
     </div>
