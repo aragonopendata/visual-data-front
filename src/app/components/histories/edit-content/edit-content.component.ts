@@ -6,7 +6,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { UtilsService } from '../../exportedFunctions/utils.service';
-import * as tinymce from '../../../../../node_modules/tinymce/tinymce';
 
 
 @Component({
