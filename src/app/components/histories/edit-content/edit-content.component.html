@@ -17,7 +17,7 @@
               <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título *</h4>
             </label>
               <p tabindex="{{openedMenu ? -1 : 0}}">Por favor, escribe una denominación del contenido</p>              
-              <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" (keyup.enter)="saltaCampo($event,'alineacion')" tabindex="{{openedMenu ? -1 : 0}}">
+              <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" tabindex="{{openedMenu ? -1 : 0}}">
               <span class="sr-only">Titulo del contenido</span>
               <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
           </div>
