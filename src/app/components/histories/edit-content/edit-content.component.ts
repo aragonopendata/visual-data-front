@@ -7,6 +7,7 @@ import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 
+declare var tinymce: any;
 
 @Component({
   selector: 'app-edit-content',

@@ -9,6 +9,8 @@ import { State } from '../../../models/State';
 import { AuthGuard } from '../../../_guards/auth.guard';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 
+
+declare var tinymce: any;
 declare var $: any;
 
 @Component({
@@ -186,7 +188,6 @@ export class EditHistoryComponent implements OnInit {
           }
         });
       });
-      
       this.contents=this.historyBack.contents== null? [] : this.historyBack.contents;
 
       return this.loading=false;
