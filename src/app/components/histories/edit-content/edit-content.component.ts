@@ -6,6 +6,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { UtilsService } from '../../exportedFunctions/utils.service';
+import * as tinymce from '../../../../../node_modules/tinymce/tinymce';
 
 
 @Component({
@@ -37,9 +38,9 @@ export class EditContentComponent implements OnInit {
     
     this.settings = {
       selector: '#editorContent',
-      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
-      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
-      baseURL: '/static/public/plugins/tinymce',
+      theme_url: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce/skins/lightgray',
+      baseURL: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce',
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,

@@ -7,6 +7,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Constants } from '../../../app.constants';
 import { State } from '../../../models/State';
 import { AuthGuard } from '../../../_guards/auth.guard';
+import * as tinymce from '../../../../../node_modules/tinymce/tinymce';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 
 declare var $: any;
@@ -81,9 +82,9 @@ export class EditHistoryComponent implements OnInit {
     
     this.settings = {
       selector: '#editor',
-      theme_url: '/static/public/plugins/tinymce/themes/modern/theme.js',
-      skin_url: '/static/public/plugins/tinymce/skins/lightgray',
-      baseURL: '/static/public/plugins/tinymce',
+      theme_url: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce/themes/modern/theme.js',
+      skin_url: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce/skins/lightgray',
+      baseURL: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce',
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
