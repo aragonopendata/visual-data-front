@@ -50,8 +50,8 @@
 
     <div class="row subtitle">
       <div class="container-fluid opendata-style margin-subtitle">
-        <div class="col-md-12 history-description">
-          <p [innerHTML]="historySelect.description" tabindex="{{openedMenu ? -1 : 0}}"></p>
+        <div class="col-md-12 history-description margin-description">
+          <p class="description-title" [innerHTML]="historySelect.description" tabindex="{{openedMenu ? -1 : 0}}"></p>
         </div>
         <div class="aditional-info">
           <div *ngFor="let info of aditionalInfo; let i = index">

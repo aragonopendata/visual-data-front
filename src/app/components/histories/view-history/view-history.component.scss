@@ -94,6 +94,10 @@
         .history-description{
             margin-bottom: 2rem;
         }
+        .margin-description{
+            max-width: 47vw;
+            margin-left: 25%;
+        }
         .aditional-info{
             display: flex;
             flex-wrap: wrap;
@@ -213,17 +217,17 @@
                         flex-direction: column;
                         .title-content{
                             font-family: "OpenSans-Bold" !important;
-                            font-size:24px;
-                            line-height: 32px;
+                            font-size:24px !important;
+                            line-height: 32px  !important;
                             color: #5EA2BA;
                             margin-bottom: 1rem;
                         }
                         .description-content{
-                            font-family: "OpenSans-Regular" !important;
+                            font-family: "OpenSans-Regular" ;
                             font-size:18px;
                             line-height: 33px;
                             p ,li, ul, hr, pre, blockquote, ol, dl, dd {
-                                font-family: "OpenSans-Regular" !important;
+                                font-family: "OpenSans-Regular";
                                 font-size:18px;
                                 line-height: 33px;
                                 //color:red;
@@ -293,6 +297,18 @@
             }
         }
     }    
+}
+
+
+@media (max-width: 1024px){
+    .container-view{
+        .subtitle{
+            .margin-description{
+                max-width: 89vw;
+                margin-left: 5%;
+            }
+        }
+    }
 }
 
 
