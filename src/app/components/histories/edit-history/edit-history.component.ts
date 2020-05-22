@@ -7,7 +7,6 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Constants } from '../../../app.constants';
 import { State } from '../../../models/State';
 import { AuthGuard } from '../../../_guards/auth.guard';
-import * as tinymce from '../../../../../node_modules/tinymce/tinymce';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 
 declare var $: any;
