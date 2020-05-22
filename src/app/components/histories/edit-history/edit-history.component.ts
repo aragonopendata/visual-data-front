@@ -111,7 +111,7 @@ export class EditHistoryComponent implements OnInit {
       this.loadHistory();
     }
 
-        this.getOpenedMenu();
+    this.getOpenedMenu();
 
 
   }
