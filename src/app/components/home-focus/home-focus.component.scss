@@ -152,3 +152,14 @@
     -moz-osx-font-smoothing: grayscale;
     transform: translate(0, 0);
 }
+
+@media screen and (max-width: 768px) {
+    .ocultar-div{
+        visibility: hidden;
+    }
+    .no-margins
+    {
+        margin-left: 0em;
+        margin-right: 0em;
+    }
+}
