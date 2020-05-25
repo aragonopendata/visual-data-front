@@ -47,9 +47,16 @@
         .group{
             margin: 2rem 0;
             .conten-type{
+                .radio{
+                    margin-bottom: 12px;
+                    input{
+                        margin-right: 12px;
+                    }
+                }
                 .form-row{
                     margin-right: 0;
                     margin-left: 0;
+                    
                     input{
                         margin-right: 8px;
                         &[type="radio"]{
