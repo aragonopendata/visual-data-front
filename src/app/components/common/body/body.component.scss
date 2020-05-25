@@ -9,3 +9,10 @@
   height: auto;
   margin-top: 10vh;
 }
+
+
+@media (max-width: 992px) {
+  .opendatamargin {
+    max-width: none;
+  }
+}
