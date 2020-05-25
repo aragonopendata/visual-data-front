@@ -9,6 +9,7 @@ import { AditionalInfo } from '../../../models/AditionalInfo';
 import { Category } from '../../../models/Category';
 import { Aligns } from '../../../models/Aligns';
 import { AuthGuard } from '../../../_guards/auth.guard';
+import { UtilsService } from '../../exportedFunctions/utils.service';
 
 @Component({
   selector: 'app-view-history',
@@ -17,6 +18,7 @@ import { AuthGuard } from '../../../_guards/auth.guard';
 })
 export class ViewHistoryComponent implements OnInit {
 
+  openedMenu: boolean;
   idHistory: string;
   historySelect: History;
   preview: boolean = false;
@@ -32,17 +34,19 @@ export class ViewHistoryComponent implements OnInit {
   aditionalInfo :AditionalInfo[]=[];
   
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
-    private _verifyTokenService: AuthGuard ) { 
+    private _verifyTokenService: AuthGuard,private utilsService: UtilsService ) { 
     
-    this._route.params.subscribe(params => {
-      if(params.id!=null){
-        this.idHistory = params.id;
-      }
-      else{
-        this.preview=true;
-        this.loading=false;
-      }      
-    });
+      this.getOpenedMenu();
+
+      this._route.params.subscribe(params => {
+        if(params.id!=null){
+          this.idHistory = params.id;
+        }
+        else{
+          this.preview=true;
+          this.loading=false;
+        }      
+      });
   }
 
   ngOnInit() {
@@ -227,6 +231,12 @@ export class ViewHistoryComponent implements OnInit {
           resolve(this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed));
         }
       });
+    });
+  }
+
+  getOpenedMenu(){
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
     });
   }
   

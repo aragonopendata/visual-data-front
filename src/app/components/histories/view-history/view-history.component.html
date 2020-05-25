@@ -31,14 +31,6 @@
     <div class="row title">
 
       <div class="img-background">
-        <!--<img *ngIf="historySelect.main_category === 1263" src="./assets/img/salud.svg" class="icon card-img-top" alt="...">
-        <img *ngIf="historySelect.main_category === 1267" src="./assets/img/agricultura.svg" class="icon card-img-top" alt="...">
-        <img *ngIf="historySelect.main_category === 1264" src="./assets/img/educacion.svg" class="icon card-img-top" alt="...">
-        <img *ngIf="historySelect.main_category === 1272" src="./assets/img/transportes.png" class="card-img-top img" alt="...">
-        <img *ngIf="historySelect.main_category === 1271" src="./assets/img/vivienda.jpg" class="card-img-top img" alt="...">
-        <img *ngIf="historySelect.main_category === 1270" src="./assets/img/cultura.jpg" class="card-img-top img" alt="...">
-        <img *ngIf="historySelect.main_category === 1265" src="./assets/img/trabajo.svg" class="icon card-img-top" alt="...">
-         -->
          <img src="/static/public/focus/pilar.jpg" class="icon card-img-top" alt="...">
       </div>
 
@@ -101,7 +93,7 @@
       
                   <div class="content" [ngClass]="{'graph': content.type_content === contentEnum.graph}">
     
-                    <div class="content-text" *ngIf="content.align == alignEnum.right">
+                    <div class="content-text right" *ngIf="content.align == alignEnum.right">
                       <p tabindex="{{openedMenu ? -1 : 0}}" class="title-content">{{content.title}}</p>
                       <p tabindex="{{openedMenu ? -1 : 0}}" class="description-content text-tiny" [innerHTML]="content.description"></p>
                     </div>
@@ -126,7 +118,7 @@
                       allowfullscreen></iframe>
                     </div>
                     
-                    <div class="content-text" *ngIf="content.align === alignEnum.left">
+                    <div class="content-text left" *ngIf="content.align === alignEnum.left">
                       <p tabindex="{{openedMenu ? -1 : 0}}" class="title">{{content.title}}</p>
                       <p tabindex="{{openedMenu ? -1 : 0}}" class="description-content text-tiny" [innerHTML]="content.description"></p>
                     </div>

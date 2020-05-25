@@ -10,7 +10,7 @@ import { AuthGuard } from '../../../_guards/auth.guard';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 
 
-declare var tinymce: any;
+// declare var tinymce: any;
 declare var $: any;
 
 @Component({
@@ -89,7 +89,7 @@ export class EditHistoryComponent implements OnInit {
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
-      branding: false
+      branding: false,
     }
 
   }

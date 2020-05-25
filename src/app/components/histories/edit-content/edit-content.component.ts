@@ -7,7 +7,6 @@ import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 
-//declare var tinymce: any;
 @Component({
   selector: 'app-edit-content',
   templateUrl: './edit-content.component.html',
@@ -43,7 +42,7 @@ export class EditContentComponent implements OnInit {
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
-      branding: false
+      branding: false,
     }
 
     this.getOpenedMenu();
