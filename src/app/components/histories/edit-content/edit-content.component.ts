@@ -6,9 +6,9 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { UtilsService } from '../../exportedFunctions/utils.service';
+import * as tinymce from '../../../../../node_modules/tinymce/tinymce';
 
-declare var tinymce: any;
-
+//declare var tinymce: any;
 @Component({
   selector: 'app-edit-content',
   templateUrl: './edit-content.component.html',
@@ -126,7 +126,8 @@ export class EditContentComponent implements OnInit {
         description: this.contentForm.get('description').value, 
         type_content: this.contentForm.get('type_content').value,
         visual_content: this.contentForm.get('visual_content').value,
-        align: this.contentForm.get('align').value
+        align: this.contentForm.get('align').value,
+        body_content: true
       };
       
       this.contentCreate.emit({
