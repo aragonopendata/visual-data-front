@@ -6,6 +6,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { UtilsService } from '../../exportedFunctions/utils.service';
+import { GraphService } from '../../../services/graph.service';
 
 @Component({
   selector: 'app-edit-content',
@@ -32,7 +33,7 @@ export class EditContentComponent implements OnInit {
   @Output() closeContent = new EventEmitter<any>();
   @Output() changeContent = new EventEmitter<any>();
 
-  constructor(private utilsService: UtilsService, private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder) { 
+  constructor(private utilsService: UtilsService, private _route: Router, private _servicio: VisualGrapsService, private _formBuilder:FormBuilder, private _graphservice: GraphService) { 
     
     this.settings = {
       selector: '#editorContent',
@@ -106,6 +107,13 @@ export class EditContentComponent implements OnInit {
       type_content: this.content.type_content,
       align: this.content.align
     });
+
+    if(this.contentForm.get("type_content").value==this.contentEnum.graph){
+      this._graphservice.getChart(this.content.visual_content).subscribe(chart => {
+        this.graphTitle=chart.title;
+        this.contentModel.visual_content=this.content.visual_content;
+      });
+    }
   }
 
   openVisualData() {
