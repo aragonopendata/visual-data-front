@@ -31,7 +31,7 @@
     <div class="row title">
 
       <div class="img-background">
-         <img src="/static/public/focus/pilar.jpg" class="icon card-img-top" alt="...">
+         <img src="/static/public/focus/pilar.jpg" class="icon card-img-top" alt="Fotografía de aragon" longdesc="Fotografía de la basílica del pilar junto al río ebro">
          <p class="credit">Photo by Marcelo Rivas</p>
       </div>
 
@@ -48,9 +48,10 @@
         </div>
         <div class="aditional-info">
           <div *ngFor="let info of aditionalInfo; let i = index">
-            <div class="card">
+            <div class="card"  tabindex="{{openedMenu ? -1 : 0}}">
               <div class="number-info">{{info.value}}</div>
               <div class="text-aditional-info">{{info.text}}</div>
+              <span class="sr-only">{{info.text}}: {{info.value}}</span>
             </div>
           </div>
         </div>
@@ -61,7 +62,7 @@
       <div class="container-fluid opendata-style margin-secondary-categories">
         <div class="categories">
           <div *ngFor="let secondCategory of selectedCategories; let i = index">
-            <div class="card">
+            <div class="card" tabindex="{{openedMenu ? -1 : 0}}">
               <img *ngIf="secondCategory.id === 1261" src="http://opendata.aragon.es/static/public/i/temas/12-Justicia.png" alt="Historia de la categoria Derechos y servicios a la ciudadanía" longdesc="Derechos y servicios a la ciudadanía">
               <img *ngIf="secondCategory.id === 1262" src="http://opendata.aragon.es/static/public/i/temas/18-Sociedad.png"  alt="Historia de la categoria Atención social y dependencia" longdesc="Atención social y dependencia">
               <img *ngIf="secondCategory.id === 1263" src="http://opendata.aragon.es/static/public/i/temas/15-Salud.png" alt="Historia de la categoria salud" longdesc="Salud">
@@ -75,6 +76,7 @@
               <img *ngIf="secondCategory.id === 1271" src="http://opendata.aragon.es/static/public/i/temas/22-Vivienda.png" alt="Historia de la categoria Vivienda" longdesc="Vivienda">
               <img *ngIf="secondCategory.id === 1272" src="http://opendata.aragon.es/static/public/i/temas/19-Transporte.png" alt="Historia de la categoria Infraestructura, transportes y carreteras" longdesc="Infraestructura, transportes y carreteras">
               <div class="text-aditional-info">{{secondCategory.name}}</div>
+              <span class="sr-only">Categoría a la que pertenece historia: {{secondCategory.name}}</span>
             </div>
           </div>
         </div>
