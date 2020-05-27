@@ -26,7 +26,7 @@
           <div class="group">
             <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Contenido</h4>
             <p tabindex="{{openedMenu ? -1 : 0}}">El contenido de la historia es lo que quieres contar, con la ayuda de los distintos gráficos que aporta el portal de Aragon Open Data</p>
-            <angular-tinymce id="editorContent" [settings]="settings" formControlName="description" tabindex="{{openedMenu ? -1 : 0}}"></angular-tinymce>
+            <angular-tinymce *ngIf="settings"  id="editorContent" [settings]="settings" formControlName="description" tabindex="{{openedMenu ? -1 : 0}}"></angular-tinymce>
             <span class="sr-only">Descripcion del contenido</span>
           </div> 
 
@@ -40,14 +40,17 @@
             </p>
 
             <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
-              <span class="sr-only">Seleccione una opción de fuente de la historia</span>
-              <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
-              <span class="sr-only">{{contentType.text}}</span> 
-              
 
+              <span class="sr-only">Seleccione una opción de fuente de la historia</span>
+              
+              <div class="radio" >
+                <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
+                <span class="sr-only">{{contentType.text}}</span> 
+              </div>
+              
               <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
                 <div class="form-row align-items-center">
-                  <div class="col-auto">
+                  <div>
                     <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold" tabindex="{{openedMenu ? -1 : 0}}">La gráfica seleccionada es: {{graphTitle}}</p>
                     <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()' tabindex="{{openedMenu ? -1 : 0}}">Abrir Open Visual Data</button>
                     <span class="sr-only">Abrir Open Visual Data para selecionar grafica</span>

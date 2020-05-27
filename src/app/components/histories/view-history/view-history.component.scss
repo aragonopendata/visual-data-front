@@ -1,4 +1,4 @@
-*,p{font-family: "OpenSans-Regular" !important;}
+
 .loading{
     i{
         color: #76a1b8; 
@@ -26,6 +26,20 @@
                     width: 362px;
                 }
                 */
+            }
+            .credit{
+                position: absolute;
+                bottom: 0%;
+                right: 0%;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 1.54%;
+                margin-bottom: 0.29%;
+                font-family: "OpenSans-Regular" !important;
+                font-size: 18px !important;
+                line-height: 24px !important;
+                align-content: center;
+                color: #5EA2BA;
             }
         }
         .content-title{
@@ -93,6 +107,10 @@
         text-align:center;
         .history-description{
             margin-bottom: 2rem;
+        }
+        .margin-description{
+            max-width: 47vw;
+            margin-left: 25%;
         }
         .aditional-info{
             display: flex;
@@ -211,23 +229,31 @@
                         display: flex;
                         justify-content: center;
                         flex-direction: column;
+                        word-wrap: break-word;
+                        hyphens: auto;
                         .title-content{
                             font-family: "OpenSans-Bold" !important;
-                            font-size:24px;
-                            line-height: 32px;
+                            font-size:24px !important;
+                            line-height: 32px  !important;
                             color: #5EA2BA;
                             margin-bottom: 1rem;
                         }
                         .description-content{
-                            font-family: "OpenSans-Regular" !important;
+                            font-family: "OpenSans-Regular" ;
                             font-size:18px;
                             line-height: 33px;
                             p ,li, ul, hr, pre, blockquote, ol, dl, dd {
-                                font-family: "OpenSans-Regular" !important;
+                                font-family: "OpenSans-Regular";
                                 font-size:18px;
                                 line-height: 33px;
                                 //color:red;
                             }
+                        }
+                        &.right{
+                            margin-right: 38px;
+                        }
+                        &.left{
+                            margin-left: 38px;
                         }
                     }
                     .content-visual{
@@ -273,7 +299,7 @@
     }
     .text-tiny{
         p,li, ul, hr, pre, blockquote, ol, dl, dd {
-            font-family: "OpenSans-Regular" !important;
+            font-family: "OpenSans-Regular";
             font-size:18px;
             line-height: 33px;
             //color:red;
@@ -293,6 +319,18 @@
             }
         }
     }    
+}
+
+
+@media (max-width: 1024px){
+    .container-view{
+        .subtitle{
+            .margin-description{
+                max-width: none;
+                margin-left: 0%;
+            }
+        }
+    }
 }
 
 

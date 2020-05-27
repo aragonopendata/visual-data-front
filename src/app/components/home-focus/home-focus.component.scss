@@ -1,9 +1,11 @@
 .container {
+    max-width: 100% !important;
     >div{
         margin-top: 3rem;
         .input-group{    
             margin: 0 auto;
             display: flex;
+            justify-content: center;
             button, input {
                 border-radius: 4px;
                 
@@ -151,4 +153,22 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transform: translate(0, 0);
+}
+
+@media screen and (max-width: 768px) {
+    .ocultar-div{
+        display: none;
+    }
+    .no-margins
+    {
+        margin-left: 0em;
+        margin-right: 0em;
+    }
+    .input-group{
+        max-width: 100%;
+    }
+    .container > div .input-group .input-search{
+        width: 70%;
+    }
+   
 }

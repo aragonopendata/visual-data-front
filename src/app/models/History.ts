@@ -35,5 +35,7 @@ export class Content {
 
     align?:number;
 
+    body_content?:boolean;
+
     constructor() {}
 }

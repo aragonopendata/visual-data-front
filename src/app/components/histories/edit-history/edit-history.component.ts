@@ -9,6 +9,8 @@ import { State } from '../../../models/State';
 import { AuthGuard } from '../../../_guards/auth.guard';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 
+
+// declare var tinymce: any;
 declare var $: any;
 
 @Component({
@@ -87,7 +89,7 @@ export class EditHistoryComponent implements OnInit {
       plugins: [' link '],
       toolbar: ' bold italic underline | link ',
       menubar: false,
-      branding: false
+      branding: false,
     }
 
   }
@@ -111,7 +113,7 @@ export class EditHistoryComponent implements OnInit {
       this.loadHistory();
     }
 
-        this.getOpenedMenu();
+    this.getOpenedMenu();
 
 
   }
@@ -186,7 +188,6 @@ export class EditHistoryComponent implements OnInit {
           }
         });
       });
-      
       this.contents=this.historyBack.contents== null? [] : this.historyBack.contents;
 
       return this.loading=false;
@@ -367,7 +368,7 @@ export class EditHistoryComponent implements OnInit {
 
   sendToPreviewPage(){
     localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.historyModel));
-    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+"/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
+    let urlPreview=Constants.ROUTER_LINK_FOCUS+"/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
     window.open(urlPreview, '_blank');
   }
 

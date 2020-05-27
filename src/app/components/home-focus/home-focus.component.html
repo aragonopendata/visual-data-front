@@ -1,12 +1,12 @@
-<div class="container">
+<div class="container no-margins">
   
   <div class="row">
     <div class="col-12">
       <div class="form-group">
 
         <!-- Search -->
-        <div class="input-group col-8">
-          <button class="btn btn-primary" id="crearHistoria" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
+        <div class="input-group col-12">
+          <button class="btn btn-primary ocultar-div" id="crearHistoria" type="button"  data-toggle="modal" (click)="openHomeFocusModal()" tabindex="{{openedMenu ? -1 : 0}}">
             <div class="icon-fa fa fa-plus"></div> Crear historia
             <span class="sr-only">Crear historia</span> 
           </button>
@@ -38,7 +38,7 @@
             <li class="nav-item" *ngFor="let category of categoriesHidden">
               <span tabindex="{{openedMenu ? -1 : 0}}" class="nav-link text-primary"  [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
               <span class="sr-only">Categoria: {{category.name}}</span>
-            </li>
+            </li> 
           </ul>
         </div>
         
