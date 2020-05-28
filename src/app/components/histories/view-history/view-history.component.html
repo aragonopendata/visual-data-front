@@ -86,7 +86,7 @@
 
 
     <div class="all-content">
-      <div *ngFor="let content of historySelect.contents; let i = index" class="row new-content" [ngClass]="i%2==0 ? 'par-background' : 'impar-background'">
+      <div *ngFor="let content of selectedBodyContents; let i = index" class="row new-content" [ngClass]="i%2==0 ? 'par-background' : 'impar-background'">
         <div class="container-fluid opendata-style margin">
           <div class="col-md-12">
             <div class="tab-content">

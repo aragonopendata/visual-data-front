@@ -10,6 +10,7 @@ import { Category } from '../../../models/Category';
 import { Aligns } from '../../../models/Aligns';
 import { AuthGuard } from '../../../_guards/auth.guard';
 import { UtilsService } from '../../exportedFunctions/utils.service';
+import { GraphService } from '../../../services/graph.service';
 
 @Component({
   selector: 'app-view-history',
@@ -32,9 +33,12 @@ export class ViewHistoryComponent implements OnInit {
   categories: Category[]=[];
   selectedCategories: Category[]=[];
   aditionalInfo :AditionalInfo[]=[];
-  
+  //selectedHeaderContents: Content[];
+  bodyContents: Content[];
+  aditionalInfo2 :AditionalInfo[]=[];
+
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
-    private _verifyTokenService: AuthGuard,private utilsService: UtilsService ) { 
+    private _verifyTokenService: AuthGuard,private utilsService: UtilsService, private graphservice: GraphService) { 
     
       this.getOpenedMenu();
 
@@ -66,15 +70,15 @@ export class ViewHistoryComponent implements OnInit {
 
     this.historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
-      this.loadHistory();
 		},err => {
       this.objectLoadFailure()
     });
 
-    this.loadAditionalInfo();
+    //this.loadAditionalInfo();
 
   }
 
+  /*
   loadAditionalInfo(){
     let restarantes = new AditionalInfo("Restaurantes", 1348);
     let hoteles = new AditionalInfo("Hoteles", 89);
@@ -85,6 +89,7 @@ export class ViewHistoryComponent implements OnInit {
     this.aditionalInfo.push(transporte)
     this.aditionalInfo.push(turismo)
   }
+  */
 
   getCategories(history: History){
     if(history.main_category!=null){
@@ -98,7 +103,6 @@ export class ViewHistoryComponent implements OnInit {
     for (var i = 0; i < history.secondary_categories.length; i++) {
       for (var j = 0; j < this.categories.length; j++) {
         if(this.categories[j].id==history.secondary_categories[i]){
-          //this.categories[j].selected=true;
           this.selectedCategories.push(this.categories[j])
         }
       }
@@ -122,6 +126,7 @@ export class ViewHistoryComponent implements OnInit {
           element = this.getInfoContents(element);
         });
       }
+      this.separateContents();
 
     } else {
       if(this.isAdmin){
@@ -157,6 +162,21 @@ export class ViewHistoryComponent implements OnInit {
     }
   }
 
+  separateContents(){
+    let selectedHeaderContents: Content[]=[];
+    this.bodyContents=[];
+    if(this.historySelect.contents && this.historySelect.contents.length>0){
+      for (var contentNumber = 0; contentNumber < this.historySelect.contents.length; contentNumber++) {
+        if(this.historySelect.contents[contentNumber].body_content){
+          this.bodyContents.push(this.historySelect.contents[contentNumber])
+        }else{
+          selectedHeaderContents.push(this.historySelect.contents[contentNumber])
+        }
+      }
+    }
+    this.getHeadersInfo(selectedHeaderContents)
+  }
+
   responseHistory(response){
     if(response.success && response.history!=null){
       this.historySelect = response.history;
@@ -165,11 +185,23 @@ export class ViewHistoryComponent implements OnInit {
           element = this.getInfoContents(element);
         });
       }
+      this.separateContents();
     }else{
       this.objectLoadFailure()
     }
     this.loading=false;
+  }
 
+  getHeadersInfo(selectedHeaderContents: Content[]){
+    let aditionalInfoForEach :AditionalInfo[]=[];
+    selectedHeaderContents.forEach( (content: Content) => {
+      this.graphservice.getChart(content.visual_content).subscribe(chart => {
+        if(chart.type=="number"){
+          aditionalInfoForEach.push(new AditionalInfo(chart.number.numberUnits, chart.number.number));
+        }
+      });
+    });
+    this.aditionalInfo=aditionalInfoForEach;
   }
 
   objectLoadFailure(){
