@@ -102,7 +102,9 @@
                     </div>
       
                     <div class="content-visual graph " tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.graph">
-                      <iframe appIframeResizer *ngIf="content.srcGraph" 
+                      <iframe 
+                        title='Gráfica de datos del portal de Aragón Open Data, el cual da apoyo al contenido de la historia'
+                        appIframeResizer *ngIf="content.srcGraph" 
                         class="thread-content"
                         [src]="content.srcGraph"
                         title="Thread Content"
@@ -110,13 +112,17 @@
                     </div>
       
                     <div class="content-visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.youtube">
-                      <iframe *ngIf="content.srcYoutube" width="560" height="315" [src]="content.srcYoutube"
+                      <iframe *ngIf="content.srcYoutube" 
+                      title='Video de YouTube el cual da apoyo al contenido de la historia'
+                      width="560" height="315" [src]="content.srcYoutube"
                       frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                       allowfullscreen></iframe>
                     </div>
       
                     <div class="content-visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.shareSlides">
-                      <iframe *ngIf="content.srcSlideShare" width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
+                      <iframe *ngIf="content.srcSlideShare" 
+                      title='Slideshare el cual da apoyo al contenido de la historia'
+                      width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
                       style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
                       allowfullscreen></iframe>
                     </div>
