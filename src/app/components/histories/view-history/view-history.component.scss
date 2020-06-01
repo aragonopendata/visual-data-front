@@ -10,22 +10,14 @@
     margin-top: 4rem;
     .title{
         text-align: center;
-        //margin-bottom: 3rem;
         position: relative;
         .img-background{
             position:relative;
             width: 100%;
-            //opacity: 0.2;
-            //min-height: 300px;
             img{
                 height: auto;
                 width: 100%;
                 max-height: none;
-                /*
-                &.icon{
-                    width: 362px;
-                }
-                */
             }
             .credit{
                 position: absolute;
@@ -37,7 +29,6 @@
                 margin-bottom: 0.29%;
                 font-family: "OpenSans-Regular" !important;
                 font-size: 18px !important;
-                //line-height: 24px !important;
                 align-content: center;
                 color: #5EA2BA;
             }
@@ -74,23 +65,15 @@
         font-family: "OpenSans-Regular";
         font-size:18px;
         line-height: 33px;
-        /*&.margin-subtitle{
-            max-width: 104vw;
-            
-            max-width: 47vw;
-            //min-width: 320px;
-        }*/
         .aditional-info{
             max-width: 47vw;
             margin-left: 25%;
         }
         &.margin-secondary-categories{
             max-width: 64vw;
-            //min-width: 400px;
         }
         &.margin{
             max-width: 80vw;
-            //min-width: 200px;
         }
         p{
             font-family: "OpenSans-Regular";
@@ -220,10 +203,6 @@
                     }
                     >div{
                         flex: 1;
-                        /*&:first-of-type{
-                            margin-right: 2rem;
-                        }
-                        */
                     }
                     .content-text{
                         display: flex;
@@ -234,7 +213,6 @@
                         .title-content{
                             font-family: "OpenSans-Bold" !important;
                             font-size:24px !important;
-                            //line-height: 32px  !important;
                             color: #5EA2BA;
                             margin-bottom: 1rem;
                         }
@@ -246,7 +224,6 @@
                                 font-family: "OpenSans-Regular";
                                 font-size:18px;
                                 line-height: 33px;
-                                //color:red;
                             }
                         }
                         &.right{
@@ -264,20 +241,10 @@
                             iframe {
                                 width: 1px;
                                 min-width: 100%;
-                                /*float: right;
-                                display: block;
-                                height: 406px;
-                                width: 603px;
-                                float: right;*/
                                 canvas{
                                     display: block;
                                     width: auto;
                                     width: 700px !important;
-                                   /* float: right;
-                                    display: block;
-                                    height: 406px;
-                                    width: 603px;
-                                    float: right;*/
                                 }
                             }
                         }
@@ -302,7 +269,6 @@
             font-family: "OpenSans-Regular";
             font-size:18px;
             line-height: 33px;
-            //color:red;
         }
     }
 } 
