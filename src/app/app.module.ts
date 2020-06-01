@@ -105,7 +105,7 @@ const routes: Routes = [
     component: ModalComponent,
     outlet: 'modal',
     children: [
-      { path: '', component: ListGraphsComponent },
+      { path: 'listGraph/:type', component: ListGraphsComponent },
       { path: 'selectData', component: SelectDataComponent },
       { path: 'previewData', component: PreviewDataComponent },
       { path: 'previewGraph', component: PreviewGraphComponent },

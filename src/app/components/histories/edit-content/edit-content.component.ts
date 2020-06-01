@@ -26,6 +26,7 @@ export class EditContentComponent implements OnInit {
   alignsTypes:any =Constants.ALIGNS_TYPES;
   graphTitle: string;
   openedMenu: boolean;
+  bodyGraph: boolean=false;
 
   settings: any;
 
@@ -57,13 +58,25 @@ export class EditContentComponent implements OnInit {
   ngOnInit() {
     this.initiateForm();
     this._servicio.getIdGraph().subscribe(id => {
-      this.contentModel.visual_content=id;
-      this.contentForm.controls['visual_content'].setValue(id);
+      if(this.bodyGraph){
+        this.contentModel.visual_content=id;
+        this.contentModel.body_content=true;
+        this.contentForm.controls['visual_content'].setValue(id);
+        this.contentForm.controls['body_content'].setValue(true);
+        this.bodyGraph=!this.bodyGraph;
+      }
+      
     });
 
     this._servicio.getTitleGraph().subscribe(title => {
       this.graphTitle=title;
+      console.log("servicio title");
     });
+
+    this._servicio.getClose().subscribe(closed=>{
+      //closed==true
+      this.bodyGraph=false;
+    })
 
     if(this.content){
       this.setForm();
@@ -74,7 +87,8 @@ export class EditContentComponent implements OnInit {
         description: this.contentForm.get('description').value, 
         type_content: this.contentForm.get('type_content').value,
         visual_content: this.contentForm.get('visual_content').value,
-        align: this.contentForm.get('align').value
+        align: this.contentForm.get('align').value,
+        body_content: this.contentForm.get('body_content').value
       };
       if (this.contentForm.get("type_content").value!=this.contentEnum.graph){
         this.graphTitle=undefined;
@@ -95,7 +109,8 @@ export class EditContentComponent implements OnInit {
       description: new FormControl(''),
       visual_content: new FormControl(null),
       type_content: new FormControl(null),
-      align: new FormControl(1)
+      align: new FormControl(1),
+      body_content: true
     });
   }
 
@@ -105,7 +120,8 @@ export class EditContentComponent implements OnInit {
       description: this.content.description,
       visual_content: this.content.visual_content,
       type_content: this.content.type_content,
-      align: this.content.align
+      align: this.content.align,
+      body_content: this.content.body_content
     });
 
     if(this.contentForm.get("type_content").value==this.contentEnum.graph){
@@ -117,8 +133,10 @@ export class EditContentComponent implements OnInit {
   }
 
   openVisualData() {
+    var type="all";
     document.getElementsByTagName('body')[0].classList.add('no-scroll');
-    this._route.navigate([{outlets: {modal: 'visualData'}}]);
+    this._route.navigate([{outlets: {modal: 'visualData/listGraph/'+type}}]);
+    this.bodyGraph=true;
   }
 
   saveContent(){
@@ -135,7 +153,6 @@ export class EditContentComponent implements OnInit {
         align: this.contentForm.get('align').value,
         body_content: true
       };
-      
       this.contentCreate.emit({
         action: this.content ? 'edit':'new',
         posContent: this.posContent,

@@ -74,6 +74,9 @@ export class ListGraphsComponent implements OnInit {
 
   openedMenu: boolean;
 
+  type:string;
+
+  closed: boolean=true;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -103,6 +106,10 @@ export class ListGraphsComponent implements OnInit {
       }
     });
     this.getOpenedMenu();
+
+    this.route.params.subscribe(params => {
+      this.type=params.type; 
+    });
   }
 
   ngOnInit() {
@@ -124,11 +131,17 @@ export class ListGraphsComponent implements OnInit {
       // 768px portrait
       this.mobile = true;
     }
-
-    this.loadCarousel();
+    if (this.type == "number"){
+      this.loadCarouselNumber();
+    }
+    else{
+      this.loadCarousel();
+    } 
   }
 
   loadCarousel() {
+    this.closed=false;
+    this.myService.setClose(this.closed);
     this.carouselData = [];
     this.listGraphService
       .getCharts(this.pagination, this.n_graphs)
@@ -148,6 +161,22 @@ export class ListGraphsComponent implements OnInit {
             );
           }
         });
+      });
+  }
+
+  loadCarouselNumber() {
+    this.carouselData = [];
+    this.listGraphService
+      .getCharts(this.pagination, this.n_graphs)
+      .subscribe(data => {
+        //this.carouselData = data.charts;
+        data.charts.forEach((chart) => {
+          console.log(chart.type);
+          if (chart.type === 'number') {
+            this.carouselData.push(chart);            
+          }
+        });
+        console.log(this.carouselData)
       });
   }
 

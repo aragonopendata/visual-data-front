@@ -8,6 +8,9 @@ import { Constants } from '../../../app.constants';
 import { State } from '../../../models/State';
 import { AuthGuard } from '../../../_guards/auth.guard';
 import { UtilsService } from '../../exportedFunctions/utils.service';
+import { GraphService } from '../../../services/graph.service';
+import { VisualGrapsService } from '../../../services/visual-graps.service';
+import { concatStatic } from 'rxjs/operator/concat';
 
 
 // declare var tinymce: any;
@@ -23,6 +26,8 @@ export class EditHistoryComponent implements OnInit {
   categories: Category[];
   secondCategories: Category[];
   contents: Content[]=[];
+  contentsGeneral:Content[]=[];
+  contentsHeader: Content[]=[];
   historyModel: History = {};
   historyForm: FormGroup;
   previewHistoryModel: History = {};
@@ -34,6 +39,10 @@ export class EditHistoryComponent implements OnInit {
   publishing: boolean = false;
   errorTitle: string;
   errorMessage: string;
+  graphTitle: string;
+  type: string;
+  graph: Content;
+  numberGraph: boolean=false;
 
   contentToEdit:Content;
   contentToEditAux:Content;
@@ -68,7 +77,8 @@ export class EditHistoryComponent implements OnInit {
 
   constructor(private _historiesService: HistoriesService, private _cdRef: ChangeDetectorRef,
               private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute,
-              private _verifyTokenService: AuthGuard, private utilsService: UtilsService) { 
+              private _verifyTokenService: AuthGuard, private utilsService: UtilsService, 
+              private _graphservice: GraphService, private _servicio: VisualGrapsService) { 
 
     this._activatedRoute.params.subscribe(params => {
       if(params.token!=null){
@@ -97,7 +107,34 @@ export class EditHistoryComponent implements OnInit {
   ngOnInit() {
 
     this.initiateForms();
-
+    
+    this._servicio.getIdGraph().subscribe(id => {
+      //this.loading=true;
+      console.log(id);
+      if(this.numberGraph){
+        
+        var graph = new Content();
+        graph.visual_content=id;
+        console.log(graph.visual_content)
+        graph.body_content=false;
+        
+        this._graphservice.getChart(graph.visual_content).subscribe(chart => {
+          graph.title=chart.title;
+          this.contentsHeader.push(graph);
+          //this.loading=false;
+        });
+        
+        this.numberGraph=!this.numberGraph;
+      }
+      else{
+        //this.loading=false;
+      }
+      
+    });
+    this._servicio.getClose().subscribe(closed=>{
+      //closed==true
+      this.numberGraph=false;
+    })
 
     if(localStorage.getItem('currentUser')){
 
@@ -136,12 +173,27 @@ export class EditHistoryComponent implements OnInit {
     });
   }
 
+  separateContents(){
+    this.contentsHeader=[];
+    this.contents=[];
+    if(this.historyBack.contents && this.historyBack.contents.length>0){
+      for (var contentNumber = 0; contentNumber < this.historyBack.contents.length; contentNumber++) {
+        if(this.historyBack.contents[contentNumber].body_content){
+          this.contents.push(this.historyBack.contents[contentNumber])
+        }else{
+          this.contentsHeader.push(this.historyBack.contents[contentNumber])
+        }
+      }
+    }
+    this.updateWithBackHistory();
+  }
+
   getHistory(token: string){
     if(!this.isAdmin){
       this._historiesService.getHistoryBackUserByToken(token).subscribe(result => {
         if(result.success && result.history!=null){
           this.historyBack = result.history;
-          this.updateWithBackHistory();
+          this.separateContents();
         }else{
           this.objectLoadFailure()
         }
@@ -152,7 +204,7 @@ export class EditHistoryComponent implements OnInit {
       this._historiesService.getHistoryBackAdminByToken(token).subscribe(result => {
         if(result.success && result.history!=null){
           this.historyBack = result.history;
-          this.updateWithBackHistory();
+          this.separateContents();
         }else{
           this.objectLoadFailure()
         }
@@ -177,9 +229,10 @@ export class EditHistoryComponent implements OnInit {
   updateWithBackHistory(){
       this.historyForm.controls['title'].setValue(this.historyBack.title);
       this.historyForm.controls['description'].setValue(this.historyBack.description);
+      this.historyForm.controls['contentsHeader'].setValue(this.contentsHeader);
       this.historyForm.controls['category'].setValue(this.historyBack.main_category);
       this.historyForm.controls['secondCategories'].setValue(this.historyBack.secondary_categories);
-      this.historyForm.controls['contents'].setValue(this.historyBack.contents);
+      this.historyForm.controls['contentsBody'].setValue(this.contents);
       
       this.historyBack.secondary_categories.forEach(id => {
         this.secondCategories.forEach(cat => {
@@ -188,7 +241,6 @@ export class EditHistoryComponent implements OnInit {
           }
         });
       });
-      this.contents=this.historyBack.contents== null? [] : this.historyBack.contents;
 
       return this.loading=false;
   }
@@ -197,9 +249,10 @@ export class EditHistoryComponent implements OnInit {
     this.historyForm = this._formBuilder.group({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
+      contentsHeader:new FormControl(''),
       category: new FormControl(''),
       secondCategories: new FormControl(''),
-      contents: new FormControl('')
+      contentsBody: new FormControl('')
     })
     this.emailForm = this._formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$')])
@@ -335,7 +388,8 @@ export class EditHistoryComponent implements OnInit {
       }
     });
 
-
+    this.contentsGeneral=this.contentsGeneral.concat(this.contentsHeader);
+    this.contentsGeneral=this.contentsGeneral.concat(this.contents);
     this.historyModel = {
       id: this.historyBack.id ? this.historyBack.id : null, 
       token: this.historyBack.token ? this.historyBack.token : null, 
@@ -345,7 +399,7 @@ export class EditHistoryComponent implements OnInit {
       email: this.historyBack.email? this.historyBack.email : null,
       main_category: this.historyForm.get('category').value == '' ? null : this.historyForm.get('category').value,
       secondary_categories: cat2Selected,
-      contents: (this.contents.length==0)  ? null : this.contents,
+      contents: (this.contentsGeneral.length==0)  ? null : this.contentsGeneral,
       create_date:this.historyBack.create_date? this.historyBack.create_date : new Date().toISOString(),
       update_date:this.historyBack.create_date? new Date().toISOString():null,      
       id_reference:this.historyBack.id_reference? this.historyBack.id_reference:null 
@@ -485,6 +539,13 @@ export class EditHistoryComponent implements OnInit {
     }
   }
 
+  addValues(){
+    this.type="number";
+    document.getElementsByTagName('body')[0].classList.add('no-scroll');
+    console.log(this.type);
+    this._route.navigate([{outlets: {modal: 'visualData/listGraph/'+this.type}}]);
+    this.numberGraph=true;
+  } 
 
   onChangePrimaryCategory({ target }){
     var valores = target.value.split(" ");
@@ -593,8 +654,11 @@ export class EditHistoryComponent implements OnInit {
     this.contents = this.contents.filter( (e) => {
       return this.contentToDelete!==e;
     });
+    this.contentsHeader = this.contentsHeader.filter( (e) => {
+      return this.contentToDelete!==e;
+    });
+    console.log(this.contentToDelete);
   }
-
   closeDeleteContentModal(){
     $('#questionDeleteContent').modal('hide');
     this.previousButton=null;
@@ -605,7 +669,6 @@ export class EditHistoryComponent implements OnInit {
    * @param newContent 
    */
   newContent( actionContent ){
-
     if( actionContent.action === 'new' ){
       this.contents.push(actionContent.content);
     } else {

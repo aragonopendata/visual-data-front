@@ -75,6 +75,22 @@
               <angular-tinymce *ngIf="settings" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
               <span class="sr-only">Descripcion de la historia</span>
             </div>
+
+            <div class="contents-select" *ngIf="contentsHeader && contentsHeader.length > 0">
+              <div *ngFor="let content of contentsHeader; let i = index" >
+                <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon-fa fa fa-trash" (click)="deleteContent(content)"></div>
+                <span class="sr-only">Eliminar contenido</span>
+                <p tabindex="{{openedMenu ? -1 : 0}}">
+                  <span>Titulo: </span>
+                  {{content.title}}
+                  <span class="sr-only">Título del contenido: {{content.title}} </span>
+                </p>
+              </div>
+            </div>
+            <div class="values">
+              <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-primary" (click)=addValues()> Añadir Valores</button><span class="sr-only">Añadir valores</span>
+            </div>
+          
   
             <!-- Categorias historia -->
             <!-- Categoria primaria -->
@@ -134,11 +150,11 @@
                 <!--<i aria-hidden="true" title="edit" class="fa fa-edit" (click)="editContent(content,i)"></i>-->
                 <div class="icon-fa fa fa-edit" tabindex="{{openedMenu ? -1 : 0}}" title="edit" (click)="editContent(content,i)"></div>
                 <span class="sr-only">Editar contenido</span>
-                <div tabindex="{{openedMenu ? -1 : 0}}" title="eiminar" class="icon-fa fa fa-trash" (click)="deleteContent(content)"></div>
+                <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon-fa fa fa-trash" (click)="deleteContent(content)"></div>
                 <span class="sr-only">Eliminar contenido</span>
                 <p tabindex="{{openedMenu ? -1 : 0}}">
                   <span>Titulo: </span>
-                  {{content.title}} 
+                  {{content.title}}
                   <span class="sr-only">Título del contenido: {{content.title}}</span>
                 </p>
               </div>
