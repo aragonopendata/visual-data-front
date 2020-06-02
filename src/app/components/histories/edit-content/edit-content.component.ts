@@ -63,14 +63,20 @@ export class EditContentComponent implements OnInit {
         this.contentModel.body_content=true;
         this.contentForm.controls['visual_content'].setValue(id);
         this.contentForm.controls['body_content'].setValue(true);
+        this._graphservice.getChart(id).subscribe(chart => {
+          this.graphTitle=chart.title;
+        });
         this.bodyGraph=false;
       }
       
     });
 
-    this._servicio.getTitleGraph().subscribe(title => {
-      this.graphTitle=title;
-    });
+    /*this._servicio.getTitleGraph().subscribe(title => {
+      if(this.bodyGraph){
+        this.graphTitle=title;
+      }
+      
+    });*/
 
     this._servicio.getClose().subscribe(closed=>{
       //cuando se cierra el modal con la cruz
