@@ -115,7 +115,6 @@ export class EditHistoryComponent implements OnInit {
         
         var graph = new Content();
         graph.visual_content=id;
-        console.log(graph.visual_content)
         graph.body_content=false;
         
         this._graphservice.getChart(graph.visual_content).subscribe(chart => {
@@ -130,10 +129,9 @@ export class EditHistoryComponent implements OnInit {
         //this.loading=false;
       }
     });
-    
+
     this._servicio.getClose().subscribe(closed=>{
-      //closed==true
-      console.log('entro history')
+      //cuando se cierra el modal con la cruz
       this.numberGraph=false;
     })
 
@@ -545,7 +543,6 @@ export class EditHistoryComponent implements OnInit {
   addValues(){
     this.type="number";
     document.getElementsByTagName('body')[0].classList.add('no-scroll');
-    console.log(this.type);
     this._route.navigate([{outlets: {modal: 'visualData/listGraph/'+this.type}}]);
     this.numberGraph=true;
   } 
@@ -670,7 +667,6 @@ export class EditHistoryComponent implements OnInit {
       return this.contentToDelete!==e;
       });
     }
-    console.log(this.contentToDelete);
   }
   closeDeleteContentModal(){
     $('#questionDeleteContent').modal('hide');

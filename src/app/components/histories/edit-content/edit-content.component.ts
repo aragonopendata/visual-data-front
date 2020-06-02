@@ -58,7 +58,6 @@ export class EditContentComponent implements OnInit {
   ngOnInit() {
     this.initiateForm();
     this._servicio.getIdGraph().subscribe(id => {
-      console.log(this.bodyGraph);
       if(this.bodyGraph){
         this.contentModel.visual_content=id;
         this.contentModel.body_content=true;
@@ -74,8 +73,7 @@ export class EditContentComponent implements OnInit {
     });
 
     this._servicio.getClose().subscribe(closed=>{
-      //closed==true
-      console.log('entro ')
+      //cuando se cierra el modal con la cruz
       this.bodyGraph=false;
     })
 
@@ -154,7 +152,6 @@ export class EditContentComponent implements OnInit {
         align: this.contentForm.get('align').value,
         body_content: true
       };
-      console.log(this.contentModel);
       this.contentCreate.emit({
         action: this.content ? 'edit':'new',
         posContent: this.posContent,
