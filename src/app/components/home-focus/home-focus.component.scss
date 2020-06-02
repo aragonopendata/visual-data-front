@@ -175,3 +175,29 @@
     }
    
 }
+@media (max-width: 580px){
+
+    .container > div{
+        .input-group{
+            padding: 0;
+            .input-search{
+                margin: 0;
+            }
+            .input-group-append{
+                width: 30%;
+                margin: 0;
+            }
+        }
+        .list-categories .nav-item{
+            text-align: center;
+        }
+        .histories > div {
+            flex-direction: column;
+            .card{
+                width: 100%;
+                margin: 0;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
