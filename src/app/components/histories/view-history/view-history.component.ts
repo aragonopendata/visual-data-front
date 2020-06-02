@@ -54,42 +54,26 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(localStorage.getItem('currentUser')){
-
-      this.admin=JSON.parse(localStorage.getItem('currentUser'));
-
-      if(this.admin['rol'] == "global_adm"){
-        this._verifyTokenService.probeTokenAdmin()
-        this.isAdmin = true;
-      }
-      this.loadHistory()
-    }else{
-      this.loadHistory()
-    }
-
 
     this.historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
+      if(localStorage.getItem('currentUser')){
+
+        this.admin=JSON.parse(localStorage.getItem('currentUser'));
+  
+        if(this.admin['rol'] == "global_adm"){
+          this._verifyTokenService.probeTokenAdmin()
+          this.isAdmin = true;
+        }
+        this.loadHistory()
+      }else{
+        this.loadHistory()
+      }
 		},err => {
       this.objectLoadFailure()
     });
-
-    //this.loadAditionalInfo();
-
+    
   }
-
-  /*
-  loadAditionalInfo(){
-    let restarantes = new AditionalInfo("Restaurantes", 1348);
-    let hoteles = new AditionalInfo("Hoteles", 89);
-    let transporte = new AditionalInfo("Paradas de transporte", 30);
-    let turismo = new AditionalInfo("Empresas de turismo activo", 19);
-    this.aditionalInfo.push(restarantes)
-    this.aditionalInfo.push(hoteles)
-    this.aditionalInfo.push(transporte)
-    this.aditionalInfo.push(turismo)
-  }
-  */
 
   getCategories(history: History){
     if(history.main_category!=null){
