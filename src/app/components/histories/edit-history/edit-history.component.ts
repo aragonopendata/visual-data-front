@@ -26,7 +26,7 @@ export class EditHistoryComponent implements OnInit {
   categories: Category[];
   secondCategories: Category[];
   contents: Content[]=[];
-  contentsGeneral:Content[]=[];
+  contentsGeneral:Content[];
   contentsHeader: Content[]=[];
   historyModel: History = {};
   historyForm: FormGroup;
@@ -43,6 +43,7 @@ export class EditHistoryComponent implements OnInit {
   type: string;
   graph: Content;
   numberGraph: boolean=false;
+  deleteBodyCont:boolean=false;
 
   contentToEdit:Content;
   contentToEditAux:Content;
@@ -110,7 +111,6 @@ export class EditHistoryComponent implements OnInit {
     
     this._servicio.getIdGraph().subscribe(id => {
       //this.loading=true;
-      console.log(id);
       if(this.numberGraph){
         
         var graph = new Content();
@@ -129,10 +129,11 @@ export class EditHistoryComponent implements OnInit {
       else{
         //this.loading=false;
       }
-      
     });
+    
     this._servicio.getClose().subscribe(closed=>{
       //closed==true
+      console.log('entro history')
       this.numberGraph=false;
     })
 
@@ -179,9 +180,9 @@ export class EditHistoryComponent implements OnInit {
     if(this.historyBack.contents && this.historyBack.contents.length>0){
       for (var contentNumber = 0; contentNumber < this.historyBack.contents.length; contentNumber++) {
         if(this.historyBack.contents[contentNumber].body_content){
-          this.contents.push(this.historyBack.contents[contentNumber])
+          this.contents.push(this.historyBack.contents[contentNumber]);
         }else{
-          this.contentsHeader.push(this.historyBack.contents[contentNumber])
+          this.contentsHeader.push(this.historyBack.contents[contentNumber]);
         }
       }
     }
@@ -387,9 +388,11 @@ export class EditHistoryComponent implements OnInit {
         cat2Selected.push(element.id);
       }
     });
-
+    
+    this.contentsGeneral=[];
     this.contentsGeneral=this.contentsGeneral.concat(this.contentsHeader);
     this.contentsGeneral=this.contentsGeneral.concat(this.contents);
+
     this.historyModel = {
       id: this.historyBack.id ? this.historyBack.id : null, 
       token: this.historyBack.token ? this.historyBack.token : null, 
@@ -643,6 +646,12 @@ export class EditHistoryComponent implements OnInit {
    */
   deleteContent( content: Content ){
     this.contentToDelete=content;
+    if(content.body_content){
+      this.deleteBodyCont=true;
+    }
+    else{
+      this.deleteBodyCont=false;
+    }
     $('#questionDeleteContent').modal('show');
   }
 
@@ -651,12 +660,16 @@ export class EditHistoryComponent implements OnInit {
    */
   confirmDeleteContent(){
     $('#questionDeleteContent').modal('hide');
-    this.contents = this.contents.filter( (e) => {
+    if(this.deleteBodyCont){
+      this.contents = this.contents.filter( (e) => {
       return this.contentToDelete!==e;
-    });
-    this.contentsHeader = this.contentsHeader.filter( (e) => {
+      });
+    }
+    else{
+      this.contentsHeader = this.contentsHeader.filter( (e) => {
       return this.contentToDelete!==e;
-    });
+      });
+    }
     console.log(this.contentToDelete);
   }
   closeDeleteContentModal(){

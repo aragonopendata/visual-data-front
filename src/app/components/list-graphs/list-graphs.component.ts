@@ -141,7 +141,6 @@ export class ListGraphsComponent implements OnInit {
 
   loadCarousel() {
     this.closed=false;
-    this.myService.setClose(this.closed);
     this.carouselData = [];
     this.listGraphService
       .getCharts(this.pagination, this.n_graphs)

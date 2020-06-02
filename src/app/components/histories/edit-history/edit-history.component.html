@@ -327,13 +327,15 @@
           </button>
         </div>
         <div class="modal-body">
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="showAddContent && !previousButton">Por favor, antes de eliminar un contenido, guarde o cierre el contenido que se está editando</p>
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent && !previousButton">¿Está seguro que quiere eliminar el contenido? Una vez eliminado, no se podrá recuperar</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="showAddContent && !previousButton && deleteBodyCont">Por favor, antes de eliminar un contenido, guarde o cierre el contenido que se está editando</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont">¿Está seguro que quiere eliminar el contenido? Una vez eliminado, no se podrá recuperar</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent && !previousButton && deleteBodyCont">¿Está seguro que quiere eliminar el contenido? Una vez eliminado, no se podrá recuperar</p>
           <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton">Si realiza esta acción, el contenido que está editando se perderá. ¿Desea continuar con la acción y perderlo o volver para guardar el mismo? </p>
         </div>
         <div class="modal-footer">
           <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Volver</button><span class="sr-only">Volver, no borrar el contenido</span>
-          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent  && !previousButton" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
+          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
+          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent  && !previousButton && deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
           <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton" type="button" class="btn btn-primary" (click)="getHistoryForm(null, false)">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
         </div>
       </div>
