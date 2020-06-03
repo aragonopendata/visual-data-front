@@ -295,7 +295,19 @@
 
 
 @media (max-width: 768px){
+    
     .container-view{
+        .title{
+            .img-background{
+                img{
+                    position: relative;
+                    height: 250px;
+                    width: auto;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+        }
         .opendata-style{
             &.margin{
                 max-width: none;
