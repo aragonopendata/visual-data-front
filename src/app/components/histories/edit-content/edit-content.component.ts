@@ -58,24 +58,28 @@ export class EditContentComponent implements OnInit {
   ngOnInit() {
     this.initiateForm();
     this._servicio.getIdGraph().subscribe(id => {
-      console.log(this.bodyGraph);
       if(this.bodyGraph){
         this.contentModel.visual_content=id;
         this.contentModel.body_content=true;
         this.contentForm.controls['visual_content'].setValue(id);
         this.contentForm.controls['body_content'].setValue(true);
+        this._graphservice.getChart(id).subscribe(chart => {
+          this.graphTitle=chart.title;
+        });
         this.bodyGraph=false;
       }
       
     });
 
-    this._servicio.getTitleGraph().subscribe(title => {
-      this.graphTitle=title;
-    });
+    /*this._servicio.getTitleGraph().subscribe(title => {
+      if(this.bodyGraph){
+        this.graphTitle=title;
+      }
+      
+    });*/
 
     this._servicio.getClose().subscribe(closed=>{
-      //closed==true
-      console.log('entro ')
+      //cuando se cierra el modal con la cruz
       this.bodyGraph=false;
     })
 
@@ -154,7 +158,6 @@ export class EditContentComponent implements OnInit {
         align: this.contentForm.get('align').value,
         body_content: true
       };
-      console.log(this.contentModel);
       this.contentCreate.emit({
         action: this.content ? 'edit':'new',
         posContent: this.posContent,

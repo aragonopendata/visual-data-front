@@ -170,19 +170,16 @@ export class ListGraphsComponent implements OnInit {
       .subscribe(data => {
         //this.carouselData = data.charts;
         data.charts.forEach((chart) => {
-          console.log(chart.type);
           if (chart.type === 'number') {
             this.carouselData.push(chart);            
           }
         });
-        console.log(this.carouselData)
       });
   }
 
   goBack() {}
 
   openChart(id) {
-    // this.router.navigate(['/charts/' + id]);
     this.router.navigate([{outlets: {modal: 'visualData/charts/' + id}}]);
 
   }
@@ -238,7 +235,6 @@ export class ListGraphsComponent implements OnInit {
 
   next() {
     this.router.navigate([{outlets: {modal: 'visualData/selectData'}}]);
-    // this.router.navigate(['/selectData/']);
   }
 
   getOpenedMenu(){
