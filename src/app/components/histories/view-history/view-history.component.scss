@@ -284,16 +284,22 @@
                 }
             }
         }
-    }    
-}
-
-
-@media (max-width: 1024px){
-    .container-view{
         .subtitle{
             .margin-description{
                 max-width: none;
                 margin-left: 0%;
+            }
+        }
+    }    
+}
+
+
+@media (max-width: 768px){
+    .container-view{
+        .opendata-style{
+            &.margin{
+                max-width: none;
+                width: 100%;
             }
         }
     }
