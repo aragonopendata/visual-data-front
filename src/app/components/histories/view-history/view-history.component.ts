@@ -48,7 +48,7 @@ export class ViewHistoryComponent implements OnInit {
         }
         else{
           this.preview=true;
-          this.loading=false;
+          //this.loading=false;
         }      
       });
   }
@@ -111,6 +111,8 @@ export class ViewHistoryComponent implements OnInit {
         });
       }
       this.separateContents();
+      //this.loading=false;
+
 
     } else {
       if(this.isAdmin){
@@ -173,7 +175,6 @@ export class ViewHistoryComponent implements OnInit {
     }else{
       this.objectLoadFailure()
     }
-    this.loading=false;
   }
 
   getHeadersInfo(selectedHeaderContents: Content[]){
@@ -186,6 +187,7 @@ export class ViewHistoryComponent implements OnInit {
       });
     });
     this.aditionalInfo=aditionalInfoForEach;
+    this.loading=false;
   }
 
   objectLoadFailure(){
