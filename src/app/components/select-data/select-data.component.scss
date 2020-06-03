@@ -76,3 +76,15 @@ body .ui-autocomplete-dropdown {
   font-family: helvetica, arial;
   line-height: 1;
 }
+
+accordion-group{
+  &.principalOption{
+    .panel-title{
+      button:first-of-type{
+        font-weight: 900 ;
+        text-shadow: 0.5px 0;
+      }
+
+    }
+  }
+}
