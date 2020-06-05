@@ -427,6 +427,11 @@ export class EditHistoryComponent implements OnInit {
     window.open(urlPreview, '_blank');
   }
 
+  sendToViewPage(){
+    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+"/#"+ Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyBack.id_reference;
+    window.open(urlPreview, '_blank');
+  }
+
   saveHistoryUser(){
       this._historiesService.setHistory(this.historyModel).subscribe(result => {
         if (result.status == 200 && result.success) {

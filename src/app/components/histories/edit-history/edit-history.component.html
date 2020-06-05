@@ -42,6 +42,9 @@
   <div class="row title">
     <h2 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Crear una nueva historia</h2>
   </div>
+  <div *ngIf="historyBack.id_reference && isAdmin" class="version">
+    <p>Esta historia es una modificacion de <a tabindex="{{openedMenu ? -1 : 0}}" (click)="sendToViewPage()" (keyup.enter)="sendToViewPage()" class="simulateLink"> esta historia</a></p>
+  </div>
   
   <form [formGroup]="historyForm">
     <div class="row">
