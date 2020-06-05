@@ -210,10 +210,10 @@ export class ListGraphsComponent implements OnInit {
   }
 
   selectChart(id, title){
-    document.getElementsByTagName('body')[0].classList.remove('no-scroll');
-    this.router.navigate([{outlets: {modal: null}}]);
+    document.getElementsByTagName('body')[0].classList.remove('no-scroll'); 
     this.myService.setIdGraph(id);
     this.myService.setTitleGraph(title);
+    this.router.navigate([{outlets: {modal: null}}]);
   }
 
   callUpdateVirtuoso() {

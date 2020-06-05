@@ -184,6 +184,6 @@
 </div>
 <div class="row">
     <div class="col-md-12" style="text-align:center;">
-        <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button">Finalizar</button>
+        <button [disabled]="clickFinish" tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button">Finalizar</button>
     </div>
 </div>

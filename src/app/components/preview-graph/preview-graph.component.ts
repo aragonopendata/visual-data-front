@@ -28,6 +28,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   data: any;
   columns: string[];
   realColumns: string[];
+  clickFinish:boolean = false;
 
   // Drag
   columnsType: string[];
@@ -446,6 +447,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   }
 
   next() {
+    this.clickFinish=true;
     // Get the real names of the label column Names if there was a posible change
     const rColumnsLables = [];
     this.columnsLabel.forEach(x => {
@@ -480,8 +482,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     if (!this.title || this.title === '') {
       this.nextStep = 'Se necesita un título para la gráfica';
+      this.clickFinish=false;
     } else if ((rColumnsData.length === 0 || rColumnsLables.length === 0) && this.chartType !== 'number') {
       this.nextStep = 'Se necesitan datos para generar la gráfica.';
+      this.clickFinish=false;
     } else {
       // Upload All
 
@@ -534,9 +538,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
             .subscribe(data => {
               //this.router.navigate([{outlets: {modal: 'visualData/endGraphic/' + dataLink.id}}]);
               document.getElementsByTagName('body')[0].classList.remove('no-scroll');
-              this.router.navigate([{outlets: {modal: null}}]);
               this.myService.setIdGraph(dataLink.id);
               this.myService.setTitleGraph(this.title);
+              this.clickFinish=true;
+              this.router.navigate([{outlets: {modal: null}}]);
             });
         });
     }
