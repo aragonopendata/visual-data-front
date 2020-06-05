@@ -166,14 +166,9 @@ export class ListGraphsComponent implements OnInit {
   loadCarouselNumber() {
     this.carouselData = [];
     this.listGraphService
-      .getCharts(this.pagination, this.n_graphs)
+      .getChartsByType(this.pagination, this.n_graphs, this.type)
       .subscribe(data => {
-        //this.carouselData = data.charts;
-        data.charts.forEach((chart) => {
-          if (chart.type === 'number') {
-            this.carouselData.push(chart);            
-          }
-        });
+        this.carouselData = data.charts;
       });
   }
 

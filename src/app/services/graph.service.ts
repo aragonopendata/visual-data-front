@@ -15,11 +15,29 @@ export class GraphService {
     return this.http
       .get(
         Constants.VISUAL_BACK_SERVER_URL +
-        Constants.LIST_ALL_CHARTS_PATH +
+        Constants.LIST_TYPE_CHARTS_PATH +
         '/?page=' +
         pages +
         '&size=' +
-        sizeOfPAges
+        sizeOfPAges 
+      )
+      .map((res: Response) => res.json())
+      .catch(err => {
+        return Observable.throw('errorConexion');
+      });
+  }
+
+  public getChartsByType(pages, sizeOfPAges, type) {
+    return this.http
+      .get(
+        Constants.VISUAL_BACK_SERVER_URL +
+        Constants.LIST_TYPE_CHARTS_PATH +
+        '/?page=' +
+        pages +
+        '&size=' +
+        sizeOfPAges +
+        '&type='+
+        type
       )
       .map((res: Response) => res.json())
       .catch(err => {
