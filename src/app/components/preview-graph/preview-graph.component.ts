@@ -14,6 +14,7 @@ import { prepareArrayXY } from '../exportedFunctions/lib';
 import { reducerMapPoints } from '../exportedFunctions/lib';
 import { UtilsService } from '../exportedFunctions/utils.service';
 import { SelectItem } from '../../models/SelectItem';
+import { VisualGrapsService } from '../../services/visual-graps.service';
 
 @Component({
   selector: 'app-preview-graph',
@@ -107,7 +108,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     private router: Router,
     private graphservice: GraphService,
     private dragulaService: DragulaService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private myService: VisualGrapsService
   ) {
     this.typeOfData = "STA";
     window.scrollTo(0, 0);
@@ -530,8 +532,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.axisXActivator
             )
             .subscribe(data => {
-              // this.router.navigate(['/endGraphic/' + dataLink.id]);
-              this.router.navigate([{outlets: {modal: 'visualData/endGraphic/' + dataLink.id}}]);
+              //this.router.navigate([{outlets: {modal: 'visualData/endGraphic/' + dataLink.id}}]);
+              document.getElementsByTagName('body')[0].classList.remove('no-scroll');
+              this.router.navigate([{outlets: {modal: null}}]);
+              this.myService.setIdGraph(dataLink.id);
+              this.myService.setTitleGraph(this.title);
             });
         });
     }

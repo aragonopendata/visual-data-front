@@ -119,7 +119,14 @@ export class EditHistoryComponent implements OnInit {
         
         this._graphservice.getChart(graph.visual_content).subscribe(chart => {
           graph.title=chart.title;
-          this.contentsHeader.push(graph);
+          console.log(chart.type)
+          if(chart.type=='number'){
+            this.contentsHeader.push(graph);
+          }
+          else{
+            $('#errorModalNumber').modal('show');
+          }
+          
           //this.loading=false;
         });
         

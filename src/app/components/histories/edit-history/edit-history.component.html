@@ -283,6 +283,25 @@
     </div>
   </div>
 
+  <!-- Modal Error History -->
+  <div class="modal fade errorModal" id="errorModalNumber" tabindex="-1" role="dialog" aria-labelledby="errorModalNumberTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header form-section-title">
+          <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title" id="errorModalNumberTitle">Gráfica no permitida</div>
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="sr-only">Cerrar modal de error</span>
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p tabindex="{{openedMenu ? -1 : 0}}">En este apartado tan solo se permiten valores numéricos.</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}"> Si desea crear otro tipo de gráfica, cree un contenido en la parte inferior. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Save Changes -->
   <!--<div class="modal fade errorModal" id="saveModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
