@@ -15,7 +15,7 @@ export class GraphService {
     return this.http
       .get(
         Constants.VISUAL_BACK_SERVER_URL +
-        Constants.LIST_TYPE_CHARTS_PATH +
+        Constants.LIST_ALL_CHARTS_PATH +
         '/?page=' +
         pages +
         '&size=' +

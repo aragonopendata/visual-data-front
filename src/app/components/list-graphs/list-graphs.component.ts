@@ -96,20 +96,25 @@ export class ListGraphsComponent implements OnInit {
       this.n_graphs = 3;
     }
     this.mobile = false;
-    // Event that disable the loading screen and update the carousel
-    this.utilsGraphService.loading.subscribe(value => {
-      if (value === false) {
-        this.loadCarousel();
-        setTimeout(function() {
-          jQuery('#listModal').modal('hide');
-        }, 1000);
-      }
-    });
-    this.getOpenedMenu();
 
     this.route.params.subscribe(params => {
       this.type=params.type; 
+      // Event that disable the loading screen and update the carousel
+      this.utilsGraphService.loading.subscribe(value => {
+        if (value === false) {
+          if(this.type="number"){
+            this.loadCarouselNumber();
+          }else{
+            this.loadCarousel();
+          }
+          setTimeout(function() {
+            jQuery('#listModal').modal('hide');
+          }, 1000);
+        }
+      });
     });
+    this.getOpenedMenu();
+
   }
 
   ngOnInit() {
@@ -223,7 +228,11 @@ export class ListGraphsComponent implements OnInit {
     ) {
       this.pagination += n;
       window.scrollTo(0, 0);
-      this.loadCarousel();
+      if(this.type == 'number'){
+        this.loadCarouselNumber();
+      }else{
+        this.loadCarousel();
+      }
       this.moveTop.nativeElement.focus();
     }
   }
