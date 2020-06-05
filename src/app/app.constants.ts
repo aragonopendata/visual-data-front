@@ -14,6 +14,8 @@ export class Constants {
     Constants.LIST_ALL_HISTORIES_PATH + '/send_public_user_mail';
 
   public static LIST_ALL_CHARTS_PATH = '/services/charts';
+  public static LIST_TYPE_CHARTS_PATH =
+  Constants.LIST_ALL_CHARTS_PATH + '/type_chart';
   public static SAVE_CHART_PATH =
     Constants.LIST_ALL_CHARTS_PATH + '/save_chart';
   public static SAVE_PROCESS_PATH =
