@@ -136,7 +136,7 @@ export class UtilsGraphService {
           chartLabels.forEach(element => {
             aux = aux + Number(element);
           });
-          chartNumber.number = (aux / chartLabels.length).toString() ;
+          chartNumber.number = (aux / chartLabels.length).toFixed(2).toString() ;
           break;
       }
     }

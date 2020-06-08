@@ -316,7 +316,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
           this.chartData[0].data.forEach(element => {
             aux = aux + Number(element);
           });
-          this.chartNumber = (aux / this.chartData[0].data.length).toString() ;
+          this.chartNumber = (aux / this.chartData[0].data.length).toFixed(2).toString() ;
           break;
       }
     }

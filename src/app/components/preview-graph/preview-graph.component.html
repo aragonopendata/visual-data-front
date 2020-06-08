@@ -92,14 +92,14 @@
             <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar t&iacute;tulo gr&aacute;fica" type="text" style="width: 100%" [(ngModel)]="title" pInputText>
         </div>
 
-        <div style="margin-top:20px">
+        <div style="margin-top:20px" *ngIf="chartType != 'number'">
             <p>
                 <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="EjeX mostrar elementos"> - Mostrar EjeX</strong>
             </p>
             <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid"  [(ngModel)]="axisXActivator" (onChange)="onEditComplete($event)"></p-spinner>
         </div>
 
-        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap">
+        <div style="margin-top:20px" *ngIf="!openedMenu && !chartMap && chartType != 'number'">
             <p>
                 <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar Agrupar Datos"> - Agrupar por:</strong>
             </p>
@@ -117,6 +117,20 @@
 
         <div style="margin-top:20px" *ngIf="chartType == 'number'">
             <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Color del texto</strong>
+            </p>
+            <input [(colorPicker)]="numberColor" [style.background]="numberColor" [style.width]="'100%'"/>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="chartType == 'number'">
+            <p>
+                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Tama&ntilde;o del texto</strong>
+            </p>
+            <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid" [(ngModel)]="numberSize" [min]="0" [max]="100"></p-spinner>
+        </div>
+
+        <div style="margin-top:20px" *ngIf="chartType == 'number'">
+            <p>
                 <strong tabindex="{{openedMenu ? -1 : 0}}"> - Último valor</strong>
             </p>
             <p-dropdown [options]="numberOptions" [(ngModel)]="selectedNumberOption" [style]="{'width':'100%'}" (onChange)="onDrop('refresh')"></p-dropdown>
@@ -127,20 +141,6 @@
                 <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar tama&ntilde;o Gr&aacute;fica"> - Tama&ntilde;o Gr&aacute;fica</strong>
             </p>
             <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid" [(ngModel)]="widthGraph"></p-spinner>
-        </div>
-
-        <div style="margin-top:20px" *ngIf="chartType == 'number'">
-            <p>
-                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Color del texto</strong>
-            </p>
-            <input [(colorPicker)]="numberColor" [style.background]="numberColor" [style.width]="'100%'"/>
-        </div>
-
-        <div style="margin-top:20px" *ngIf="chartType == 'number'">
-            <p>
-                <strong tabindex="{{openedMenu ? -1 : 0}}"> - Tama&ntilde;o del texto</strong>
-            </p>
-            <p-spinner tabindex="{{openedMenu ? -1 : 0}}" class="ui-fluid" [(ngModel)]="numberSize" ></p-spinner>
         </div>
 
         <div style="margin-top:20px" *ngIf="chartType == 'number'">
