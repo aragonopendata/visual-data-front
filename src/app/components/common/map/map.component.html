@@ -8,7 +8,7 @@
 			<aol-coordinate [x]="-0.9056623" [y]="41.5976275" [srid]="'EPSG:4326'"></aol-coordinate>
 		</aol-view>
 		<aol-layer-tile [opacity]="1">
-			<aol-source-osm></aol-source-osm>
+			<aol-source-tilewms [url]="'https://idearagon.aragon.es/arcgis/services/AragonReferencia/Basico_NEW/MapServer/WMSServer'" [params]="mapParams"></aol-source-tilewms>
 		</aol-layer-tile>
 		<aol-layer-vector [opacity]="1">
 			<aol-source-vector>
