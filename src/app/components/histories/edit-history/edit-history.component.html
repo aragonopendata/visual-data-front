@@ -243,7 +243,7 @@
                 <div class="modal-body">
                   <p tabindex="{{openedMenu ? -1 : 0}}"> Puede dejar su correo para ser notificado cuando se produzcan algunos cambios en el estado de su historia o si desea recibir el token en su correo electrónico</p>
                   <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="email" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm($event)">
-                  <span class="sr-only">Introduzca el mal</span>
+                  <span class="sr-only">Introduzca el mail</span>
                   <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
                 </div>
                 <div class="modal-footer">

@@ -169,6 +169,32 @@
 
 
 .modal{
+    padding: 0em;
+    .modal-content{
+        padding-left: 2em;
+        padding-right: 2em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        p{
+            margin-bottom: 2em;
+        }
+    }
+    .modal-header{
+        padding-left: 0em;
+        padding-right: 0em;
+    }
+    .modal-body{
+        padding-left: 0em;
+            padding-right: 0em;
+    }
+    .modal-footer{
+        padding: 0em;
+        padding-top: 1em;
+        border-top: 0em;
+        .btn{
+            margin-right: 0em;
+        }
+    }
     .tokenSite{
         padding: 0;
         display: flex;
