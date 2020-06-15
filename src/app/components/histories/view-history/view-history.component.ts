@@ -38,7 +38,7 @@ export class ViewHistoryComponent implements OnInit {
   aditionalInfo2 :AditionalInfo[]=[];
 
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
-    private _verifyTokenService: AuthGuard,private utilsService: UtilsService, private graphservice: GraphService) { 
+    private _verifyTokenService: AuthGuard,private utilsService: UtilsService, private graphservice: GraphService, private sanitized: DomSanitizer) { 
     
       this.getOpenedMenu();
 
@@ -256,6 +256,10 @@ export class ViewHistoryComponent implements OnInit {
     this.utilsService.openedMenuChange.subscribe(value => {
       this.openedMenu = value;
     });
+  }
+
+  sanitizedHtml(value){
+    return this.sanitized.bypassSecurityTrustHtml(value);
   }
   
 }
