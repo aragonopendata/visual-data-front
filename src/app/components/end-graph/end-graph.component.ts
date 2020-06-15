@@ -58,6 +58,7 @@ export class EndGraphComponent implements OnInit {
   public hideEmbed: boolean;
 
   public showData: number;
+  public numberLegend: number;
   public datasetLocation: any;
 
   openedMenu: boolean;
@@ -118,6 +119,12 @@ export class EndGraphComponent implements OnInit {
               this.chart = chart;
               this.title = chart.title;
 
+              if(chart.type =='line' || chart.type =='bar' || chart.type =='doughnut'){
+                this.numberLegend=this.chart.data.length;
+              }else{
+                this.numberLegend=1;
+              }
+              
               if (chart.type === 'bar') {
                 for (let i = 0; i < chart.data.length; i++) {
                   this.color.push(getRandomColor(i));

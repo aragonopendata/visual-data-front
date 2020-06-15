@@ -6,6 +6,7 @@
 .customHeight {
   min-height: 25rem;
 }
+
 .graph-container{
   min-height: 50vh;
 }
@@ -66,9 +67,27 @@
     transform: rotate(360deg);
   }
 }
-
+/*
 @media screen and (max-width: 768px) {
   .graph-donut-container {
     min-height: 90vh;
   }
 }
+*/
+
+@media screen and (max-width: 1024px) {
+  .graph-donut-big-legend {
+    min-height: 100vh;
+  }
+  .graph-donut-small-legend {
+    min-height: 100vh;
+  }
+  .graph-big-legend{
+    min-height: 100vh;
+  }
+  .graph-small-legend{
+    min-height: 50vh;
+  }
+}
+
+
