@@ -36,6 +36,7 @@ export class ViewHistoryComponent implements OnInit {
   //selectedHeaderContents: Content[];
   bodyContents: Content[];
   aditionalInfo2 :AditionalInfo[]=[];
+  imageUrl: string;
 
   constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
     private _verifyTokenService: AuthGuard,private utilsService: UtilsService, private graphservice: GraphService, private sanitized: DomSanitizer) { 
@@ -49,7 +50,7 @@ export class ViewHistoryComponent implements OnInit {
         else{
           this.preview=true;
           //this.loading=false;
-        }      
+        }
       });
   }
 
@@ -101,6 +102,11 @@ export class ViewHistoryComponent implements OnInit {
 
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
       //console.log('principal:'+this.historySelect.main_category);
+      let category_id=this.historySelect.main_category.toString();
+      this.historiesService.getImageByCategoryId(category_id).subscribe(response=>{
+        this.imageUrl=response.image.route;
+      })
+
       if(this.historySelect.secondary_categories){
         this.getCategories(this.historySelect);
       }
@@ -118,6 +124,10 @@ export class ViewHistoryComponent implements OnInit {
       if(this.isAdmin){
         this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
           if(response.success){
+            this.historiesService.getImageByCategoryId(response.history.main_category).subscribe(response=>{
+              this.imageUrl=response.image.route;
+            })
+
             if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
             this.getCategories(response.history);
             }
@@ -133,6 +143,10 @@ export class ViewHistoryComponent implements OnInit {
       else{
         this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
           if(response.success){
+            this.historiesService.getImageByCategoryId(response.history.main_category).subscribe(response=>{
+              this.imageUrl=response.image.route;
+            })
+
             if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
             this.getCategories(response.history);
             }

@@ -173,4 +173,9 @@ export class HistoriesService {
       
   }
 
+  public getImageByCategoryId(category_id: string){
+    let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_IMAGE_CATEGORY;
+    return this.http.get(fullUrl + '/' + category_id).map(res => res.json());;
+  }
+
 }
