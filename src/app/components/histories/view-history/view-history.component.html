@@ -48,7 +48,7 @@
         <div class="aditional-info">
           <div *ngFor="let info of aditionalInfo; let i = index">
             <div class="card"  tabindex="{{openedMenu ? -1 : 0}}">
-              <div class="number-info">{{info.value}}</div>
+              <div class="number-info">{{ info.value | number : '1.0-2' }}</div>
               <div class="text-aditional-info">{{info.text}}</div>
               <span class="sr-only">{{info.text}}: {{info.value}}</span>
             </div>
