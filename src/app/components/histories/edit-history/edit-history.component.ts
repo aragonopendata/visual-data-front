@@ -255,7 +255,7 @@ export class EditHistoryComponent implements OnInit {
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
       contentsHeader:new FormControl(''),
-      category: new FormControl(''),
+      category: new FormControl('', Validators.required),
       secondCategories: new FormControl(''),
       contentsBody: new FormControl('')
     })
@@ -266,6 +266,10 @@ export class EditHistoryComponent implements OnInit {
 
   get invalidTitle(){
     return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
+  }
+
+  get invalidCategory(){
+    return this.historyForm.get('category').invalid && this.historyForm.get('category').touched;
   }
 
   get invalidEmail(){

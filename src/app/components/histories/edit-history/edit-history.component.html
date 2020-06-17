@@ -109,10 +109,12 @@
                 <label for="category">
                   <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Categoría principal</h4>
                 </label>
-                <select tabindex="{{openedMenu ? -1 : 0}}" class="form-control select-cat1" id="category" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)">
+                <select tabindex="{{openedMenu ? -1 : 0}}" class="form-control select-cat1" id="category" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)" [class.is-invalid]="invalidCategory">
                   <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
                   <!--<span class="sr-only">Categoria principal: {{category.name}}</span>-->
+                  <small *ngIf="invalidCategory" class="text-danger"></small>
                 </select>
+                <small *ngIf="invalidCategory" class="text-danger">Campo Obligatorio</small>
               </div>
               
               <div class="group">
