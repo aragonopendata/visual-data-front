@@ -101,11 +101,8 @@ export class ViewHistoryComponent implements OnInit {
     if(this.preview){
 
       this.historySelect=JSON.parse(localStorage.getItem(Constants.LOCALSTORAGE_KEY_HISTORY));
-      //console.log('principal:'+this.historySelect.main_category);
-      let category_id=this.historySelect.main_category.toString();
-      this.historiesService.getImageByCategoryId(category_id).subscribe(response=>{
-        this.imageUrl=response.image.route;
-      })
+
+      this.loadImageByMainCategory(this.historySelect.main_category?this.historySelect.main_category:null);
 
       if(this.historySelect.secondary_categories){
         this.getCategories(this.historySelect);
@@ -124,9 +121,7 @@ export class ViewHistoryComponent implements OnInit {
       if(this.isAdmin){
         this.historiesService.getHistoryBackAdminById(this.idHistory).subscribe( response => {
           if(response.success){
-            this.historiesService.getImageByCategoryId(response.history.main_category).subscribe(response=>{
-              this.imageUrl=response.image.route;
-            })
+            this.loadImageByMainCategory(response.history.main_category?response.history.main_category:null)
 
             if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
             this.getCategories(response.history);
@@ -143,9 +138,9 @@ export class ViewHistoryComponent implements OnInit {
       else{
         this.historiesService.getHistoryBackUserById(this.idHistory).subscribe( response => {
           if(response.success){
-            this.historiesService.getImageByCategoryId(response.history.main_category).subscribe(response=>{
-              this.imageUrl=response.image.route;
-            })
+
+            this.loadImageByMainCategory(response.history.main_category?response.history.main_category:null)
+
 
             if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
             this.getCategories(response.history);
@@ -161,6 +156,22 @@ export class ViewHistoryComponent implements OnInit {
       }
     }
   }
+
+  loadImageByMainCategory(main_category){
+    if(main_category && main_category!=null){
+      this.historiesService.getImageByCategoryId(main_category).subscribe(response=>{
+        if(response.image.route && response.image.route!=null){
+          this.imageUrl=response.image.route;
+        }else{
+          this.imageUrl="/static/public/focus/pilar.jpg";
+        }
+      })
+    }else{
+      this.imageUrl="/static/public/focus/pilar.jpg";
+    }
+
+  }
+
 
   separateContents(){
     let selectedHeaderContents: Content[]=[];
