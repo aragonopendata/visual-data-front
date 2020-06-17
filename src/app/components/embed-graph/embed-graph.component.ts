@@ -13,6 +13,7 @@ export class EmbedGraphComponent implements OnInit {
   public chartLegend = true;
   public chartOptions: any = {
     responsive: true,
+    maintainAspectRatio: false,
     legend: {
       display: true
     },
@@ -41,6 +42,8 @@ export class EmbedGraphComponent implements OnInit {
   public points: any;
   public title: any;
   public descriptions: any;
+  public numberLegend: number;
+
 
   constructor(
     private router: Router,
@@ -59,6 +62,11 @@ export class EmbedGraphComponent implements OnInit {
               this.chart = chart;
               this.title = chart.title;
               this.widthGraph = chart.width;
+              if(chart.type =='line' || chart.type =='bar' || chart.type =='doughnut'){
+                this.numberLegend=this.chart.data.length;
+              }else{
+                this.numberLegend=1;
+              }
 
               if (process.axisXActivator != 0) {
                 this.chartOptions.scales.xAxes[0].ticks = {
