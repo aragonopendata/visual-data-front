@@ -8,42 +8,16 @@
 }
 
 
-.graph-container{
-  min-height: 50vh;
+.graph-container, .graph-donut-container{
+  min-height: 300px;
 }
 
-.graph-donut-container{
-  min-height: 50vh;
-}
-
-@media (max-width: 768px) {
-  .def {
-    margin-top: -15% !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .def {
-    margin-top: -5% !important;
-  }
-}
 
 @media screen and (max-width: 1024px) {
   
-  .graph-donut-big-legend {
-    min-height: 100vh;
-  }
-  .graph-donut-small-legend {
-    min-height: 100vh;
-
-  }
-  
-  
-  .graph-big-legend{
-    min-height: 100vh;
-  }
-  .graph-small-legend{
-    min-height: 50vh;
+  .graph-donut-big-legend, .graph-big-legend{
+    min-height: 600px;
   }
   
 } 
+

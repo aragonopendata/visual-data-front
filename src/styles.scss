@@ -13,9 +13,9 @@ html {
 }
 
 @media (max-width: 768px) {
-  html {
-    margin-top: 15% !important;
-  }
+  // html {
+  //   margin-top: 15% !important;
+  // }
 
   p {
     font-size: 0.8rem !important;
@@ -30,11 +30,11 @@ html {
   }
 }
 
-@media (min-width: 768px) {
-  html {
-    margin-top: 5% !important;
-  }
-}
+// @media (min-width: 768px) {
+//   html {
+//     margin-top: 5% !important;
+//   }
+// }
 
 .no-scroll{
   position: fixed;

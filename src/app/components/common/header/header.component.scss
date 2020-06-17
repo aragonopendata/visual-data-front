@@ -86,6 +86,16 @@ a:hover {
   color: #f1f1f1;
 }
 
+.fixed-top{
+  height: 150px;
+}
+
+@media screen and (max-width: 768px) {
+  .fixed-top{
+    height: 125px;
+  }
+}
+
 @media screen and (max-height: 600px) {
   input,
   input::-webkit-input-placeholder {
