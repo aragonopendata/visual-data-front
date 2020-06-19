@@ -386,6 +386,10 @@ export class EditHistoryComponent implements OnInit {
     if(!this.historyForm.invalid){
       this.stateHistory=this.historyBack.state?  this.historyBack.state: this.stateEnum.sinDefinir;
       this.operateWithHistory(Constants.PREVIEW_HISTORY);
+    }else{
+      return Object.values(this.historyForm.controls).forEach(control => {
+        control.markAsTouched();
+      })
     }
   }
 
