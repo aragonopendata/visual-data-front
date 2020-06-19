@@ -10,10 +10,16 @@
   margin-top: 20vh;
 }
 
+.focus{
+  margin-top: 150px;
+}
 @media screen and (max-width: 768px) {
   .opendatamargin {
       margin-top: 10vh;
       max-width: 100vw;
+  }
+  .focus{
+    margin-top: 125px;
   }
 }
 
