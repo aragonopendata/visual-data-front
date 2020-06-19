@@ -57,7 +57,7 @@
                   <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título *</h3>
                 </label>               
                 <p tabindex="{{openedMenu ? -1 : 0}}">
-                    Por favor, escribe una denominación de la historia. El nombre que des a la historia es importante para que otros usuarios encuentren la información.
+                    Por favor, escriba una denominación de la historia. El nombre que de a la historia es importante para que otros usuarios encuentren la información.
                 </p>
                 
                 <input tabindex="{{openedMenu ? -1 : 0}}" class="col-12 form-control" id="title_history" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
@@ -69,30 +69,40 @@
             <div>
               <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Descripción</h3>
               <p tabindex="{{openedMenu ? -1 : 0}}">
-                La descripción es la primera aproximación de un usuario a tu conjunto de datos, así que se debería comenzar contando brevemente
+                La descripción es la primera aproximación de un usuario a su conjunto de datos, así que se debería comenzar contando brevemente
                 qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
-                es el lugar en el que puedes mencionarlas de forma que los usuarios puedan saber el alcance de la información. En
-                algunos casos los usuarios ayudan a mejorar la información, así que no desaproveches la oportunidad de acercarles
+                es el lugar en el que puede mencionarlas de forma que los usuarios puedan saber el alcance de la información. En
+                algunos casos los usuarios ayudan a mejorar la información, así que no desaproveche la oportunidad de acercarles
                 la realidad del dato.
               </p>
               <angular-tinymce *ngIf="settings" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
               <span class="sr-only">Descripcion de la historia</span>
             </div>
 
-            <div class="contents-select" *ngIf="contentsHeader && contentsHeader.length > 0">
-              <div *ngFor="let content of contentsHeader; let i = index" >
-                <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon-fa fa fa-trash" (click)="deleteContent(content)"></div>
-                <span class="sr-only">Eliminar contenido</span>
-                <p tabindex="{{openedMenu ? -1 : 0}}">
-                  <span>Titulo: </span>
-                  {{content.title}}
-                  <span class="sr-only">Título del contenido: {{content.title}} </span>
-                </p>
+            <!-- Añadir valores -->
+            <div>
+              <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Valores globales</h3>
+              <p tabindex="{{openedMenu ? -1 : 0}}">
+                En este apartado deberá elegir una fuente de datos del portal de Aragón Open Data, en la cual se ha apoyado 
+                para escribir esta historia. Puede ser un conjunto de datos, una vista del GA_OD_Core, una consulta SPARQL o una
+                gráfica utilizando la herramienta de Open Visual Data, etc.
+              </p>
+              <div class="contents-select" *ngIf="contentsHeader && contentsHeader.length > 0">
+                <div *ngFor="let content of contentsHeader; let i = index" >
+                  <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon-fa fa fa-trash" (click)="deleteContent(content)"></div>
+                  <span class="sr-only">Eliminar contenido</span>
+                  <p tabindex="{{openedMenu ? -1 : 0}}">
+                    <span>Titulo: </span>
+                    {{content.title}}
+                    <span class="sr-only">Título del contenido: {{content.title}} </span>
+                  </p>
+                </div>
+              </div>
+              <div class="values">
+                <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-primary" (click)=addValues()> Añadir Valores</button><span class="sr-only">Añadir valores</span>
               </div>
             </div>
-            <div class="values">
-              <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-primary" (click)=addValues()> Añadir Valores</button><span class="sr-only">Añadir valores</span>
-            </div>
+            
           
   
             <!-- Categorias historia -->
@@ -100,8 +110,8 @@
             <div>
               <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Categorización</h3>
               <p tabindex="{{openedMenu ? -1 : 0}}">
-                Por favor, introduce un listado de etiquetas que describan el contenido de tu conjunto de datos. Utiliza palabras comunes
-                para describirlo. A poder ser utiliza palabras de las que te sugiere el formulario, ya que son categorías que ya están siendo
+                Por favor, introduzca un listado de etiquetas que describan el contenido de su conjunto de datos. Utilice palabras comunes
+                para describirlo. A poder ser utilice palabras de las que le sugiere el formulario, ya que son categorías que ya están siendo
                 utilizadas.
               </p>
               
