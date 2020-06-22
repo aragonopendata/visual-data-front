@@ -34,4 +34,28 @@
         </div>
         <app-map [descriptionPoints]="descriptions" [points]="points" zoom="8" turnDescript=true></app-map>
     </div>
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="text-center">
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(0)" class="btn btn-link">Reutiliza el gráfico</button>
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(1)" class="btn btn-link">Fuente de datos</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center">
+                <span *ngIf="!hideEmbed">
+                    <code>
+                    <div class="border rounded" *ngIf="showData == 0" tabindex="{{openedMenu ? -1 : 0}}">
+                        &lt;iframe src="{{routeEmbed}}" style="width: 100%; height: 100%;" frameborder="0"&gt;&lt;/iframe&gt;
+                    </div>
+                    <div class="border rounded" *ngIf="showData == 1" tabindex="{{openedMenu ? -1 : 0}}">
+                        {{datasetLocation}}
+                    </div>
+                </code>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
