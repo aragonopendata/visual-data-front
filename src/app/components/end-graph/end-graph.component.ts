@@ -93,7 +93,7 @@ export class EndGraphComponent implements OnInit {
     let id;
     id = this.activatedRoute.snapshot.url[1];
     if (id && id.path !== '') {
-      // this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
+      this.routeEmbed = this.fullRoute + '/charts/embed/' + id;
       // this.actualRoute = this.fullRoute + '/charts/' + id;
       this.graphservice.getChart(id).subscribe(
         chart => {

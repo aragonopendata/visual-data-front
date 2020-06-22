@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GraphService } from '../../services/graph.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { prepareArrayXY , getRandomColor} from '../exportedFunctions/lib';
+declare var jQuery: any;
+import { Constants } from '../../app.constants';
 
 @Component({
   selector: 'app-embed-graph',
@@ -43,6 +45,7 @@ export class EmbedGraphComponent implements OnInit {
   public title: any;
   public descriptions: any;
   public numberLegend: number;
+  public fullRoute: any;
 
   public color: Array<any> = [];
   public routeEmbed: any;
@@ -51,6 +54,11 @@ export class EmbedGraphComponent implements OnInit {
   public showData: number;
   public datasetLocation: any;
 
+  public firstColumnTitle: any;
+  public secondColumnTitle: any;
+  public firstColumn: string;
+  public secondColumn: string;
+  public labels: string[]; 
 
   constructor(
     private router: Router,
@@ -58,14 +66,22 @@ export class EmbedGraphComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.hideEmbed = true;
+    this.fullRoute = Constants.SERVER_URL + '/servicios/visualdata';
    }
 
   ngOnInit() {
     let urlId = this.activatedRoute.snapshot.url[2].path;
     if (urlId !== '') {
+      this.routeEmbed = this.fullRoute + '/charts/embed/' + urlId;
       this.graphservice
         .getChart(urlId)
         .subscribe(chart => {
+          console.log(chart);
+          this.firstColumn=chart.data[0].data;
+          this.secondColumn=chart.data[1].data;
+          this.firstColumnTitle=chart.data[0].label;
+          this.secondColumnTitle=chart.data[1].label;
+          this.labels=chart.labels;
           this.graphservice.downloadProcess(urlId).subscribe(
             process => {
               this.chart = chart;
@@ -157,5 +173,9 @@ export class EmbedGraphComponent implements OnInit {
   hideEmbedButton(n: number) {
     this.hideEmbed = false;
     this.showData = n;
+  }
+
+  showModal(){
+    jQuery('#dataModal').modal('show');
   }
 }
