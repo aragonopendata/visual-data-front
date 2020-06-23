@@ -15,12 +15,15 @@
 .display-table{
   display: table;
 }
-.display-table > div {
+.display-row {
   display: table-row;
 }
-.display-table > div > div{
+.display-cell {
   display: table-cell;
   padding: 5px;
+  &.bold{
+    font-weight: bold;
+  }
 }
 
 

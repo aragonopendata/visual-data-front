@@ -36,7 +36,7 @@
     </div>
     <div class="row mt-5">
         <div class="col-12">
-            <div class="text-center">
+            <div class="text-center"> 
                 <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(0)" class="btn btn-link">Reutiliza el gráfico</button>
                 <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(1)" class="btn btn-link">Fuente de datos</button>
                 <button tabindex="{{openedMenu ? -1 : 0}}" (click)="showModal()" class="btn btn-link">Ver tabla de datos</button>
@@ -67,13 +67,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="display-table">
-                    <div>
-                        <div >
-                            <div> m</div>
-                            <div *ngFor="let label of labels">{{label}}</div>                    
+                    <div *ngFor="let data of tableData; let i = index" class="display-row">
+                        <div *ngFor="let value of data; let j = index" class="display-cell" [ngClass]="{'bold': i===0 || j === 0}">
+                            <div>{{value}}</div>
                         </div>
-                        <div>{{firstColumnTitle}}<div *ngFor="let value of firstColumn">{{value}}</div></div>
-                        <div>{{secondColumnTitle}}<div *ngFor="let value of secondColumn">{{value}}</div></div>
                     </div>                    
                 </div>
                 <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close">

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { prepareArrayXY , getRandomColor} from '../exportedFunctions/lib';
 declare var jQuery: any;
 import { Constants } from '../../app.constants';
+import { UtilsService } from '../exportedFunctions/utils.service';
 
 @Component({
   selector: 'app-embed-graph',
@@ -54,19 +55,19 @@ export class EmbedGraphComponent implements OnInit {
   public showData: number;
   public datasetLocation: any;
 
-  public firstColumnTitle: any;
-  public secondColumnTitle: any;
-  public firstColumn: string;
-  public secondColumn: string;
-  public labels: string[]; 
+  public tableData: any[][] = [];
+
+  openedMenu: boolean;
 
   constructor(
     private router: Router,
     private graphservice: GraphService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private utilsService: UtilsService
   ) {
     this.hideEmbed = true;
     this.fullRoute = Constants.SERVER_URL + '/servicios/visualdata';
+    this.getOpenedMenu();
    }
 
   ngOnInit() {
@@ -76,12 +77,7 @@ export class EmbedGraphComponent implements OnInit {
       this.graphservice
         .getChart(urlId)
         .subscribe(chart => {
-          console.log(chart);
-          this.firstColumn=chart.data[0].data;
-          this.secondColumn=chart.data[1].data;
-          this.firstColumnTitle=chart.data[0].label;
-          this.secondColumnTitle=chart.data[1].label;
-          this.labels=chart.labels;
+          this.prepareDataTable(chart);
           this.graphservice.downloadProcess(urlId).subscribe(
             process => {
               this.chart = chart;
@@ -170,6 +166,37 @@ export class EmbedGraphComponent implements OnInit {
     }
   }
 
+  private prepareDataTable(chart) {
+    this.tableData[0] = [''];
+
+    //header
+    for( let header of chart.data) {
+      this.tableData[0].push(header.label)
+    }
+
+    let x=1;
+    for( let label of chart.labels) {
+      if( !this.tableData[x] ) {
+        this.tableData[x] = [];
+      }
+      this.tableData[x][0] = label;
+      x++;
+    }
+
+    let y = 1;
+    for( let dataGroup of chart.data) {
+      x = 1;
+      for( let data of dataGroup.data) {
+        if( !this.tableData[x] ) {
+          this.tableData[x] = [];
+        }
+        this.tableData[x][y] = data;
+        x++;
+      }
+      y++;
+    }
+  }
+
   hideEmbedButton(n: number) {
     this.hideEmbed = false;
     this.showData = n;
@@ -177,5 +204,11 @@ export class EmbedGraphComponent implements OnInit {
 
   showModal(){
     jQuery('#dataModal').modal('show');
+  }
+
+  getOpenedMenu() {
+    this.utilsService.openedMenuChange.subscribe(value => {
+      this.openedMenu = value;
+    });
   }
 }
