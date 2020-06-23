@@ -4,7 +4,6 @@
       <div class="row">
           <div class="col-xs-3">
               <div class="icon-fa fa fa-exclamation-triangle fa-5x" tabindex="{{openedMenu ? -1 : 0}}" style="margin:15px;color: #5ea2ba;"></div>
-              <span class="sr-only">Error</span>
           </div>
           <div class="col-xs-9">
               <div class="error-loading-title">{{errorTitle}}</div>
@@ -14,7 +13,6 @@
                     <div class="icon-fa fa fa-envelope" tabindex="{{openedMenu ? -1 : 0}}"></div> 
                     <p>Contactar con el Administrador</p>
                   </div>
-                  <span class="sr-only">Enviar correo</span>
               </a>
           </div>
       </div>
@@ -26,12 +24,10 @@
   <div class="loadingText" *ngIf="previewHistory">Cargando historia</div><br/><br/>
   <div class="loadingText" *ngIf="!previewHistory">Cargando...</div><br/><br/>
   <div class="icon-fa fa fa-circle-o-notch fa-spin fa-3x fa-fw" tabindex="{{openedMenu ? -1 : 0}}"></div><br/><br/>
-  <span class="sr-only">Cargando</span> 
 </div>
 <div class="loading loading-overlay" *ngIf="loadingModal">
   <div class="inner">
     <div class="icon-fa fa fa-circle-o-notch fa-spin fa-3x fa-fw" tabindex="{{openedMenu ? -1 : 0}}"></div>
-    <span class="sr-only">Cargando</span>
   </div>
 </div>
 
@@ -39,191 +35,207 @@
 
 <div *ngIf="!loading && !errorTitle">
 
-  <div class="row title">
+  <!-- <div class="row title">
     <h2 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Crear una nueva historia</h2>
-  </div>
+  </div> -->
   <div *ngIf="historyBack.id_reference && isAdmin" class="version">
     <p>Esta historia es una modificacion de <a tabindex="{{openedMenu ? -1 : 0}}" (click)="sendToViewPage()" (keyup.enter)="sendToViewPage()" class="simulateLink"> esta historia</a></p>
   </div>
   
   <form [formGroup]="historyForm">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="tab-content">
-          <div class="tab-pane active" id="content_tab" role="tabpanel">
-            <!-- Titulo historia -->
-            <div>         
-                <label for="title_history">
-                  <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título *</h3>
-                </label>               
-                <p tabindex="{{openedMenu ? -1 : 0}}">
-                    Por favor, escriba una denominación de la historia. El nombre que de a la historia es importante para que otros usuarios encuentren la información.
-                </p>
-                
-                <input tabindex="{{openedMenu ? -1 : 0}}" class="col-12 form-control" id="title_history" type="text" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle">
-                <span class="sr-only">Titulo de la historia</span>
-                <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
-            </div>
+
+    <div class="create-history-container">
+
+      <!-- TITULO DE LA HISTORIA -->
+      <div class="create-history-title">
   
-            <!-- Descripcion historia -->
-            <div>
-              <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Descripción</h3>
-              <p tabindex="{{openedMenu ? -1 : 0}}">
-                La descripción es la primera aproximación de un usuario a su conjunto de datos, así que se debería comenzar contando brevemente
-                qué contiene el mismo. Si el conjunto de datos contiene informaciones parciales, limitaciones o deficiencias este
-                es el lugar en el que puede mencionarlas de forma que los usuarios puedan saber el alcance de la información. En
-                algunos casos los usuarios ayudan a mejorar la información, así que no desaproveche la oportunidad de acercarles
-                la realidad del dato.
-              </p>
-              <angular-tinymce *ngIf="settings" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
-              <span class="sr-only">Descripcion de la historia</span>
+        <div class="create-history-title_img">
+           <img *ngIf="imageUrl" src="{{imageUrl}}" class="icon card-img-top" alt="Fotografía de la historia">
+        </div>
+  
+        <div class="create-history-title_text">
+          <h3 tabindex="{{openedMenu ? -1 : 0}}">Título de la historia*</h3>
+          <input tabindex="{{openedMenu ? -1 : 0}}" class="col-12 form-control" id="title_history" type="text" placeholder="Introduzca el título de la historia" formControlName="title" [class.is-invalid]="invalidTitle">
+          <small *ngIf="invalidTitle" class="text-danger">Campo obligatorio</small>    
+        </div>
+  
+      </div>
+   
+      <!-- SUBTITULO DE LA HISTORIA -->
+      <div #subtitleHistory class="create-history-subtitle">
+
+          <div class="create-history-subtitle__description">
+            <h3 tabindex="{{openedMenu ? -1 : 0}}">Descripción de la historia</h3>
+            <angular-tinymce *ngIf="settings" placeholder="Introduzca el título de la historia" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
+          </div>
+
+          <h3 tabindex="{{openedMenu ? -1 : 0}}">Valores globales</h3>
+
+          <div class="create-history-subtitle__values">
+
+            <!-- valores globales seleccionados -->
+            <ng-container *ngIf="contentsHeader && contentsHeader.length > 0">
+              <div class="create-history-subtitle__value" *ngFor="let content of contentsHeader; let i = index" >
+                <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon fa fa-trash" (click)="deleteContent(content)"></div>
+                <div class="number">{{content.aditionalInfo.value}}</div>
+                <div class="text">{{content.aditionalInfo.text}}</div>
+              </div>
+            </ng-container>
+
+            <!-- anadir nuevo valor global -->
+            <div class="create-history-subtitle__add-value" (click)="addValues()">
+              <div ctitle="edit" class="icon fa fa-plus"></div> 
+              <span>Añadir valor global</span>
+            </div>
+              
+          </div>
+      </div>
+
+      <!-- CATEGORIZACION DE LA HISTORIA -->
+      <div class="create-history-categories">
+
+        <h3 tabindex="{{openedMenu ? -1 : 0}}">Categorización</h3>
+
+        <div>
+
+          <!-- categorias seleccionadas -->
+          <ng-container *ngFor="let category of categories; let i = index" >
+            <div class="create-history-category" *ngIf="category.selected" tabindex="{{openedMenu ? -1 : 0}}">
+              <div *ngIf="!category.selectedPrincipal" title="remove" class="icon fa fa-trash" (click)="category.selected = false"></div>
+              <div *ngIf="category.selectedPrincipal" title="remove" class="icon fa fa-edit"  (click)="changeFirstCategory(category)"></div>
+              <img [src]="this.historiesService.getIconCategory(category.id)" alt="Imagen de la categoría {{category.name}}">
+              <div class="text">{{category.name}}</div> 
+            </div>
+          </ng-container>
+  
+          <!-- anadir categoria principal -->
+          <div class="create-history-category-button" *ngIf="!isFirstSelected" (click)="showModalCategories('first')">
+            <div title="edit" class="icon fa fa-plus"></div>
+            <span>Añadir categoria principal</span>
+          </div>
+
+          <!-- anadir categoria secundaria -->
+          <div class="create-history-category-button" (click)="showModalCategories('second')" *ngIf="isFirstSelected">
+            <div title="edit" class="icon fa fa-plus"></div>
+            <span>Añadir categoria secundaria</span>
+          </div>
+        </div>
+
+        <small *ngIf="invalidCategory" class="text-danger">Seleccione una categoria principal</small>
+
+      </div>
+
+      <!-- CONTENIDOS DE LA HISTORIA -->
+      <div class="create-history-contents">
+
+        <!-- ADD CONTENT -->
+        <div *ngIf="!showAddContent" class="create-history-contents__add" (click)="addNewContent()" tabindex="{{openedMenu ? -1 : 0}}">
+          <div class="icon-fa fa fa-plus"></div> 
+          <span>Añadir sección</span>
+        </div>
+
+        <!-- CONTENTS CREATED -->
+        <div *ngFor="let content of contents; let i = index; let odd = odd" class="create-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === AlignEnum.left}">
+      
+          <!-- Formulario de nueva seccion -->
+          <div class="create-history-content__edit" #newContentElement *ngIf="showAddContent && contentToEdit && i === posToEdit ">
+            <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
+          </div>
+
+          <ng-container *ngIf="!(showAddContent && contentToEdit && i === posToEdit)">
+
+            <!-- Editar / eliminar seccion -->
+            <div class="create-history-content__buttons">
+              <div tabindex="{{openedMenu ? -1 : 0}}" title="Editar sección" class="icon fa fa-edit" (click)="editContent(content, i)"></div>
+              <div tabindex="{{openedMenu ? -1 : 0}}" title="Eliminar sección" class="icon fa fa-trash" (click)="deleteContent(content)"></div>
             </div>
 
-            <!-- Añadir valores -->
-            <div>
-              <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Valores globales</h3>
-              <p tabindex="{{openedMenu ? -1 : 0}}">
-                En este apartado deberá elegir una fuente de datos del portal de Aragón Open Data, en la cual se ha apoyado 
-                para escribir esta historia. Puede ser un conjunto de datos, una vista del GA_OD_Core, una consulta SPARQL o una
-                gráfica utilizando la herramienta de Open Visual Data, etc.
-              </p>
-              <div class="contents-select" *ngIf="contentsHeader && contentsHeader.length > 0">
-                <div *ngFor="let content of contentsHeader; let i = index" >
-                  <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon-fa fa fa-trash" (click)="deleteContent(content)"></div>
-                  <span class="sr-only">Eliminar contenido</span>
-                  <p tabindex="{{openedMenu ? -1 : 0}}">
-                    <span>Titulo: </span>
-                    {{content.title}}
-                    <span class="sr-only">Título del contenido: {{content.title}} </span>
-                  </p>
-                </div>
-              </div>
-              <div class="values">
-                <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-primary" (click)=addValues()> Añadir Valores</button><span class="sr-only">Añadir valores</span>
-              </div>
+            <!-- Titulo / descripcion de la seccion -->
+            <div class="create-history-content__text" *ngIf="content.title || content.description">
+              <p tabindex="{{openedMenu ? -1 : 0}}" class="create-history-content__text-title">{{content.title}}</p>
+              <p tabindex="{{openedMenu ? -1 : 0}}" class="create-history-content__text-desc" [innerHTML]="content.description"></p>
+            </div>
+
+            <!-- Si es grafica -->
+            <div class="create-history-content__visual graph" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.graph">
+              <iframe 
+                title='Gráfica de datos del portal de Aragón Open Data, el cual da apoyo a la sección de la historia'
+                appIframeResizer *ngIf="content.srcGraph" 
+                class="thread-content"
+                [src]="content.srcGraph"
+                scrolling="no" frameborder="0"></iframe>
+            </div>
+
+            <!-- Si es video youtube -->
+            <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.youtube">
+              <iframe *ngIf="content.srcYoutube" 
+              title='Video de YouTube el cual da apoyo a la sección de la historia'
+              width="560" height="315" [src]="content.srcYoutube"
+              frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+            </div>
+
+            <!-- Si es slideshare -->
+            <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.shareSlides">
+              <iframe *ngIf="content.srcSlideShare" 
+              title='Slideshare el cual da apoyo a la sección de la historia'
+              width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
+              style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
+              allowfullscreen></iframe>
+            </div>
+
+            <!-- Si es imagen -->
+            <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.img">
+              <img *ngIf="content.srcImg" 
+              title='Imágen la cual da apoyo a la sección de la historia' [src]='content.srcSlideShare'>
             </div>
             
+          </ng-container>
           
-  
-            <!-- Categorias historia -->
-            <!-- Categoria primaria -->
-            <div>
-              <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Categorización</h3>
-              <p tabindex="{{openedMenu ? -1 : 0}}">
-                Por favor, introduzca un listado de etiquetas que describan el contenido de su conjunto de datos. Utilice palabras comunes
-                para describirlo. A poder ser utilice palabras de las que le sugiere el formulario, ya que son categorías que ya están siendo
-                utilizadas.
-              </p>
-              
-              <div class="group">
-                <label for="category">
-                  <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Categoría principal</h4>
-                </label>
-                <select tabindex="{{openedMenu ? -1 : 0}}" class="form-control select-cat1" id="category" formControlName="category" id="category"  (change)="onChangePrimaryCategory($event)" [class.is-invalid]="invalidCategory">
-                  <option  *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}</option>
-                  <!--<span class="sr-only">Categoria principal: {{category.name}}</span>-->
-                  <small *ngIf="invalidCategory" class="text-danger"></small>
-                </select>
-                <small *ngIf="invalidCategory" class="text-danger">Campo Obligatorio</small>
-              </div>
-              
-              <div class="group">
-                <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Categorías secundarias</h4>
-  
-                <div class="btn-group select-cat2" dropdown> 
-                  <button tabindex="{{openedMenu ? -1 : 0}}" id="button-cat2" dropdownToggle type="button" class="btn btn-outline-secondary dropdown-toggle">
-                    <span class="sr-only">Categoria secundaria</span>
-                    Seleccione las categorias <span class="caret"></span>
-                  </button>
-                  <div id="dropdown-cat2" *dropdownMenu class="dropdown-menu">
-                    <div class="form-check" *ngFor="let category of secondCategories" (click)="getCategoriesSelected($event, category)" (keyup)="getCategoriesSelected($event, category)" >
-                      <label tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!category.selectedPrincipal" class="container" for="category">
-                        <span class="checkmark" id="category" [ngClass]="{'selected': category.selected}"></span>
-                        {{category.name}}
-                        <span class="sr-only">Categoria secundaria: {{category.name}}</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="cat-selected">
-                  <ng-container *ngFor="let category of secondCategories">
-                    <div class="tag" *ngIf="category.selected" tabindex="{{openedMenu ? -1 : 0}}">
-                      <span>{{category.name}}</span>
-                      <span class="sr-only">Categoria secundaria: {{category.name}}</span>
-                    </div>
-                  </ng-container>
-                </div>
-              </div> 
-              
-            </div>
-
-            <!-- Lista de contenidos -->
-            <div class="contents-select" *ngIf="contents && contents.length > 0">
-              <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Contenidos</h3>
-              <div *ngFor="let content of contents; let i = index">
-                <!--<i aria-hidden="true" title="edit" class="fa fa-edit" (click)="editContent(content,i)"></i>-->
-                <div class="icon-fa fa fa-edit" tabindex="{{openedMenu ? -1 : 0}}" title="edit" (click)="editContent(content,i)"></div>
-                <span class="sr-only">Editar contenido</span>
-                <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon-fa fa fa-trash" (click)="deleteContent(content)"></div>
-                <span class="sr-only">Eliminar contenido</span>
-                <p tabindex="{{openedMenu ? -1 : 0}}">
-                  <span>Titulo: </span>
-                  {{content.title}}
-                  <span class="sr-only">Título del contenido: {{content.title}}</span>
-                </p>
-              </div>
-            </div> 
-  
-            <!-- Add content -->
-            <button *ngIf="!showAddContent" class="btn-add-content btn btn-outline-secondary" type="button" (click)="addNewContent()" tabindex="{{openedMenu ? -1 : 0}}">
-              <span class="sr-only">Añadir contenido</span>
-              <div class="icon-fa fa fa-plus"></div> Añadir contenido
-              <span class="sr-only">Añadir contenido</span>
-            </button>
-  
-            <div #newContentElement *ngIf="showAddContent">
-              <div class="card card-body">
-                <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
-              </div>
-            </div>
-  
-          </div>
-  
+            
         </div>
+
+        <!-- Formulario de nueva seccion -->
+        <div #newContentElement *ngIf="showAddContent && !contentToEdit">
+          <app-edit-content [content]="contentToEdit" [posContent]="posToEdit" (contentCreate)="newContent($event)" (closeContent)="closeNewContent()" (changeContent)="changeContent($event)"></app-edit-content>
+        </div>
+
       </div>
+
     </div>
+
     <div class="actions" *ngIf="!loadingModal">
-        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador || historyBack.state == stateEnum.publicada)))" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button><span class="sr-only">Previsualizar</span>
-        <button tabindex="{{openedMenu ? -1 : 0}}" #btnSave *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador)))"  id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button><span class="sr-only">Guardar historia</span>       
-        <button tabindex="{{openedMenu ? -1 : 0}}" #btnRevision *ngIf="(historyBack.state == stateEnum.borrador)" id="btnSendRevision" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button><span class="sr-only">Enviar a revisión</span>
-        <button tabindex="{{openedMenu ? -1 : 0}}" #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="submit" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button><span class="sr-only">Publicar</span>
-        <button tabindex="{{openedMenu ? -1 : 0}}" #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Enviar a revision</button><span class="sr-only">Enviar a revision</span>
+        <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador || historyBack.state == stateEnum.publicada)))" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
+        <button tabindex="{{openedMenu ? -1 : 0}}" #btnSave *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador)))"  id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button>
+        <button tabindex="{{openedMenu ? -1 : 0}}" #btnRevision *ngIf="(historyBack.state == stateEnum.borrador)" id="btnSendRevision" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
+        <button tabindex="{{openedMenu ? -1 : 0}}" #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="submit" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
+        <button tabindex="{{openedMenu ? -1 : 0}}" #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Enviar a revision</button>
     </div>
   </form>
-  
-  <!-- Modal Email -->
-  <!--<div class="modal fade" id="emailModalCenter" tabindex="-1" role="dialog" aria-labelledby="emailModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+
+  <!-- modal to categogies -->
+  <div class="modal fade categories" id="modalCategories" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
+
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div class="modal-content" *ngIf="!loadingModal">
         <div class="modal-header">
-          <h5 class="modal-title" id="emailModalCenterTitle">Introduce tu Email:</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <p>Seleccione una categoria</p>
         </div>
-        <form [formGroup]="emailForm">
-          <div class="modal-body">
-            <input type="text" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm()">
-            <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
+
+        <div class="modal-body">
+          <div *ngFor="let category of categories; let i = index" tabindex="{{openedMenu ? -1 : 0}}" (click)="selectCategory(category)" [ngClass]="{'disabled': category.selected}">
+            <img [src]="this.historiesService.getIconCategory(category.id)" alt="Imagen de la categoría {{category.name}}">
+            <div class="text">{{category.name}}</div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm()">Continuar</button>
-          </div>
-        </form>
+        </div>
+
+        <div class="modal-footer">
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-outline-secondary" (click)="hiddenModalCategories()">Cancelar</button>
+        </div>
       </div>
     </div>
-  </div>-->
+
+  </div>
 
   <!-- Modal Successfull History -->
   <div class="modal fade successfullModal" id="successfullModalCenter" tabindex="-1" role="dialog" aria-labelledby="successfullModalCenterTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
@@ -233,7 +245,6 @@
           <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title size-title-modal" *ngIf="historyBack.state != stateEnum.publicada" id="successfullModalCenterTitle">¡Historia guardada correctamente!</div>
           <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" *ngIf="historyBack.state == stateEnum.publicada" id="successfullModalCenterTitle">¡Historia publicada correctamente!</div>
           <button  tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="viewHistory()">
-            <span class="sr-only">Cerrar modal historia guardada</span>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -242,10 +253,8 @@
             <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.borrador">Su historia <b>{{historyModel.title}}</b>, se ha guardado correctamente con el siguiente token. Apúntelo para poder gestionar la historia</p>
             <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="historyBack.state == stateEnum.revision">Su historia <b>{{historyModel.title}}</b>, se ha enviado correctamente para su revisión con el siguiente token.</p>
             <div class="tokenSite col-12">
-              <span class="sr-only">El token es:</span>
               <textarea tabindex="{{openedMenu ? -1 : 0}}" readonly #tokenGenerate id="history_token" class="tokenTextArea">{{historyModel.token}}</textarea>
               <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn fa fa-copy" (click)="copyToken()" ></button>
-              <span class="sr-only">Copiar Token</span>
             </div>
             <div *ngIf=!haveMail>
               <div class="modal-header">
@@ -255,12 +264,10 @@
                 <div class="modal-body">
                   <p tabindex="{{openedMenu ? -1 : 0}}"> Puede dejar su correo para ser notificado cuando se produzcan algunos cambios en el estado de su historia o si desea recibir el token en su correo electrónico</p>
                   <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="email" class="form-control" placeholder="Email" [class.is-invalid]="invalidEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$" formControlName="email" (keyup.enter)="saveMailForm($event)">
-                  <span class="sr-only">Introduzca el mail</span>
                   <small *ngIf="invalidEmail" class="text-danger">Introduzca un email válido</small>
                 </div>
                 <div class="modal-footer">
                   <button tabindex="{{openedMenu ? -1 : 0}}" type="submit" class="btn btn-primary" [ngClass]="emailForm.invalid ? 'disabled' : '' " (click)="saveMailForm($event)">Enviar</button>
-                  <span class="sr-only">Enviar email</span>
                 </div>
               </form> 
             </div>
@@ -283,7 +290,6 @@
           <div tabindex="{{openedMenu ? -1 : 0}}" *ngIf="(isAdmin || (historyBack.state != stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Se ha producido un error</div>
           <div tabindex="{{openedMenu ? -1 : 0}}" *ngIf="(!isAdmin && (historyBack.state == stateEnum.revision))"class="modal-title" id="errorModalCenterTitle">Operación no permitida</div>
           <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span class="sr-only">Cerrar modal de error</span>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -302,48 +308,30 @@
         <div class="modal-header form-section-title">
           <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title" id="errorModalNumberTitle">Gráfica no permitida</div>
           <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span class="sr-only">Cerrar modal de error</span>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <p tabindex="{{openedMenu ? -1 : 0}}">En este apartado tan solo se permiten valores numéricos.</p>
-          <p tabindex="{{openedMenu ? -1 : 0}}"> Si desea crear otro tipo de gráfica, cree un contenido en la parte inferior. </p>
+          <p tabindex="{{openedMenu ? -1 : 0}}"> Si desea crear otro tipo de gráfica, cree una sección en la parte inferior. </p>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Modal Save Changes -->
-  <!--<div class="modal fade errorModal" id="saveModalCenter" tabindex="-1" role="dialog" aria-labelledby="errorModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="errorModalCenterTitle">No ha guardado los cambios</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p >Asegurese de guardar los cambios efectuados antes de publicar la historia.</p>
-        </div>
-      </div>
-    </div>
-  </div>-->
 
   <!-- Question Content Previous -->
   <div class="modal fade errorModal" id="questionContPrevious" tabindex="-1" role="dialog" aria-labelledby="questionContPreviousTitle" aria-hidden="true"  data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" id="questionContPreviousTitle">Info contenido</div>
+          <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" id="questionContPreviousTitle">Advertencia</div>
         </div>
         <div class="modal-body">
-          <p tabindex="{{openedMenu ? -1 : 0}}">Si edita el contenido, perderá los cambios del contenido que se está editando en este momento con título . ¿Desea continuar?</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}">Si edita la sección, perderá los cambios de la sección que se está editando en este momento. ¿Desea continuar?</p>
         </div>
         <div class="modal-footer">
-          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary" (click)="confirmEditContent(false)">Cancelar</button><span class="sr-only">Cancelar, volver a editar</span>
-          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary" (click)="confirmEditContent(true)">Confirmar</button><span class="sr-only">Confirmar, perder cambios</span>
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-outline-secondary" (click)="confirmEditContent(false)">Cancelar</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary" (click)="confirmEditContent(true)">Confirmar</button>
         </div>
       </div>
     </div>
@@ -354,23 +342,22 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" id="questionDeleteContentTitle">Borrar contenido</div>
+          <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" id="questionDeleteContentTitle">Borrar sección</div>
           <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDeleteContentModal()">
-            <span class="sr-only">Cerrar modal borrar contenido</span>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="showAddContent && !previousButton && deleteBodyCont">Por favor, antes de eliminar un contenido, guarde o cierre el contenido que se está editando</p>
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont">¿Está seguro que quiere eliminar el contenido? Una vez eliminado, no se podrá recuperar</p>
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent && !previousButton && deleteBodyCont">¿Está seguro que quiere eliminar el contenido? Una vez eliminado, no se podrá recuperar</p>
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton">Si realiza esta acción, el contenido que está editando se perderá. ¿Desea continuar con la acción y perderlo o volver para guardar el mismo? </p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="showAddContent && !previousButton && deleteBodyCont">Por favor, antes de eliminar una sección, guarde o cierre la sección que se está editando</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont">¿Está seguro que quiere eliminar la sección? Una vez eliminado, no se podrá recuperar</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent && !previousButton && deleteBodyCont">¿Está seguro que quiere eliminar la sección? Una vez eliminado, no se podrá recuperar</p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton">Si realiza esta acción, la sección que está editando se perderá. ¿Desea continuar con la acción y perderlo o volver para guardar el mismo? </p>
         </div>
         <div class="modal-footer">
-          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Volver</button><span class="sr-only">Volver, no borrar el contenido</span>
-          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
-          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent  && !previousButton && deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
-          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton" type="button" class="btn btn-primary" (click)="getHistoryForm(null, false)">Confirmar</button><span class="sr-only">Confirmar, borrar contenido</span>
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Volver</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent  && !previousButton && deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton" type="button" class="btn btn-primary" (click)="getHistoryForm(null, false)">Confirmar</button>
         </div>
       </div>
     </div>

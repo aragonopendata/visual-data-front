@@ -3,16 +3,17 @@ import { Http, URLSearchParams, Response, Headers } from '@angular/http';
 import { Constants } from '../app.constants';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { History } from '../models/History';
+import { History, Content } from '../models/History';
 import { Category } from '../models/Category';
-import { filter } from 'rxjs/operator/filter';
+import { Contents } from '../models/Contents';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable()
 export class HistoriesService {
 
   currentUser: any;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private _sanitizer: DomSanitizer) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser')); 
   }
 
@@ -160,12 +161,9 @@ export class HistoriesService {
       console.log('hay eror:' + err)
         return Observable.throw('error envío correo');
       });
-      
   }
 
-
   public getEmbedUrlSlideShare(url:string){
-
     let fullUrl= Constants.API_SLIDESHARE_CONVERT_URL_TO_EMBED + "?url=" + url + "&format=json" 
     return this.http.get(fullUrl).map( (res:any) => {
       return res.json()
@@ -176,6 +174,95 @@ export class HistoriesService {
   public getImageByCategoryId(category_id: string){
     let fullUrl=Constants.AOD_API_WEB_BASE_URL +Constants.ROUTER_LINK_FOCUS + Constants.ROUTER_LINK_IMAGE_CATEGORY;
     return this.http.get(fullUrl + '/' + category_id).map(res => res.json());;
+  }
+
+  public getInfoContents(element) {
+
+    return new Promise((resolve, reject) => {
+      if(element.type_content ==  Contents.graph){
+        this.urlGraph(element.visual_content).then( (url) => {
+          element.srcGraph = url;
+          resolve(element)
+        });
+      } else if (element.type_content ==  Contents.youtube) {
+        this.urlYoutube(element.visual_content).then( (url) => {
+          element.srcYoutube = url;
+          resolve(element)
+        });
+      } else if (element.type_content ==  Contents.shareSlides) {
+        this.urlSlideShare(element.visual_content).then( (url) => {
+          element.srcSlideShare = url;
+          resolve(element)
+        });
+      }else{
+        resolve(element)
+      }
+    });
+    
+  }
+
+  private urlGraph(id: string) {
+    return new Promise((resolve, reject) => {
+      let url = Constants.FOCUS_URL+'/charts/embed/'+id;
+      resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
+    });
+  }
+
+  private urlYoutube(id: string) {
+    return new Promise((resolve, reject) => {
+      let url = "https://www.youtube.com/embed/"+id;
+      resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
+    });
+  }
+  
+  private urlSlideShare(id: string) {
+
+    return new Promise((resolve, reject) => {
+
+      let url = "https://www.slideshare.net/"+id;
+      var urlSlideEmbed;
+      
+      this.getEmbedUrlSlideShare(url).subscribe( (response:any) => {
+        if(response.html){
+          let iframeInfo=response.html
+          urlSlideEmbed = iframeInfo.substring(
+            iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
+            iframeInfo.lastIndexOf("\" width=")
+          );
+          resolve(this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed));
+        }
+      });
+    });
+  }
+
+  getIconCategory(id) {
+
+    if (id === 1261){
+      return "http://opendata.aragon.es/static/public/i/temas/12-Justicia.png"
+    } else if (id === 1262){
+      return "http://opendata.aragon.es/static/public/i/temas/18-Sociedad.png"
+    }  else if (id === 1263){
+      return "http://opendata.aragon.es/static/public/i/temas/15-Salud.png"
+    }  else if (id === 1264){
+      return "http://opendata.aragon.es/static/public/i/temas/07-Educacion.png"
+    }  else if (id === 1265){
+      return "http://opendata.aragon.es/static/public/i/temas/08-Empleo.png"
+    }  else if (id === 1266){
+      return "http://opendata.aragon.es/static/public/i/temas/02-Comercio.png"
+    }  else if (id === 1267){
+      return "http://opendata.aragon.es/static/public/i/temas/14-MedioRural.png"
+    }  else if (id === 1268){
+      return "http://opendata.aragon.es/static/public/i/temas/13-Medioambiente.png"
+    }  else if (id === 1269){
+      return "http://opendata.aragon.es/static/public/i/temas/11-Industria.png"
+    }  else if (id === 1270){
+      return "http://opendata.aragon.es/static/public/i/temas/03-Cultura.png"
+    }  else if (id === 1271){
+      return "http://opendata.aragon.es/static/public/i/temas/22-Vivienda.png"
+    }  else if (id === 1272){
+      return "http://opendata.aragon.es/static/public/i/temas/19-Transporte.png"
+    } 
+
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { HistoriesService } from '../../../services/histories.service';
 import { History, Content } from '../../../models/History';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +10,9 @@ import { AuthGuard } from '../../../_guards/auth.guard';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 import { GraphService } from '../../../services/graph.service';
 import { VisualGrapsService } from '../../../services/visual-graps.service';
-import { concatStatic } from 'rxjs/operator/concat';
+import { AditionalInfo } from '../../../models/AditionalInfo';
+import { Aligns } from '../../../models/Aligns';
+import { Contents } from '../../../models/Contents';
 
 
 // declare var tinymce: any;
@@ -23,8 +25,12 @@ declare var $: any;
 })
 export class EditHistoryComponent implements OnInit {
 
+  categoryToSelect = 'first';
+  isFirstSelected = false;
   categories: Category[];
-  secondCategories: Category[];
+  scrollTo: string;
+  imageUrl: string = 'http://opendata.aragon.es/static/public/focus/pilar.jpg';
+
   contents: Content[]=[];
   contentsGeneral:Content[];
   contentsHeader: Content[]=[];
@@ -69,14 +75,16 @@ export class EditHistoryComponent implements OnInit {
   haveMail:boolean=false;
 
   openedMenu: boolean;
+  AlignEnum: typeof Aligns = Aligns;
+  ContentEnum: typeof Contents = Contents;
 
   routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
   @ViewChild('newContentElement') newContentElement: ElementRef;
+  @ViewChild('subtitleHistory') subtitleHistory: ElementRef;
 
-
-  constructor(private _historiesService: HistoriesService, private _cdRef: ChangeDetectorRef,
+  constructor(public historiesService: HistoriesService, private _cdRef: ChangeDetectorRef,
               private _route: Router, private _formBuilder: FormBuilder, private _activatedRoute: ActivatedRoute,
               private _verifyTokenService: AuthGuard, private utilsService: UtilsService, 
               private _graphservice: GraphService, private _servicio: VisualGrapsService) { 
@@ -85,7 +93,6 @@ export class EditHistoryComponent implements OnInit {
       if(params.token!=null){
         this.previewHistory=true;
         this.firstTime =false;
-
       }
       else{
         this.previewHistory = false;
@@ -110,7 +117,7 @@ export class EditHistoryComponent implements OnInit {
     this.initiateForms();
     
     this._servicio.getIdGraph().subscribe(id => {
-      //this.loading=true;
+
       if(this.numberGraph){
         
         var graph = new Content();
@@ -119,51 +126,61 @@ export class EditHistoryComponent implements OnInit {
         
         this._graphservice.getChart(graph.visual_content).subscribe(chart => {
           graph.title=chart.title;
+          graph.aditionalInfo = new AditionalInfo(chart.number.numberUnits, chart.number.number)
           if(chart.type=='number'){
             this.contentsHeader.push(graph);
           }
           else{
             $('#errorModalNumber').modal('show');
           }
-          
-          //this.loading=false;
         });
         
         this.numberGraph=!this.numberGraph;
       }
-      else{
-        //this.loading=false;
+
+      if ( this.scrollTo === 'subtitleHistory' ) {
+        this.scrollTo = null;
+        setTimeout(() => this.subtitleHistory.nativeElement.scrollIntoView({behavior:"auto"}), 100)
+      } else {
+        setTimeout(() => this.newContentElement.nativeElement.scrollIntoView({behavior:"auto"}), 100)
       }
+      
     });
 
+    //cuando se cierra el modal con la cruz
     this._servicio.getClose().subscribe(closed=>{
-      //cuando se cierra el modal con la cruz
       this.numberGraph=false;
+      if ( this.scrollTo === 'subtitleHistory' ) {
+        this.scrollTo = null;
+        setTimeout(() => this.subtitleHistory.nativeElement.scrollIntoView({behavior:"auto"}), 100)
+      } else {
+        setTimeout(() => this.newContentElement.nativeElement.scrollIntoView({behavior:"auto"}), 100)
+      }
     })
 
     if(localStorage.getItem('currentUser')){
-
       this.admin=JSON.parse(localStorage.getItem('currentUser'));
-
       if(this.admin['rol'] == "global_adm"){
         this._verifyTokenService.probeTokenAdmin()
         this.isAdmin = true;
       }
-      this.loadHistory();
+      this.preLoadHistory();
 
     }else{
-      this.loadHistory();
+      this.preLoadHistory();
     }
 
     this.getOpenedMenu();
 
-
   }
 
-  loadHistory(){
-    this._historiesService.getCategories().subscribe( (categories: Category[]) => {
+  /**
+   * Load history 
+   */
+  preLoadHistory(){
+    this.historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
-      this.secondCategories = categories;
+      //this.secondCategories = categories;
       this.historyBack.state=this.stateEnum.borrador;
       this._activatedRoute.params.subscribe(params => {
         if(params.token!=null){
@@ -178,26 +195,41 @@ export class EditHistoryComponent implements OnInit {
     });
   }
 
+  /**
+   * Separate contents header and contents sections
+   */
   separateContents(){
     this.contentsHeader=[];
     this.contents=[];
     if(this.historyBack.contents && this.historyBack.contents.length>0){
       for (var contentNumber = 0; contentNumber < this.historyBack.contents.length; contentNumber++) {
         if(this.historyBack.contents[contentNumber].body_content){
-          this.contents.push(this.historyBack.contents[contentNumber]);
+          this.historiesService.getInfoContents(this.historyBack.contents[contentNumber]).then(data => {
+            this.contents.push(data);
+          });
         }else{
-          this.contentsHeader.push(this.historyBack.contents[contentNumber]);
+          let content = this.historyBack.contents[contentNumber];
+          this._graphservice.getChart(content.visual_content).subscribe(chart => {
+            content.title=chart.title;
+            content.aditionalInfo = new AditionalInfo(chart.number.numberUnits, chart.number.number)
+            this.contentsHeader.push(content);
+          });
         }
       }
     }
     this.updateWithBackHistory();
   }
 
+  /**
+   * Get history to update
+   * @param token 
+   */
   getHistory(token: string){
     if(!this.isAdmin){
-      this._historiesService.getHistoryBackUserByToken(token).subscribe(result => {
+      this.historiesService.getHistoryBackUserByToken(token).subscribe(result => {
         if(result.success && result.history!=null){
           this.historyBack = result.history;
+          this.loadImageByMainCategory(this.historyBack.main_category);
           this.separateContents();
         }else{
           this.objectLoadFailure()
@@ -206,9 +238,10 @@ export class EditHistoryComponent implements OnInit {
         this.objectLoadFailure()
       });
     }else{
-      this._historiesService.getHistoryBackAdminByToken(token).subscribe(result => {
+      this.historiesService.getHistoryBackAdminByToken(token).subscribe(result => {
         if(result.success && result.history!=null){
           this.historyBack = result.history;
+          this.loadImageByMainCategory(this.historyBack.main_category);
           this.separateContents();
         }else{
           this.objectLoadFailure()
@@ -239,10 +272,16 @@ export class EditHistoryComponent implements OnInit {
       this.historyForm.controls['secondCategories'].setValue(this.historyBack.secondary_categories);
       this.historyForm.controls['contentsBody'].setValue(this.contents);
       
-      this.historyBack.secondary_categories.forEach(id => {
-        this.secondCategories.forEach(cat => {
-          if(cat.id==id){
-            cat.selected=true;
+      this.isFirstSelected = false;
+      this.categories.forEach(cat => {
+        if (cat.id === this.historyBack.main_category) {
+          cat.selected = true;
+          cat.selectedPrincipal = true;
+          this.isFirstSelected = true;
+        }
+        this.historyBack.secondary_categories.forEach(id => {
+          if(cat.id === id){
+            cat.selected = true;
           }
         });
       });
@@ -274,17 +313,6 @@ export class EditHistoryComponent implements OnInit {
 
   get invalidEmail(){
     return this.emailForm.get('email').invalid && this.emailForm.get('email').touched;
-  }
-
-  getCategoriesSelected(event, cat: Category){
-    event.preventDefault();
-    event.stopPropagation();
-    if(event.keyCode==13 || event.type=="click"){
-      cat.selected = !cat.selected;
-    }
-    if(cat == this.secondCategories[this.secondCategories.length-1]){
-      document.getElementById('button-cat2').click();
-    }
   }
 
   getHistoryForm(button, primerAviso){
@@ -338,7 +366,6 @@ export class EditHistoryComponent implements OnInit {
     }else if(button.id=="btnSendPublicar"){
       this.publishing = true;
       this.stateHistory=this.historyBack.state;
-      //this.stateHistory=this.stateEnum.publicada
     }else if((button.id=="btnSaveHistory")&&(this.isAdmin)){
       this.stateHistory=this.historyBack.state;
       this.editAdmin=true;
@@ -348,7 +375,6 @@ export class EditHistoryComponent implements OnInit {
     }
   }
   
-
   saveMailForm(event){
     event.preventDefault();
     event.stopPropagation();
@@ -361,7 +387,6 @@ export class EditHistoryComponent implements OnInit {
       this.loadingModal=true;
       this.haveMail=true;
       this.firstTime=false;
-      //$('#successfullModalCenter').modal('hide');
       this.setMailToHistory()
     }
   }
@@ -371,13 +396,6 @@ export class EditHistoryComponent implements OnInit {
     this.loadingModal=false;
     $('#errorModalCenter').modal('show');
   }
-
-  // closeModalError(){
-  //   $('#successfullModalCenter').modal('hide');
-  //   $('#emailModalCenter').modal('hide');
-  //   $('#errorModalCenter').modal('hide');
-  // }
-
   
   /**
    * Peview history
@@ -395,8 +413,8 @@ export class EditHistoryComponent implements OnInit {
 
   operateWithHistory(action){
     let cat2Selected = [];
-    this.secondCategories.forEach( (element) => {
-      if(element.selected){
+    this.categories.forEach( (element) => {
+      if(element.selected && !element.selectedPrincipal){
         cat2Selected.push(element.id);
       }
     });
@@ -447,41 +465,39 @@ export class EditHistoryComponent implements OnInit {
   }
 
   saveHistoryUser(){
-      this._historiesService.setHistory(this.historyModel).subscribe(result => {
-        if (result.status == 200 && result.success) {
-          this.firstTime=true;
-          this.historyModel.id=result.id;
-          this.historyModel.token=result.token;
-          this.historyBack=this.historyModel;
-          this.loadingModal=false;
-          $("#successfullModalCenter").modal('show');
-          if(this.stateHistory==this.stateEnum.revision){
-            this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
-              if(result.status==200){
-              }
-            },err => {
-              console.log('Error al enviar correo al admin');
-            });
-          }
+    this.historiesService.setHistory(this.historyModel).subscribe(result => {
+      if (result.status == 200 && result.success) {
+        this.firstTime=true;
+        this.historyModel.id=result.id;
+        this.historyModel.token=result.token;
+        this.historyBack=this.historyModel;
+        this.loadingModal=false;
+        $("#successfullModalCenter").modal('show');
+        if(this.stateHistory==this.stateEnum.revision){
+          this.historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
+            if(result.status==200){
+            }
+          },err => {
+            console.log('Error al enviar correo al admin');
+          });
         }
-        else{
-          this.openModalError()
-        }
-      });
-
-
+      }
+      else{
+        this.openModalError()
+      }
+    });
   }
 
   postHistoryAdmin(){
     this.historyModel.state=this.stateEnum.publicada;
-    this._historiesService.publishHistory(this.historyModel).subscribe(result => {
+    this.historiesService.publishHistory(this.historyModel).subscribe(result => {
       if(result.success){
         this.historyBack = this.historyModel;
         this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
         this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
         if(this.historyModel.email!=null){
-          this._historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
+          this.historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){
               //mail enviado correctamente
             }else{
@@ -504,8 +520,8 @@ export class EditHistoryComponent implements OnInit {
     this.historyModel.email=this.emailForm.get('email').value;
     this.historyModel.url=Constants.FOCUS_URL;
     this.historyBack=this.historyModel;
-    this._historiesService.updateMailHistoryUser(this.historyModel).subscribe(result => {
-      this._historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
+    this.historiesService.updateMailHistoryUser(this.historyModel).subscribe(result => {
+      this.historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
         if(result.status==200){
           this.loadingModal=false;
         } else {
@@ -522,20 +538,17 @@ export class EditHistoryComponent implements OnInit {
     });
   }
 
-  
   updateHistory(){
     if(this.isAdmin){
-      this._historiesService.updateHistoryAdmin(this.historyModel).subscribe(result => {
+      this.historiesService.updateHistoryAdmin(this.historyModel).subscribe(result => {
         this.updateHistoryResult(result)
       });
 
     }else{
-      this._historiesService.updateHistoryUser(this.historyModel).subscribe(result => {
+      this.historiesService.updateHistoryUser(this.historyModel).subscribe(result => {
         this.updateHistoryResult(result)
       });
     }
-  
-
   }
 
   updateHistoryResult(result){
@@ -544,7 +557,7 @@ export class EditHistoryComponent implements OnInit {
       if(this.stateHistory==this.stateEnum.revision && (!this.editAdmin && !this.publishing)){
         this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
-        this._historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
+        this.historiesService.sendSaveAdminMail(this.historyModel).subscribe(result => {
           if(result.status==200){
           }
         });
@@ -564,19 +577,8 @@ export class EditHistoryComponent implements OnInit {
     document.getElementsByTagName('body')[0].classList.add('no-scroll');
     this._route.navigate([{outlets: {modal: 'visualData/listGraph/'+this.type}}]);
     this.numberGraph=true;
+    this.scrollTo = 'subtitleHistory';
   } 
-
-  onChangePrimaryCategory({ target }){
-    var valores = target.value.split(" ");
-    var categoryIdSelected = valores[valores.length - 1];
-    this.secondCategories.forEach(cat => {
-      cat.selectedPrincipal =false;
-      if(cat.id==categoryIdSelected){
-        cat.selected=false;
-        cat.selectedPrincipal=true;
-      }
-    });
-  }
   
   copyToken(){
     if (this.tokenGenerate) {
@@ -648,9 +650,6 @@ export class EditHistoryComponent implements OnInit {
       this.posToEdit=this.posToEditAux;
       this.showAddContent = true;
       this._cdRef.detectChanges();
-    } else {
-      //this.contentToEdit = this.actualContent;
-      //this.posToEdit=this.actualPosToEdit;
     }
     this.loadingModal=false;
     $('#questionContPrevious').modal('hide');
@@ -698,9 +697,13 @@ export class EditHistoryComponent implements OnInit {
    */
   newContent( actionContent ){
     if( actionContent.action === 'new' ){
-      this.contents.push(actionContent.content);
+      this.historiesService.getInfoContents(actionContent.content).then(data => {
+        this.contents.push(data);
+      });
     } else {
-      this.contents[actionContent.posContent] = actionContent.content;
+      this.historiesService.getInfoContents(actionContent.content).then(data => {
+        this.contents[actionContent.posContent] = data;
+      });
     }
     this.closeNewContent();
   }
@@ -726,4 +729,49 @@ export class EditHistoryComponent implements OnInit {
     this.contentToEdit = null;
     this.showAddContent = false;
   }
+
+  showModalCategories(categoryToSelect) {
+    this.categoryToSelect = categoryToSelect;
+    $('#modalCategories').modal('show');
+  }
+
+  hiddenModalCategories() {
+    $('#modalCategories').modal('hide');
+  }
+
+  selectCategory(category: Category ) {
+
+    if( !category.selected ) {
+      category.selected = true;
+      category.selectedPrincipal = false;
+      if( this.categoryToSelect === 'first' ) {
+        category.selectedPrincipal = true;
+        this.isFirstSelected = true;
+        this.historyForm.controls['category'].setValue(category.id);
+        this.loadImageByMainCategory(category.id);
+      }
+      this.categories.sort(function (a, b) {
+        return (a.selectedPrincipal === b.selectedPrincipal)? 0 : a.selectedPrincipal? -1 : 1;
+      });
+      $('#modalCategories').modal('hide');
+    }
+    
+  }
+
+  loadImageByMainCategory(id){
+    this.historiesService.getImageByCategoryId(id).subscribe(response=>{
+      if(response.image.route && response.image.route!=null){
+        this.imageUrl=response.image.route;
+      }else{
+        this.imageUrl="http://opendata.aragon.es/static/public/focus/pilar.jpg";
+      }
+    })
+  }
+
+  changeFirstCategory(category: Category ) {
+    category.selected = false;
+    category.selectedPrincipal = false;
+    this.showModalCategories('first');
+  }
+
 }

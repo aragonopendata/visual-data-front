@@ -46,7 +46,7 @@
         </div>
         <div class="view-history-subtitle__values">
           <div *ngFor="let info of aditionalInfo; let i = index" class="view-history-subtitle__value" tabindex="{{openedMenu ? -1 : 0}}">
-            <div class="number">{{info.value | number : '1.0-2'}}</div>
+            <div class="number">{{info.value}}</div>
             <div class="text">{{info.text}}</div>
             <span class="sr-only">{{info.text}}: {{info.value}}</span> 
           </div>
@@ -55,18 +55,7 @@
 
     <div class="view-history-categories" *ngIf="selectedCategories.length != 0">
       <div class="view-history-category" *ngFor="let secondCategory of selectedCategories; let i = index" tabindex="{{openedMenu ? -1 : 0}}">
-        <img *ngIf="secondCategory.id === 1261" src="/static/public/i/temas/12-Justicia.png" alt="Historia de la categoria Derechos y servicios a la ciudadanía" longdesc="Derechos y servicios a la ciudadanía">
-        <img *ngIf="secondCategory.id === 1262" src="/static/public/i/temas/18-Sociedad.png"  alt="Historia de la categoria Atención social y dependencia" longdesc="Atención social y dependencia">
-        <img *ngIf="secondCategory.id === 1263" src="s/static/public/i/temas/15-Salud.png" alt="Historia de la categoria salud" longdesc="Salud">
-        <img *ngIf="secondCategory.id === 1264" src="/static/public/i/temas/07-Educacion.png" alt="Historia de la categoria Educación, investigación y desarrollo" longdesc=" Educación, investigación y desarrollo">
-        <img *ngIf="secondCategory.id === 1265" src="/static/public/i/temas/08-Empleo.png" alt="Historia de la categoria empleo y trabajo" longdesc="Empleo y trabajo">
-        <img *ngIf="secondCategory.id === 1266" src="/static/public/i/temas/02-Comercio.png" alt="Historia de la categoria Empresa, comercio y asociaciones" longdesc="Empresa, comercio y asociaciones">
-        <img *ngIf="secondCategory.id === 1267" src="/static/public/i/temas/14-MedioRural.png" alt="Historia de la categoria Medio rural, agrícula y ganadería" longdesc="Medio rural, agrícula y ganadería">
-        <img *ngIf="secondCategory.id === 1268" src="/static/public/i/temas/13-Medioambiente.png" alt="Historia de la categoria Medio ambiente" longdesc="Medio ambiente">
-        <img *ngIf="secondCategory.id === 1269" src="/static/public/i/temas/11-Industria.png" alt="Historia de la categoria Actividades industriales y energía" longdesc="Actividades industriales y energía">
-        <img *ngIf="secondCategory.id === 1270" src="/static/public/i/temas/03-Cultura.png" alt="Historia de la categoria Cultura, ocio y turismo" longdesc="Cultura, ocio y turismo">
-        <img *ngIf="secondCategory.id === 1271" src="/static/public/i/temas/22-Vivienda.png" alt="Historia de la categoria Vivienda" longdesc="Vivienda">
-        <img *ngIf="secondCategory.id === 1272" src="/static/public/i/temas/19-Transporte.png" alt="Historia de la categoria Infraestructura, transportes y carreteras" longdesc="Infraestructura, transportes y carreteras">
+        <img [src]="this.historiesService.getIconCategory(secondCategory.id)" alt="Imagen de la categoría {{secondCategory.name}}">
         <div class="text">{{secondCategory.name}}</div>
         <span class="sr-only">Categoría a la que pertenece historia: {{secondCategory.name}}</span>
       </div>
@@ -75,7 +64,7 @@
     <div class="view-history-contents">
       <div *ngFor="let content of bodyContents; let odd = odd" class="view-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === alignEnum.left}">
       
-          <div class="view-history-content__text">
+          <div class="view-history-content__text" *ngIf="content.title || content.description">
             <p tabindex="{{openedMenu ? -1 : 0}}" class="view-history-content__text-title">{{content.title}}</p>
             <p tabindex="{{openedMenu ? -1 : 0}}" class="view-history-content__text-desc" [innerHTML]="content.description"></p>
           </div>

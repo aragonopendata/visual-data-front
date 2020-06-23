@@ -1,4 +1,5 @@
 import { SafeResourceUrl } from "@angular/platform-browser";
+import { AditionalInfo } from "./AditionalInfo";
 
 export class History {
 
@@ -32,10 +33,12 @@ export class Content {
     srcGraph?: SafeResourceUrl;
     srcYoutube?: SafeResourceUrl;
     srcSlideShare?: SafeResourceUrl;
+    srcImg?: SafeResourceUrl;
 
     align?:number;
 
     body_content?:boolean;
+    aditionalInfo?: AditionalInfo;
 
     constructor() {}
 }

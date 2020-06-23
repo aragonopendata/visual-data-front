@@ -7,6 +7,7 @@ import { Constants } from '../../../app.constants';
 import { Contents } from '../../../models/Contents';
 import { UtilsService } from '../../exportedFunctions/utils.service';
 import { GraphService } from '../../../services/graph.service';
+import { Aligns } from '../../../models/Aligns';
 
 @Component({
   selector: 'app-edit-content',
@@ -30,6 +31,9 @@ export class EditContentComponent implements OnInit {
 
   settings: any;
 
+  AlignEnum: typeof Aligns = Aligns;
+  ContentEnum: typeof Contents = Contents;
+
   @Output() contentCreate = new EventEmitter<any>();
   @Output() closeContent = new EventEmitter<any>();
   @Output() changeContent = new EventEmitter<any>();
@@ -49,10 +53,6 @@ export class EditContentComponent implements OnInit {
 
     this.getOpenedMenu();
 
-  }
-
-  get invalidTitle(){
-    return this.contentForm.get('title').invalid && this.contentForm.get('title').touched;
   }
 
   ngOnInit() {
@@ -110,7 +110,7 @@ export class EditContentComponent implements OnInit {
 
   initiateForm(){
     this.contentForm = this._formBuilder.group({
-      title: new FormControl('', Validators.required),
+      title: new FormControl(''),
       description: new FormControl(''),
       visual_content: new FormControl(null),
       type_content: new FormControl(null),

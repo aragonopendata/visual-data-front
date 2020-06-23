@@ -11,5 +11,6 @@ export class ContentsType{
 export enum Contents {
     graph = 1 ,
     youtube = 2,
-    shareSlides = 3
+    shareSlides = 3,
+    img = 4
 }

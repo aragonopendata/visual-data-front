@@ -1,10 +1,61 @@
-/*h1, h2, h3, h4, h5, h6 {
-    font-family: 'RobotoLight', sans-serif;
-    line-height: 1;
-    letter-spacing: 0.1em;
-    color: #5ea2ba;
-    font-weight: 300;
-}*/
+.create-history-content__align{
+    padding: 52px;
+    padding-bottom: 28px;
+}
+.create-history-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 52px;
+    padding-top: 0;
+    .create-history-content__text {
+        flex: 1;
+        margin-right: 48px;
+        .create-history-content__text-title{
+            font-family: "OpenSans-Semibold", sans-serif;
+            font-size: 24px !important;
+            color: #5EA2BA;
+            margin-bottom: 28px;
+        }
+        .create-history-content__text-desc{
+            font-size: 18px;
+            line-height: 33px;
+        }
+    }
+    .create-history-content__visual {
+        flex: 1;
+        .conten-type{
+            .radio{
+                margin-bottom: 12px;
+                input{
+                    margin-right: 12px;
+                }
+            }
+            .form-row{
+                margin-right: 0;
+                margin-left: 0;
+                
+                input{
+                    margin-right: 8px;
+                    &[type="radio"]{
+                        height: 21px;
+                    }
+                    
+                }
+            }
+        }
+    }
+    &.odd {
+        background-color: rgba(223,236,241,0.25);
+    }
+    &.reverse {
+        flex-direction: row-reverse;
+        .create-history-content__text {
+            margin-right: 0;
+            margin-left: 48px;
+        }
+    }
+}
 
 .form-section-title{
     /*font-weight: bold;
@@ -39,55 +90,56 @@
     margin: 3rem 0;
 }
 
-.tab-content{
-    .tab-pane{
-        >div{
-            margin-bottom: 3rem;
-        }
-        .group{
-            margin: 2rem 0;
-            .conten-type{
-                .radio{
-                    margin-bottom: 12px;
-                    input{
-                        margin-right: 12px;
-                    }
-                }
-                .form-row{
-                    margin-right: 0;
-                    margin-left: 0;
+// .tab-content{
+//     .tab-pane{
+//         >div{
+//             margin-bottom: 3rem;
+//         }
+//         .group{
+//             margin: 2rem 0;
+//             .conten-type{
+//                 .radio{
+//                     margin-bottom: 12px;
+//                     input{
+//                         margin-right: 12px;
+//                     }
+//                 }
+//                 .form-row{
+//                     margin-right: 0;
+//                     margin-left: 0;
                     
-                    input{
-                        margin-right: 8px;
-                        &[type="radio"]{
-                            height: 21px;
-                        }
+//                     input{
+//                         margin-right: 8px;
+//                         &[type="radio"]{
+//                             height: 21px;
+//                         }
                         
-                    }
-                }
-            }
-        }
+//                     }
+//                 }
+//             }
+//         }
         
-        // .contents-select {
-        //     span{
-        //         font-weight: bold;
-        //     }
-        // }
+//         // .contents-select {
+//         //     span{
+//         //         font-weight: bold;
+//         //     }
+//         // }
         
-        .select-cat2{
-            button{
-                margin-left: 0;
-                width: 100%;
-                text-align: left;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-        }
-    }
-}
+//         .select-cat2{
+//             button{
+//                 margin-left: 0;
+//                 width: 100%;
+//                 text-align: left;
+//                 display: flex;
+//                 justify-content: space-between;
+//                 align-items: center;
+//             }
+//         }
+//     }
+// }
 
 .actions{
     display: block;
-    text-align: right;
+    text-align: center;
 }
+ 

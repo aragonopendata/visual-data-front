@@ -34,7 +34,7 @@ export class HomeFocusComponent implements OnInit {
   state: number;
   openedMenu: boolean;
 
-  constructor(private utilsService: UtilsService, private _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) {
+  constructor(private utilsService: UtilsService, public _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) {
     this.getOpenedMenu();
    }
 

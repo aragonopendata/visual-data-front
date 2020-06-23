@@ -1,112 +1,109 @@
   
-<div class="row ">
+<!-- <div class="row ">
     <h3 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Crear un nuevo contenido</h3>
-</div>
+</div> -->
 
 <form [formGroup]="contentForm">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="tab-content">
 
-        <!-- Content Tab -->
-        <div class="tab-pane active" id="content_tab" role="tabpanel">
 
-          <!-- Titulo contenido -->
-          <div class="group">
-            <label for="title_content">
-              <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título *</h4>
-            </label>
-              <p tabindex="{{openedMenu ? -1 : 0}}">Por favor, escriba una denominación del contenido</p>              
-              <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" tabindex="{{openedMenu ? -1 : 0}}">
-              <span class="sr-only">Titulo del contenido</span>
-              <small *ngIf="invalidTitle" class="text-danger">Campo Obligatorio</small>
+  <!-- CONTENTS CREATED -->
+
+  <div class="create-history-content__align">
+    <label for="alineacion">
+      <h4 tabindex="{{openedMenu ? -1 : 0}}" class="form-section-title">Alineacion de la sección</h4>
+    </label>
+    <select tabindex="{{openedMenu ? -1 : 0}}" class="form-control select-cat1" id="alineacion" formControlName="align" >
+      <option *ngFor="let align of alignsTypes" [ngValue]="align.type">{{align.text}}</option>
+    </select> 
+  </div>
+
+  <div class="create-history-content" [ngClass]="{'reverse': actualValuesContent && actualValuesContent.align === AlignEnum.left}">
+      
+    <div class="create-history-content__text">
+
+      <div>
+        <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título de la sección*</h4>
+        <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" tabindex="{{openedMenu ? -1 : 0}}">
+        <span class="sr-only">Título de la sección</span>
+      </div>
+      
+      <div>
+        <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Contenido de la sección</h4>
+        <angular-tinymce *ngIf="settings"  id="editorContent" [settings]="settings" formControlName="description" tabindex="{{openedMenu ? -1 : 0}}"></angular-tinymce>
+        <span class="sr-only">Contenido de la sección</span>
+      </div>
+
+    </div>
+
+    <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" >
+
+      <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Fuente de datos de la sección</h4>
+
+      <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
+
+        <span class="sr-only">Seleccione una opción de fuente de la sección</span>
+        
+        <div class="radio" >
+          <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
+          <span class="sr-only">{{contentType.text}}</span> 
+        </div>
+        
+        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
+          <div class="form-row align-items-center">
+            <div>
+              <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold" tabindex="{{openedMenu ? -1 : 0}}">La gráfica seleccionada es: {{graphTitle}}</p>
+              <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()' tabindex="{{openedMenu ? -1 : 0}}">Abrir Open Visual Data</button>
+              <span class="sr-only">Abrir Open Visual Data para selecionar grafica</span>
+            </div>
           </div>
+        </div>
 
-          <!-- Descripcion contenido -->
-          <div class="group">
-            <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Contenido</h4>
-            <p tabindex="{{openedMenu ? -1 : 0}}">El contenido de la historia es lo que quiere contar, con la ayuda de los distintos gráficos que aporta el portal de Aragon Open Data</p>
-            <angular-tinymce *ngIf="settings"  id="editorContent" [settings]="settings" formControlName="description" tabindex="{{openedMenu ? -1 : 0}}"></angular-tinymce>
-            <span class="sr-only">Descripcion del contenido</span>
-          </div> 
-
-          <!-- Fuente de datos -->
-          <div class="group">
-            <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Fuente de datos</h4>
-            <p tabindex="{{openedMenu ? -1 : 0}}">
-              En este apartado deberá elegir una fuente de datos del portal de Aragón Open Data, en la cual
-              se ha apoyado para escribir esta historia. Puede ser un conjunto de datos, una vista del GA_OD_Core,
-              una consulta SPARQL o una gráfica utilizando la herramienta de Open Visual Data, etc.
-            </p>
-
-            <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
-
-              <span class="sr-only">Seleccione una opción de fuente de la historia</span>
-              
-              <div class="radio" >
-                <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
-                <span class="sr-only">{{contentType.text}}</span> 
-              </div>
-              
-              <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
-                <div class="form-row align-items-center">
-                  <div>
-                    <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold" tabindex="{{openedMenu ? -1 : 0}}">La gráfica seleccionada es: {{graphTitle}}</p>
-                    <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()' tabindex="{{openedMenu ? -1 : 0}}">Abrir Open Visual Data</button>
-                    <span class="sr-only">Abrir Open Visual Data para selecionar grafica</span>
-                  </div>
+        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.youtube))" >
+          <div class="form-row align-items-center">
+            <div class="col-auto">
+              <div class="input-group mb-2">
+                <div class="input-group-prepend" tabindex="{{openedMenu ? -1 : 0}}">
+                  <div class="input-group-text">https://www.youtube.com/watch?=</div>
                 </div>
-              </div>
-
-              <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.youtube))" >
-                <div class="form-row align-items-center">
-                  <div class="col-auto">
-                    <label class="sr-only" for="idYoutube">Id del video</label>
-                    <div class="input-group mb-2">
-                      <div class="input-group-prepend" tabindex="{{openedMenu ? -1 : 0}}">
-                        <div class="input-group-text">https://www.youtube.com/watch?=</div>
-                      </div>
-                      <input tabindex="{{openedMenu ? -1 : 0}}" type="text" class="form-control" formControlName="visual_content" id="idYoutube" placeholder="Id del video">
-                      <span class="sr-only">Id del video de youtube</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.shareSlides))">
-                <div class="form-row align-items-center mb-2">
-                  <div class="col-auto">
-                    <label class="sr-only" for="idSlideShare">Id de Slide share</label>
-                    <div class="input-group mb-2">
-                      <div class="input-group-prepend" tabindex="{{openedMenu ? -1 : 0}}">
-                        <div class="input-group-text">https://www.slideshare.net/</div>
-                      </div>
-                      <input type="text" class="form-control" formControlName="visual_content" id="idSlideShare" placeholder="Id del Slide share" tabindex="{{openedMenu ? -1 : 0}}">
-                      <span class="sr-only">Id del slideshare</span>
-                    </div>
-                  </div>
-                </div>
+                <input tabindex="{{openedMenu ? -1 : 0}}" type="text" class="form-control" formControlName="visual_content" id="idYoutube" placeholder="Id del video">
+                <span class="sr-only">Id del video de youtube</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Alineacion -->
-
-
-          <div class="group">
-            <label for="alineacion">
-              <h4 tabindex="{{openedMenu ? -1 : 0}}" class="form-section-title">Alineacion del contenido</h4>
-            </label>
-            <select tabindex="{{openedMenu ? -1 : 0}}" class="form-control select-cat1" id="alineacion" formControlName="align" >
-              <option  *ngFor="let align of alignsTypes" [ngValue]="align.type">{{align.text}}</option>
-            </select>
+        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.shareSlides))">
+          <div class="form-row align-items-center mb-2">
+            <div class="col-auto">
+              <div class="input-group mb-2">
+                <div class="input-group-prepend" tabindex="{{openedMenu ? -1 : 0}}">
+                  <div class="input-group-text">https://www.slideshare.net/</div>
+                </div>
+                <input type="text" class="form-control" formControlName="visual_content" id="idSlideShare" placeholder="Id del Slide share" tabindex="{{openedMenu ? -1 : 0}}">
+                <span class="sr-only">Id del slideshare</span>
+              </div>
+            </div>
           </div>
+        </div>
 
+        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.img))">
+          <div class="form-row align-items-center mb-2">
+            <div class="col-auto">
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" formControlName="visual_content" id="imgContent" placeholder="Url de la imagen" tabindex="{{openedMenu ? -1 : 0}}">
+                <span class="sr-only">Url de la imagen</span>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
+
     </div>
+      
   </div>
+
+
   <div class="actions">
     <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent() tabindex="{{openedMenu ? -1 : 0}}"> Cancelar</button>
     <span class="sr-only">Cancelar crear contenido</span>      

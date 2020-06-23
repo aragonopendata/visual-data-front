@@ -38,8 +38,8 @@ export class ViewHistoryComponent implements OnInit {
   aditionalInfo2 :AditionalInfo[]=[];
   imageUrl: string;
 
-  constructor( private historiesService: HistoriesService, private _route: ActivatedRoute,  private _router: Router, private _sanitizer: DomSanitizer,
-    private _verifyTokenService: AuthGuard,private utilsService: UtilsService, private graphservice: GraphService, private sanitized: DomSanitizer) { 
+  constructor( public historiesService: HistoriesService, private _route: ActivatedRoute, private _verifyTokenService: AuthGuard, 
+    private utilsService: UtilsService, private graphservice: GraphService, private sanitized: DomSanitizer) { 
     
       this.getOpenedMenu();
 
@@ -110,7 +110,9 @@ export class ViewHistoryComponent implements OnInit {
 
       if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
-          element = this.getInfoContents(element);
+          this.historiesService.getInfoContents(element).then(data => {
+            element = data;
+          });
         });
       }
       this.separateContents();
@@ -163,15 +165,13 @@ export class ViewHistoryComponent implements OnInit {
         if(response.image.route && response.image.route!=null){
           this.imageUrl=response.image.route;
         }else{
-          this.imageUrl="/static/public/focus/pilar.jpg";
+          this.imageUrl="http://opendata.aragon.es/static/public/focus/pilar.jpg";
         }
       })
     }else{
-      this.imageUrl="/static/public/focus/pilar.jpg";
+      this.imageUrl="http://opendata.aragon.es/static/public/focus/pilar.jpg";
     }
-
   }
-
 
   separateContents(){
     let selectedHeaderContents: Content[]=[];
@@ -193,7 +193,9 @@ export class ViewHistoryComponent implements OnInit {
       this.historySelect = response.history;
       if(this.historySelect.contents){
         this.historySelect.contents.forEach( (element: Content) => {
-          element = this.getInfoContents(element);
+          this.historiesService.getInfoContents(element).then(data => {
+            element = data
+          })
         });
       }
       this.separateContents();
@@ -221,61 +223,61 @@ export class ViewHistoryComponent implements OnInit {
     this.loading=false;
   }
 
-  private getInfoContents(element): Content {
+  // private getInfoContents(element): Content {
 
-    if(element.type_content ==  Contents.graph){
-      this.urlGraph(element.visual_content).then( (url) => {
-        element.srcGraph = url;
-        return element
-      });
-    } else if (element.type_content ==  Contents.youtube) {
-      this.urlYoutube(element.visual_content).then( (url) => {
-        element.srcYoutube = url;
-        return element
-      });
-    } else if (element.type_content ==  Contents.shareSlides) {
-      this.urlSlideShare(element.visual_content).then( (url) => {
-        element.srcSlideShare = url;
-        return element
-      });
-    }else{
-      return element
-    }
-  }
+  //   if(element.type_content ==  Contents.graph){
+  //     this.urlGraph(element.visual_content).then( (url) => {
+  //       element.srcGraph = url;
+  //       return element
+  //     });
+  //   } else if (element.type_content ==  Contents.youtube) {
+  //     this.urlYoutube(element.visual_content).then( (url) => {
+  //       element.srcYoutube = url;
+  //       return element
+  //     });
+  //   } else if (element.type_content ==  Contents.shareSlides) {
+  //     this.urlSlideShare(element.visual_content).then( (url) => {
+  //       element.srcSlideShare = url;
+  //       return element
+  //     });
+  //   }else{
+  //     return element
+  //   }
+  // }
 
-  private urlGraph(id: string) {
-    return new Promise((resolve, reject) => {
-      let url = Constants.FOCUS_URL+'/charts/embed/'+id;
-      resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
-    });
-  }
+  // private urlGraph(id: string) {
+  //   return new Promise((resolve, reject) => {
+  //     let url = Constants.FOCUS_URL+'/charts/embed/'+id;
+  //     resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
+  //   });
+  // }
 
-  private urlYoutube(id: string) {
-    return new Promise((resolve, reject) => {
-      let url = "https://www.youtube.com/embed/"+id;
-      resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
-    });
-  }
+  // private urlYoutube(id: string) {
+  //   return new Promise((resolve, reject) => {
+  //     let url = "https://www.youtube.com/embed/"+id;
+  //     resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
+  //   });
+  // }
   
-  private urlSlideShare(id: string) {
+  // private urlSlideShare(id: string) {
 
-    return new Promise((resolve, reject) => {
+  //   return new Promise((resolve, reject) => {
 
-      let url = "https://www.slideshare.net/"+id;
-      var urlSlideEmbed;
+  //     let url = "https://www.slideshare.net/"+id;
+  //     var urlSlideEmbed;
       
-      this.historiesService.getEmbedUrlSlideShare(url).subscribe( (response:any) => {
-        if(response.html){
-          let iframeInfo=response.html
-          urlSlideEmbed = iframeInfo.substring(
-            iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
-            iframeInfo.lastIndexOf("\" width=")
-          );
-          resolve(this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed));
-        }
-      });
-    });
-  }
+  //     this.historiesService.getEmbedUrlSlideShare(url).subscribe( (response:any) => {
+  //       if(response.html){
+  //         let iframeInfo=response.html
+  //         urlSlideEmbed = iframeInfo.substring(
+  //           iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
+  //           iframeInfo.lastIndexOf("\" width=")
+  //         );
+  //         resolve(this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed));
+  //       }
+  //     });
+  //   });
+  // }
 
   getOpenedMenu(){
     this.utilsService.openedMenuChange.subscribe(value => {
