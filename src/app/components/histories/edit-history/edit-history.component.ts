@@ -105,7 +105,7 @@ export class EditHistoryComponent implements OnInit {
       skin_url: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce/skins/lightgray',
       baseURL: Constants.AOD_ASSETS_BASE_URL + '/public/plugins/tinymce',
       plugins: [' link '],
-      toolbar: ' bold italic underline | link ',
+      toolbar: ' bold italic | link ',
       menubar: false,
       branding: false,
     }
