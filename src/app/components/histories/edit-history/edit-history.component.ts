@@ -736,7 +736,6 @@ export class EditHistoryComponent implements OnInit {
   }
 
   hiddenModalCategories() {
-    this.categoryToSelect = null;
     $('#modalCategories').modal('hide');
   }
 
@@ -746,6 +745,13 @@ export class EditHistoryComponent implements OnInit {
       category.selected = true;
       category.selectedPrincipal = false;
       if( this.categoryToSelect === 'first' ) {
+
+        for (let cat of this.categories ) {
+          if ( cat.selected && cat.selectedPrincipal ){
+            cat.selected = false;
+            cat.selectedPrincipal = false;
+          }
+        }
         category.selectedPrincipal = true;
         this.isFirstSelected = true;
         this.historyForm.controls['category'].setValue(category.id);
@@ -767,12 +773,6 @@ export class EditHistoryComponent implements OnInit {
         this.imageUrl="http://opendata.aragon.es/static/public/focus/pilar.jpg";
       }
     })
-  }
-
-  changeFirstCategory(category: Category ) {
-    category.selected = false;
-    category.selectedPrincipal = false;
-    this.showModalCategories('first');
   }
 
 }

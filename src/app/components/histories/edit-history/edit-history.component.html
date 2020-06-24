@@ -102,7 +102,7 @@
           <ng-container *ngFor="let category of categories; let i = index" >
             <div class="create-history-category" *ngIf="category.selected" tabindex="{{openedMenu ? -1 : 0}}">
               <div *ngIf="!category.selectedPrincipal" title="remove" class="icon fa fa-trash" (click)="category.selected = false"></div>
-              <div *ngIf="category.selectedPrincipal" title="remove" class="icon fa fa-edit"  (click)="changeFirstCategory(category)"></div>
+              <div *ngIf="category.selectedPrincipal" title="remove" class="icon fa fa-edit"  (click)="showModalCategories('first')"></div>
               <img [src]="this.historiesService.getIconCategory(category.id)" alt="Imagen de la categoría {{category.name}}">
               <div class="text">{{category.name}}</div> 
             </div>
