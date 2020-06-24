@@ -34,7 +34,7 @@
         </div>
         <app-map [descriptionPoints]="descriptions" [points]="points" zoom="8" turnDescript=true></app-map>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-5"  *ngIf="chart!==undefined">
         <div class="col-12">
             <div class="text-center"> 
                 <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(0)" class="btn btn-link">Reutiliza el gráfico</button>
