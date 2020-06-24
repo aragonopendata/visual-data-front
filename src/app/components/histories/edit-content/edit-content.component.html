@@ -23,7 +23,7 @@
 
       <div>
         <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título de la sección</h4>
-        <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" tabindex="{{openedMenu ? -1 : 0}}">
+        <input class="col-12 form-control" type="text" id="title_content" placeholder="Introduzca el título de la sección" formControlName="title" tabindex="{{openedMenu ? -1 : 0}}">
         <span class="sr-only">Título de la sección</span>
       </div>
       
@@ -51,9 +51,9 @@
         <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
           <div class="form-row align-items-center">
             <div>
-              <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold" tabindex="{{openedMenu ? -1 : 0}}">La gráfica seleccionada es: {{graphTitle}}</p>
+              <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold" tabindex="{{openedMenu ? -1 : 0}}">La gr&aacute;fica seleccionada es: {{graphTitle}}</p>
               <button class="btn-left btn btn-outline-secondary mb-2" type="button" (click)='openVisualData()' tabindex="{{openedMenu ? -1 : 0}}">Abrir Open Visual Data</button>
-              <span class="sr-only">Abrir Open Visual Data para selecionar grafica</span>
+              <span class="sr-only">Abrir Open Visual Data para selecionar gr&aacute;fica</span>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@
       
   </div>
 
-  <small *ngIf="invalidSection" class="text-danger">Debe seleccionar como minimo un titulo y una descripicion o un contenido visual</small>
+  <small *ngIf="invalidSection" class="text-danger">Debe seleccionar como mínimo un titulo y una descripción o un contenido visual</small>
 
   <div class="actions">
     <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent() tabindex="{{openedMenu ? -1 : 0}}"> Cancelar</button>
