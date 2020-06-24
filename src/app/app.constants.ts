@@ -787,7 +787,9 @@ export class Constants {
   public static CONTENT_YOUTUBE = new ContentsType(Constants.CONTENT_YOUTUBE_TEXT, Contents.youtube)
   public static CONTENT_SHARESLIDES_TEXT="Enlace Share Slides"
   public static CONTENT_SHARESLIDES = new ContentsType(Constants.CONTENT_SHARESLIDES_TEXT, Contents.shareSlides)
-  public static CONTENTS_TYPES =[Constants.CONTENT_GRAPH, Constants.CONTENT_YOUTUBE, Constants.CONTENT_SHARESLIDES]
+  public static CONTENT_URL_IMG_TEXT="URL de la imagen"
+  public static CONTENT_URL_IMG = new ContentsType(Constants.CONTENT_URL_IMG_TEXT, Contents.img)
+  public static CONTENTS_TYPES =[Constants.CONTENT_GRAPH, Constants.CONTENT_YOUTUBE, Constants.CONTENT_SHARESLIDES,Constants.CONTENT_URL_IMG]
 
   public static API_SLIDESHARE_CONVERT_URL_TO_EMBED = "https://www.slideshare.net/api/oembed/2"
 

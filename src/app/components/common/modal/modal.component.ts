@@ -29,8 +29,6 @@ export class ModalComponent implements OnInit, OnDestroy{
     this._route.navigate([{outlets: {modal: null}}]);
     this.closed=true;
     this._service.setClose(this.closed);
-
-
   }
 
 }

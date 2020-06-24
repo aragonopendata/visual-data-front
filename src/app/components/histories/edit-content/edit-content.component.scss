@@ -2,6 +2,12 @@
     padding: 52px;
     padding-bottom: 28px;
 }
+
+small {
+    padding: 0 52px;
+    position: relative;
+    bottom: 25px;
+}
 .create-history-content {
     display: flex;
     justify-content: center;
@@ -90,56 +96,34 @@
     margin: 3rem 0;
 }
 
-// .tab-content{
-//     .tab-pane{
-//         >div{
-//             margin-bottom: 3rem;
-//         }
-//         .group{
-//             margin: 2rem 0;
-//             .conten-type{
-//                 .radio{
-//                     margin-bottom: 12px;
-//                     input{
-//                         margin-right: 12px;
-//                     }
-//                 }
-//                 .form-row{
-//                     margin-right: 0;
-//                     margin-left: 0;
-                    
-//                     input{
-//                         margin-right: 8px;
-//                         &[type="radio"]{
-//                             height: 21px;
-//                         }
-                        
-//                     }
-//                 }
-//             }
-//         }
-        
-//         // .contents-select {
-//         //     span{
-//         //         font-weight: bold;
-//         //     }
-//         // }
-        
-//         .select-cat2{
-//             button{
-//                 margin-left: 0;
-//                 width: 100%;
-//                 text-align: left;
-//                 display: flex;
-//                 justify-content: space-between;
-//                 align-items: center;
-//             }
-//         }
-//     }
-// }
 
 .actions{
     display: block;
     text-align: center;
 }
  
+
+@media (max-width: 1024px){
+
+    .create-history-content {
+        display: flex;
+        flex-direction: column;
+        .create-history-content__text {
+            margin-right: 0;
+            margin-bottom: 48px;
+            width: 100%;
+        }
+        .create-history-content__visual {
+            width: 100%;
+        }
+        &.reverse {
+            flex-direction: column-reverse;
+            .create-history-content__text {
+                margin: 0;
+                margin-top: 48px;
+            }
+        }
+    
+    }
+    
+}   

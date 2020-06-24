@@ -28,7 +28,7 @@ export class EditContentComponent implements OnInit {
   graphTitle: string;
   openedMenu: boolean;
   bodyGraph: boolean=false;
-
+  invalidSection = false;
   settings: any;
 
   AlignEnum: typeof Aligns = Aligns;
@@ -70,13 +70,6 @@ export class EditContentComponent implements OnInit {
       }
       
     });
-
-    /*this._servicio.getTitleGraph().subscribe(title => {
-      if(this.bodyGraph){
-        this.graphTitle=title;
-      }
-      
-    });*/
 
     this._servicio.getClose().subscribe(closed=>{
       //cuando se cierra el modal con la cruz
@@ -145,10 +138,11 @@ export class EditContentComponent implements OnInit {
   }
 
   saveContent(){
-    if(this.contentForm.invalid){
-      return Object.values(this.contentForm.controls).forEach(control => {
-        control.markAsTouched();
-      })
+
+    this.invalidSection = false;
+    if(  (!this.contentForm.get('title').value || !this.contentForm.get('description').value) && 
+    (!this.contentForm.get('type_content').value || !this.contentForm.get('visual_content').value) ){
+      this.invalidSection = true;
     }else{
       this.contentModel = {
         title: this.contentForm.get('title').value, 

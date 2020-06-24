@@ -115,7 +115,7 @@
                             <div class="float-left">
                                 <button type="button" tabindex="{{openedMenu ? -1 : 0}}"
                                     aria-label="Cargar datos" class="button1"
-                                    (click)="selectPackage('CKAN')">Buscar Datos</button>
+                                    (click)="selectPackage()">Buscar Datos</button>
                             </div>
                             <div *ngIf="loading[0]" class="loader float-left ml-1"></div>
                             <div *ngIf="errorResponse[0]" class="cross float-left">&times;</div>
@@ -168,12 +168,12 @@
                                         <textarea pInputTextarea tabindex="{{openedMenu ? -1 : 0}}"
                                             aria-label="A&ntilde;adir consulta SPARQL"
                                             style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo"
-                                            (keyup.enter)="selectPackage('VIRTUOSO')"></textarea>
+                                            (keyup.enter)="selectPackage()"></textarea>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos" type="button"
-                                        class="button1" (click)="selectPackage('VIRTUOSO')">Añadir Datos</button>
+                                        class="button1" (click)="selectPackage()">Añadir Datos</button>
                                 </div>
                                 <div *ngIf="loading[3]" class="loader float-left ml-1"></div>
                                 <div *ngIf="errorResponse[3]" class="cross float-left ml-1">&times;</div>
@@ -184,7 +184,7 @@
                                         </li>
                                         <li *ngIf='packagesSelSPARQL != ""'>
                                             <strong>DataSet seleccionado:</strong> {{packagesSelSPARQL}}
-                                            <button (click)="deletePackage('VIRTUOSO')" class="button3"
+                                            <button (click)="deletePackage()" class="button3"
                                                 tabindex="{{openedMenu ? -1 : 0}}" aria-label="Eliminar Datos Cargados">
                                                 <i class="fa fa-remove"></i>
                                             </button>

@@ -101,7 +101,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     private http: Http,
     private utilsService: UtilsService
   ) {
-    this.opened = '';
+    this.opened = 'URL';
     this.tableToShow = 0;
     this.listCkan = ['Cargando Espere'];
     this.listCkanNames = ['Cargando Espere'];
@@ -251,12 +251,12 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           this.urlError = true;
         }
       }
-    } else if (this.opened === 'VIRTUOSO') {
+    } else if (this.opened === 'SPARQL') {
       if (this.virtuosoPackagesInfo !== '') {
         this.querryError = false;
         this.loading[3] = true;
 
-        this.virtuosoCall(this.virtuosoPackagesInfo);
+        this.virtuosoCall(this.virtuosoPackagesInfo); 
       }
     }
   }

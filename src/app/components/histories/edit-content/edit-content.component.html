@@ -22,8 +22,8 @@
     <div class="create-history-content__text">
 
       <div>
-        <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título de la sección*</h4>
-        <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" [class.is-invalid]="invalidTitle" tabindex="{{openedMenu ? -1 : 0}}">
+        <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Título de la sección</h4>
+        <input class="col-12 form-control" type="text" id="title_content" placeholder="Título" formControlName="title" tabindex="{{openedMenu ? -1 : 0}}">
         <span class="sr-only">Título de la sección</span>
       </div>
       
@@ -103,6 +103,7 @@
       
   </div>
 
+  <small *ngIf="invalidSection" class="text-danger">Debe seleccionar como minimo un titulo y una descripicion o un contenido visual</small>
 
   <div class="actions">
     <button type="button" class="btn btn-outline-primary" (click)=closeComponentContent() tabindex="{{openedMenu ? -1 : 0}}"> Cancelar</button>

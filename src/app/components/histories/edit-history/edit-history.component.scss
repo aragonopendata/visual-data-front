@@ -258,7 +258,16 @@
 
 .modal.categories {
     .modal-dialog{
-        max-width: 70%;
+        max-width: 800px;
+        width: 70%;
+        .modal-header {
+            p{
+                font-family: "OpenSans-Regular", sans-serif !important;
+                color: #5EA2BA;
+                font-size: 28px !important;
+                margin-bottom: 0;
+            }
+        }
         .modal-body {
             display: flex;
             flex-wrap: wrap;
@@ -416,3 +425,51 @@
     }
 }
 
+@media (max-width: 1024px){
+    .create-history-container {
+        .create-history-title {
+            .create-history-title_img{
+                overflow: hidden;
+                img{
+                    height: 100%;
+                    width: auto;
+                    margin-left: -50%;
+                    top: 13px;
+                }
+            }
+            .create-history-title_text{
+                h1{
+                    margin-right: 18px;
+                    margin-left: 18px;
+                }
+            }
+        }
+        .create-history-subtitle {
+            padding: 64px 18px;
+        }
+        .create-history-categories {
+            padding: 32px 18px;
+        }
+        .create-history-contents {
+            .create-history-content {
+                display: flex;
+                flex-direction: column;
+                .create-history-content__text {
+                    margin-right: 0;
+                    margin-bottom: 48px;
+                }
+                .create-history-content__visual {
+                    width: 100%;
+                }
+                &.reverse {
+                    flex-direction: column-reverse;
+                    .create-history-content__text {
+                        margin-bottom: 0;
+                        margin-top: 48px;
+                    }
+                }
+            
+            }
+        }   
+    }
+}
