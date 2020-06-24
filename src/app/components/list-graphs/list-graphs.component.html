@@ -1,11 +1,16 @@
 <div class="text-center mb-3 mt-3 d-none d-md-block" *ngIf="!mobile">
-    <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2" #topElement >Crear nueva gr&aacute;fica</button>
+    <button *ngIf="this.type !== 'number'" tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2" #topElement >Crear nueva gr&aacute;fica</button>
+    <button *ngIf="this.type === 'number'" tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2" #topElement >Crear nueva valor</button>
+
 </div>
 
 <div class="row" *ngIf="this.isupdating">
     <div class="col-sm-12">
-        <div class="alert alert-success" role="alert">
+        <div *ngIf="this.type !== 'number'"  class="alert alert-success" role="alert">
             La gr&aacute;fica "{{title}}" se va a actualizar.
+        </div>
+        <div *ngIf="this.type === 'number'"  class="alert alert-success" role="alert">
+            El valor "{{title}}" se va a actualizar.
         </div>
     </div>
 </div>

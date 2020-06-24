@@ -736,6 +736,7 @@ export class EditHistoryComponent implements OnInit {
   }
 
   hiddenModalCategories() {
+    this.categoryToSelect = null;
     $('#modalCategories').modal('hide');
   }
 

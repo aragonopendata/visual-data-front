@@ -102,7 +102,7 @@ export class ListGraphsComponent implements OnInit {
       // Event that disable the loading screen and update the carousel
       this.utilsGraphService.loading.subscribe(value => {
         if (value === false) {
-          if(this.type="number"){
+          if(this.type === "number"){
             this.loadCarouselNumber();
           }else{
             this.loadCarousel();
