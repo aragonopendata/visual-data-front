@@ -17,7 +17,7 @@ export class IFrameResizerDirective implements AfterViewInit, OnDestroy {
         const components = iframeResizer({
             heightCalculationMethod: isOldIE ? 'max' : 'lowestElement',
             log: false, 
-            maxHeight: 600,        
+            //maxHeight: 600,        
         }, this.element.nativeElement);
 
         /* save component reference so we can close it later */

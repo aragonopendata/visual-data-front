@@ -17,7 +17,7 @@
     </select> 
   </div>
 
-  <div class="create-history-content" [ngClass]="{'reverse': actualValuesContent && actualValuesContent.align === AlignEnum.left}">
+  <div class="create-history-content" [ngClass]="{'reverse': contentForm && contentForm.get('align').value === AlignEnum.left}">
       
     <div class="create-history-content__text">
 
