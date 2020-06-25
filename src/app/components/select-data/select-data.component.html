@@ -184,7 +184,7 @@
                                         </li>
                                         <li *ngIf='packagesSelSPARQL != ""'>
                                             <strong>DataSet seleccionado:</strong> {{packagesSelSPARQL}}
-                                            <button (click)="deletePackage()" class="button3"
+                                            <button (click)="deletePackage('SPARQL')" class="button3"
                                                 tabindex="{{openedMenu ? -1 : 0}}" aria-label="Eliminar Datos Cargados">
                                                 <i class="fa fa-remove"></i>
                                             </button>

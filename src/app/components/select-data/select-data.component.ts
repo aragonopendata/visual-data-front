@@ -508,7 +508,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     if (name === 'URL') {
       this.packagesSelURL = '';
     }
-    if (name === 'VIRTUOSO') {
+    if (name === 'SPARQL') { 
       this.packagesSelSPARQL = '';
     }
     this.dataTable = undefined;
@@ -547,7 +547,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       ((this.opened === 'CKAN' && !this.loading[0]) ||
         (this.opened === 'GAODC' && !this.loading[1]) ||
         (this.opened === 'URL' && !this.loading[2]) ||
-        (this.opened === 'VIRTUOSO' && !this.loading[3])) &&
+        (this.opened === 'SPARQL' && !this.loading[3])) &&
       this.dataTable
     ) {
       //this.router.navigate(['/previewData/']);
