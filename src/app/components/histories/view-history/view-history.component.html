@@ -69,6 +69,7 @@
             <p tabindex="{{openedMenu ? -1 : 0}}" class="view-history-content__text-desc" [innerHTML]="content.description"></p>
           </div>
 
+          <!-- Si es grafica -->
           <div class="view-history-content__visual graph" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.graph">
             <iframe 
               title='Gráfica de datos del portal de Aragón Open Data, el cual da apoyo al contenido de la historia'
@@ -78,6 +79,7 @@
               scrolling="no" frameborder="0"></iframe>
           </div>
 
+          <!-- Si es video youtube -->
           <div class="view-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.youtube">
             <iframe *ngIf="content.srcYoutube" 
             title='Video de YouTube el cual da apoyo al contenido de la historia'
@@ -86,12 +88,19 @@
             allowfullscreen></iframe>
           </div>
 
+          <!-- Si es slideshare -->
           <div class="view-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.shareSlides">
             <iframe *ngIf="content.srcSlideShare" 
             title='Slideshare el cual da apoyo al contenido de la historia'
             width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
             style="border:1px solid #CCC; border-width: 1px; margin-bottom: 5px; max-width: 100%;"
             allowfullscreen></iframe>
+          </div>
+
+          <!-- Si es imagen -->
+          <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.img">
+            <img *ngIf="content.visual_content" 
+            title='Imágen la cual da apoyo a la sección de la historia' [src]='content.visual_content'>
           </div>
             
       </div>

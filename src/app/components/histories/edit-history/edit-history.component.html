@@ -186,8 +186,8 @@
 
             <!-- Si es imagen -->
             <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.img">
-              <img *ngIf="content.srcImg" 
-              title='Imágen la cual da apoyo a la sección de la historia' [src]='content.srcSlideShare'>
+              <img *ngIf="content.visual_content" 
+              title='Imágen la cual da apoyo a la sección de la historia' [src]='content.visual_content'>
             </div>
             
           </ng-container>
