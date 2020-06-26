@@ -516,7 +516,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     //this.router.navigate(['/']);
-    this.router.navigate([{outlets: {modal: 'visualData'}}]);
+    var type="all";
+    this.router.navigate([{outlets: {modal: 'visualData/listGraph/'+type}}]);
     // this.location.back();
   }
 
