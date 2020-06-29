@@ -99,15 +99,13 @@ export class EndGraphComponent implements OnInit {
         chart => {
           this.graphservice.downloadProcess(id).subscribe(
             process => {
-              if (process.typeOfData === 'CKAN') {
-                this.datasetLocation =
-                  'https://opendata.aragon.es/datos/catalogo/dataset/' +
-                  process.dataset;
-              } else if (process.typeOfData === 'VIRTUOSO') {
+              if (process.typeOfData === 'VIRTUOSO') {
                 this.datasetLocation =
                   'https://opendata.aragon.es/sparql' +
                   ' Consulta: ' +
                   process.dataset;
+              } else if (process.url && process.url !== undefined){
+                this.datasetLocation = process.url;
               } else {
                 this.datasetLocation = process.dataset;
               }
