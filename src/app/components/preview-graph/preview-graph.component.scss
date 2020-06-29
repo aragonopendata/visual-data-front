@@ -10,7 +10,31 @@
   margin: 4px 2px;
   cursor: pointer;
 }
-
+.title-container{
+  text-align: center;
+  >p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    > span {
+      background-color: #0066cc;
+      color: white;
+      border-radius: 19px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+    }
+    > strong {
+      font-size: 24px;
+    }
+  }
+}
+.section {
+  margin-bottom: 58px;
+}
 .titleMapper {
   text-align: center;
   padding-bottom: 5px;

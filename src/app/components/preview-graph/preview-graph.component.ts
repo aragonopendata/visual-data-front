@@ -36,7 +36,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   public columnsLabel: Array<string> = [];
   public descriptionPoints: Array<string> = [];
   nextStep: string;
-
+  type = 'all';
   // Charts
   //////////////////////////////////////
   public chartOptions: any = {
@@ -61,7 +61,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
   };
   public chartLegend = true;
-  public axisXActivator = 0;
+  public axisXActivator = 1;
 
   // To save Data
 
@@ -112,6 +112,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     private utilsService: UtilsService,
     private myService: VisualGrapsService
   ) {
+
+    this.route.params.subscribe(params => {
+      this.type=params.type; 
+    });
+    
     this.typeOfData = "STA";
     window.scrollTo(0, 0);
     this.nextStep = '';

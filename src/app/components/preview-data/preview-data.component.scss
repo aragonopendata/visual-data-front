@@ -14,7 +14,14 @@
   width: 80%;
   padding-right: 5%;
 }
-
+.col-left{
+  flex: 1;
+  max-width: 25%;
+}
+.col-right{
+  flex: 2;
+  max-width: 75%;
+}
 .button {
   background-color: #0066cc;
   border: none;

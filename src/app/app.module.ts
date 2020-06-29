@@ -91,12 +91,6 @@ const routes: Routes = [
       { path: 'viewHistory/:id', component: ViewHistoryComponent },
       { path: 'previewHistory', component: ViewHistoryComponent },
       { path: 'editHistory/:token', component: EditHistoryComponent }
-      // { path: '', component: ListGraphsComponent, pathMatch: 'full' },
-      // { path: 'selectData', component: SelectDataComponent },
-      // { path: 'previewData', component: PreviewDataComponent },
-      // { path: 'previewGraph', component: PreviewGraphComponent },
-      // { path: 'endGraphic/:id', component: EndGraphComponent },
-      // { path: 'charts/:id', component: EndGraphComponent }
     ]
   },
 
@@ -106,9 +100,9 @@ const routes: Routes = [
     outlet: 'modal',
     children: [
       { path: 'listGraph/:type', component: ListGraphsComponent },
-      { path: 'selectData', component: SelectDataComponent },
-      { path: 'previewData', component: PreviewDataComponent },
-      { path: 'previewGraph', component: PreviewGraphComponent },
+      { path: 'selectData/:type', component: SelectDataComponent },
+      { path: 'previewData/:type', component: PreviewDataComponent },
+      { path: 'previewGraph/:type', component: PreviewGraphComponent },
       { path: 'endGraphic/:id', component: EndGraphComponent },
       { path: 'charts/:id', component: EndGraphComponent }
     ]

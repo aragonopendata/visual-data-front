@@ -1,34 +1,41 @@
 <div class="row">
-    <div class="col-12" style="margin-bottom: 10px">
+    <div class="col-12 title-container" style="margin-bottom: 10px">
         <p>
-            <strong tabindex="{{openedMenu ? -1 : 0}}">Seleccionar tipo de gr&aacute;fica</strong>
+            <span>1</span>
+            <strong tabindex="{{openedMenu ? -1 : 0}}">Seleccionar tipo de gr&aacute;fica:</strong>
         </p>
+        <p *ngIf="this.type!=='number'">Las opciones en el mismo orden son: lineal, barras, circular y mapa. </p>
+        <p *ngIf="this.type==='number'">Las opciones en el mismo orden son: lineal, barras, circular, mapa y valor numérico. </p>
     </div>
-    <div class="col-12" style="text-align:center;">
-        <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de lineas" (click)="changeChart(0)" class="button">
+    <div class="col-12 section" style="text-align:center;">
+        <button *ngIf="this.type!=='number'" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de lineas" (click)="changeChart(0)" class="button">
             <i class="fa fa-line-chart"></i>
         </button>
-        <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de barras" (click)="changeChart(1)" class="button">
+        <button *ngIf="this.type!=='number'" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de barras" (click)="changeChart(1)" class="button">
             <i class="fa fa-bar-chart"></i>
         </button>
-        <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de doughnut" (click)="changeChart(2)" class="button">
+        <button *ngIf="this.type!=='number'" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de doughnut" (click)="changeChart(2)" class="button">
             <i class="fa fa-pie-chart"></i>
         </button>
-        <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Mapa de puntos" (click)="changeChart(3)" class="button">
+        <button *ngIf="this.type!=='number'" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Mapa de puntos" (click)="changeChart(3)" class="button">
             <i class="fa fa-map"></i>
         </button>
         <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Gr&aacute;fico de numeros" (click)="changeChart(4)" class="button">
             <i class="fa fa-sort-numeric-asc"></i>
         </button>
     </div>
-    <div class="col-md-12" style="margin-bottom: 10px">
-        <p>
-            <strong tabindex="{{openedMenu ? -1 : 0}}">Mapear Datos</strong>
-        </p>
-    </div>
+    
 </div>
 <div class="row">
-    <div class="col-md-4" style="margin-bottom: 10px">
+    <div class="col-md-12 title-container" style="margin-bottom: 10px">
+        <p>
+            <span>2</span>
+            <strong tabindex="{{openedMenu ? -1 : 0}}">Relaciona los datos:</strong>
+        </p>
+        <p>Arrastra las columnas que deseas representar en los ejes correspondientes.</p>
+    </div>
+    
+    <div class="col-md-4 section">
         <span class="titleMapper" tabindex="{{openedMenu ? -1 : 0}}"  aria-label="Columnas : Arrastrando de una columna a la siguiente para unir datos.">Columnas</span>
         <div id='no-drop' class='container' [dragula]='"another-bag"' [dragulaModel]='columns'>
             <div *ngFor='let text of columns; let i = index' tabindex="{{openedMenu ? -1 : 0}}">
@@ -37,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8 section">
         <div class="row">
             <div class="col" style="margin-bottom: 10px">
                 <span *ngIf="!chartMap" class="titleMapper" tabindex="{{openedMenu ? -1 : 0}}">Eje Y</span>
@@ -75,6 +82,13 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-12 title-container" style="margin-bottom: 10px">
+        <p>
+            <span>3</span>
+            <strong tabindex="{{openedMenu ? -1 : 0}}">Configura tu gráfica:</strong>
+        </p>
+        <p>Navega entre los distintos valores para configurar y personalizar tu gráfica a medida.</p>
+    </div>
     <div class="col-md-4" style="margin-bottom: 10px;">
         <p>
             <strong tabindex="{{openedMenu ? -1 : 0}}">Configuraci&oacute;n</strong>

@@ -238,7 +238,7 @@ export class ListGraphsComponent implements OnInit {
   }
 
   next() {
-    this.router.navigate([{outlets: {modal: 'visualData/selectData'}}]);
+    this.router.navigate([{outlets: {modal: 'visualData/selectData/'+this.type}}]);
   }
 
   getOpenedMenu(){

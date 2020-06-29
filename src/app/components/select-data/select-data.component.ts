@@ -85,6 +85,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   packagesSelSPARQL: string;
 
   openedMenu: boolean;
+  type = 'all';
 
   gaodcDataExcluded = [78,79,80,81,82,83,84,85,266,267];
 
@@ -101,6 +102,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     private http: Http,
     private utilsService: UtilsService
   ) {
+
+    this.route.params.subscribe(params => {
+      this.type=params.type; 
+    });
+
     this.opened = 'URL';
     this.tableToShow = 0;
     this.listCkan = ['Cargando Espere'];
@@ -552,7 +558,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       this.dataTable
     ) {
       //this.router.navigate(['/previewData/']);
-      this.router.navigate([{outlets: {modal: 'visualData/previewData'}}]);
+      this.router.navigate([{outlets: {modal: 'visualData/previewData/'+this.type}}]);
     } else {
       this.nextStep = false;
     }

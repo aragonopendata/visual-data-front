@@ -10,6 +10,20 @@
   cursor: pointer;
 }
 
+.title-section {
+  color: #0066cc;
+  font-size: 18px;
+}
+.content-accordion{
+  display: block;
+  >div {
+    display: flex;
+    align-items: center;
+    .loader, .cross{
+      margin-left: 8px;
+    }
+  }
+}
 .buttonDisable {
   background-color: #a7a7a7;
   border: none;

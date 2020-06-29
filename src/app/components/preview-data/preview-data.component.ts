@@ -28,7 +28,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   // SortTable
   fieldOrder: any;
   sortOrder: any;
-
+  type = 'all';
   openedMenu: boolean;
 
   constructor(
@@ -39,6 +39,11 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     private ckanservice: CkanService,
     private utilsService: UtilsService
   ) {
+
+    this.route.params.subscribe(params => {
+      this.type=params.type; 
+    });
+
     this.nextStep = true;
     window.scrollTo(0, 0);
     this.sortOrder = -2;
@@ -137,7 +142,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     }
     if (con) {
       // this.router.navigate(['/previewGraph/']);
-      this.router.navigate([{outlets: {modal: 'visualData/previewGraph'}}]);
+      this.router.navigate([{outlets: {modal: 'visualData/previewGraph/'+this.type}}]);
     } else {
       this.nextStep = false;
     }

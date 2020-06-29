@@ -1,7 +1,7 @@
 <div class="row w-100">
-    <div class="col-2">
-        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar Columnas</button>
-        <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccinar Columnas para formar la gr&aacute;fica.">Seleccionar Columnas:</strong>
+    <div class="col-2 col-left">
+        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar el nombre de las columnas</button>
+        <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccinar Columnas para formar la gr&aacute;fica.">¿Qué columnas del dataset quieres que se representen en la gráfica?</strong>
         <ul class="mt-2">
             <ng-template ngFor let-property [ngForOf]="headerTable">
                 <li>
@@ -13,7 +13,8 @@
             </ng-template>
         </ul>
     </div>
-    <div class="col-10" *ngIf="!openedMenu">
+    <div class="col-10 col-right" *ngIf="!openedMenu">
+        <p>Haz clic en las cabeceras para ordenar los datos por ese campo</p>
         <p-dataTable resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)"
             [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
@@ -59,7 +60,7 @@
                 </code>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -82,7 +83,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" (click)="changeColumnsName()" class="btn" data-dismiss="modal">Guardar</button>
-                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
