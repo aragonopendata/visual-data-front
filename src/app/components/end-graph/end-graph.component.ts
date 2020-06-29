@@ -104,6 +104,8 @@ export class EndGraphComponent implements OnInit {
                   'https://opendata.aragon.es/sparql' +
                   ' Consulta: ' +
                   process.dataset;
+              } else if (process.typeOfData === 'GAODC') {
+                this.datasetLocation = 'https://opendata.aragon.es/GA_OD_Core/download?view_id=' + process.dataset + '&formato=csv&_pageSize=100&_page=1'
               } else if (process.url && process.url !== undefined){
                 this.datasetLocation = process.url;
               } else {
