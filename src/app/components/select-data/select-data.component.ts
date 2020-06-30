@@ -101,7 +101,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     private http: Http,
     private utilsService: UtilsService
   ) {
-    this.opened = '';
+    this.opened = 'URL';
     this.tableToShow = 0;
     this.listCkan = ['Cargando Espere'];
     this.listCkanNames = ['Cargando Espere'];
@@ -203,13 +203,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.dataservice.dataset = this.dataTable;
   }
   //Where to call depending on the user input CKAN, Virtuoso, URL...
-  selectPackage() {
+  selectPackage(resource = null) {
     this.tableToShow = 1;
     this.dataTable = null;
     this.packagesSelCKAN = '';
     this.packagesSelURL = '';
     this.packagesSelSPARQL = '';
     this.packagesSelGAODC = '';
+
+    this.opened = resource!==null ? resource : this.opened;
     if (this.opened === 'CKAN') {
       this.errorResponse[0] = false;
       const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
@@ -251,12 +253,12 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           this.urlError = true;
         }
       }
-    } else if (this.opened === 'VIRTUOSO') {
+    } else if (this.opened === 'SPARQL') {
       if (this.virtuosoPackagesInfo !== '') {
         this.querryError = false;
         this.loading[3] = true;
 
-        this.virtuosoCall(this.virtuosoPackagesInfo);
+        this.virtuosoCall(this.virtuosoPackagesInfo); 
       }
     }
   }
@@ -483,11 +485,6 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   search(event: any) {
-    /*
-    this.results = Object.assign([], this.listCkan).filter(
-      item => item.indexOf(event.query) > -1
-    );
-    */
 
     if (this.opened === 'CKAN') {
       this.results = Object.assign([], this.listCkan).filter(
@@ -508,7 +505,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     if (name === 'URL') {
       this.packagesSelURL = '';
     }
-    if (name === 'VIRTUOSO') {
+    if (name === 'SPARQL') { 
       this.packagesSelSPARQL = '';
     }
     this.dataTable = undefined;
@@ -516,7 +513,6 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.router.navigate(['/']);
-    // this.location.back();
   }
 
   maxCharacters(data, i) {
@@ -546,7 +542,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       ((this.opened === 'CKAN' && !this.loading[0]) ||
         (this.opened === 'GAODC' && !this.loading[1]) ||
         (this.opened === 'URL' && !this.loading[2]) ||
-        (this.opened === 'VIRTUOSO' && !this.loading[3])) &&
+        (this.opened === 'SPARQL' && !this.loading[3])) &&
       this.dataTable
     ) {
       this.router.navigate(['/previewData/']);
