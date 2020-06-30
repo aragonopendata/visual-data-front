@@ -22,7 +22,7 @@
                                 <div>
                                     <button type="button" tabindex="{{openedMenu ? -1 : 0}}"
                                         aria-label="Cargar datos" class="button1"
-                                        (click)="selectPackage()">Buscar Datos</button>
+                                        (click)="selectPackage('CKAN')">Buscar Datos</button>
                                 </div>
                                 <div *ngIf="loading[0]" class="loader ml-1"></div>
                                 <div *ngIf="errorResponse[0]" class="cross">&times;</div>
@@ -63,12 +63,12 @@
                                         <textarea pInputTextarea tabindex="{{openedMenu ? -1 : 0}}"
                                             aria-label="A&ntilde;adir consulta SPARQL"
                                             style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo"
-                                            (keyup.enter)="selectPackage()"></textarea>
+                                            (keyup.enter)="selectPackage('SPARQL')"></textarea>
                                     </div>
                                 </div>
                                 <div class="float-left">
                                     <button tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos" type="button"
-                                        class="button1" (click)="selectPackage()">Añadir Datos</button>
+                                        class="button1" (click)="selectPackage('SPARQL')">Añadir Datos</button>
                                 </div>
                                 <div *ngIf="loading[3]" class="loader float-left ml-1"></div>
                                 <div *ngIf="errorResponse[3]" class="cross float-left ml-1">&times;</div>
@@ -96,7 +96,7 @@
                                     </div>
                                 </div>
                                 <div style="float:left">
-                                    <button type="button" class="button1" (click)="selectPackage()">Cargar Datos</button>
+                                    <button type="button" class="button1" (click)="selectPackage('GAODC')">Cargar Datos</button>
                                 </div>
                                 <div *ngIf="loading[1]" class="loader" style="float:left; margin-left: 2%"></div>
                                 <div *ngIf="errorResponse[1]" class="cross" style="float:left; margin-left: 2%">&times;</div>
@@ -133,11 +133,11 @@
                 <p class="title-section">Utiliza tus datos o datos de terceros</p>
                 <div class="float-left">
                     <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text" placeholder="Introduce la URL del recurso externo (en formato CSV) que quieras utilizar"
-                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage()" />
+                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
                 </div>
                 <div class="float-left">
                     <button type="button" class="button1" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"
-                        (click)="selectPackage()">Añadir recurso externo</button>
+                        (click)="selectPackage('URL')">Añadir recurso externo</button>
                 </div>
                 <div *ngIf="loading[2]" class="loader float-left ml-1"></div>
                 <div *ngIf="errorResponse[2]" class="cross float-left ml-1">&times;</div>

@@ -209,13 +209,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.dataservice.dataset = this.dataTable;
   }
   //Where to call depending on the user input CKAN, Virtuoso, URL...
-  selectPackage() {
+  selectPackage(resource = null) {
     this.tableToShow = 1;
     this.dataTable = null;
     this.packagesSelCKAN = '';
     this.packagesSelURL = '';
     this.packagesSelSPARQL = '';
     this.packagesSelGAODC = '';
+
+    this.opened = resource!==null ? resource : this.opened;
     if (this.opened === 'CKAN') {
       this.errorResponse[0] = false;
       const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
