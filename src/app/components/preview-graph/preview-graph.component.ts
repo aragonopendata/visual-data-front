@@ -37,6 +37,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   public descriptionPoints: Array<string> = [];
   nextStep: string;
   type = 'all';
+  public axisXActivator = 1;
+  
   // Charts
   //////////////////////////////////////
   public chartOptions: any = {
@@ -52,8 +54,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         {
           ticks: {
             beginAtZero: true,
-            callback: function(value, index, array) {
-              return null;
+            // callback: function(value, index, array) {
+            //   return null;
+            // }
+            autoSkip: false,
+            callback: (value, index, array) => {
+              if(index % this.axisXActivator === 0){
+                return value;
+              }
             }
           }
         }
@@ -61,7 +69,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
   };
   public chartLegend = true;
-  public axisXActivator = 1;
+  
 
   // To save Data
 
@@ -121,6 +129,9 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     window.scrollTo(0, 0);
     this.nextStep = '';
     this.chartType = 'line';
+    if ( this.type==='number' ) {
+      this.chartType = 'number';
+    }
     this.changeNumberData = 0;
     this.numberSize = 100;
     this.numberUnits = '';

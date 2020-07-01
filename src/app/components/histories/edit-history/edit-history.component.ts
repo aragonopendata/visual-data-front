@@ -140,9 +140,17 @@ export class EditHistoryComponent implements OnInit {
 
       if ( this.scrollTo === 'subtitleHistory' ) {
         this.scrollTo = null;
-        setTimeout(() => this.subtitleHistory.nativeElement.scrollIntoView({behavior:"auto"}), 100)
+        setTimeout(() => {
+          if(this.subtitleHistory) {
+            this.subtitleHistory.nativeElement.scrollIntoView({behavior:"auto"})
+          }
+        }, 100)
       } else {
-        setTimeout(() => this.newContentElement.nativeElement.scrollIntoView({behavior:"auto"}), 100)
+        setTimeout(() => {
+          if(this.newContentElement) {
+            this.newContentElement.nativeElement.scrollIntoView({behavior:"auto"})
+          }
+        }, 100)
       }
       
     });
@@ -152,9 +160,17 @@ export class EditHistoryComponent implements OnInit {
       this.numberGraph=false;
       if ( this.scrollTo === 'subtitleHistory' ) {
         this.scrollTo = null;
-        setTimeout(() => this.subtitleHistory.nativeElement.scrollIntoView({behavior:"auto"}), 100)
+        setTimeout(() => {
+          if(this.subtitleHistory) {
+            this.subtitleHistory.nativeElement.scrollIntoView({behavior:"auto"})
+          }
+        }, 100)
       } else {
-        setTimeout(() => this.newContentElement.nativeElement.scrollIntoView({behavior:"auto"}), 100)
+        setTimeout(() => {
+          if(this.newContentElement) {
+            this.newContentElement.nativeElement.scrollIntoView({behavior:"auto"})
+          }
+        }, 100)
       }
     })
 
@@ -719,7 +735,10 @@ export class EditHistoryComponent implements OnInit {
     this.posToEdit=this.contents.length;
     this.showAddContent = true;
     this._cdRef.detectChanges();
-    this.newContentElement.nativeElement.scrollIntoView({behavior:"smooth"});
+    if ( this.newContentElement ) {
+      this.newContentElement.nativeElement.scrollIntoView({behavior:"smooth"});
+    }
+    
   }
 
   /**
