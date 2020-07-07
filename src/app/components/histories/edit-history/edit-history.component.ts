@@ -507,7 +507,7 @@ export class EditHistoryComponent implements OnInit {
         this.historyBack = this.historyModel;
         this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
-        //this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
+        this.historyModel.urlEmail=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.url;
         if(this.historyModel.email!=null){
           this.historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){

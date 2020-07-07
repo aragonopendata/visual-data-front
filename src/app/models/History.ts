@@ -17,6 +17,7 @@ export class History {
     token?: string;
 
     url?: string;
+    urlEmail?: string;
 
     image?: string;
     constructor() {}
