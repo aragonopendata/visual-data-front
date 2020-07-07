@@ -522,7 +522,7 @@ export class EditHistoryComponent implements OnInit {
         this.historyBack = this.historyModel;
         this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
-        this.historyModel.urlEmail=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.url;
+        this.historyModel.urlEmail=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.getUrlHistory() + this.historyModel.id;
         if(this.historyModel.email!=null){
           this.historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){
@@ -545,7 +545,7 @@ export class EditHistoryComponent implements OnInit {
 
   setMailToHistory(){
     this.historyModel.email=this.emailForm.get('email').value;
-    //this.historyModel.url=Constants.FOCUS_URL;
+    this.historyModel.urlEmail=Constants.FOCUS_URL;
     this.historyBack=this.historyModel;
     this.historiesService.updateMailHistoryUser(this.historyModel).subscribe(result => {
       this.historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
@@ -630,7 +630,7 @@ export class EditHistoryComponent implements OnInit {
     this.loadingModal=false;
     if(this.isAdmin && this.publishing){
       $('#successfullModalCenter').modal('hide');
-      this._route.navigate([Constants.ROUTER_LINK_VIEW_HISTORY + '/' + this.historyModel.url]);
+      this._route.navigate([Constants.ROUTER_LINK_VIEW_HISTORY + '/' + this.getUrlHistory() + this.historyModel.id]);
     }
     else if(((!this.isAdmin) && (this.historyBack.state == this.stateEnum.revision)) ||
             ((!this.isAdmin) && this.sendRevision)){

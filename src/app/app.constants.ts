@@ -32,7 +32,7 @@ export class Constants {
   public static PATH_MODIFIER = '';
 
   // URLS FOCUS
-  public static FOCUS_URL = 'https://opendata.aragon.es/servicios/focus/#';
+  public static FOCUS_URL = 'https://opendata.aragon.es/servicios/focus';
 
   // URLS GLOBAL
   public static AOD_BASE_URL = 'https://opendata.aragon.es';
