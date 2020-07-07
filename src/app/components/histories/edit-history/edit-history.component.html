@@ -62,12 +62,13 @@
       </div>
    
       <!-- SUBTITULO DE LA HISTORIA -->
-      <div #subtitleHistory class="create-history-subtitle">
+      <div #subtitleHistory class="create-history-subtitle"> 
 
           <div class="create-history-subtitle__description">
             <h3 tabindex="{{openedMenu ? -1 : 0}}">Descripción de la historia</h3>
-            <angular-tinymce *ngIf="settings" placeholder="Introduzca el título de la historia" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description" (keyup)="longDescription($event)" (paste)="longDescription($event)"></angular-tinymce>
-          </div>
+            <p>Máximo 420 caracteres</p>
+            <angular-tinymce #description *ngIf="settings" placeholder="Introduzca el título de la historia" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description" (keyup)="checkLongDescription($event)" (paste)="checkLongDescription($event)"></angular-tinymce>
+          </div> 
 
           <h3 tabindex="{{openedMenu ? -1 : 0}}">Valores globales</h3>
 
