@@ -33,6 +33,17 @@
 ul {
   list-style-type: none;
 }
+
+.btn-continue{
+  text-align: right;
+}
+
+.btn-continue-alert{
+  text-align: right;
+  >div {
+    display: inline-block;
+  }
+}
 /*
 label {
     position:relative;   

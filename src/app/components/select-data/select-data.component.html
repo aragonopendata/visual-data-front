@@ -6,9 +6,8 @@
             <div class="col-12" tabindex="-1" *ngIf="!openedMenu">
                 <p class="title-section">Utiliza tus datos de Aragón Open Data</p>
                 <accordion [closeOthers]=true>
-                    <accordion-group heading="Banco de datos (API)" tabindex="-1" (isOpenChange)="whoIsOpen('CKAN')" class="principalOption">
+                    <accordion-group heading="Buscar en el Banco de datos de Aragón Open Data" tabindex="-1" (isOpenChange)="whoIsOpen('CKAN')" class="principalOption">
                         <div class="content-accordion mb-4">
-                            <p>La web de Aragón Open Data está desarrollada sobre CKAN. Este producto incorpora de manera nativa una API que permite el acceso directo a los datos. Utiliza estos datos para crear gráficas dentro de tus historias.</p>
                             <div>
                                 <div>
                                     <div>
@@ -34,7 +33,8 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">DataSet: {{packagesSelCKAN}}</th>
+                                            <!-- <th scope="col">DataSet: {{packagesSelCKAN}}</th> -->
+                                            <th scope="col"><a target="blank" [href]="'https://opendata.aragon.es/datos/catalogo/dataset/'+packagesSelCKAN">+ Información sobre estos datos</a></th>
                                             <th scope="col">Data</th>
                                         </tr>
                                     </thead>

@@ -1,7 +1,6 @@
 <div class="row w-100">
     <div class="col-2 col-left">
-        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar el nombre de las columnas</button>
-        <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccinar Columnas para formar la gr&aacute;fica.">¿Qué columnas del dataset quieres que se representen en la gráfica?</strong>
+        <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccinar Columnas para formar la gr&aacute;fica.">¿Qué columnas quieres añadir al gráfico?</strong>
         <ul class="mt-2">
             <ng-template ngFor let-property [ngForOf]="headerTable">
                 <li>
@@ -12,6 +11,7 @@
                 </li>
             </ng-template>
         </ul>
+        <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar el nombre de las columnas</button>
     </div>
     <div class="col-10 col-right" *ngIf="!openedMenu">
         <p>Haz clic en las cabeceras para ordenar los datos por ese campo</p>
@@ -33,16 +33,20 @@
                 </p-column>
             </ng-template>
         </p-dataTable>
+
+        <div class="btn-continue">
+            <div class="mb-3 mt-3">
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2">Siguiente</button>
+            </div>
+        </div>
+
+        <div class="btn-continue-alert">
+            <div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
+        </div>
+
     </div>
 </div>
-<div class="row w-100">
-    <div *ngIf="!nextStep" class="alert alert-warning">Es necesario seleccionar alguna columna para continuar</div>
-</div>
-<div class="row w-100 justify-content-end">
-    <div class="mb-3 mt-3">
-        <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2">Siguiente</button>
-    </div>
-</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -37,7 +37,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   public descriptionPoints: Array<string> = [];
   nextStep: string;
   type = 'all';
-  public axisXActivator = 1;
+  public axisXActivator = 0;
   
   // Charts
   //////////////////////////////////////
@@ -54,15 +54,15 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         {
           ticks: {
             beginAtZero: true,
-            // callback: function(value, index, array) {
-            //   return null;
-            // }
-            autoSkip: false,
-            callback: (value, index, array) => {
-              if(index % this.axisXActivator === 0){
-                return value;
-              }
+            callback: function(value, index, array) {
+              return null;
             }
+            // autoSkip: false,
+            // callback: (value, index, array) => {
+            //   if(index % this.axisXActivator === 0){
+            //     return value;
+            //   }
+            // }
           }
         }
       ]
