@@ -9,16 +9,26 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 })
 export class BodyComponent implements OnInit {
 
-  viewhistory;
+  viewhistory = false;
+  edithistory = false;
+  home = true;
 
   constructor(private utilsService: UtilsService, private router: Router) {
     
     this.router.events.subscribe((val) => {
+      this.home = true;
+      this.edithistory = false;
       if ( this.router.url.includes ('viewHistory') ||this.router.url.includes ('previewHistory')  ) {
         this.viewhistory = true;
       }
       else{
         this.viewhistory = false;
+        if ( this.router.url !== '/' ) {
+          this.home = false;
+          if ( this.router.url.includes ('addHistory') ){
+            this.edithistory = true;
+          }
+        }
       }
 
     });

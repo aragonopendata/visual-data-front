@@ -782,13 +782,13 @@ export class Constants {
   public static ALIGN_RIGHT = new AlignsType(Constants.ALIGN_RIGHT_TEXT, Aligns.right)
   public static ALIGNS_TYPES =[Constants.ALIGN_LEFT, Constants.ALIGN_RIGHT]
 
-  public static CONTENT_GRAPH_TEXT="Gráfica"
+  public static CONTENT_GRAPH_TEXT="Gráficos con datos de Aragón Open Data"
   public static CONTENT_GRAPH = new ContentsType(Constants.CONTENT_GRAPH_TEXT, Contents.graph)
-  public static CONTENT_YOUTUBE_TEXT="Enlace YouTube"
+  public static CONTENT_YOUTUBE_TEXT="Vídeo de YouTube"
   public static CONTENT_YOUTUBE = new ContentsType(Constants.CONTENT_YOUTUBE_TEXT, Contents.youtube)
-  public static CONTENT_SHARESLIDES_TEXT="Enlace Share Slides"
+  public static CONTENT_SHARESLIDES_TEXT="Presentación de Slideshare"
   public static CONTENT_SHARESLIDES = new ContentsType(Constants.CONTENT_SHARESLIDES_TEXT, Contents.shareSlides)
-  public static CONTENT_URL_IMG_TEXT="URL de la imagen"
+  public static CONTENT_URL_IMG_TEXT="Imágen desde URL"
   public static CONTENT_URL_IMG = new ContentsType(Constants.CONTENT_URL_IMG_TEXT, Contents.img)
   public static CONTENTS_TYPES =[Constants.CONTENT_GRAPH, Constants.CONTENT_YOUTUBE, Constants.CONTENT_SHARESLIDES,Constants.CONTENT_URL_IMG]
 
