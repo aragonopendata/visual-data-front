@@ -33,8 +33,23 @@ small {
         .conten-type{
             .radio{
                 margin-bottom: 12px;
+                
                 input{
                     margin-right: 12px;
+                }
+                div.fa-info-circle {
+                    color: #5ea2ba;
+                    cursor: pointer;
+                    + div{
+                        display: none;
+                    }
+                    &:hover {
+                        + div{
+                            display: block;
+                            position: absolute;
+                            z-index: 9;
+                        }
+                    }
                 }
             }
             .form-row{

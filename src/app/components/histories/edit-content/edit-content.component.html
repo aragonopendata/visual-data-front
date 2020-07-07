@@ -46,6 +46,12 @@
         <div class="radio" >
           <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
           <span class="sr-only">{{contentType.text}}</span> 
+
+          <div *ngIf="contentType.type===2 || contentType.type===3" class="fa fa-info-circle"></div>
+          <div> 
+            <img *ngIf="contentType.type===2" src='/static/public/focus/id_youtube.png'>
+            <img *ngIf="contentType.type===3" src='/static/public/focus/id_slideshare.png'>
+          </div>
         </div>
         
         <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">

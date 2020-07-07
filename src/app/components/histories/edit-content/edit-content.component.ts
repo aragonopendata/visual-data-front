@@ -147,7 +147,7 @@ export class EditContentComponent implements OnInit {
       this.contentModel = {
         title: this.contentForm.get('title').value, 
         description: this.contentForm.get('description').value, 
-        type_content: this.contentForm.get('type_content').value,
+        type_content: this.contentForm.get('visual_content').value ? this.contentForm.get('type_content').value : null,
         visual_content: this.contentForm.get('visual_content').value,
         align: this.contentForm.get('align').value,
         body_content: true
