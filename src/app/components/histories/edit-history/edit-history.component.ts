@@ -73,6 +73,8 @@ export class EditHistoryComponent implements OnInit {
   stateHistory:any =0;
   stateEnum: typeof State = State;
   haveMail:boolean=false;
+  descriptionCharacter:number=0;
+  maxDescriptionCharacters:number=420;
 
   openedMenu: boolean;
   AlignEnum: typeof Aligns = Aligns;
@@ -314,7 +316,27 @@ export class EditHistoryComponent implements OnInit {
     this.emailForm = this._formBuilder.group({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{1,}$')])
     })
+    /*
+    this.historyForm.get('description').valueChanges.subscribe(descriptionHistory => {
+      let descriptionHtml = document.createElement("div");
+      descriptionHtml.innerHTML = descriptionHistory;
+      this.descriptionCharacter=descriptionHtml.innerText.length;
+      console.log(this.descriptionCharacter)
+    });
+    */
   }
+
+  /**
+   * Update number character description section
+   * @param event 
+   */
+  longDescription(event){
+    console.log(event)
+    let innerTextDescription = event.currentTarget.innerText;
+    this.descriptionCharacter=innerTextDescription.length;
+    console.log(this.descriptionCharacter)
+  }
+  
 
   get invalidTitle(){
     return this.historyForm.get('title').invalid && this.historyForm.get('title').touched;
