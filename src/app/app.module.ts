@@ -77,9 +77,7 @@ import { IFrameResizerDirective } from './directives/iframe-resizer.directive';
 
 // All the routes for the app
 const routes: Routes = [
-  // Embed Routes
-  { path: 'charts/embed/:id', component: EmbedGraphComponent },
-  { path: 'adminPanel', component: AdminPanelComponent, canActivate: [AuthGuard] },
+  
 
   //No Embed routes
   {
@@ -88,7 +86,7 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeFocusComponent },
       { path: 'addHistory', component: EditHistoryComponent},
-      { path: 'viewHistory/:id', component: ViewHistoryComponent },
+      { path: 'history/:url', component: ViewHistoryComponent },
       { path: 'previewHistory', component: ViewHistoryComponent },
       { path: 'editHistory/:token', component: EditHistoryComponent }
     ]
@@ -108,7 +106,11 @@ const routes: Routes = [
     ]
   },
 
-  { path:'', redirectTo:'focus', pathMatch: 'full'}
+  // Embed Routes
+  { path: 'charts/embed/:id', component: EmbedGraphComponent },
+  { path: 'adminPanel', component: AdminPanelComponent, canActivate: [AuthGuard] },
+
+  { path:'**', redirectTo:'/'}
 
 ];
 
@@ -131,7 +133,7 @@ const routes: Routes = [
     InputTextModule,
     TreeModule,
     AngularOpenlayersModule,
-    RouterModule.forRoot(routes, {useHash: true}),
+    RouterModule.forRoot(routes),
     ReactiveFormsModule, 
     TinyMceModule.forRoot(tinymceDefaultSettings()),
     BsDropdownModule.forRoot(),
@@ -174,7 +176,7 @@ const routes: Routes = [
     HistoriesService,
     VisualGrapsService,
 
-    // { provide: LocationStrategy, useClass: PathLocationStrategy }
+     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

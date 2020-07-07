@@ -29,7 +29,7 @@ export class EditHistoryComponent implements OnInit {
   isFirstSelected = false;
   categories: Category[];
   scrollTo: string;
-  imageUrl: string = 'http://opendata.aragon.es/static/public/focus/pilar.jpg';
+  imageUrl: string = 'http://opendata.aragon.es/static/public/focus/abstracto.jpg';
 
   contents: Content[]=[];
   contentsGeneral:Content[];
@@ -77,8 +77,6 @@ export class EditHistoryComponent implements OnInit {
   openedMenu: boolean;
   AlignEnum: typeof Aligns = Aligns;
   ContentEnum: typeof Contents = Contents;
-
-  routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
 
   @ViewChild('tokenGenerate') tokenGenerate: ElementRef;
   @ViewChild('newContentElement') newContentElement: ElementRef;
@@ -196,7 +194,6 @@ export class EditHistoryComponent implements OnInit {
   preLoadHistory(){
     this.historiesService.getCategories().subscribe( (categories: Category[]) => {
       this.categories = categories;
-      //this.secondCategories = categories;
       this.historyBack.state=this.stateEnum.borrador;
       this._activatedRoute.params.subscribe(params => {
         if(params.token!=null){
@@ -441,6 +438,7 @@ export class EditHistoryComponent implements OnInit {
 
     this.historyModel = {
       id: this.historyBack.id ? this.historyBack.id : null, 
+      url: this.getUrlHistory(),
       token: this.historyBack.token ? this.historyBack.token : null, 
       state:this.stateHistory,
       title: this.historyForm.get('title').value,
@@ -459,24 +457,22 @@ export class EditHistoryComponent implements OnInit {
 
     if(action==Constants.PREVIEW_HISTORY){
       this.sendToPreviewPage();
-    }else if(action==Constants.SAVE_HISTORY){
+    } else if(action==Constants.SAVE_HISTORY){
       this.saveHistoryUser();
-    }else if(action==Constants.UPDATE_HISTORY){
+    } else if(action==Constants.UPDATE_HISTORY || action==Constants.POST_HISTORY_ADMIN){
       this.updateHistory();
-    } else if (action==Constants.POST_HISTORY_ADMIN){
-      this.updateHistory();
-    }
+    } 
 
   }
 
   sendToPreviewPage(){
     localStorage.setItem(Constants.LOCALSTORAGE_KEY_HISTORY, JSON.stringify(this.historyModel));
-    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+"/#/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
+    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+"/"+ Constants.ROUTER_LINK_PREVIEW_HISTORY
     window.open(urlPreview, '_blank');
   }
 
   sendToViewPage(){
-    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+"/#"+ Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyBack.id_reference;
+    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+ this.historyBack.url;
     window.open(urlPreview, '_blank');
   }
 
@@ -511,7 +507,7 @@ export class EditHistoryComponent implements OnInit {
         this.historyBack = this.historyModel;
         this.loadingModal=false;
         $('#successfullModalCenter').modal('show');
-        this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
+        //this.historyModel.url=Constants.FOCUS_URL + Constants.ROUTER_LINK_VIEW_HISTORY + "/" + this.historyModel.id;
         if(this.historyModel.email!=null){
           this.historiesService.sendPublicUserMail(this.historyModel).subscribe(result => {
             if(result.status==200){
@@ -534,7 +530,7 @@ export class EditHistoryComponent implements OnInit {
 
   setMailToHistory(){
     this.historyModel.email=this.emailForm.get('email').value;
-    this.historyModel.url=Constants.FOCUS_URL;
+    //this.historyModel.url=Constants.FOCUS_URL;
     this.historyBack=this.historyModel;
     this.historiesService.updateMailHistoryUser(this.historyModel).subscribe(result => {
       this.historiesService.sendSaveUserMail(this.historyModel).subscribe(result => {
@@ -619,7 +615,7 @@ export class EditHistoryComponent implements OnInit {
     this.loadingModal=false;
     if(this.isAdmin && this.publishing){
       $('#successfullModalCenter').modal('hide');
-      this._route.navigate([this.routerLinkViewHistory + '/'+ this.historyModel.id]);
+      this._route.navigate([Constants.ROUTER_LINK_VIEW_HISTORY + '/' + this.historyModel.url]);
     }
     else if(((!this.isAdmin) && (this.historyBack.state == this.stateEnum.revision)) ||
             ((!this.isAdmin) && this.sendRevision)){
@@ -789,9 +785,23 @@ export class EditHistoryComponent implements OnInit {
       if(response.image.route && response.image.route!=null){
         this.imageUrl=response.image.route;
       }else{
-        this.imageUrl="http://opendata.aragon.es/static/public/focus/pilar.jpg";
+        this.imageUrl="http://opendata.aragon.es/static/public/focus/abstracto.jpg";
       }
     })
+  }
+
+  private getUrlHistory() {
+    let url = '';
+    for( let category of this.categories ) {
+      if ( category.selectedPrincipal ) {
+        url = category.name.toLowerCase();
+        url = url.split(', ').join('-');
+        url = url.split(',').join('-');
+        url = url.split(' ').join('-')
+        url = url.split('--').join('-')
+      }
+    }
+    return `${url}-`;
   }
 
 }

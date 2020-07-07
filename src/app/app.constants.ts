@@ -753,13 +753,14 @@ export class Constants {
 
 
   public static ROUTER_LINK_ADD_CONTENT='add/content';
-  public static ROUTER_LINK_VIEW_HISTORY='/viewHistory';
+  public static ROUTER_LINK_VIEW_HISTORY='/history';
 
   public static LOCALSTORAGE_KEY_MAIL='email';
   public static LOCALSTORAGE_KEY_HISTORY='previewHistoryLS';
   public static ROUTER_LINK_SERVICES_ADMIN='/services/admin';
   public static ROUTER_LINK_FOCUS='/focus';
   public static ROUTER_LINK_ENTIRE_HISTORY='/history';
+  public static ROUTER_LINK_ENTIRE_HISTORY_BY_URL='/history/url';
   public static ROUTER_LINK_ENTIRE_HISTORY_AND_EMAIL='/history/mail';
   public static ROUTER_LINK_ENTIRE_HISTORY_BY_TOKEN='/history/token';
   public static ROUTER_LINK_ALL_HISTORIES='/histories';
@@ -799,3 +800,4 @@ export class Constants {
 
 
 }
+

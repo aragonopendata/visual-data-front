@@ -56,7 +56,7 @@
         <div class="histories">
           <div>
             <div *ngFor="let history of histories">
-              <div tabindex="{{openedMenu ? -1 : 0}}" class="card"  (click)="getHistory($event, history.id)" (keyup)="getHistory($event, history.id)">
+              <div tabindex="{{openedMenu ? -1 : 0}}" class="card"  (click)="getHistory($event, history.url)" (keyup)="getHistory($event, history.url)">
                 <img [src]="this._historiesService.getIconCategory(history.main_category)" alt="Imagen de la categoría">
                 <div class="opacity"></div>
 

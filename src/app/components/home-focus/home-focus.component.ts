@@ -29,7 +29,6 @@ export class HomeFocusComponent implements OnInit {
   tokenError:boolean= false;
   stateError:boolean=false;
   routerLinkAddHistory = Constants.ROUTER_LINK_ADD_HISTORY;
-  routerLinkViewHistory = Constants.ROUTER_LINK_VIEW_HISTORY;
   stateEnum: typeof State = State;
   state: number;
   openedMenu: boolean;
@@ -136,11 +135,11 @@ export class HomeFocusComponent implements OnInit {
     });
   }
 
-  getHistory(event, id: string){
+  getHistory(event, url: string){
     event.preventDefault();
     event.stopPropagation();
     if(event.keyCode==13 || event.type=="click"){
-      this._route.navigate([this.routerLinkViewHistory + '/'+ id]);
+      this._route.navigate([Constants.ROUTER_LINK_VIEW_HISTORY + '/' + url]);
     }
   }
 
