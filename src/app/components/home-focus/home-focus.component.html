@@ -1,5 +1,4 @@
 <div class="container no-margins">
-  
   <div class="row">
     <div class="col-12">
       <div class="form-group">
@@ -11,22 +10,20 @@
             <span class="sr-only">Crear historia</span> 
           </button>
           
-          <div class="input-search">
-            <!--Fallo Hay 2 controles de formulario sin etiquetas asociadas ni atributo title-->
+          <!-- <div class="input-search">
             <input tabindex="{{openedMenu ? -1 : 0}}" type="text" id="search" class="form-control" placeholder="Introduce título..." aria-label="Recipient's username" #searchInput>
             <span class="sr-only">Buscador: Introduce el titulo de una historia</span> 
-            <!--Fallo Se usan 5 elementos o atributos HTML para controlar la presentación del texto-->
             <div class="icon-fa fa fa-search"></div>
           </div>
 
           <div class="input-group-append">
             <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-secondary" type="button" (click)="getHistories(searchInput.value,null)">Buscar</button>
             <span class="sr-only">Buscar historia</span>
-          </div>
+          </div> -->
         </div>
 
         <!-- categories -->
-        <ul class="list-categories nav justify-content-center fist-categories">
+        <!-- <ul class="list-categories nav justify-content-center fist-categories">
           <li class="nav-item " *ngFor="let category of categoriesVisible">
             <span class="nav-link text-primary" [ngClass]="category.id==categorySearch ? 'selected' : 'noSelected'" (click)="getHistories(searchInput.value, category.id)">{{category.name}}</span>
             <span class="sr-only">Categoria: {{category.name}}</span>
@@ -43,14 +40,13 @@
         </div>
         
         <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf='categoriesHidden' class="btn view-more" type="button" (click)='viewMoreCategories = !viewMoreCategories'>
-          <!--Fallo Se usan 4 elementos o atributos HTML para controlar la presentación del texto (poner title)-->
           <div *ngIf='!viewMoreCategories' class="icon-fa fa fa-angle-down" tabindex="{{openedMenu ? -1 : 0}}"></div>
           <span class="sr-only">Ver mas</span> 
           <div *ngIf='viewMoreCategories' class="icon-fa fa fa-angle-up" tabindex="{{openedMenu ? -1 : 0}}"></div>
           <span class="sr-only">Ver menos</span> 
           <span *ngIf='!viewMoreCategories'>Ver mas</span>
           <span *ngIf='viewMoreCategories'>Ver menos</span>
-        </button> 
+        </button>  -->
 
         <!-- histories -->
         <div class="histories">
@@ -87,14 +83,8 @@
       <div *ngIf= createHistory>
         <div class="modal-body">
           <p tabindex="{{openedMenu ? -1 : 0}}">
-            En este apartado podrá crear una historia nueva. Recuerde guardar el identificador o clave única (token) que se le proporcione, le servira en caso de querer editarla antes de enviarla a revisión. 
-            Una vez enviada, no podrá acceder a ella hasta que haya pasado la revisiòn, se le enviará un correo para notificarle del cambio de estado.
+            Vas a crear una historia nueva: guarda el identificador (token) que se le proporcionará para editarlo en un futuro. Una vez enviada la historia hasta su revisión no se publicará. Se le enviará un correo para notificarle el cambio de estado. Si lo que quiere es modificar su historia publicada o revisada haga clic <a tabindex="{{openedMenu ? -1 : 0}}" (click)="updateHistoryHiperLink()" (keyup.enter)="updateHistoryHiperLink()" class="simulateLink"> aquí</a>. Lea las condiciones de uso del servicio.
           </p>
-          <p tabindex="{{openedMenu ? -1 : 0}}">
-            Si lo que quiere es modificar una historia que creó previamente haga click en el siguiente enlace.
-          </p>
-          <a tabindex="{{openedMenu ? -1 : 0}}" (click)="updateHistoryHiperLink()" (keyup.enter)="updateHistoryHiperLink()" class="simulateLink"> Modificar</a>
-          <span class="sr-only">Modificar historia</span>
         </div>
         <div class="modal-footer">
           <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary btn-block" data-dismiss="modal" (click)="createNewHistory()" >Crear nueva historia</button>
