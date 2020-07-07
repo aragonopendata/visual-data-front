@@ -64,9 +64,9 @@
     <div class="view-history-contents">
       <div *ngFor="let content of bodyContents; let odd = odd" class="view-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === alignEnum.left}">
       
-          <div class="view-history-content__text" *ngIf="content.title || content.description">
+          <div class="view-history-content__text" *ngIf="content.title || content.description" [ngClass]="{'only-title': !content.description}">
             <p tabindex="{{openedMenu ? -1 : 0}}" class="view-history-content__text-title">{{content.title}}</p>
-            <p tabindex="{{openedMenu ? -1 : 0}}" class="view-history-content__text-desc" [innerHTML]="content.description"></p>
+            <p *ngIf="content.description" tabindex="{{openedMenu ? -1 : 0}}" class="view-history-content__text-desc" [innerHTML]="content.description"></p>
           </div>
 
           <!-- Si es grafica -->

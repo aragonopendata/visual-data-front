@@ -99,6 +99,7 @@
             justify-content: center;
             align-items: center;
             padding: 52px;
+            flex-wrap: wrap;
             .view-history-content__text {
                 flex: 1;
                 margin-right: 48px;
@@ -111,6 +112,10 @@
                 .view-history-content__text-desc{
                     font-size: 18px;
                     line-height: 33px;
+                }
+                &.only-title{
+                    min-width: 100%;
+                    margin: 0;
                 }
             }
             .view-history-content__visual {
