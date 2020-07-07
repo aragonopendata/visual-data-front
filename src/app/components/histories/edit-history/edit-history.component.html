@@ -66,7 +66,7 @@
 
           <div class="create-history-subtitle__description">
             <h3 tabindex="{{openedMenu ? -1 : 0}}">Descripción de la historia</h3>
-            <angular-tinymce *ngIf="settings" placeholder="Introduzca el título de la historia" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description"></angular-tinymce>
+            <angular-tinymce *ngIf="settings" placeholder="Introduzca el título de la historia" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description" ></angular-tinymce>
           </div>
 
           <h3 tabindex="{{openedMenu ? -1 : 0}}">Valores globales</h3>
@@ -128,13 +128,6 @@
       <!-- CONTENIDOS DE LA HISTORIA -->
       <div class="create-history-contents">
 
-        <!-- ADD CONTENT -->
-        <div *ngIf="!showAddContent" class="create-history-contents__add" (click)="addNewContent()" tabindex="{{openedMenu ? -1 : 0}}">
-          <div class="icon-fa fa fa-plus"></div> 
-          <span>Añadir sección</span>
-          <p>Con el objetivo de dar valor a las historias puedes añadir contenido tantas veces como quieras. Este contenido complementará a la historia a través de un título, descripción y una fuente de datos (gráfica, vídeo, presentación o imagen)</p>
-        </div>
-
         <!-- CONTENTS CREATED -->
         <div *ngFor="let content of contents; let i = index; let odd = odd" class="create-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === AlignEnum.left}">
       
@@ -192,8 +185,14 @@
             </div>
             
           </ng-container>
-          
             
+        </div>
+
+        <!-- ADD CONTENT -->
+        <div *ngIf="!showAddContent" class="create-history-contents__add" (click)="addNewContent()" tabindex="{{openedMenu ? -1 : 0}}">
+          <div class="icon-fa fa fa-plus"></div> 
+          <span>Añadir sección</span>
+          <p>Con el objetivo de dar valor a las historias puedes añadir contenido tantas veces como quieras. Este contenido complementará a la historia a través de un título, descripción y una fuente de datos (gráfica, vídeo, presentación o imagen)</p>
         </div>
 
         <!-- Formulario de nueva seccion -->
