@@ -125,9 +125,9 @@ export class EditHistoryComponent implements OnInit {
         
         this._graphservice.getChart(graph.visual_content).subscribe(chart => {
           graph.title=chart.title;
-          graph.aditionalInfo = new AditionalInfo(chart.number.numberUnits, chart.number.number)
+          graph.order_content=this.getOrderContent();
+          graph.aditionalInfo = new AditionalInfo(chart.number.numberUnits, chart.number.number, graph.order_content)
           if(chart.type=='number'){
-            graph.order_content=this.getOrderContent();
             this.contentsHeader.push(graph);
           }
           else{
@@ -227,7 +227,7 @@ export class EditHistoryComponent implements OnInit {
           let content = this.historyBack.contents[contentNumber];
           this._graphservice.getChart(content.visual_content).subscribe(chart => {
             content.title=chart.title;
-            content.aditionalInfo = new AditionalInfo(chart.number.numberUnits, chart.number.number)
+            content.aditionalInfo = new AditionalInfo(chart.number.numberUnits, chart.number.number, content.order_content)
             this.contentsHeader.push(content);
           });
         }

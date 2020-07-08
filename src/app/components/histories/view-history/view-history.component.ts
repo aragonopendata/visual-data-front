@@ -205,15 +205,13 @@ export class ViewHistoryComponent implements OnInit {
   }
 
   getHeadersInfo(selectedHeaderContents: Content[]){
-    let aditionalInfoForEach :AditionalInfo[]=[];
     selectedHeaderContents.forEach( (content: Content) => {
       this.graphservice.getChart(content.visual_content).subscribe(chart => {
         if(chart.type=="number"){
-          aditionalInfoForEach.push(new AditionalInfo(chart.number.numberUnits, chart.number.number));
+          this.aditionalInfo.push(new AditionalInfo(chart.number.numberUnits, chart.number.number,content.order_content));
         }
       });
     });
-    this.aditionalInfo=aditionalInfoForEach;
     this.loading=false;
   }
 
@@ -232,5 +230,20 @@ export class ViewHistoryComponent implements OnInit {
   sanitizedHtml(value){
     return this.sanitized.bypassSecurityTrustHtml(value);
   }
+
+    /**
+   * Order the body contents by order_content
+   */
+  orderBodyContents(){
+    return this.bodyContents.sort((a, b) => a.order_content - b.order_content);
+  }
+
+  /**
+   * Order the headerContents by order_content
+  */
+  orderAdditionalInfo(){
+    return this.aditionalInfo.sort((a, b) => a.order - b.order);
+  }
+
   
 }

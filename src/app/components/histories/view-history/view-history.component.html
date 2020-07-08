@@ -44,8 +44,8 @@
         <div class="view-history-subtitle__description">
           <p [innerHTML]="historySelect.description" tabindex="{{openedMenu ? -1 : 0}}"></p>
         </div>
-        <div class="view-history-subtitle__values">
-          <div *ngFor="let info of aditionalInfo; let i = index" class="view-history-subtitle__value" tabindex="{{openedMenu ? -1 : 0}}">
+        <div class="view-history-subtitle__values" *ngIf="aditionalInfo && aditionalInfo.length > 0">
+          <div *ngFor="let info of orderAdditionalInfo(); let i = index" class="view-history-subtitle__value" tabindex="{{openedMenu ? -1 : 0}}">
             <div class="number">{{info.value}}</div>
             <div class="text">{{info.text}}</div>
             <span class="sr-only">{{info.text}}: {{info.value}}</span> 
@@ -61,8 +61,8 @@
       </div>
     </div>
 
-    <div class="view-history-contents">
-      <div *ngFor="let content of bodyContents; let odd = odd" class="view-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === alignEnum.left}">
+    <div class="view-history-contents" *ngIf="bodyContents && bodyContents.length > 0">
+      <div *ngFor="let content of orderBodyContents(); let odd = odd" class="view-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === alignEnum.left}">
       
           <div class="view-history-content__text" *ngIf="content.title || content.description" [ngClass]="{'only-title': !content.description}">
             <p tabindex="{{openedMenu ? -1 : 0}}" class="view-history-content__text-title">{{content.title}}</p>
