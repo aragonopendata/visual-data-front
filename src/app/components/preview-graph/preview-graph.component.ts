@@ -535,6 +535,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
               this.dataservice.type,
               this.dataservice.url,
               this.dataservice.datasetSelected,
+              this.dataservice.ckanDataset,
               this.chartType,
               this.chartMap,
               numberchart,
