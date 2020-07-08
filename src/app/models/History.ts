@@ -37,6 +37,7 @@ export class Content {
     srcImg?: SafeResourceUrl;
 
     align?:number;
+    order_content?: number;
 
     body_content?:boolean;
     aditionalInfo?: AditionalInfo;

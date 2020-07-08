@@ -33,6 +33,7 @@ export class EditHistoryComponent implements OnInit {
   contents: Content[]=[];
   contentsGeneral:Content[];
   contentsHeader: Content[]=[];
+  orderGeneralContents: number=0;
   historyModel: History = {};
   historyForm: FormGroup;
   previewHistoryModel: History = {};
@@ -126,6 +127,7 @@ export class EditHistoryComponent implements OnInit {
           graph.title=chart.title;
           graph.aditionalInfo = new AditionalInfo(chart.number.numberUnits, chart.number.number)
           if(chart.type=='number'){
+            graph.order_content=this.getOrderContent();
             this.contentsHeader.push(graph);
           }
           else{
@@ -216,6 +218,7 @@ export class EditHistoryComponent implements OnInit {
     this.contents=[];
     if(this.historyBack.contents && this.historyBack.contents.length>0){
       for (var contentNumber = 0; contentNumber < this.historyBack.contents.length; contentNumber++) {
+        this.setHighestOrderContent(this.historyBack.contents[contentNumber].order_content);
         if(this.historyBack.contents[contentNumber].body_content){
           this.historiesService.getInfoContents(this.historyBack.contents[contentNumber]).then(data => {
             this.contents.push(data);
@@ -231,6 +234,20 @@ export class EditHistoryComponent implements OnInit {
       }
     }
     this.updateWithBackHistory();
+  }
+
+  /**
+   * Order the contents by order_content
+   */
+  orderContents(){
+    return this.contents.sort((a, b) => a.order_content - b.order_content);
+  }
+
+  /**
+   * Order the headerContents by order_content
+  */
+  orderHeaderContents(){
+    return this.contentsHeader.sort((a, b) => a.order_content - b.order_content);
   }
 
   /**
@@ -450,6 +467,14 @@ export class EditHistoryComponent implements OnInit {
     this.contentsGeneral=[];
     this.contentsGeneral=this.contentsGeneral.concat(this.contentsHeader);
     this.contentsGeneral=this.contentsGeneral.concat(this.contents);
+
+    //order vector by order contents
+    this.contentsGeneral.sort((a, b) => a.order_content - b.order_content);
+    //update order
+    for(var i = 0; i < this.contentsGeneral.length; i++){
+      this.contentsGeneral[i].order_content=i+1;
+    }
+
 
     this.historyModel = {
       id: this.historyBack.id ? this.historyBack.id : null, 
@@ -725,6 +750,7 @@ export class EditHistoryComponent implements OnInit {
   newContent( actionContent ){
     if( actionContent.action === 'new' ){
       this.historiesService.getInfoContents(actionContent.content).then(data => {
+        data['order_content']=this.getOrderContent();
         this.contents.push(data);
       });
     } else {
@@ -819,4 +845,22 @@ export class EditHistoryComponent implements OnInit {
     return `${url}-`;
   }
 
+  /**
+   * Get the order for a new content
+   */
+  getOrderContent():number{
+    this.orderGeneralContents++;
+    return this.orderGeneralContents;
+  }
+
+  /**
+   * Define the highest order of contents
+   * @param order 
+   */
+  setHighestOrderContent(order:number){
+    console.log(order)
+    if(order>this.orderGeneralContents){
+      this.orderGeneralContents=order
+    }
+  }
 }

@@ -76,7 +76,7 @@
 
             <!-- valores globales seleccionados -->
             <ng-container *ngIf="contentsHeader && contentsHeader.length > 0">
-              <div class="create-history-subtitle__value" *ngFor="let content of contentsHeader; let i = index" >
+              <div class="create-history-subtitle__value" *ngFor="let content of orderHeaderContents(); let i = index" >
                 <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon fa fa-trash" (click)="deleteContent(content)"></div>
                 <div class="number">{{content.aditionalInfo.value}}</div>
                 <div class="text">{{content.aditionalInfo.text}}</div>
@@ -130,7 +130,7 @@
       <div class="create-history-contents">
 
         <!-- CONTENTS CREATED -->
-        <div *ngFor="let content of contents; let i = index; let odd = odd" class="create-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === AlignEnum.left}">
+        <div *ngFor="let content of orderContents(); let i = index; let odd = odd" class="create-history-content" [ngClass]="{'odd':odd, 'reverse': content.align === AlignEnum.left}">
       
           <!-- Formulario de nueva seccion -->
           <div class="create-history-content__edit" #newContentElement *ngIf="showAddContent && contentToEdit && i === posToEdit ">
