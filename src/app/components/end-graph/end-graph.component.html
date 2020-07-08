@@ -82,7 +82,11 @@
                         &lt;iframe src="{{routeEmbed}}" style="width: 100%; height: 100%;" frameborder="0"&gt;&lt;/iframe&gt;
                     </div>
                     <div class="border rounded" *ngIf="showData == 1" tabindex="{{openedMenu ? -1 : 0}}">
-                        {{datasetLocation}}
+                        <ul style="list-style: none;">
+                            <li *ngFor="let dataSource of datasetLocation">
+                                {{ dataSource }}
+                            </li>
+                        </ul>
                     </div>
                 </code>
                 </span>

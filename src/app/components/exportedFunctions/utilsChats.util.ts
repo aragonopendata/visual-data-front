@@ -172,6 +172,7 @@ export class UtilsGraphService {
               dataProcess.typeOfData,
               dataProcess.url,
               dataProcess.dataset,
+              dataProcess.ckanDataset,
               dataProcess.chartType,
               dataProcess.isMap,
               dataProcess.columnsLabel,

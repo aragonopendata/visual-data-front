@@ -59,7 +59,7 @@ export class EndGraphComponent implements OnInit {
 
   public showData: number;
   public numberLegend: number;
-  public datasetLocation: any;
+  public datasetLocation: Array<any> = [];
 
   openedMenu: boolean;
 
@@ -100,16 +100,14 @@ export class EndGraphComponent implements OnInit {
           this.graphservice.downloadProcess(id).subscribe(
             process => {
               if (process.typeOfData === 'VIRTUOSO') {
-                this.datasetLocation =
-                  'https://opendata.aragon.es/sparql' +
-                  ' Consulta: ' +
-                  process.dataset;
+                this.datasetLocation.push('https://opendata.aragon.es/sparql' + ' Consulta: ' + process.dataset);
               } else if (process.typeOfData === 'GAODC') {
-                this.datasetLocation = 'https://opendata.aragon.es/GA_OD_Core/download?view_id=' + process.dataset + '&formato=csv&_pageSize=100&_page=1'
+                this.datasetLocation.push('https://opendata.aragon.es/GA_OD_Core/download?view_id=' + process.dataset + '&formato=csv&_pageSize=100&_page=1');
               } else if (process.url && process.url !== undefined){
-                this.datasetLocation = process.url;
+                this.datasetLocation.push(process.url);
+                this.datasetLocation.push(process.ckanDataset);
               } else {
-                this.datasetLocation = process.dataset;
+                this.datasetLocation.push(process.dataset);
               }
               if (!chart || chart.status === 'notFound') {
                 this.router.navigate(['/']);
