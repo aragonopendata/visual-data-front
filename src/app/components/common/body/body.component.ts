@@ -20,6 +20,7 @@ export class BodyComponent implements OnInit {
       this.edithistory = false;
       if ( this.router.url.includes ('viewHistory') ||this.router.url.includes ('previewHistory')  ) {
         this.viewhistory = true;
+        this.home = false
       }
       else{
         this.viewhistory = false;

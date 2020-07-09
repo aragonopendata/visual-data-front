@@ -203,6 +203,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       }
     }
     if (this.opened === 'CKAN') {
+      this.dataservice.ckanDataset = Constants.AOD_BASE_URL + '/' + Constants.ROUTER_LINK_DATA_CATALOG_DATASET + '/' + this.packagesSelCKAN;
       this.dataservice.url = this.resourceInfo;
       this.dataservice.datasetSelected = this.formatDataInfo;
     } else {

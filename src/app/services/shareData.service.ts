@@ -7,7 +7,8 @@ export class ShareDataService {
   public datasetHeader: any;
   public dataset: any;
   public datasetSelected: any;
-
+  public ckanDataset: any;
+  
   public columnsGraph: any;
 
   public headerSelected: any;
