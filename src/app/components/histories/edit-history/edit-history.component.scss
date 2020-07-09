@@ -193,12 +193,17 @@
             align-items: center;
             padding: 52px;
             position: relative;
+            flex-wrap: wrap;
             .create-history-content__edit{
                 width: 100%;
             }
             .create-history-content__text {
                 flex: 1;
                 margin-right: 48px;
+                &.only-title{
+                    min-width: 100%;
+                    margin: 0;
+                }
                 .create-history-content__text-title{
                     font-family: "OpenSans-Semibold", sans-serif;
                     font-size: 24px !important;
