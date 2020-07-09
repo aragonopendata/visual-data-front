@@ -98,7 +98,7 @@
           </div>
 
           <!-- Si es imagen -->
-          <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.img">
+          <div class="view-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === contentEnum.img">
             <img *ngIf="content.visual_content" 
             title='Imagen la cual da apoyo a la sección de la historia' [src]='content.visual_content'>
           </div>
