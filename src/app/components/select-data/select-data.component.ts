@@ -19,6 +19,7 @@ import { UtilsGraphService } from './../exportedFunctions/utilsChats.util';
 import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
 import { UtilsService } from '../exportedFunctions/utils.service';
+import { Constants } from '../../app.constants';
 
 @Component({
   selector: 'app-select-data',
@@ -84,6 +85,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   packagesSelURL: string;
   packagesSelSPARQL: string;
 
+  baseUrlOpenData: string;
+
   openedMenu: boolean;
   type = 'all';
 
@@ -122,6 +125,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.nextStep = true;
     this.urlError = false;
     this.querryError = false;
+    this.baseUrlOpenData= Constants.AOD_BASE_URL
     this.getOpenedMenu();
   }
 
