@@ -36,6 +36,7 @@
                 display: block;
                 margin-right: 18px;
                 margin-left: 18px;
+                text-align: center;
             }
         }
     }
@@ -127,11 +128,9 @@
                 img{
                     max-width: 100%;
                 }
-                // &.graph{
-                //     iframe {
-                //         max-height: 50vh;
-                //     }
-                // }
+                &.only-title{
+                    min-width: 100%;
+                }
             }
             &.odd {
                 background-color: rgba(223,236,241,0.25);

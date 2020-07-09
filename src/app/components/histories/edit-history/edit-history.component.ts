@@ -512,8 +512,17 @@ export class EditHistoryComponent implements OnInit {
   }
 
   sendToViewPage(){
-    let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+ this.historyBack.url;
-    window.open(urlPreview, '_blank');
+    if(!this.isAdmin){
+      this.historiesService.getHistoryBackUserById(this.historyBack.id_reference.toString()).subscribe((repsonse) => {
+        let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+'/history/' + repsonse.history.url;
+        window.open(urlPreview, '_blank');
+      }); 
+    } else {
+      this.historiesService.getHistoryBackAdminById(this.historyBack.id_reference.toString()).subscribe((repsonse) => {
+        let urlPreview=Constants.ROUTER_LINK_SERVICES_FOCUS+'/history/' + repsonse.history.url;
+        window.open(urlPreview, '_blank');
+      }); 
+    }
   }
 
   saveHistoryUser(){

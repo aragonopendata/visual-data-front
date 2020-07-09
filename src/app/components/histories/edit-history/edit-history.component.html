@@ -35,9 +35,6 @@
 
 <div *ngIf="!loading && !errorTitle">
 
-  <!-- <div class="row title">
-    <h2 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Crear una nueva historia</h2>
-  </div> -->
   <div *ngIf="historyBack.id_reference && isAdmin" class="version">
     <p>Esta historia es una modificacion de <a tabindex="{{openedMenu ? -1 : 0}}" (click)="sendToViewPage()" (keyup.enter)="sendToViewPage()" class="simulateLink"> esta historia</a></p>
   </div>
@@ -152,7 +149,7 @@
             </div>
 
             <!-- Si es grafica -->
-            <div class="create-history-content__visual graph" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.graph">
+            <div class="create-history-content__visual graph" [ngClass]="{'only-title': !content.description}" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.graph">
               <iframe 
                 title='Gr&aacute;fica de datos del portal de Aragón Open Data, el cual da apoyo a la sección de la historia'
                 appIframeResizer *ngIf="content.srcGraph" 
@@ -162,7 +159,7 @@
             </div>
 
             <!-- Si es video youtube -->
-            <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.youtube">
+            <div class="create-history-content__visual" [ngClass]="{'only-title': !content.description}" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.youtube">
               <iframe *ngIf="content.srcYoutube" 
               title='Video de YouTube el cual da apoyo a la sección de la historia'
               width="560" height="315" [src]="content.srcYoutube"
@@ -171,7 +168,7 @@
             </div>
 
             <!-- Si es slideshare -->
-            <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.shareSlides">
+            <div class="create-history-content__visual" [ngClass]="{'only-title': !content.description}" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.shareSlides">
               <iframe *ngIf="content.srcSlideShare" 
               title='Slideshare el cual da apoyo a la sección de la historia'
               width="595" height="485" [src]='content.srcSlideShare' marginwidth="0" scrolling = "no"
@@ -180,7 +177,7 @@
             </div>
 
             <!-- Si es imagen -->
-            <div class="create-history-content__visual" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.img">
+            <div class="create-history-content__visual" [ngClass]="{'only-title': !content.description}" tabindex="{{openedMenu ? -1 : 0}}" *ngIf="content.type_content === ContentEnum.img">
               <img *ngIf="content.visual_content" 
               title='Imagen la cual da apoyo a la sección de la historia' [src]='content.visual_content'>
             </div>
@@ -214,7 +211,7 @@
         <button tabindex="{{openedMenu ? -1 : 0}}" #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Enviar a revision</button>
     </div>
     <div class="final-info" *ngIf="!loadingModal && !isAdmin">
-      <p class="info-save">Recuerda que para que para que la historia sea publicada se ha de clickar sobre enviar a revisión. Guardar la misma permite editarla más adelante, pero no permite su publicación.</p>
+      <p class="info-save">Recuerda que para que la historia sea publicada se ha de clicar sobre enviar a revisión. Guardar la misma permite editarla más adelante, pero no permite su publicación.</p>
     </div>
   </form>
 

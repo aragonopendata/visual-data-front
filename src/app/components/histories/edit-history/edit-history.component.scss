@@ -217,6 +217,9 @@
             }
             .create-history-content__visual {
                 flex: 1;
+                &.only-title{
+                    min-width: 100%;
+                }
                 iframe {
                     width: 1px;
                     min-width: 100%;
