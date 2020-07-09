@@ -206,11 +206,15 @@
     </div>
 
     <div class="actions" *ngIf="!loadingModal">
+        <button tabindex="{{openedMenu ? -1 : 0}}" class="btn btn-outline-primary" (click)=goHome()> Cancelar</button>
         <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador || historyBack.state == stateEnum.publicada)))" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " (click)=getPreviewHistory()> Previsualizar</button>
         <button tabindex="{{openedMenu ? -1 : 0}}" #btnSave *ngIf="( isAdmin ||  (!isAdmin && (historyBack.state == stateEnum.borrador)))"  id="btnSaveHistory" type="button" class="btn btn-outline-primary" [ngClass]="historyForm.invalid ? 'disabled' : '' " data-toggle="modal" (click)="getHistoryForm(btnSave, true)"> Guardar historia</button>
         <button tabindex="{{openedMenu ? -1 : 0}}" #btnRevision *ngIf="(historyBack.state == stateEnum.borrador)" id="btnSendRevision" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnRevision, true)" >Enviar a revisión</button>
         <button tabindex="{{openedMenu ? -1 : 0}}" #btnPublicar *ngIf="(isAdmin &&  (historyBack.state == stateEnum.revision))" id="btnSendPublicar" type="submit" class="btn btn-primary" [ngClass]="(historyForm.invalid || (!saved && this.isModified)) ? 'disabled' : ''" (click)="getHistoryForm(btnPublicar, true)" >Publicar</button>
         <button tabindex="{{openedMenu ? -1 : 0}}" #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Enviar a revision</button>
+    </div>
+    <div class="final-info" *ngIf="!loadingModal && !isAdmin">
+      <p class="info-save">Recuerda que para que para que la historia sea publicada se ha de clickar sobre enviar a revisión. Guardar la misma permite editarla más adelante, pero no permite su publicación.</p>
     </div>
   </form>
 

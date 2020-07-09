@@ -333,6 +333,18 @@
     }
 }
 
+.final-info{
+    display: flex;
+    justify-content: flex-end;
+    .info-save{
+        padding-top: 1em;
+        padding-right: 1em;
+        font-size: 14px;
+        width: 50%;
+        text-align: right;
+    }
+}
+
 
 .modal{
     padding: 0em;
@@ -485,5 +497,10 @@
             
             }
         }   
+    }
+    .final-info{
+        .info-save{
+            width: 100%;
+        }
     }
 }
