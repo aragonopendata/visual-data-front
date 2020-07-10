@@ -211,7 +211,7 @@
         <button tabindex="{{openedMenu ? -1 : 0}}" #btnVersionar *ngIf="(!isAdmin && (historyBack.state == stateEnum.publicada))" id="btnSendVersionar" type="submit" class="btn btn-primary" [ngClass]="historyForm.invalid ? 'disabled' : ''" (click)="getHistoryForm(btnVersionar, true)" >Enviar a revision</button>
     </div>
     <div class="final-info" *ngIf="!loadingModal && !isAdmin">
-      <p class="info-save">Recuerda que para que la historia sea publicada se ha de clicar sobre enviar a revisión. Guardar la misma permite editarla más adelante, pero no permite su publicación.</p>
+      <p class="info-save">Recuerda que, para que la historia sea publicada se ha de clicar sobre enviar a revisión. Guardar la misma permite editarla más adelante, pero no permite su publicación.</p>
     </div>
   </form>
 
@@ -344,20 +344,20 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <div tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" id="questionDeleteContentTitle">Borrar sección</div>
+          <div *ngIf="!(!previousButton && (!deleteBodyCont || (!showAddContent && deleteBodyCont)))" tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" id="questionDeleteContentTitle">Advertencia</div>
+          <div *ngIf="!previousButton && (!deleteBodyCont || (!showAddContent && deleteBodyCont))" tabindex="{{openedMenu ? -1 : 0}}" class="modal-title form-section-title" id="questionDeleteContentTitle">Borrar sección</div>
           <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDeleteContentModal()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="showAddContent && !previousButton && deleteBodyCont">Por favor, antes de eliminar una sección, guarde o cierre la sección que se está editando</p>
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont">¿Está seguro que quiere eliminar la sección? Una vez eliminado, no se podrá recuperar</p>
-          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent && !previousButton && deleteBodyCont">¿Está seguro que quiere eliminar la sección? Una vez eliminado, no se podrá recuperar</p>
           <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton">Si realiza esta acción, la sección que está editando se perderá. ¿Desea continuar con la acción y perderlo o volver para guardar el mismo? </p>
+          <p tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!previousButton && (!deleteBodyCont || (!showAddContent && deleteBodyCont))">¿Está seguro que quiere eliminar la sección? Una vez eliminado, no se podrá recuperar</p>
         </div>
         <div class="modal-footer">
-          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-primary" (click)="closeDeleteContentModal()">Volver</button>
-          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn btn-outline-secondary" (click)="closeDeleteContentModal()">Volver</button>
+          <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!deleteBodyCont && !previousButton" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button>
           <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="!showAddContent  && !previousButton && deleteBodyCont" type="button" class="btn btn-primary" (click)="confirmDeleteContent()">Confirmar</button>
           <button tabindex="{{openedMenu ? -1 : 0}}" *ngIf="previousButton" type="button" class="btn btn-primary" (click)="getHistoryForm(null, false)">Confirmar</button>
         </div>
