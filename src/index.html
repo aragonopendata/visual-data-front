@@ -7,42 +7,91 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/x-icon" href="/static/public/i/favicon.ico">
+	<style>
+		.loading_container{
+			text-align: center;
+		}
+		.loading_container .loadingText {
+			margin-top: 10%;
+			text-align: center;
+			font-size: 2.5em;
+			font-weight: 300;
+			color: #8e8e8e;
+		}
+		.loading_container .loadingAdvice {
+			text-align: center;
+			font-size: 1.2em;
+			margin-bottom: 1em;
+			font-weight: 300;
+			color: #8e8e8e;
+		}
+		.loading_container img {
+    		max-height: 30px;
+		}
+		.loading_container .link {
+			color: #007bff;
+			text-decoration: none;
+			background-color: transparent;
+			-webkit-text-decoration-skip: objects;
+		}
+		.loading_container .row-loading {
+			display: -ms-flexbox;
+			display: flex;
+			-ms-flex-wrap: wrap;
+			flex-wrap: wrap;
+			margin-right: -15px;
+			margin-left: -15px;
+		}
+		.loading_container .col-loading {
+			-ms-flex: 0 0 100%;
+			flex: 0 0 100%;
+			max-width: 100%;
+		}
+		@media (min-width: 768px){
+			.loading_container .col-loading-4 {
+				-ms-flex: 0 0 33.33333333%;
+				flex: 0 0 33.33333333%;
+				max-width: 33.33333333%;
+			}
+		}
+	</style>
 </head>
 
 <body>
 	<app-root>
-		<div class="text-center">
+		<div class="loading_container">
 			<div class="loadingText">Cargando</div><br/><br/>
 			<i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw" style="color: #76a1b8; font-size: 100px; font-weight: 400;"></i><br/><br/>
-			<div class="row">
-				<div class="col-12 col-md-4" style="padding: 10px;">
+			<div class="row-loading">
+				<div class="col-loading col-loading-4" style="padding: 10px;">
 					<img class="img" src="/static/public/header/images/AOD-Logo.png"/>
 				</div>
-				<div class="col-12 col-md-4" style="padding: 10px;">
+				<div class="col-loading col-loading-4" style="padding: 10px;">
 					<img class="img" src="/static/public/i/logoDGA.png"/>
 				</div>
-				<div class="col-12 col-md-4" style="padding: 10px;">
+				<div class="col-loading col-loading-4" style="padding: 10px;">
 					<img class="img" src="/static/public/footer/images/flag-europe.png"/>
 					<p style="font-size: 0.75em; padding: 5px;">FONDO EUROPEO DE DESARROLLO REGIONAL (FEDER) "Construyendo Europa desde Aragón"</p>
 				</div>
 			</div>
-			<div class="loadingAdvice">Mejore su experiencia utilizando la última versión de <a href="https://www.google.es/chrome/browser/desktop/">Google Chrome</a>
-			o <a href="https://www.microsoft.com/es-es/download/internet-explorer.aspx">Internet Explorer +11</a>
+			<div class="loadingAdvice">Mejore su experiencia utilizando la última versión de <a class="link" href="https://www.google.es/chrome/browser/desktop/">Google Chrome</a>
+			o <a class="link" href="https://www.microsoft.com/es-es/download/internet-explorer.aspx">Internet Explorer +11</a>
 			</div>
 		</div>
-	</app-root>
-	  <!-- Google Analytics --> 
-	  <script type='text/javascript'> 
+	</app-root> 
+	
+	<!-- Google Analytics --> 
+	<script type='text/javascript'> 
 		(function (i, s, o, g, r, a, m) { 
-		  i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { 
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { 
 			(i[r].q = i[r].q || []).push(arguments) 
-		  }, i[r].l = 1 * new Date(); a = s.createElement(o), 
+			}, i[r].l = 1 * new Date(); a = s.createElement(o), 
 			m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m) 
 		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga'); 
-	 
+		
 		ga('create', 'UA-36118896-2', 'auto'); 
-	  </script> 
-	  <!-- End Google Analytics --> 
+	</script> 
+	<!-- End Google Analytics --> 
 </body>
 
 </html>
