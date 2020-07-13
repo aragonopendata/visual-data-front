@@ -504,11 +504,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     if (this.opened === 'CKAN') {
       this.results = Object.assign([], this.listCkan).filter(
-        item => item.indexOf(event.query) > -1
+        item => item.toLowerCase().indexOf(event.query.toLowerCase()) > -1
       );
     } else if (this.opened === 'GAODC') {
       this.results = Object.assign([], this.listGaodc).filter(
-        item => item.indexOf(event.query) > -1
+        item => item.toLowerCase().indexOf(event.query.toLowerCase()) > -1
       );
     }
 

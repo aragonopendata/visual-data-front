@@ -10,7 +10,7 @@
                         <div class="content-accordion mb-4">
                             <div>
                                 <div>
-                                    <div>
+                                    <div *ngIf="listCkan?.length>0">
                                         <p-autoComplete tabindex="{{openedMenu ? -1 : 0}}"
                                             aria-label="Seleccionar datos cat&aacute;logo." size="70%"
                                             minQueryLength="0" [dropdown]="true" [(ngModel)]="ckanPackagesInfo"
@@ -91,7 +91,7 @@
                             <accordion-group heading="Gobierno de Aragón Open Data Core GA_OD_Core" (isOpenChange)="whoIsOpen('GAODC')">
                                 <p>GA_OD_Core es una API creada con la finalidad de poder obtener datos de determinadas vistas usadas y servidas actualmente a través del portal Aragón Openda Data. Utiliza estos datos para crear gráficas dentro de tus historias.</p>
                                 <div style="float:left" class="mb-3">
-                                    <div>
+                                    <div *ngIf="listGaodc?.length>0">
                                         <p-autoComplete size="70%" minQueryLength="0" [dropdown]="true" [(ngModel)]="gaodcPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
                                     </div>
                                 </div>
