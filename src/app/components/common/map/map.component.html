@@ -11,6 +11,7 @@
 			<aol-source-tilewms *ngIf="type==='igear'" [url]="'https://idearagon.aragon.es/arcgis/services/AragonReferencia/Basico_NEW/MapServer/WMSServer'" [params]="mapParams"></aol-source-tilewms>
 			<aol-source-osm *ngIf="type==='default'"></aol-source-osm>
 		</aol-layer-tile>
+		<aol-control-zoom [zoomInTipLabel]="'Acercar'" [zoomOutTipLabel]="'Alejar'"></aol-control-zoom>
 		<aol-layer-vector [opacity]="1">
 			<aol-source-vector>
 				<aol-feature [id]="i" *ngFor="let p of points; let i = index" (click)='mapOnClick($event)'>
