@@ -23,7 +23,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {}
 
-  pointerChange(n: number, event) {
+  pointerChange(n: number) {
     if (n === 1) {
       jQuery('#selector').css('cursor', '-webkit-grabbing');
       jQuery('#selector').css('cursor', 'grabbing');

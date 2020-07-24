@@ -4,7 +4,7 @@
 		<button class="mapa-zoom-button top" title="Zoom in" (click)="setZoon(+1)">+</button>
 		<button class="mapa-zoom-button bottom" title="Zoom out" (click)="setZoon(-1)">-</button>
 	</div>
-	<aol-map class="map-disable-drag" [width]="'100%'" [height]="'100%'" (onPointerMove)="mapOnClick($event)" (onPointerDrag)="pointerChange(1, $event)" (onMoveEnd)="pointerChange(0)">
+	<aol-map class="map-disable-drag" [width]="'100%'" [height]="'100%'" (onPointerMove)="mapOnClick($event)" (onPointerDrag)="pointerChange(1)" (onMoveEnd)="pointerChange(0)">
 		<!-- <aol-control-zoom [zoomInTipLabel]="'Acercar'" [zoomOutTipLabel]="'Alejar'"></aol-control-zoom> -->
 		<span *ngIf="turnDescript=='true'">
 			<aol-interaction-default></aol-interaction-default>
