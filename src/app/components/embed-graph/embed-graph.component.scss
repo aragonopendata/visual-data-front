@@ -12,11 +12,16 @@
   min-height: 300px;
 }
 
-.modal-content{
-  overflow-x: scroll;
+.modal{
+  .close{
+    position: absolute;
+    right: 8px;
+  }
 }
 .display-table{
-  display: table;
+  max-height: 90vh;
+  width: calc(100% - 16px);
+  overflow: auto;
 }
 .display-row {
   display: table-row;

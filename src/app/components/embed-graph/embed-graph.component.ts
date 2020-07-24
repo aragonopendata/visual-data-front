@@ -167,34 +167,65 @@ export class EmbedGraphComponent implements OnInit {
   }
 
   private prepareDataTable(chart) {
+
     this.tableData[0] = [''];
+    
+    if ( chart.isMap ) {
+      this.tableData[0].push('longitud');
+      this.tableData[0].push('latitud');
 
-    //header
-    for( let header of chart.data) {
-      this.tableData[0].push(header.label)
-    }
-
-    let x=1;
-    for( let label of chart.labels) {
-      if( !this.tableData[x] ) {
-        this.tableData[x] = [];
-      }
-      this.tableData[x][0] = label;
-      x++;
-    }
-
-    let y = 1;
-    for( let dataGroup of chart.data) {
-      x = 1;
-      for( let data of dataGroup.data) {
+      let x=1;
+      for( let label of chart.descriptions ) {
         if( !this.tableData[x] ) {
           this.tableData[x] = [];
         }
-        this.tableData[x][y] = data;
+        this.tableData[x][0] = label;
         x++;
       }
-      y++;
+
+      x = 1;
+      for( let data of chart.labels) {
+        this.tableData[x][1] = data;
+        x++;
+      }
+
+      x=1
+      for( let dataGroup of chart.data) {
+        for( let data of dataGroup.data) {
+          this.tableData[x][2] = data;
+          x++;
+        }
+      }
+
+    } else {
+      //header
+      for( let header of chart.data) {
+        this.tableData[0].push(header.label)
+      }
+
+      let x=1;
+      for( let label of chart.labels) {
+        if( !this.tableData[x] ) {
+          this.tableData[x] = [];
+        }
+        this.tableData[x][0] = label;
+        x++;
+      }
+
+      let y = 1;
+      for( let dataGroup of chart.data) {
+        x = 1;
+        for( let data of dataGroup.data) {
+          if( !this.tableData[x] ) {
+            this.tableData[x] = [];
+          }
+          this.tableData[x][y] = data;
+          x++;
+        }
+        y++;
+      }
     }
+    
   }
 
   hideEmbedButton(n: number) {
