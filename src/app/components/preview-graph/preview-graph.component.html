@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-12 title-container" style="margin-bottom: 10px">
         <p>
@@ -89,7 +90,11 @@
         </p>
         <p>Navega entre los distintos valores para configurar y personalizar tu gráfica a medida.</p>
     </div>
-    <div class="col-md-4" style="margin-bottom: 10px;">
+    <div class="col-md-12 loading" style="margin-bottom: 10px;" *ngIf="loading">
+        <div class="icon-fa fa fa-circle-o-notch fa-spin fa-3x fa-fw" tabindex="{{openedMenu ? -1 : 0}}"></div><br/><br/>
+    </div>
+
+    <div class="col-md-4" style="margin-bottom: 10px;" *ngIf="!loading">
         <p>
             <strong tabindex="{{openedMenu ? -1 : 0}}">Configuraci&oacute;n</strong>
         </p>
@@ -172,7 +177,7 @@
         </div>
     </div>
 
-    <div class="col-md-8" style="margin-bottom: 10px;display: flex;flex-direction: column;" [style.width.px]="widthGraph">
+    <div class="col-md-8" style="margin-bottom: 10px;display: flex;flex-direction: column;" [style.width.px]="widthGraph" *ngIf="!loading">
         <p>
             <strong>Gr&aacute;fica</strong>
         </p>

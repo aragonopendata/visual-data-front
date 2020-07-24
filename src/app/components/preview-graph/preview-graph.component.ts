@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ import { VisualGrapsService } from '../../services/visual-graps.service';
 })
 export class PreviewGraphComponent implements OnInit, OnDestroy {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
-
+  loading:boolean = false;
   // Data
   data: any;
   columns: string[];
@@ -118,7 +118,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     private graphservice: GraphService,
     private dragulaService: DragulaService,
     private utilsService: UtilsService,
-    private myService: VisualGrapsService
+    private myService: VisualGrapsService,
+    private _cdRef: ChangeDetectorRef
   ) {
 
     this.route.params.subscribe(params => {
@@ -161,7 +162,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
 
     try {
       dragulaService.dragend.subscribe(value => {
+        this.loading = true;
+        this._cdRef.detectChanges();
+        setTimeout(() => {
         this.onDrop(value.slice(1));
+        
+          this.loading = false;
+          this._cdRef.detectChanges();
+        }, 100);
       });
       dragulaService.drop.subscribe(value => {
         if (value[2] && value[2].id === 'move-2') {
@@ -233,6 +241,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   }
 
   onDrop(args) {
+
     // Generate new Legend Array if there are new elements in Data array
     if (this.changeNumberData !== this.columnsData.length) {
       this.legend = [];
@@ -375,19 +384,21 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     //
 
     // The next code is for updating the chart DONT TOUCH
-    if (
-      this.chart !== undefined &&
-      this.chart.chart !== undefined &&
-      !this.chartMap && this.chartType !== 'number'
-    ) {
-      this.chart.chart.destroy();
-      this.chart.chart = 0;
+    // if (
+    //   this.chart !== undefined &&
+    //   this.chart.chart !== undefined &&
+    //   !this.chartMap && this.chartType !== 'number'
+    // ) {
+    //   this.chart.chart.destroy();
+    //   this.chart.chart = 0;
 
-      this.chart.chartType = this.chartType;
-      this.chart.datasets = this.chartData;
-      this.chart.labels = this.chartLabels;
-      this.chart.ngOnInit();
-    }
+    //   this.chart.chartType = this.chartType;
+    //   this.chart.datasets = this.chartData;
+    //   this.chart.labels = this.chartLabels;
+
+    //   this.chart.ngOnInit();
+      
+    // }
   }
 
   onEditComplete(event) {
@@ -409,7 +420,13 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         }
       }
     }
+
+    this.loading = true;
     this.onDrop('refresh');
+    setTimeout(() => {
+      this.loading = false
+    }, 100);
+    
   }
 
   // Delete the drag and drop label of the specify column
@@ -422,7 +439,11 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     } else if (buffer === 3) {
       this.descriptionPoints.splice(index, 1);
     }
+    this.loading = true;
     this.onDrop('refresh');
+    setTimeout(() => {
+      this.loading = false
+    }, 100);
   }
 
   ngOnInit(): void {}
@@ -455,11 +476,19 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     } else if (chart === 4) {
       this.chartType = 'number';
     }
+    this.loading = true;
     this.onDrop('refresh');
+    setTimeout(() => {
+      this.loading = false
+    }, 100);
   }
 
   changeDataNumber() {
+    this.loading = true;
     this.onDrop('refresh');
+    setTimeout(() => {
+      this.loading = false
+    }, 100);
   }
 
   next() {

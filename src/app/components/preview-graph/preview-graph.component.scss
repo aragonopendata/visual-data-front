@@ -10,6 +10,12 @@
   margin: 4px 2px;
   cursor: pointer;
 }
+.loading{
+  text-align: center;
+  >div{
+    color: #0066cc;
+  }
+}
 .title-container{
   text-align: center;
   >p {
