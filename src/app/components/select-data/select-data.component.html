@@ -56,6 +56,36 @@
                     <accordion-group heading="Opciones Avanzadas" tabindex="-1">
                         <accordion  [closeOthers]=true>
   
+                            <accordion-group heading="Añade la url de datos (csv o px) de recursos de *.aragon.es o *unizar.es" (isOpenChange)="whoIsOpen('URL')">
+                                <div class="float-left">
+                                    <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text" placeholder="Introduce la URL del recurso externo (en formato CSV) que quieras utilizar"
+                                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
+                                </div>
+                                <div class="float-left">
+                                    <button type="button" class="button1" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"
+                                        (click)="selectPackage('URL')">Añadir recurso externo</button>
+                                </div>
+                                <div *ngIf="loading[2]" class="loader float-left ml-1"></div>
+                                <div *ngIf="!urlError && errorResponse[2]" class="cross float-left ml-1">&times;</div>
+                                <div *ngIf="!urlError && errorResponse[2]" class="text-danger pt-2"><strong>No se ha podido cargar el recurso, prueba más tarde y si no lo consigue, infórmanos en opendata@aragon.es</strong></div>
+                                <span *ngIf="!urlError" class="text-danger pl-1">
+                                    <strong>{{errorMessage}}</strong>
+                                </span>
+                                <div class="float-left ml-1" style="word-break: break-all">
+                                    <ul>
+                                        <li *ngIf="urlError" class="text-danger pt-1">
+                                            <strong>URL invalida:</strong> Por favor cargue una URL valida
+                                        </li>
+                                        <li *ngIf='packagesSelURL != ""'>
+                                            <strong>DataSet seleccionado:</strong> {{packagesSelURL}}
+                                            <button (click)="deletePackage('URL')" class="button3" tabindex="{{openedMenu ? -1 : 0}}"
+                                                aria-label="Eliminar Datos Cargados">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </accordion-group>
                             <accordion-group heading="SPARQL endpoint" tabindex="-1" (isOpenChange)="whoIsOpen('SPARQL')">
                                 <p>El SPARQL Endpoint consiste en una interfaz Web desde la que se pueden ejecutar consultas SPARQL, en el siguiente punto de entrada: https://opendata.aragon.es/sparql</p>
                                 <div class="float-left mb-3">
@@ -124,41 +154,6 @@
                         </accordion>
                     </accordion-group>
                 </accordion>
-            </div>
-        </div>
-
-        <div class="row mb-5">
-            
-            <div class="col-12">
-                <p class="title-section">Utiliza tus datos o datos de terceros</p>
-                <div class="float-left">
-                    <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text" placeholder="Introduce la URL del recurso externo (en formato CSV) que quieras utilizar"
-                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
-                </div>
-                <div class="float-left">
-                    <button type="button" class="button1" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"
-                        (click)="selectPackage('URL')">Añadir recurso externo</button>
-                </div>
-                <div *ngIf="loading[2]" class="loader float-left ml-1"></div>
-                <div *ngIf="errorResponse[2]" class="cross float-left ml-1">&times;</div>
-                <div *ngIf="errorResponse[2]" class="text-danger pt-2"><strong>No se ha podido cargar el recurso, prueba más tarde y si no lo consigue, infórmanos en opendata@aragon.es</strong></div>
-                <span class="text-danger pl-1">
-                    <strong>{{errorMessage}}</strong>
-                </span>
-                <div class="float-left ml-1" style="word-break: break-all">
-                    <ul>
-                        <li *ngIf="urlError" class="text-danger pt-1">
-                            <strong>URL invalida:</strong> Por favor cargue una URL valida
-                        </li>
-                        <li *ngIf='packagesSelURL != ""'>
-                            <strong>DataSet seleccionado:</strong> {{packagesSelURL}}
-                            <button (click)="deletePackage('URL')" class="button3" tabindex="{{openedMenu ? -1 : 0}}"
-                                aria-label="Eliminar Datos Cargados">
-                                <i class="fa fa-remove"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
 

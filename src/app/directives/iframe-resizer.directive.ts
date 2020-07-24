@@ -15,9 +15,10 @@ export class IFrameResizerDirective implements AfterViewInit, OnDestroy {
         let isOldIE = (navigator.userAgent.indexOf("MSIE") !== -1); // Detect IE10 and below
 
         const components = iframeResizer({
-            heightCalculationMethod: isOldIE ? 'max' : 'lowestElement',
+            heightCalculationMethod: isOldIE ? 'max' : 'grow',
             log: false, 
-            //maxHeight: 600,        
+            //scrolling: true
+            //maxHeight: 1050,        
         }, this.element.nativeElement);
 
         /* save component reference so we can close it later */
