@@ -4,11 +4,75 @@
   border-radius: 5px;
   width: 100%;
 }
+.map-disable-drag{
+  pointer-events:none;
 
+}
 .descript p {
   margin: 0 0 0 10px;
 }
-
+#selector{
+  position: relative;
+  .mapa-zoom-button, 
+  .map-navigation-button{
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 30px;
+    height: 30px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: rgba(0,0,0,0.65);
+    font-size: 18px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.65);
+  }
+  .mapa-zoom-container{
+    position: absolute;
+    top: 0;
+    left: 6px;
+    z-index: 9;
+    .top{
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+    .bottom {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-bottom: none;
+    }
+  }
+  .map-navigation-container{
+    position: absolute;
+    right: 6px;
+    bottom: 0;
+    height: 95px;
+    width: 95px;
+    z-index: 9;
+    .map-navigation-button{
+      &.top{
+        position: absolute;
+        top: 0;
+        left: calc(50% - 15px);
+      }
+      &.bottom{
+        position: absolute;
+        bottom: 0;
+        left: calc(50% - 15px);
+      }
+      &.right{
+        position: absolute;
+        right: 0;
+        top: calc(50% - 15px);
+      }
+      &.left{
+        position: absolute;
+        left: 0;
+        top: calc(50% - 15px);
+      }
+    }
+  }
+}
 #mydiv {
   min-width: 200px;
   width: 100px;
