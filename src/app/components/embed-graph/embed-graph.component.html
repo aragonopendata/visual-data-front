@@ -25,12 +25,11 @@
         <div>{{ chart.number.numberUnits }}</div>
     </div>
     <div *ngIf="points!==undefined && isMap">
-        <div class="col-11">
-            <h3 class="visualTitle">{{title}}
-                <span style="float:right">
-                    <img id="logo" width="200" class="img-fluid" src="/static/public/header/images/AOD-Logo.png">
-                </span>
-            </h3>
+        <div class="col-12">
+            <h3 class="visualTitle">{{title}}</h3>
+            <div style="text-align:right;margin-bottom: 8px;">
+                <img id="logo" width="200" class="img-fluid" src="/static/public/header/images/AOD-Logo.png">
+            </div>
         </div>
         <app-map [descriptionPoints]="descriptions" [points]="points" zoom="8" turnDescript=true></app-map>
     </div>

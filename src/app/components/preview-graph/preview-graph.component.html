@@ -122,7 +122,7 @@
             <p>
                 <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Editar Agrupar Datos"> - Agrupar por:</strong>
             </p>
-            <p-dropdown (onChange)="onEditComplete($event)" [(ngModel)]="groupRow" [options]="headersDropdown" class="ui-fluid"></p-dropdown>
+            <p-dropdown (ngModelChange)="onEditComplete($event)" [(ngModel)]="groupRow" [options]="headersDropdown" class="ui-fluid"></p-dropdown>
         </div>
 
         <div *ngIf="chartType != 'doughnut' && chartType != 'number' && !chartMap" style="margin-top:20px">
