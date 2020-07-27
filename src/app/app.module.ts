@@ -74,6 +74,7 @@ import { ViewHistoryComponent } from './components/histories/view-history/view-h
 import { TinyMceModule } from 'angular-tinymce';
 import { tinymceDefaultSettings } from 'angular-tinymce';
 import { IFrameResizerDirective } from './directives/iframe-resizer.directive';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
 
 // All the routes for the app
 const routes: Routes = [
@@ -158,6 +159,7 @@ const routes: Routes = [
     ModalComponent,
     ViewHistoryComponent,
     IFrameResizerDirective,
+    ClickOutsideDirective
   ],
   providers: [
     DatePipe,

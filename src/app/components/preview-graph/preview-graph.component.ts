@@ -19,7 +19,8 @@ import { VisualGrapsService } from '../../services/visual-graps.service';
 @Component({
   selector: 'app-preview-graph',
   templateUrl: './preview-graph.component.html',
-  styleUrls: ['./preview-graph.component.scss']
+  styleUrls: ['./preview-graph.component.scss'],
+  providers: [DragulaService]
 })
 export class PreviewGraphComponent implements OnInit, OnDestroy {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
@@ -50,7 +51,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       }
     },
     scales: {
-      xAxes: [
+      xAxes: [ 
         {
           ticks: {
             beginAtZero: true,
@@ -165,8 +166,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         this.loading = true;
         this._cdRef.detectChanges();
         setTimeout(() => {
-        this.onDrop(value.slice(1));
-        
+          this.onDrop(value.slice(1));
           this.loading = false;
           this._cdRef.detectChanges();
         }, 100);
@@ -198,7 +198,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
         accepts: function(el, target, source, sibling) {
           return target.id !== 'no-drop'; // elements can be dropped in any of the `containers` by default
         }
-      });
+      }); 
     } catch (error) {}
 
     if (
@@ -422,9 +422,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    this.onDrop('refresh');
     setTimeout(() => {
-      this.loading = false
+      this.onDrop('refresh');
+      this.loading = false;
+      this._cdRef.detectChanges();
     }, 100);
     
   }
@@ -440,9 +441,10 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       this.descriptionPoints.splice(index, 1);
     }
     this.loading = true;
-    this.onDrop('refresh');
     setTimeout(() => {
-      this.loading = false
+      this.onDrop('refresh');
+      this.loading = false;
+      this._cdRef.detectChanges();
     }, 100);
   }
 
@@ -477,17 +479,20 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
       this.chartType = 'number';
     }
     this.loading = true;
-    this.onDrop('refresh');
+    
     setTimeout(() => {
-      this.loading = false
+      this.onDrop('refresh');
+      this.loading = false;
+      this._cdRef.detectChanges();
     }, 100);
   }
 
   changeDataNumber() {
     this.loading = true;
-    this.onDrop('refresh');
     setTimeout(() => {
-      this.loading = false
+      this.onDrop('refresh');
+      this.loading = false;
+      this._cdRef.detectChanges();
     }, 100);
   }
 
