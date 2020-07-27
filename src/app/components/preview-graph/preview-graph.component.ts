@@ -37,6 +37,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   public columnsLabel: Array<string> = [];
   public descriptionPoints: Array<string> = [];
   nextStep: string;
+  editLeyend: boolean = false;
   type = 'all';
   public axisXActivator = 0;
   
@@ -399,6 +400,14 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
     //   this.chart.ngOnInit();
       
     // }
+  }
+
+  saveLeyend(event){
+
+    if( this.editLeyend ){
+      this.onEditComplete(event) ;
+      this.editLeyend = false;
+    }
   }
 
   onEditComplete(event) {

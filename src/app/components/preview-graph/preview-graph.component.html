@@ -129,7 +129,7 @@
             <p>
                 <strong> - Leyenda</strong>
             </p>
-            <p-dataTable [value]="legend" [editable]="true" (onEditComplete)="onEditComplete($event)" (clickOutside)="onEditComplete($event)">
+            <p-dataTable [value]="legend" [editable]="true" (onEditInit)="this.editLeyend=true" (onEditComplete)="onEditComplete($event)" (clickOutside)="saveLeyend($event)">
                 <p-column field="label" header="Leyenda (Modificar)" [editable]="true"></p-column>
             </p-dataTable>
         </div>
