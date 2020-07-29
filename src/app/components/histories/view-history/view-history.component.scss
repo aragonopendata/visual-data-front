@@ -186,6 +186,7 @@
                 &.reverse {
                     flex-direction: column-reverse;
                     .view-history-content__text {
+                        margin: 0;
                         margin-bottom: 0;
                         margin-top: 48px;
                     }

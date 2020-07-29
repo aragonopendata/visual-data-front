@@ -77,9 +77,11 @@ export class EmbedGraphComponent implements OnInit {
       this.graphservice
         .getChart(urlId)
         .subscribe(chart => {
-          this.prepareDataTable(chart);
+          
           this.graphservice.downloadProcess(urlId).subscribe(
             process => {
+
+              this.prepareDataTable(chart, process);
               this.chart = chart;
               this.title = chart.title;
               this.widthGraph = chart.width;
@@ -166,9 +168,18 @@ export class EmbedGraphComponent implements OnInit {
     }
   }
 
-  private prepareDataTable(chart) {
+  private prepareDataTable(chart, process) {
 
     this.tableData[0] = [''];
+
+    if ( !chart.isMap ){
+      this.tableData[0] = [process.columnsLabel[0]];
+    } else {
+      this.tableData[0] = [];
+      for( let desc of process.columnsDescription ) {
+        this.tableData[0].push(desc)
+      }
+    }
     
     if ( chart.isMap ) {
       this.tableData[0].push('longitud');
@@ -176,23 +187,29 @@ export class EmbedGraphComponent implements OnInit {
 
       let x=1;
       for( let label of chart.descriptions ) {
-        if( !this.tableData[x] ) {
-          this.tableData[x] = [];
+
+        let y = 0;
+        let data = label.split('-');
+        for( let value of data ){
+          if( !this.tableData[x] ) {
+            this.tableData[x] = [];
+          }
+          this.tableData[x][y] = value.trim();
+          y++;
         }
-        this.tableData[x][0] = label;
         x++;
       }
 
       x = 1;
       for( let data of chart.labels) {
-        this.tableData[x][1] = data;
+        this.tableData[x][process.columnsDescription.length] = data;
         x++;
       }
 
       x=1
       for( let dataGroup of chart.data) {
         for( let data of dataGroup.data) {
-          this.tableData[x][2] = data;
+          this.tableData[x][process.columnsDescription.length+1] = data;
           x++;
         }
       }
