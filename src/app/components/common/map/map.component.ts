@@ -17,21 +17,14 @@ export class MapComponent implements OnInit {
   description: any;
   mapParams={LAYERS: '0,2,4,5,6,8,9,10,11,12,13,14,15,16,17,18,19'}
 
+
+
   x = -0.9056623;
   y = 41.5976275;
   constructor() {}
 
   ngOnInit() {}
 
-  pointerChange(n: number) {
-    if (n === 1) {
-      jQuery('#selector').css('cursor', '-webkit-grabbing');
-      jQuery('#selector').css('cursor', 'grabbing');
-    } else {
-      // jQuery('#selector').css('cursor', '-webkit-grab');
-      // jQuery('#selector').css('cursor', 'grab');
-    }
-  }
   setZoon(val: number){
     if( val<0 && this.zoom>8 ){
       this.zoom = (parseInt(this.zoom)+val).toString();
@@ -40,17 +33,9 @@ export class MapComponent implements OnInit {
     }
   }
 
-  setX(val: number){
-    this.x =this.x+val;
-    console.log(this.x)
-  }
-
-  setY(val: number){
-    this.y = this.y+val;
-    console.log(this.y)
-  }
 
   mapOnClick(evt) {
+
     if (this.turnDescript === 'true') {
       const map = evt.map;
       this.description = '';

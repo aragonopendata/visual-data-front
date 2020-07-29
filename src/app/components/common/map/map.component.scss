@@ -4,10 +4,7 @@
   border-radius: 5px;
   width: 100%;
 }
-.map-disable-drag{
-  pointer-events:none;
 
-}
 .descript p {
   margin: 0 0 0 10px;
 }
@@ -42,36 +39,7 @@
       border-bottom: none;
     }
   }
-  .map-navigation-container{
-    position: absolute;
-    right: 6px;
-    bottom: 0;
-    height: 95px;
-    width: 95px;
-    z-index: 9;
-    .map-navigation-button{
-      &.top{
-        position: absolute;
-        top: 0;
-        left: calc(50% - 15px);
-      }
-      &.bottom{
-        position: absolute;
-        bottom: 0;
-        left: calc(50% - 15px);
-      }
-      &.right{
-        position: absolute;
-        right: 0;
-        top: calc(50% - 15px);
-      }
-      &.left{
-        position: absolute;
-        left: 0;
-        top: calc(50% - 15px);
-      }
-    }
-  }
+
 }
 #mydiv {
   min-width: 200px;
