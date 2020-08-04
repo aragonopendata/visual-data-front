@@ -28,6 +28,7 @@ export class ViewHistoryComponent implements OnInit {
   loading : boolean = true;
   errorTitle: string;
   errorMessage: string;
+  notFound: boolean = false;
   isAdmin: boolean=false;
   admin: Object={};
   categories: Category[]=[];
@@ -37,6 +38,7 @@ export class ViewHistoryComponent implements OnInit {
   bodyContents: Content[];
   aditionalInfo2 :AditionalInfo[]=[];
   imageUrl: string;
+  routerLinkHome = Constants.ROUTER_LINK_SERVICES_FOCUS;
 
   constructor( public historiesService: HistoriesService, private _route: ActivatedRoute, private _verifyTokenService: AuthGuard, 
     private utilsService: UtilsService, private graphservice: GraphService, private sanitized: DomSanitizer) { 
@@ -140,18 +142,17 @@ export class ViewHistoryComponent implements OnInit {
       else{
         this.historiesService.getHistoryBackUserByUrl(this.urlHistory).subscribe( response => {
           if(response.success){
-
             this.loadImageByMainCategory(response.history.main_category?response.history.main_category:null)
-
-
             if(response.history.secondary_categories!=[]&&response.history.secondary_categories!=undefined){
-            this.getCategories(response.history);
+              this.getCategories(response.history);
             }
-          }
-          else{
+            this.responseHistory(response)
+          } else if( response.status === 404) {
+            this.notFound = true;
+            this.loading=false;
+          } else{
             this.objectLoadFailure()
           }
-          this.responseHistory(response)
         },err => {
           this.objectLoadFailure()
         });
