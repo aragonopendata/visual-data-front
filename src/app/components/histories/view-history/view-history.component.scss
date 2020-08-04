@@ -6,7 +6,24 @@
         font-weight: 400;
     }
 }
-
+.not-found{
+    min-height: calc(100vh - 642px);
+    display: flex;
+    align-items: center;
+    >div{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i{
+            font-size: 38px;
+            margin-right: 18px;
+        }
+        .not-found-title{
+            font-size: 28px !important;
+        }
+    }
+}
 .view-history-container {
     margin-right: -15px;
     margin-left: -15px;

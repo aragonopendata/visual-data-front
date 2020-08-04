@@ -17,6 +17,18 @@
   </div>
 </div>
 
+<!-- 404 -->
+<div class="container not-found" *ngIf="notFound">
+  <div class="alert alert-info" role="alert">
+    <i class="fa fa-info-circle"></i>
+    <div>
+      <p class='not-found-title'>La historia a la que intenta acceder no existe</p>
+      <p>Puede consultar las historias disponibles a través de este <a title='Home Open Data Focus' routerLink="/{{routerLinkHome}}">link</a></p>
+    </div>
+    
+  </div>
+</div>
+
 <!-- Loading -->
 <div class="loading text-center" *ngIf="loading">
   <div class="loadingText">Cargando historia</div><br/><br/>
@@ -44,13 +56,13 @@
         <div class="view-history-subtitle__description">
           <p [innerHTML]="historySelect.description" tabindex="{{openedMenu ? -1 : 0}}"></p>
         </div>
-        <div class="view-history-subtitle__values" *ngIf="aditionalInfo && aditionalInfo.length > 0">
+        <!-- <div class="view-history-subtitle__values" *ngIf="aditionalInfo && aditionalInfo.length > 0">
           <div *ngFor="let info of orderAdditionalInfo(); let i = index" class="view-history-subtitle__value" tabindex="{{openedMenu ? -1 : 0}}">
             <div class="number">{{info.value}}</div>
             <div class="text">{{info.text}}</div>
             <span class="sr-only">{{info.text}}: {{info.value}}</span> 
           </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="view-history-categories" *ngIf="selectedCategories.length != 0">

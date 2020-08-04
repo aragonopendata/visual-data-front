@@ -94,7 +94,10 @@ b {
 .focus p{
   font-family: "OpenSans-Regular", sans-serif !important;
   font-size: 18px !important;
-  word-break: break-all;
+  a{
+    word-break: break-word;
+  }
+  
 }
 
 .focus .view-history-subtitle__description a{
