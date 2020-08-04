@@ -67,26 +67,26 @@
             <angular-tinymce #description *ngIf="settings" placeholder="Introduzca el título de la historia" tabindex="{{openedMenu ? -1 : 0}}" id="editor" [settings]="settings" formControlName="description" (keyup)="checkLongDescription($event)" (paste)="checkLongDescription($event)"></angular-tinymce>
           </div> 
 
-          <h3 tabindex="{{openedMenu ? -1 : 0}}">Valores globales</h3>
+          <!-- <h3 tabindex="{{openedMenu ? -1 : 0}}">Valores globales</h3>
 
-          <div class="create-history-subtitle__values">
+          <div class="create-history-subtitle__values"> -->
 
             <!-- valores globales seleccionados -->
-            <ng-container *ngIf="contentsHeader && contentsHeader.length > 0">
+            <!-- <ng-container *ngIf="contentsHeader && contentsHeader.length > 0">
               <div class="create-history-subtitle__value" *ngFor="let content of orderHeaderContents(); let i = index" >
                 <div tabindex="{{openedMenu ? -1 : 0}}" title="eliminar" class="icon fa fa-trash" (click)="deleteContent(content)"></div>
                 <div class="number">{{content.aditionalInfo.value}}</div>
                 <div class="text">{{content.aditionalInfo.text}}</div>
               </div>
-            </ng-container>
+            </ng-container> -->
 
             <!-- anadir nuevo valor global -->
-            <div class="create-history-subtitle__add-value" (click)="addValues()">
+            <!-- <div class="create-history-subtitle__add-value" (click)="addValues()">
               <div ctitle="edit" class="icon fa fa-plus"></div> 
               <span>Añadir valor global</span>
             </div>
               
-          </div>
+          </div> -->
       </div>
 
       <!-- CATEGORIZACION DE LA HISTORIA -->
