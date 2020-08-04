@@ -227,22 +227,9 @@ export class HistoriesService {
   }
   
   private urlSlideShare(id: string) {
-
     return new Promise((resolve, reject) => {
-
-      let url = "https://www.slideshare.net/"+id;
-      var urlSlideEmbed;
-      
-      this.getEmbedUrlSlideShare(url).subscribe( (response:any) => {
-        if(response.html){
-          let iframeInfo=response.html
-          urlSlideEmbed = iframeInfo.substring(
-            iframeInfo.lastIndexOf("https://www.slideshare.net/slideshow/embed_code/key/"), 
-            iframeInfo.lastIndexOf("\" width=")
-          );
-          resolve(this._sanitizer.bypassSecurityTrustResourceUrl(urlSlideEmbed));
-        }
-      });
+      let url = "https://www.slideshare.net/slideshow/embed_code/key/"+id;
+      resolve(this._sanitizer.bypassSecurityTrustResourceUrl(url));
     });
   }
 

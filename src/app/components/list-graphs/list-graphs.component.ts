@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/switchMap';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, NavigationError } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { GraphService } from '../../services/graph.service';
@@ -14,6 +14,7 @@ import { DOCUMENT } from '@angular/common';
 import { VisualGrapsService } from '../../services/visual-graps.service';
 
 import { UtilsService } from '../exportedFunctions/utils.service';
+import { NavigationService } from '../../services/navigation.service';
 
 declare var jQuery: any;
 
@@ -86,7 +87,8 @@ export class ListGraphsComponent implements OnInit {
     private listGraphService: GraphService,
     private utilsGraphService: UtilsGraphService, 
     private utilsService: UtilsService,
-    private myService: VisualGrapsService) {
+    private myService: VisualGrapsService,
+    private _navigationService: NavigationService) {
     // Check if the browser is IE
     const ua = window.navigator.userAgent;
 
@@ -237,7 +239,8 @@ export class ListGraphsComponent implements OnInit {
     }
   }
 
-  next() {
+  next() { 
+    this._navigationService.reset();
     this.router.navigate([{outlets: {modal: 'visualData/selectData/'+this.type}}]);
   }
 

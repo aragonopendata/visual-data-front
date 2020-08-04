@@ -1,15 +1,9 @@
 import 'rxjs/add/operator/switchMap';
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Http } from '@angular/http';
-import { AccordionModule } from 'ngx-accordion';
-import {
-  AutoCompleteModule,
-  InputTextModule,
-  InputTextareaModule
-} from 'primeng/primeng';
 import { CkanService } from '../../services/ckan.service';
 import { GaodcService } from '../../services/gaodc.service';
 import { VirtuosoService } from '../../services/virtuoso.service';
@@ -20,6 +14,8 @@ import { parseCSVFile } from '../exportedFunctions/lib';
 import { parsePXFile } from '../exportedFunctions/lib';
 import { UtilsService } from '../exportedFunctions/utils.service';
 import { Constants } from '../../app.constants';
+import { NavigationService } from '../../services/navigation.service';
+import { AccordionPanelComponent } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-select-data',
@@ -29,19 +25,10 @@ import { Constants } from '../../app.constants';
 })
 export class SelectDataComponent implements OnInit, OnDestroy {
   // Identify what dataset are we using
-  opened: string;
 
   openedWithURL: string;
 
-  tableToShow: number;
-
   results: string[];
-
-  dataTable: any;
-
-  resourcesPackages: any;
-
-  headerTable: string[];
 
   // Loading dataset
 
@@ -66,24 +53,9 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   listGaodc: string[];
 
-  // Select packages and List packages
-
-  ckanPackagesInfo: string;
-
-  gaodcPackagesInfo: string;
-
-  urlPackagesInfo: string;
-
-  virtuosoPackagesInfo: string;
-
   packagesInfo: string;
   resourceInfo: string; //Selected resource from a package
   formatDataInfo: string; //CSV, PX...
-
-  packagesSelCKAN: string;
-  packagesSelGAODC: string;
-  packagesSelURL: string;
-  packagesSelSPARQL: string;
 
   baseUrlOpenData: string;
 
@@ -91,6 +63,13 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   type = 'all';
 
   gaodcDataExcluded = [78,79,80,81,82,83,84,85,266,267];
+
+  @ViewChild('accordionCkan') accordionCkan: AccordionPanelComponent;
+  @ViewChild('accordionOptions') accordionOptions: AccordionPanelComponent;
+
+  @ViewChild('accordionUrl') accordionUrl: AccordionPanelComponent;
+  @ViewChild('accordionSPARQL') accordionSPARQL: AccordionPanelComponent;
+  @ViewChild('accordionGAODC') accordionGAODC: AccordionPanelComponent;
 
   constructor(
     private ckanservice: CkanService,
@@ -103,23 +82,29 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     public dataservice: ShareDataService,
     public utilsGraphService: UtilsGraphService,
     private http: Http,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    public navigationService: NavigationService
   ) {
 
     this.route.params.subscribe(params => {
       this.type=params.type; 
     });
 
-    this.opened = 'URL';
-    this.tableToShow = 0;
+    if ( !this.navigationService.opened ){
+      this.navigationService.opened = 'URL';
+    }
+    
+    //this.tableToShow = 0;
     this.listCkan = ['Cargando Espere'];
     this.listCkanNames = ['Cargando Espere'];
     this.listGaodc = ['Cargando Espere'];
-    this.packagesSelCKAN = '';
-    this.packagesSelURL = '';
-    this.packagesSelSPARQL = '';
-    this.packagesSelGAODC = '';
-    this.headerTable = [];
+    
+    // this.packagesSelCKAN = '';
+    // this.packagesSelURL = '';
+    // this.packagesSelSPARQL = '';
+    // this.packagesSelGAODC = '';
+    
+    //this.headerTable = [];
     this.loading = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
     this.errorResponse = [false, false, false, false]; // CKAN, GAODC, URL, VIRTUOSO
     this.nextStep = true;
@@ -131,6 +116,26 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const aux = [];
+
+    setTimeout(() => {
+
+      if( this.navigationService.isOpened ){
+        if ( this.navigationService.opened === 'CKAN' ) {
+          this.accordionCkan.isOpen = true;
+        } else {
+          this.accordionOptions.isOpen = true;
+          if ( this.navigationService.opened === 'URL' ) {
+            this.accordionUrl.isOpen = true;
+          } else if ( this.navigationService.opened === 'SPARQL' ) {
+            this.accordionSPARQL.isOpen = true;
+          } else if ( this.navigationService.opened === 'GAODC' ) {
+            this.accordionGAODC.isOpen = true;
+          }
+        }
+      }
+      
+    }, 100);
+
     //Prepare the ckan list of packages
     this.ckanservice.getPackageList().subscribe(
       data => {
@@ -192,56 +197,56 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.opened !== 'URL') {
-      this.dataservice.type = this.opened;
+    if (this.navigationService.opened !== 'URL') {
+      this.dataservice.type = this.navigationService.opened;
     } else {
       if (this.openedWithURL === 'GAODC') {
         this.dataservice.type = this.openedWithURL;
       } else {
         this.dataservice.type = 'URL';
-        this.dataservice.url = this.ckanPackagesInfo;
+        this.dataservice.url = this.navigationService.ckanPackagesInfo;
       }
     }
-    if (this.opened === 'CKAN') {
-      this.dataservice.ckanDataset = Constants.AOD_BASE_URL + '/' + Constants.ROUTER_LINK_DATA_CATALOG_DATASET + '/' + this.packagesSelCKAN;
+    if (this.navigationService.opened === 'CKAN') {
+      this.dataservice.ckanDataset = Constants.AOD_BASE_URL + '/' + Constants.ROUTER_LINK_DATA_CATALOG_DATASET + '/' + this.navigationService.packagesSelCKAN;
       this.dataservice.url = this.resourceInfo;
       this.dataservice.datasetSelected = this.formatDataInfo;
     } else {
       this.dataservice.datasetSelected = this.packagesInfo;
     }
 
-    this.dataservice.datasetHeader = this.headerTable;
-    this.dataservice.dataset = this.dataTable;
+    this.dataservice.datasetHeader = this.navigationService.headerTable;
+    this.dataservice.dataset = this.navigationService.dataTable;
   }
   //Where to call depending on the user input CKAN, Virtuoso, URL...
   selectPackage(resource = null) {
-    this.tableToShow = 1;
-    this.dataTable = null;
-    this.packagesSelCKAN = '';
-    this.packagesSelURL = '';
-    this.packagesSelSPARQL = '';
-    this.packagesSelGAODC = '';
+    this.navigationService.tableToShow = 1;
+    this.navigationService.dataTable = null;
+    this.navigationService.packagesSelCKAN = '';
+    this.navigationService.packagesSelURL = '';
+    this.navigationService.packagesSelSPARQL = '';
+    this.navigationService.packagesSelGAODC = '';
 
-    this.opened = resource!==null ? resource : this.opened;
-    if (this.opened === 'CKAN') {
+    this.navigationService.opened = resource!==null ? resource : this.navigationService.opened;
+    if (this.navigationService.opened === 'CKAN') {
       this.errorResponse[0] = false;
-      const exist = this.listCkan.findIndex(x => x === this.ckanPackagesInfo);
-      if (exist > -1 && this.ckanPackagesInfo !== '') {
+      const exist = this.listCkan.findIndex(x => x === this.navigationService.ckanPackagesInfo);
+      if (exist > -1 && this.navigationService.ckanPackagesInfo !== '') {
         this.loading[0] = true;
 
         this.ckanCall(this.listCkanNames[exist], false);
       }
-    } else if (this.opened === 'GAODC') {
-      const exist = this.listGaodc.findIndex(x => x === this.gaodcPackagesInfo);
+    } else if (this.navigationService.opened === 'GAODC') {
+      const exist = this.listGaodc.findIndex(x => x === this.navigationService.gaodcPackagesInfo);
       if (exist > -1) {
         // Missing this.packagesSelGAODC != ""
         this.loading[1] = true;
 
-        this.gaodcCall(this.gaodcPackagesInfo, exist + 1);
+        this.gaodcCall(this.navigationService.gaodcPackagesInfo, exist + 1);
       }
-    } else if (this.opened === 'URL') {
-      this.tableToShow = 0;
-      if (this.urlPackagesInfo !== '') {
+    } else if (this.navigationService.opened === 'URL') {
+      this.navigationService.tableToShow = 0;
+      if (this.navigationService.urlPackagesInfo !== '') {
         this.urlError = false;
         this.loading[2] = true;
 
@@ -249,27 +254,27 @@ export class SelectDataComponent implements OnInit, OnDestroy {
         const checker = this.checkURL();
         if (checker >= 0) {
           // Correct link
-          this.gaodcCall(this.urlPackagesInfo, checker);
+          this.gaodcCall(this.navigationService.urlPackagesInfo, checker);
         } else if (checker === -1) {
           this.ckanCall(
-            this.urlPackagesInfo.substr(50, this.urlPackagesInfo.length - 1),
+            this.navigationService.urlPackagesInfo.substr(50, this.navigationService.urlPackagesInfo.length - 1),
             true
           );
         } else if (checker === -2) {
-          this.urlCall(this.urlPackagesInfo);
+          this.urlCall(this.navigationService.urlPackagesInfo);
         } else {
-          this.packagesSelURL = '';
+          this.navigationService.packagesSelURL = '';
           this.loading[2] = false;
           this.errorResponse[2] = true;
           this.urlError = true;
         }
       }
-    } else if (this.opened === 'SPARQL') {
-      if (this.virtuosoPackagesInfo !== '') {
+    } else if (this.navigationService.opened === 'SPARQL') {
+      if (this.navigationService.virtuosoPackagesInfo !== '') {
         this.querryError = false;
         this.loading[3] = true;
 
-        this.virtuosoCall(this.virtuosoPackagesInfo); 
+        this.virtuosoCall(this.navigationService.virtuosoPackagesInfo); 
       }
     }
   }
@@ -287,11 +292,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
     // GAODC Test URL
     if (
-      this.urlPackagesInfo !== undefined &&
-      this.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]
+      this.navigationService.urlPackagesInfo !== undefined &&
+      this.navigationService.urlPackagesInfo.substr(0, 54) === url_ToCkeck[0]
     ) {
       const n_package = Number(
-        this.urlPackagesInfo.substr(54, this.urlPackagesInfo.length - 1)
+        this.navigationService.urlPackagesInfo.substr(54, this.navigationService.urlPackagesInfo.length - 1)
       );
 
       if (n_package.toString() !== 'NaN') {
@@ -301,15 +306,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       }
     }
     if (
-      this.urlPackagesInfo !== undefined &&
-      this.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]
+      this.navigationService.urlPackagesInfo !== undefined &&
+      this.navigationService.urlPackagesInfo.substr(0, 50) === url_ToCkeck[1]
     ) {
       return -1;
     } else {
       // OTher URL
       const expression = /(aragon\.es|unizar\.es)\//gi;
       const regex = new RegExp(expression);
-      if (this.urlPackagesInfo && this.urlPackagesInfo.match(regex)) {
+      if (this.navigationService.urlPackagesInfo && this.navigationService.urlPackagesInfo.match(regex)) {
         return -2;
       } else {
         return -3;
@@ -320,7 +325,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   //Retrieve the list of data from a package
   ckanCall(namePackage: string, url: boolean) {
     if (url === false) {
-      this.packagesSelCKAN = namePackage;
+      this.navigationService.packagesSelCKAN = namePackage;
     }
 
     this.ckanservice.getPackageInfo([namePackage]).subscribe(
@@ -340,20 +345,20 @@ export class SelectDataComponent implements OnInit, OnDestroy {
             }
           });
           //Now we create a normal array without the duplicate entries
-          this.resourcesPackages = [];
+          this.navigationService.resourcesPackages = [];
           for (const key in prepareResource) {
-            this.resourcesPackages.push(prepareResource[key]);
+            this.navigationService.resourcesPackages.push(prepareResource[key]);
           }
           this.loading[0] = false;
         } else {
-          this.packagesSelCKAN = '';
+          this.navigationService.packagesSelCKAN = '';
           this.loading[0] = false;
           this.errorResponse[0] = true;
         }
       },
       error => {
         console.log(error);
-        this.packagesSelCKAN = '';
+        this.navigationService.packagesSelCKAN = '';
         this.loading[0] = false;
         this.errorResponse[0] = true;
       }
@@ -373,36 +378,36 @@ export class SelectDataComponent implements OnInit, OnDestroy {
           if (data.result.length !== 0) {
             data.result.forEach((element, index) => {
               if (index === 0) {
-                this.headerTable = [];
-                this.dataTable = [];
+                this.navigationService.headerTable = [];
+                this.navigationService.dataTable = [];
               }
 
               if (element.format === 'PX') {
                 const resultado = parsePXFile(element.data);
-                this.headerTable = resultado[0];
-                this.dataTable = resultado[1];
+                this.navigationService.headerTable = resultado[0];
+                this.navigationService.dataTable = resultado[1];
                 this.loading[0] = false;
               } else if (element.format === 'CSV') {
                 const resultado = parseCSVFile(element.data, index);
-                this.headerTable = resultado[0];
-                this.dataTable = this.dataTable.concat(resultado[1]);
+                this.navigationService.headerTable = resultado[0];
+                this.navigationService.dataTable = this.navigationService.dataTable.concat(resultado[1]);
                 this.loading[0] = false;
               } else {
-                this.packagesSelCKAN = '';
+                this.navigationService.packagesSelCKAN = '';
                 this.loading[0] = false;
                 this.errorResponse[0] = true;
               }
               this.loading[2] = false;
             });
           } else {
-            this.packagesSelCKAN = '';
+            this.navigationService.packagesSelCKAN = '';
             this.loading[0] = false;
             this.errorResponse[0] = true;
           }
         },
         error => {
           console.log(error);
-          this.packagesSelCKAN = '';
+          this.navigationService.packagesSelCKAN = '';
           this.loading[0] = false;
           this.errorResponse[0] = true;
         }
@@ -415,36 +420,36 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   urlCall(namePackage: string) {
     this.errorResponse[2] = false;
     this.errorMessage = '';
-    this.packagesSelURL = namePackage;
-    this.urlPackagesInfo = namePackage;
-    this.urlservice.getPackageInfo(this.packagesSelURL).subscribe(
+    this.navigationService.packagesSelURL = namePackage;
+    this.navigationService.urlPackagesInfo = namePackage;
+    this.urlservice.getPackageInfo(this.navigationService.packagesSelURL).subscribe(
       data => {
         this.packagesInfo = namePackage;
         if (data.result.length !== 0) {
           if (data.result[0].format === 'PX') {
             const resultado = parsePXFile(data.result[0].data);
-            this.headerTable = resultado[0];
-            this.dataTable = resultado[1];
+            this.navigationService.headerTable = resultado[0];
+            this.navigationService.dataTable = resultado[1];
             this.loading[2] = false;
           } else if (data.result[0].format === 'CSV') {
             const resultado = parseCSVFile(data.result[0].data, 0);
-            this.headerTable = resultado[0];
-            this.dataTable = resultado[1];
+            this.navigationService.headerTable = resultado[0];
+            this.navigationService.dataTable = resultado[1];
             this.loading[2] = false;
           } else if (data.result[0].format === '{"Error": "Not CSV or PX"}') {
             this.loading[2] = false;
             this.errorResponse[2] = true;
-            this.packagesSelURL = '';
+            this.navigationService.packagesSelURL = '';
             this.errorMessage = data.result[0].data.errorMessage;
           }
         } else {
-          this.packagesSelURL = '';
+          this.navigationService.packagesSelURL = '';
           this.loading[2] = false;
           this.errorResponse[2] = true;
         }
       },
       error => {
-        this.packagesSelURL = '';
+        this.navigationService.packagesSelURL = '';
         this.loading[2] = false;
         this.errorResponse[2] = true;
       }
@@ -452,11 +457,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   gaodcCall(name: string, numberPackage: number) {
-    this.packagesSelGAODC = name;
+    this.navigationService.packagesSelGAODC = name;
     this.gaodcservice.getPackageInfo(numberPackage).subscribe(data => {
-      this.headerTable = data[0];
+      this.navigationService.headerTable = data[0];
       data.splice(0, 1);
-      this.dataTable = data;
+      this.navigationService.dataTable = data;
 
       this.openedWithURL = 'GAODC';
 
@@ -472,23 +477,23 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   virtuosoCall(namePackage: string) {
-    this.packagesSelSPARQL = this.virtuosoPackagesInfo;
+    this.navigationService.packagesSelSPARQL = this.navigationService.virtuosoPackagesInfo;
 
-    this.virtuososervice.getPackageInfo([this.packagesSelSPARQL]).subscribe(
+    this.virtuososervice.getPackageInfo([this.navigationService.packagesSelSPARQL]).subscribe(
       data => {
-        this.headerTable = data.head.vars;
-        this.dataTable = [];
+        this.navigationService.headerTable = data.head.vars;
+        this.navigationService.dataTable = [];
         this.utilsGraphService.virtuosoPInitialTable(
           data,
-          this.headerTable,
-          this.dataTable
+          this.navigationService.headerTable,
+          this.navigationService.dataTable
         );
 
-        this.packagesInfo = this.virtuosoPackagesInfo;
+        this.packagesInfo = this.navigationService.virtuosoPackagesInfo;
         this.loading[3] = false;
       },
       error => {
-        this.packagesSelSPARQL = '';
+        this.navigationService.packagesSelSPARQL = '';
         this.querryError = true;
         this.loading[3] = false;
       }
@@ -502,11 +507,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     );
     */
 
-    if (this.opened === 'CKAN') {
+    if (this.navigationService.opened === 'CKAN') {
       this.results = Object.assign([], this.listCkan).filter(
         item => item.toLowerCase().indexOf(event.query.toLowerCase()) > -1
       );
-    } else if (this.opened === 'GAODC') {
+    } else if (this.navigationService.opened === 'GAODC') {
       this.results = Object.assign([], this.listGaodc).filter(
         item => item.toLowerCase().indexOf(event.query.toLowerCase()) > -1
       );
@@ -516,15 +521,15 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   deletePackage(name) {
     if (name === 'CKAN') {
-      this.packagesSelCKAN = '';
+      this.navigationService.packagesSelCKAN = '';
     }
     if (name === 'URL') {
-      this.packagesSelURL = '';
+      this.navigationService.packagesSelURL = '';
     }
     if (name === 'SPARQL') { 
-      this.packagesSelSPARQL = '';
+      this.navigationService.packagesSelSPARQL = '';
     }
-    this.dataTable = undefined;
+    this.navigationService.dataTable = undefined;
   }
 
   goBack(): void {
@@ -558,11 +563,11 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   next() {
     if (
-      ((this.opened === 'CKAN' && !this.loading[0]) ||
-        (this.opened === 'GAODC' && !this.loading[1]) ||
-        (this.opened === 'URL' && !this.loading[2]) ||
-        (this.opened === 'SPARQL' && !this.loading[3])) &&
-      this.dataTable
+      ((this.navigationService.opened === 'CKAN' && !this.loading[0]) ||
+        (this.navigationService.opened === 'GAODC' && !this.loading[1]) ||
+        (this.navigationService.opened === 'URL' && !this.loading[2]) ||
+        (this.navigationService.opened === 'SPARQL' && !this.loading[3])) &&
+      this.navigationService.dataTable
     ) {
       //this.router.navigate(['/previewData/']);
       this.router.navigate([{outlets: {modal: 'visualData/previewData/'+this.type}}]);
@@ -583,10 +588,26 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   whoIsOpen(who) {
-    this.opened = who;
 
-    this.dataTable = null;
+    if( this.navigationService.opened !== who) {
+      this.navigationService.dataTable = null;
+      this.navigationService.gaodcPackagesInfo = "";
+    }
+    this.navigationService.isOpened = false;
+    if ( this.accordionCkan.isOpen || this.accordionGAODC || this.accordionSPARQL || this.accordionUrl ){
+      this.navigationService.isOpened = true;
+    }
+    
+    this.navigationService.opened = who;    
+    
+  }
 
-    this.gaodcPackagesInfo = "";
+  resetData() {
+    this.navigationService.dataTable = null;
+    if ( this.navigationService.opened === 'GAODC' ) {
+      this.navigationService.packagesSelGAODC = '';
+    } if ( this.navigationService.opened === 'CKAN' ) {
+      this.navigationService.packagesSelCKAN = '';
+    }
   }
 }

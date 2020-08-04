@@ -6,15 +6,15 @@
             <div class="col-12" tabindex="-1" *ngIf="!openedMenu">
                 <p class="title-section">Utiliza tus datos de Aragón Open Data</p>
                 <accordion [closeOthers]=true>
-                    <accordion-group heading="Buscar en el Banco de datos de Aragón Open Data" tabindex="-1" (isOpenChange)="whoIsOpen('CKAN')" class="principalOption">
+                    <accordion-group #accordionCkan heading="Buscar en el Banco de datos de Aragón Open Data" tabindex="-1" (isOpenChange)="whoIsOpen('CKAN')" class="principalOption">
                         <div class="content-accordion mb-4">
                             <div>
                                 <div>
                                     <div *ngIf="listCkan?.length>0">
                                         <p-autoComplete tabindex="{{openedMenu ? -1 : 0}}"
                                             aria-label="Seleccionar datos cat&aacute;logo." size="70%"
-                                            minQueryLength="0" [dropdown]="true" [(ngModel)]="ckanPackagesInfo"
-                                            [suggestions]="results" (completeMethod)="search($event)">
+                                            minQueryLength="0" [dropdown]="true" [(ngModel)]="this.navigationService.ckanPackagesInfo"
+                                            [suggestions]="results" (ngModelChange)="resetData()"  (completeMethod)="search($event)">
                                         </p-autoComplete>
                                     </div>
                                 </div>
@@ -28,18 +28,18 @@
                                 <div *ngIf="errorResponse[0]" class="text-danger pt-2"><strong>No se ha podido cargar el recurso, prueba más tarde y si no lo consigue, infórmanos en opendata@aragon.es</strong></div>
                             </div>
 
-                            <div class="table-responsive pt-5" *ngIf='packagesSelCKAN != ""'>
+                            <div class="table-responsive pt-5" *ngIf='this.navigationService.packagesSelCKAN != ""'>
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
                                             <!-- <th scope="col">DataSet: {{packagesSelCKAN}}</th> -->
-                                            <th scope="col"><a target="blank" [href]="baseUrlOpenData+'/datos/catalogo/dataset/'+packagesSelCKAN">+ Información sobre estos datos</a></th>
+                                            <th scope="col"><a target="blank" [href]="baseUrlOpenData+'/datos/catalogo/dataset/'+this.navigationService.packagesSelCKAN">+ Información sobre estos datos</a></th>
                                             <th scope="col">Data</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let resorce of resourcesPackages; index as i;">
+                                        <tr *ngFor="let resorce of this.navigationService.resourcesPackages; index as i;">
                                             <th scope="row">{{i + 1}}</th>
                                             <td>{{resorce.name}}</td>
                                             <td>
@@ -53,13 +53,13 @@
                             </div>
                         </div>
                     </accordion-group>
-                    <accordion-group heading="Opciones Avanzadas" tabindex="-1">
+                    <accordion-group #accordionOptions heading="Opciones Avanzadas" tabindex="-1">
                         <accordion  [closeOthers]=true>
   
-                            <accordion-group heading="Añade la url de datos (csv o px) de recursos de *.aragon.es o *unizar.es" (isOpenChange)="whoIsOpen('URL')">
+                            <accordion-group #accordionUrl heading="Añade la url de datos (csv o px) de recursos de *.aragon.es o *unizar.es" (isOpenChange)="whoIsOpen('URL')">
                                 <div class="float-left">
                                     <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text" placeholder="Introduce la URL del recurso externo (en formato CSV) que quieras utilizar"
-                                        size="75%" pInputText [(ngModel)]="urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
+                                        size="75%" pInputText [(ngModel)]="this.navigationService.urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
                                 </div>
                                 <div class="float-left">
                                     <button type="button" class="button1" tabindex="{{openedMenu ? -1 : 0}}" aria-label="Cargar datos"
@@ -76,8 +76,8 @@
                                         <li *ngIf="urlError" class="text-danger pt-1">
                                             <strong>URL invalida:</strong> Por favor cargue una URL valida
                                         </li>
-                                        <li *ngIf='packagesSelURL != ""'>
-                                            <strong>DataSet seleccionado:</strong> {{packagesSelURL}}
+                                        <li *ngIf='this.navigationService.packagesSelURL != ""'>
+                                            <strong>DataSet seleccionado:</strong> {{this.navigationService.packagesSelURL}}
                                             <button (click)="deletePackage('URL')" class="button3" tabindex="{{openedMenu ? -1 : 0}}"
                                                 aria-label="Eliminar Datos Cargados">
                                                 <i class="fa fa-remove"></i>
@@ -86,13 +86,13 @@
                                     </ul>
                                 </div>
                             </accordion-group>
-                            <accordion-group heading="SPARQL endpoint" tabindex="-1" (isOpenChange)="whoIsOpen('SPARQL')">
+                            <accordion-group #accordionSPARQL heading="SPARQL endpoint" tabindex="-1" (isOpenChange)="whoIsOpen('SPARQL')">
                                 <p>El SPARQL Endpoint consiste en una interfaz Web desde la que se pueden ejecutar consultas SPARQL, en el siguiente punto de entrada: https://opendata.aragon.es/sparql</p>
                                 <div class="float-left mb-3">
                                     <div class="ui-float-label">
                                         <textarea pInputTextarea tabindex="{{openedMenu ? -1 : 0}}"
                                             aria-label="A&ntilde;adir consulta SPARQL"
-                                            style="width: 500px; height: 150px" [(ngModel)]="virtuosoPackagesInfo"
+                                            style="width: 500px; height: 150px" [(ngModel)]="this.navigationService.virtuosoPackagesInfo"
                                             (keyup.enter)="selectPackage('SPARQL')"></textarea>
                                     </div>
                                 </div>
@@ -108,8 +108,8 @@
                                         <li *ngIf="querryError" class="text-danger pt-1">
                                             <strong>Consulta inválida:</strong> por favor realice una consulta válida
                                         </li>
-                                        <li *ngIf='packagesSelSPARQL != ""'>
-                                            <strong>DataSet seleccionado:</strong> {{packagesSelSPARQL}}
+                                        <li *ngIf='this.navigationService.packagesSelSPARQL != ""'>
+                                            <strong>DataSet seleccionado:</strong> {{this.navigationService.packagesSelSPARQL}}
                                             <button (click)="deletePackage('SPARQL')" class="button3"
                                                 tabindex="{{openedMenu ? -1 : 0}}" aria-label="Eliminar Datos Cargados">
                                                 <i class="fa fa-remove"></i>
@@ -118,11 +118,11 @@
                                     </ul>
                                 </div>
                             </accordion-group>
-                            <accordion-group heading="Gobierno de Aragón Open Data Core GA_OD_Core" (isOpenChange)="whoIsOpen('GAODC')">
+                            <accordion-group #accordionGAODC heading="Gobierno de Aragón Open Data Core GA_OD_Core" (isOpenChange)="whoIsOpen('GAODC')">
                                 <p>GA_OD_Core es una API creada con la finalidad de poder obtener datos de determinadas vistas usadas y servidas actualmente a través del portal Aragón Openda Data. Utiliza estos datos para crear gráficas dentro de tus historias.</p>
                                 <div style="float:left" class="mb-3">
                                     <div *ngIf="listGaodc?.length>0">
-                                        <p-autoComplete size="70%" minQueryLength="0" [dropdown]="true" [(ngModel)]="gaodcPackagesInfo" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>
+                                        <p-autoComplete size="70%" minQueryLength="0" [dropdown]="true" [(ngModel)]="this.navigationService.gaodcPackagesInfo" [suggestions]="results" (ngModelChange)="resetData()" (completeMethod)="search($event)"></p-autoComplete>
                                     </div>
                                 </div>
                                 <div style="float:left">
@@ -131,11 +131,11 @@
                                 <div *ngIf="loading[1]" class="loader" style="float:left; margin-left: 2%"></div>
                                 <div *ngIf="errorResponse[1]" class="cross" style="float:left; margin-left: 2%">&times;</div>
                                 <div *ngIf="errorResponse[1]" class="text-danger pt-2"><strong>No se ha podido cargar el recurso, prueba más tarde y si no lo consigue, infórmanos en opendata@aragon.es</strong></div>
-                                <div class="table-responsive pt-2" *ngIf='packagesSelGAODC != ""'>
+                                <div class="table-responsive pt-2" *ngIf='this.navigationService.packagesSelGAODC != ""'>
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Datos seleccionados: {{packagesSelGAODC}}</th>
+                                                <th scope="col">Datos seleccionados: {{this.navigationService.packagesSelGAODC}}</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -143,8 +143,8 @@
                                 <!--
                                 <div style="float:left ;margin-left: 1%; word-break: break-all;">
                                     <ul>
-                                        <li *ngIf="gaodcPackagesInfo">
-                                            <strong>DataSet seleccionado:</strong> {{gaodcPackagesInfo}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
+                                        <li *ngIf="this.navigationService.gaodcPackagesInfo">
+                                            <strong>DataSet seleccionado:</strong> {{this.navigationService.gaodcPackagesInfo}} <button (click)="deletePackage()" class="button3"><i class="fa fa-remove"></i></button>
                                         </li>
                                     </ul>
                                 </div>
@@ -157,13 +157,13 @@
             </div>
         </div>
 
-        <div class="row" *ngIf="tableToShow == 0">
+        <div class="row" *ngIf="this.navigationService.tableToShow == 0">
             <div class="col-12">
-                <span *ngIf="dataTable && !openedMenu">
-                    <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true"
+                <span *ngIf="this.navigationService.dataTable && !openedMenu">
+                    <p-dataTable [value]="this.navigationService.dataTable" [rows]="6" [paginator]="true" resizableColumns="true"
                         responsive="true" [immutable]=false scrollable="true" #dt>
                         <p-header>Dataset</p-header>
-                        <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
+                        <ng-template ngFor let-property [ngForOf]="this.navigationService.headerTable" let-i="index">
                             <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
                                 <ng-template let-entry="rowData" pTemplate="body">
                                     <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;"
@@ -183,18 +183,17 @@
                 </span>
             </div>
         </div>
-
         
     </div>
 </div>
 
-<div class="row" *ngIf="tableToShow == 1">
+<div class="row" *ngIf="this.navigationService.tableToShow == 1">
     <div class="col-12">
-        <span *ngIf="dataTable  && !openedMenu">
-            <p-dataTable [value]="dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true"
+        <span *ngIf="this.navigationService.dataTable  && !openedMenu">
+            <p-dataTable [value]="this.navigationService.dataTable" [rows]="6" [paginator]="true" resizableColumns="true" responsive="true"
                 [immutable]=false scrollable="true" #dt>
                 <p-header>Dataset</p-header>
-                <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
+                <ng-template ngFor let-property [ngForOf]="this.navigationService.headerTable" let-i="index">
                     <p-column [style]="{width: '200px'}" field={{property}} header={{property}}>
                         <ng-template let-entry="rowData" pTemplate="body">
                             <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;">
