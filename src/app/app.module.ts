@@ -75,6 +75,7 @@ import { TinyMceModule } from 'angular-tinymce';
 import { tinymceDefaultSettings } from 'angular-tinymce';
 import { IFrameResizerDirective } from './directives/iframe-resizer.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { NavigationService } from './services/navigation.service';
 
 // All the routes for the app
 const routes: Routes = [
@@ -177,7 +178,7 @@ const routes: Routes = [
     GoogleAnalyticsEventsService,
     HistoriesService,
     VisualGrapsService,
-
+    NavigationService,
      { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
