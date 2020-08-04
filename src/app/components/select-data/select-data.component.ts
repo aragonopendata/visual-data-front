@@ -197,6 +197,8 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+
+    this.dataservice.ckanDataset = '';
     if (this.navigationService.opened !== 'URL') {
       this.dataservice.type = this.navigationService.opened;
     } else {
