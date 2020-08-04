@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { prepareArrayXY } from '../exportedFunctions/lib';
 import { UtilsService } from '../exportedFunctions/utils.service';
 import { Constants } from '../../app.constants';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-embed-graph',
@@ -52,7 +53,8 @@ export class EmbedGraphComponent implements OnInit {
   public routeEmbed: any;
   public datasetLocation: Array<any> = [];
   public fullRoute: any;
-  
+  public tableData: any[][] = [];
+
   constructor(
     private router: Router,
     private graphservice: GraphService,
@@ -73,6 +75,9 @@ export class EmbedGraphComponent implements OnInit {
         .subscribe(chart => {
           this.graphservice.downloadProcess(urlId).subscribe(
             process => {
+
+              this.prepareDataTable(chart, process);
+
               this.chart = chart;
               this.title = chart.title;
               this.widthGraph = chart.width;
@@ -128,6 +133,87 @@ export class EmbedGraphComponent implements OnInit {
   hideEmbedButton(n: number) {
     this.hideEmbed = false;
     this.showData = n;
+  }
+
+  showModal(){
+    jQuery('#dataModal').modal('show');
+  }
+
+  private prepareDataTable(chart, process) {
+
+    this.tableData[0] = [''];
+
+    if ( !chart.isMap ){
+      this.tableData[0] = [process.columnsLabel[0]];
+    } else {
+      this.tableData[0] = [];
+      for( let desc of process.columnsDescription ) {
+        this.tableData[0].push(desc)
+      }
+    }
+    
+    if ( chart.isMap ) {
+      this.tableData[0].push('longitud');
+      this.tableData[0].push('latitud');
+
+      let x=1;
+      for( let label of chart.descriptions ) {
+
+        let y = 0;
+        let data = label.split('-');
+        for( let value of data ){
+          if( !this.tableData[x] ) {
+            this.tableData[x] = [];
+          }
+          this.tableData[x][y] = value.trim();
+          y++;
+        }
+        x++;
+      }
+
+      x = 1;
+      for( let data of chart.labels) {
+        this.tableData[x][process.columnsDescription.length] = data;
+        x++;
+      }
+
+      x=1
+      for( let dataGroup of chart.data) {
+        for( let data of dataGroup.data) {
+          this.tableData[x][process.columnsDescription.length+1] = data;
+          x++;
+        }
+      }
+
+    } else {
+      //header
+      for( let header of chart.data) {
+        this.tableData[0].push(header.label)
+      }
+
+      let x=1;
+      for( let label of chart.labels) {
+        if( !this.tableData[x] ) {
+          this.tableData[x] = [];
+        }
+        this.tableData[x][0] = label;
+        x++;
+      }
+
+      let y = 1;
+      for( let dataGroup of chart.data) {
+        x = 1;
+        for( let data of dataGroup.data) {
+          if( !this.tableData[x] ) {
+            this.tableData[x] = [];
+          }
+          this.tableData[x][y] = data;
+          x++;
+        }
+        y++;
+      }
+    }
+    
   }
 
 

@@ -16,6 +16,28 @@
   min-height: 50vh;
 }
 
+.modal{
+  .close{
+    position: absolute;
+    right: 8px;
+  }
+}
+.display-table{
+  max-height: 90vh;
+  width: calc(100% - 16px);
+  overflow: auto;
+}
+.display-row {
+  display: table-row;
+}
+.display-cell {
+  display: table-cell;
+  padding: 5px;
+  &.bold{
+    font-weight: bold;
+  }
+}
+
 @media (max-width: 768px) {
   .def {
     margin-top: -15% !important;
