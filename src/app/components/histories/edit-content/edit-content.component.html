@@ -40,21 +40,21 @@
       <h4 class="form-section-title" tabindex="{{openedMenu ? -1 : 0}}">Fuente de datos de la sección</h4>
 
       <div class="conten-type" *ngFor="let contentType of contentsTypes" id="contents">
-
-        <span class="sr-only">Seleccione una opción de fuente de la sección</span>
         
         <div class="radio" >
           <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
-          <span class="sr-only">{{contentType.text}}</span> 
-
           <div *ngIf="contentType.type===2 || contentType.type===3" class="fa fa-info-circle"></div>
           <div> 
             <img *ngIf="contentType.type===2" src='/static/public/focus/id_youtube.png'>
             <img *ngIf="contentType.type===3" src='/static/public/focus/id_slideshare.png'>
           </div>
         </div>
-        
-        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.graph))">
+
+      </div> 
+
+      <div class="conten-type-data">
+
+        <div *ngIf="((contentForm.get('type_content').value==1)&&(contentForm.get('type_content').value==contentEnum.graph))">
           <div class="form-row align-items-center">
             <div>
               <p *ngIf="contentModel.visual_content && graphTitle" class="form-section-title font-weight-bold" tabindex="{{openedMenu ? -1 : 0}}">La gr&aacute;fica seleccionada es: {{graphTitle}}</p>
@@ -64,7 +64,7 @@
           </div>
         </div>
 
-        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.youtube))" >
+        <div *ngIf="((contentForm.get('type_content').value==2)&&(contentForm.get('type_content').value==contentEnum.youtube))" >
           <div class="form-row align-items-center">
             <div class="col-auto">
               <div class="input-group mb-2">
@@ -78,7 +78,7 @@
           </div>
         </div>
 
-        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.shareSlides))">
+        <div *ngIf="((contentForm.get('type_content').value==3)&&(contentForm.get('type_content').value==contentEnum.shareSlides))">
           <div class="form-row align-items-center mb-2">
             <div class="col-auto">
               <div class="input-group mb-2">
@@ -92,7 +92,7 @@
           </div>
         </div>
 
-        <div *ngIf="((contentForm.get('type_content').value==contentType.type)&&(contentForm.get('type_content').value==contentEnum.img))">
+        <div *ngIf="((contentForm.get('type_content').value==4)&&(contentForm.get('type_content').value==contentEnum.img))">
           <div class="form-row align-items-center mb-2">
             <div class="col-auto">
               <div class="input-group mb-2">
@@ -102,6 +102,7 @@
             </div>
           </div>
         </div>
+
 
       </div>
 
