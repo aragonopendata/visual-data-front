@@ -10,6 +10,7 @@ import { JsonPipe } from '@angular/common';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Comparator } from '../exportedFunctions/lib';
 import { UtilsService } from '../exportedFunctions/utils.service';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'app-preview-data',
@@ -17,17 +18,16 @@ import { UtilsService } from '../exportedFunctions/utils.service';
   styleUrls: ['./preview-data.component.scss']
 })
 export class PreviewDataComponent implements OnInit, OnDestroy {
-  checked: boolean[] = [];
+  // checked: boolean[] = [];
   dataTable: any;
-  headerTable: string[];
+  //headerTable: string[];
   mData: any;
-  columnsHeaders: any;
+  //columnsHeaders: any;
   realNameHeaders: any;
   nextStep: any;
 
   // SortTable
-  fieldOrder: any;
-  sortOrder: any;
+  
   type = 'all';
   openedMenu: boolean;
 
@@ -36,7 +36,7 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
     private location: Location,
     private router: Router,
     public dataservice: ShareDataService,
-    private ckanservice: CkanService,
+    public navigationService: NavigationService,
     private utilsService: UtilsService
   ) {
 
@@ -46,7 +46,8 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
     this.nextStep = true;
     window.scrollTo(0, 0);
-    this.sortOrder = -2;
+
+    
     this.getOpenedMenu();
   }
 
@@ -56,40 +57,74 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       this.dataservice.datasetHeader.length !== undefined &&
       this.dataservice.datasetHeader.length > 0
     ) {
-      this.headerTable = this.dataservice.datasetHeader;
+      if ( !this.navigationService.headerTablePreview ) {
+        this.navigationService.headerTablePreview = this.dataservice.datasetHeader;
+      }
+      
       this.dataTable = this.dataservice.dataset;
-      this.realNameHeaders = this.headerTable.slice(0);
+      this.realNameHeaders = this.navigationService.headerTablePreview.slice(0);
     } else {
       // TODO: Change to return fisrt page
       // this.router.navigate(['/selectData/']);
       this.location.back();
       /*
-            this.headerTable = ['Datos','De','Prueba']
+            this.navigationService.headerTablePreview = ['Datos','De','Prueba']
             this.dataTable = [["Prueba",3,4],["Prueba",2,3]]
-            this.realNameHeaders = this.headerTable.slice(0);
+            this.realNameHeaders = this.navigationService.headerTablePreview.slice(0);
             */
     }
+
+    setTimeout(() => {
+      if ( this.navigationService.fieldOrder ){
+        this.preLoadSort();
+      }
+    }, 100);
+    
+  }
+
+  preLoadSort(){
+    let headers = document.querySelectorAll('#dataTable thead th');
+
+    for(let header of Array.from(headers)) {
+      let val = header.children[1];
+      let icon = header.children[2];
+      if ( val.innerHTML === this.navigationService.fieldOrder){
+        header.classList.add('ui-state-active')
+        if ( this.navigationService.sortOrder === 1) {
+          icon.classList.add('fa-sort-asc')
+        }
+        if ( this.navigationService.sortOrder === -1) {
+          icon.classList.add('fa-sort-desc')
+        }
+      }
+    }
+    this.dataTable = this.dataTable.sort(
+      Comparator(
+        this.navigationService.headerTablePreview.findIndex(element => element === this.navigationService.fieldOrder),
+        this.navigationService.sortOrder
+      )
+    );
   }
 
   changeSort(event) {
-    this.fieldOrder = event.field;
-    this.sortOrder = event.order;
+    this.navigationService.fieldOrder = event.field;
+    this.navigationService.sortOrder = event.order;
     this.dataTable = this.dataTable.sort(
       Comparator(
-        this.headerTable.findIndex(element => element === event.field),
+        this.navigationService.headerTablePreview.findIndex(element => element === event.field),
         event.order
       )
     );
   }
 
   ngOnDestroy() {
-    if (this.headerTable) {
+    if (this.navigationService.headerTablePreview) {
       const headersSelected = [];
       const realHeadersSelected = [];
       const dataSelected = [];
-      for (let i = 0; i < this.headerTable.length; i++) {
-        if (this.checked[this.headerTable[i]]) {
-          headersSelected.push(this.headerTable[i]);
+      for (let i = 0; i < this.navigationService.headerTablePreview.length; i++) {
+        if (this.navigationService.checked[this.navigationService.headerTablePreview[i]]) {
+          headersSelected.push(this.navigationService.headerTablePreview[i]);
           realHeadersSelected.push(this.realNameHeaders[i]);
           const auxArray = [];
           for (let index = 0; index < this.dataTable.length; index++) {
@@ -101,16 +136,23 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
       this.dataservice.headerSelected = headersSelected;
       this.dataservice.realHeadersSelected = realHeadersSelected;
       this.dataservice.dataSelected = dataSelected;
-      this.dataservice.fieldOrder = this.fieldOrder;
-      this.dataservice.sortOrder = this.sortOrder;
+      this.dataservice.fieldOrder = this.navigationService.fieldOrder;
+      this.dataservice.sortOrder = this.navigationService.sortOrder;
     }
   }
 
+  isChecked(option){
+    if (this.navigationService.checked[option]) {
+      return this.navigationService.checked[option];
+    } 
+    return false
+  }
+
   updateChecked(option, event) {
-    if (this.checked[option]) {
-      this.checked[option] = !this.checked[option];
+    if (this.navigationService.checked[option]) {
+      this.navigationService.checked[option] = !this.navigationService.checked[option];
     } else {
-      this.checked[option] = true;
+      this.navigationService.checked[option] = true;
     }
   }
 
@@ -134,8 +176,8 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
 
   next() {
     let con = false;
-    for (const key in this.checked) {
-      if (this.checked[key]) {
+    for (const key in this.navigationService.checked) {
+      if (this.navigationService.checked[key]) {
         con = true;
         break;
       }
@@ -153,22 +195,22 @@ export class PreviewDataComponent implements OnInit, OnDestroy {
   }
 
   generateColumns() {
-    this.columnsHeaders = [];
-    this.headerTable.forEach(element => {
-      this.columnsHeaders.push({ col: element });
+    this.navigationService.columnsHeaders = [];
+    this.navigationService.headerTablePreview.forEach(element => {
+      this.navigationService.columnsHeaders.push({ col: element });
     });
   }
 
   changeColumnsName() {
-    this.headerTable = [];
+    this.navigationService.headerTablePreview = [];
     const aux = [];
-    this.columnsHeaders.forEach(element => {
-      this.headerTable.push(element.col);
-      if (this.checked[element.col]) {
+    this.navigationService.columnsHeaders.forEach(element => {
+      this.navigationService.headerTablePreview.push(element.col);
+      if (this.navigationService.checked[element.col]) {
         aux[element.col] = true;
       }
     });
-    this.checked = aux;
+    this.navigationService.checked = aux;
   }
 
   getOpenedMenu(){

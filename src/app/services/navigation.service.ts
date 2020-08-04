@@ -26,6 +26,13 @@ export class NavigationService {
   dataTable: any;
   headerTable: string[] = [];
 
+  //PreviewData
+  checked: boolean[] = [];
+  columnsHeaders: any;
+  headerTablePreview: string[];
+  fieldOrder: any;
+  sortOrder: any = -2;
+
   private _opened: string;
   private _isOpened: boolean = false;
 
@@ -46,7 +53,7 @@ export class NavigationService {
   }
 
 
-  reset() {
+  resetSelectData() {
     this.ckanPackagesInfo = '';
     this.packagesSelCKAN = '';
     this.packagesSelGAODC = '';
@@ -75,5 +82,12 @@ export class NavigationService {
 
   }
 
+  resetPreviewData() {
+    this.checked = [];
+    this.columnsHeaders = null
+    this.headerTablePreview= null;
+    this.fieldOrder = null;
+    this.sortOrder -2;
+  }
 
 }

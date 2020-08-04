@@ -53,7 +53,7 @@
                             </div>
                         </div>
                     </accordion-group>
-                    <accordion-group #accordionOptions heading="Opciones Avanzadas" tabindex="-1">
+                    <accordion-group #accordionOptions heading="Opciones Avanzadas" tabindex="-1" (isOpenChange)="resetData(true)">
                         <accordion  [closeOthers]=true>
   
                             <accordion-group #accordionUrl heading="Añade la url de datos (csv o px) de recursos de *.aragon.es o *unizar.es" (isOpenChange)="whoIsOpen('URL')">

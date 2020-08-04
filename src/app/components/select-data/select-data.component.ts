@@ -572,6 +572,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       this.navigationService.dataTable
     ) {
       //this.router.navigate(['/previewData/']);
+      this.navigationService.resetPreviewData()
       this.router.navigate([{outlets: {modal: 'visualData/previewData/'+this.type}}]);
     } else {
       this.nextStep = false;
@@ -604,12 +605,18 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     
   }
 
-  resetData() {
-    this.navigationService.dataTable = null;
-    if ( this.navigationService.opened === 'GAODC' ) {
-      this.navigationService.packagesSelGAODC = '';
-    } if ( this.navigationService.opened === 'CKAN' ) {
-      this.navigationService.packagesSelCKAN = '';
+  resetData(onlyDataTable = false) {
+
+    if ( onlyDataTable ){
+      this.navigationService.dataTable = null;
+    } else {
+      this.navigationService.dataTable = null;
+      if ( this.navigationService.opened === 'GAODC' ) {
+        this.navigationService.packagesSelGAODC = '';
+      } if ( this.navigationService.opened === 'CKAN' ) {
+        this.navigationService.packagesSelCKAN = '';
+      }
     }
+  
   }
 }

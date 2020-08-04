@@ -240,7 +240,7 @@ export class ListGraphsComponent implements OnInit {
   }
 
   next() { 
-    this._navigationService.reset();
+    this._navigationService.resetSelectData();
     this.router.navigate([{outlets: {modal: 'visualData/selectData/'+this.type}}]);
   }
 

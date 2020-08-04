@@ -2,23 +2,23 @@
     <div class="col-2 col-left">
         <strong tabindex="{{openedMenu ? -1 : 0}}" aria-label="Seleccinar Columnas para formar la gr&aacute;fica.">¿Qué columnas quieres añadir al gráfico?</strong>
         <ul class="mt-2">
-            <ng-template ngFor let-property [ngForOf]="headerTable">
+            <ng-template ngFor let-property [ngForOf]="this.navigationService.headerTablePreview">
                 <li>
                     <label class="container">{{property}}
-                        <input type="checkbox" name=property value=property (change)="updateChecked(property, $event)" tabindex="{{openedMenu ? -1 : 0}}">
+                        <input type="checkbox" name=property value=property [checked]="isChecked(property)" (change)="updateChecked(property, $event)" tabindex="{{openedMenu ? -1 : 0}}">
                         <span class="checkmark"></span>
                     </label>
                 </li>
             </ng-template>
         </ul>
         <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="btn w-100" data-toggle="modal" (click)="generateColumns()" data-target="#editColumn">Modificar el nombre de las columnas</button>
-    </div>
+    </div> 
     <div class="col-10 col-right" *ngIf="!openedMenu">
         <p>Haz clic en las cabeceras para ordenar los datos por ese campo</p>
-        <p-dataTable resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)"
+        <p-dataTable id="dataTable" resizableColumns="true" responsive="true" [immutable]=false scrollable="true" sortMode="multiple" (onSort)="changeSort($event)"
             [value]="dataTable" [rows]="6" [paginator]="true" #dt>
             <p-header>Dataset</p-header>
-            <ng-template ngFor let-property [ngForOf]="headerTable" let-i="index">
+            <ng-template ngFor let-property [ngForOf]="this.navigationService.headerTablePreview" let-i="index">
                 <p-column [style]="{width: '200px'}" field={{property}} header={{property}} [sortable]="true">
                     <ng-template let-entry="rowData" pTemplate="body">
                         <span class="row" *ngIf='!maxCharacters(entry,i)' style="padding-left:15px;" tabindex="{{openedMenu ? -1 : 0}}">
@@ -34,9 +34,10 @@
             </ng-template>
         </p-dataTable>
 
-        <div class="btn-continue">
-            <div class="mb-3 mt-3">
-                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="next()" class="button py-2 px-2">Siguiente</button>
+        <div class="row mt-3 justify-content-end">
+            <div class="col-12 justify-content-end">
+                <button (click)="next()" tabindex="{{openedMenu ? -1 : 0}}" class="button2 float-right">Siguiente</button>
+                <button (click)="goBack()" tabindex="{{openedMenu ? -1 : 0}}" class="button2 float-right">Volver</button>
             </div>
         </div>
 
@@ -81,7 +82,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p-dataTable [value]="columnsHeaders" [editable]="true" tabindex="{{openedMenu ? -1 : 0}}">
+                <p-dataTable [value]="this.navigationService.columnsHeaders" [editable]="true" tabindex="{{openedMenu ? -1 : 0}}">
                     <p-column field="col" header="Columnas" [editable]="true"></p-column>
                 </p-dataTable>
             </div>
