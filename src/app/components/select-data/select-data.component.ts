@@ -61,6 +61,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
 
   openedMenu: boolean;
   type = 'all';
+  isBack:boolean = false;
 
   gaodcDataExcluded = [78,79,80,81,82,83,84,85,266,267];
 
@@ -120,6 +121,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     setTimeout(() => {
 
       if( this.navigationService.isOpened ){
+        this.isBack = true;
         if ( this.navigationService.opened === 'CKAN' ) {
           this.accordionCkan.isOpen = true;
         } else {
@@ -590,33 +592,46 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.utilsService.tooggleOpenedMenu();
   }
 
-  whoIsOpen(who) {
+  whoIsOpen(ele,who) {
 
-    if( this.navigationService.opened !== who) {
-      this.navigationService.dataTable = null;
-      this.navigationService.gaodcPackagesInfo = "";
+    if( ele.isOpen) {
+      if( this.navigationService.opened !== who) {
+        this.resetData();
+        this.navigationService.gaodcPackagesInfo = "";
+      }
+      this.navigationService.isOpened = false;
+      if ( this.accordionCkan.isOpen || this.accordionGAODC || this.accordionSPARQL || this.accordionUrl ){
+        this.navigationService.isOpened = true;
+      }
+  
+      if ( who === 'CKAN'){
+        this.accordionUrl.isOpen = false;
+        this.accordionSPARQL.isOpen = false;
+        this.accordionGAODC.isOpen = false;
+      }
+      
+      this.navigationService.opened = who;   
     }
-    this.navigationService.isOpened = false;
-    if ( this.accordionCkan.isOpen || this.accordionGAODC || this.accordionSPARQL || this.accordionUrl ){
-      this.navigationService.isOpened = true;
-    }
-    
-    this.navigationService.opened = who;    
+     
     
   }
 
   resetData(onlyDataTable = false) {
 
-    if ( onlyDataTable ){
-      this.navigationService.dataTable = null;
-    } else {
-      this.navigationService.dataTable = null;
-      if ( this.navigationService.opened === 'GAODC' ) {
-        this.navigationService.packagesSelGAODC = '';
-      } if ( this.navigationService.opened === 'CKAN' ) {
-        this.navigationService.packagesSelCKAN = '';
+    if( !this.isBack ){
+      if ( onlyDataTable ){
+        this.navigationService.dataTable = null;
+      } else {
+        this.navigationService.dataTable = null;
+        if ( this.navigationService.opened === 'GAODC' ) {
+          this.navigationService.packagesSelGAODC = '';
+        } if ( this.navigationService.opened === 'CKAN' ) {
+          this.navigationService.packagesSelCKAN = '';
+        }
       }
+      
     }
+    this.isBack = false;
   
   }
 }

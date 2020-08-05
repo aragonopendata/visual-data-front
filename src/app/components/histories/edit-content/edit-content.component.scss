@@ -37,6 +37,12 @@ small {
                 input{
                     margin-right: 12px;
                 }
+                div.help-img {
+                    img{
+                        border-radius: 10px;
+                        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.18);
+                    }
+                }
                 div.fa-info-circle {
                     color: #5ea2ba;
                     cursor: pointer;
@@ -49,6 +55,13 @@ small {
                             position: absolute;
                             z-index: 9;
                         }
+                    }
+                }
+                div.help-img{
+                    &:hover {
+                        display: block !important;
+                        position: absolute;
+                        z-index: 9;
                     }
                 }
             }

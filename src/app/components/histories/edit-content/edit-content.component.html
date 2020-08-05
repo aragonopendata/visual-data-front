@@ -44,7 +44,7 @@
         <div class="radio" >
           <input type="radio" [value]='contentType.type' id="{{contentType.text}}" formControlName="type_content" (click)="contentForm.controls['visual_content'].reset()"><span>{{contentType.text}}</span>
           <div *ngIf="contentType.type===2 || contentType.type===3" class="fa fa-info-circle"></div>
-          <div> 
+          <div class="help-img"> 
             <img *ngIf="contentType.type===2" src='/static/public/focus/id_youtube.png'>
             <img *ngIf="contentType.type===3" src='/static/public/focus/id_slideshare.png'>
           </div>
@@ -83,7 +83,7 @@
             <div class="col-auto">
               <div class="input-group mb-2">
                 <div class="input-group-prepend" tabindex="{{openedMenu ? -1 : 0}}">
-                  <div class="input-group-text">https://www.slideshare.net/</div>
+                  <div class="input-group-text">https://www.slideshare.net/slideshow/embed_code/key/</div>
                 </div>
                 <input type="text" class="form-control" formControlName="visual_content" id="idSlideShare" placeholder="Id del Slide share" tabindex="{{openedMenu ? -1 : 0}}">
                 <span class="sr-only">Id del slideshare</span>

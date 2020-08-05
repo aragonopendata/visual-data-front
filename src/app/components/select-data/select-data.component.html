@@ -6,7 +6,7 @@
             <div class="col-12" tabindex="-1" *ngIf="!openedMenu">
                 <p class="title-section">Utiliza tus datos de Aragón Open Data</p>
                 <accordion [closeOthers]=true>
-                    <accordion-group #accordionCkan heading="Buscar en el Banco de datos de Aragón Open Data" tabindex="-1" (isOpenChange)="whoIsOpen('CKAN')" class="principalOption">
+                    <accordion-group #accordionCkan heading="Buscar en el Banco de datos de Aragón Open Data" tabindex="-1" (isOpenChange)="whoIsOpen(accordionCkan,'CKAN')" class="principalOption">
                         <div class="content-accordion mb-4">
                             <div>
                                 <div>
@@ -56,7 +56,7 @@
                     <accordion-group #accordionOptions heading="Opciones Avanzadas" tabindex="-1" (isOpenChange)="resetData(true)">
                         <accordion  [closeOthers]=true>
   
-                            <accordion-group #accordionUrl heading="Añade la url de datos (csv o px) de recursos de *.aragon.es o *unizar.es" (isOpenChange)="whoIsOpen('URL')">
+                            <accordion-group #accordionUrl heading="Añade la url de datos (csv o px) de recursos de *.aragon.es o *unizar.es" (isOpenChange)="whoIsOpen(accordionUrl,'URL')">
                                 <div class="float-left">
                                     <input tabindex="{{openedMenu ? -1 : 0}}" aria-label="Insertar URL del Banco de Datos" type="text" placeholder="Introduce la URL del recurso externo (en formato CSV) que quieras utilizar"
                                         size="75%" pInputText [(ngModel)]="this.navigationService.urlPackagesInfo" (keyup.enter)="selectPackage('URL')" />
@@ -86,7 +86,7 @@
                                     </ul>
                                 </div>
                             </accordion-group>
-                            <accordion-group #accordionSPARQL heading="SPARQL endpoint" tabindex="-1" (isOpenChange)="whoIsOpen('SPARQL')">
+                            <accordion-group #accordionSPARQL heading="SPARQL endpoint" tabindex="-1" (isOpenChange)="whoIsOpen(accordionSPARQL,'SPARQL')">
                                 <p>El SPARQL Endpoint consiste en una interfaz Web desde la que se pueden ejecutar consultas SPARQL, en el siguiente punto de entrada: https://opendata.aragon.es/sparql</p>
                                 <div class="float-left mb-3">
                                     <div class="ui-float-label">
@@ -118,7 +118,7 @@
                                     </ul>
                                 </div>
                             </accordion-group>
-                            <accordion-group #accordionGAODC heading="Gobierno de Aragón Open Data Core GA_OD_Core" (isOpenChange)="whoIsOpen('GAODC')">
+                            <accordion-group #accordionGAODC heading="Gobierno de Aragón Open Data Core GA_OD_Core" (isOpenChange)="whoIsOpen(accordionGAODC,'GAODC')">
                                 <p>GA_OD_Core es una API creada con la finalidad de poder obtener datos de determinadas vistas usadas y servidas actualmente a través del portal Aragón Openda Data. Utiliza estos datos para crear gráficas dentro de tus historias.</p>
                                 <div style="float:left" class="mb-3">
                                     <div *ngIf="listGaodc?.length>0">
