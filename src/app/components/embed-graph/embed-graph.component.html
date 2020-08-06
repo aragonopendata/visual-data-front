@@ -30,4 +30,59 @@
         </div>
         <app-map [descriptionPoints]="descriptions" [points]="points" zoom="8" turnDescript=true></app-map>
     </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="text-center">
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(0)" class="btn btn-link">Reutiliza el gráfico</button>
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="hideEmbedButton(1)" class="btn btn-link">Fuente de datos</button>
+                <button tabindex="{{openedMenu ? -1 : 0}}" (click)="showModal()" class="btn btn-link">Ver tabla de datos</button>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center">
+                <span *ngIf="!hideEmbed">
+                    <code>
+                    <div class="border rounded" *ngIf="showData == 0" tabindex="{{openedMenu ? -1 : 0}}">
+                        &lt;iframe src="{{routeEmbed}}" style="width: 100%; height: 100%;" frameborder="0"&gt;&lt;/iframe&gt;
+                    </div>
+                    <div class="border rounded" *ngIf="showData == 1" tabindex="{{openedMenu ? -1 : 0}}">
+                        <ul style="list-style: none;">
+                            <li *ngFor="let dataSource of datasetLocation">
+                                {{ dataSource }}
+                            </li>
+                        </ul>
+                    </div>
+                </code>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="dataModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="display-table">
+                    <div *ngFor="let data of tableData; let i = index" class="display-row">
+                        <div *ngFor="let value of data; let j = index" class="display-cell" [ngClass]="{'bold': i===0 || j === 0}">
+                            <div>{{value}}</div>
+                        </div>
+                    </div>                    
+                </div>
+                
+                <button tabindex="{{openedMenu ? -1 : 0}}" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="sr-only">Cerrar modal tabla de datos</span>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
