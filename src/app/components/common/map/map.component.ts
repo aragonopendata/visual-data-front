@@ -26,7 +26,7 @@ export class MapComponent implements OnInit {
   ngOnInit() {}
 
   setZoon(val: number){
-    if( val<0 && this.zoom>8 ){
+    if( val<0 && this.zoom>6 ){
       this.zoom = (parseInt(this.zoom)+val).toString();
     } else if ( val>0 && this.zoom < 21){
       this.zoom = (parseInt(this.zoom)+val).toString();
