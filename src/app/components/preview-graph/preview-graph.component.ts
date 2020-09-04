@@ -508,7 +508,7 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
   next() {
     this.clickFinish=true;
     // Get the real names of the label column Names if there was a posible change
-    const rColumnsLables = [];
+    var rColumnsLables = [];
     this.columnsLabel.forEach(x => {
       rColumnsLables.push(
         this.realColumns[this.columns.findIndex(e => e === x)]
@@ -557,6 +557,8 @@ export class PreviewGraphComponent implements OnInit, OnDestroy {
           numberUnits: this.numberUnits,
           numberSize: this.numberSize,
         }
+        rColumnsLables = [];
+        this.chartLabels = ['No data'];
       }
 
       this.graphservice

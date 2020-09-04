@@ -107,7 +107,7 @@ export class AdminPanelComponent implements OnInit, OnDestroy {
       this.utilsGraphService.gaodcReloadChart(dataProcess);
     } else if (dataProcess.typeOfData === 'URL') {
       this.utilsGraphService.urlReloadChart(dataProcess);
-    } else if (dataProcess.typeOfData === 'VIRTUOSO') {
+    } else if (dataProcess.typeOfData === 'SPARQL') {
       jQuery('#updater').modal('hide');
       // Prepare Dataset
       this.dataProcess = dataProcess;

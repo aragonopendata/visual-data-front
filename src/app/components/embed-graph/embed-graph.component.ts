@@ -112,7 +112,7 @@ export class EmbedGraphComponent implements OnInit {
                 this.points = prepareArrayXY(chart.data[0].data, chart.labels);
               }
 
-              if (process.typeOfData === 'VIRTUOSO') {
+              if (process.typeOfData === 'SPARQL') {
                 this.datasetLocation.push('https://opendata.aragon.es/sparql' + ' Consulta: ' + process.dataset);
               } else if (process.typeOfData === 'GAODC') {
                 this.datasetLocation.push('https://opendata.aragon.es/GA_OD_Core/download?view_id=' + process.dataset + '&formato=csv&_pageSize=100&_page=1')

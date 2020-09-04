@@ -99,7 +99,7 @@ export class EndGraphComponent implements OnInit {
         chart => {
           this.graphservice.downloadProcess(id).subscribe(
             process => {
-              if (process.typeOfData === 'VIRTUOSO') {
+              if (process.typeOfData === 'SPARQL') {
                 this.datasetLocation.push('https://opendata.aragon.es/sparql' + ' Consulta: ' + process.dataset);
               } else if (process.typeOfData === 'GAODC') {
                 this.datasetLocation.push('https://opendata.aragon.es/GA_OD_Core/download?view_id=' + process.dataset + '&formato=csv&_pageSize=100&_page=1');
@@ -182,7 +182,7 @@ export class EndGraphComponent implements OnInit {
         this.utilsGraphService.gaodcReloadChart(dataProcess);
       } else if (dataProcess.typeOfData === 'URL') {
         this.utilsGraphService.urlReloadChart(dataProcess);
-      } else if (dataProcess.typeOfData === 'VIRTUOSO') {
+      } else if (dataProcess.typeOfData === 'SPARQL') {
         jQuery('#listModal').modal('hide');
         // Prepare Dataset
         this.dataProcess = dataProcess;

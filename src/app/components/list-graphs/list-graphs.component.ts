@@ -200,7 +200,7 @@ export class ListGraphsComponent implements OnInit {
         this.utilsGraphService.gaodcReloadChart(dataProcess);
       } else if (dataProcess.typeOfData === 'URL') {
         this.utilsGraphService.urlReloadChart(dataProcess);
-      } else if (dataProcess.typeOfData === 'VIRTUOSO') {
+      } else if (dataProcess.typeOfData === 'SPARQL') {
         // jQuery("#listModal").modal("hide");
         // Prepare Dataset
         this.dataProcess = dataProcess;
