@@ -32,8 +32,11 @@ export class HomeFocusComponent implements OnInit {
   stateEnum: typeof State = State;
   state: number;
   openedMenu: boolean;
+  useConditionsUrl: string;
 
   constructor(private utilsService: UtilsService, public _historiesService: HistoriesService, private _route: Router, private _formBuilder: FormBuilder) {
+    this.useConditionsUrl = Constants.USE_CONDITIONS_URL;
+
     this.getOpenedMenu();
    }
 
