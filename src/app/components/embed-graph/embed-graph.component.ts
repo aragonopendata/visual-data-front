@@ -66,7 +66,7 @@ export class EmbedGraphComponent implements OnInit {
     private utilsService: UtilsService
   ) {
     this.hideEmbed = true;
-    this.fullRoute = Constants.SERVER_URL + '/servicios/focus';
+    this.fullRoute = Constants.SERVER_URL + '/servicios/visualdata';
     this.getOpenedMenu();
    }
 
