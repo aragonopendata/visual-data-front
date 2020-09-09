@@ -236,29 +236,29 @@ export class HistoriesService {
   getIconCategory(id) {
 
     if (id === 1261){
-      return "http://opendata.aragon.es/static/public/i/temas/12-Justicia.png"
+      return "https://opendata.aragon.es/static/public/i/temas/12-Justicia.png"
     } else if (id === 1262){
-      return "http://opendata.aragon.es/static/public/i/temas/18-Sociedad.png"
+      return "https://opendata.aragon.es/static/public/i/temas/18-Sociedad.png"
     }  else if (id === 1263){
-      return "http://opendata.aragon.es/static/public/i/temas/15-Salud.png"
+      return "https://opendata.aragon.es/static/public/i/temas/15-Salud.png"
     }  else if (id === 1264){
-      return "http://opendata.aragon.es/static/public/i/temas/07-Educacion.png"
+      return "https://opendata.aragon.es/static/public/i/temas/07-Educacion.png"
     }  else if (id === 1265){
-      return "http://opendata.aragon.es/static/public/i/temas/08-Empleo.png"
+      return "https://opendata.aragon.es/static/public/i/temas/08-Empleo.png"
     }  else if (id === 1266){
-      return "http://opendata.aragon.es/static/public/i/temas/02-Comercio.png"
+      return "https://opendata.aragon.es/static/public/i/temas/02-Comercio.png"
     }  else if (id === 1267){
-      return "http://opendata.aragon.es/static/public/i/temas/14-MedioRural.png"
+      return "https://opendata.aragon.es/static/public/i/temas/14-MedioRural.png"
     }  else if (id === 1268){
-      return "http://opendata.aragon.es/static/public/i/temas/13-Medioambiente.png"
+      return "https://opendata.aragon.es/static/public/i/temas/13-Medioambiente.png"
     }  else if (id === 1269){
-      return "http://opendata.aragon.es/static/public/i/temas/11-Industria.png"
+      return "https://opendata.aragon.es/static/public/i/temas/11-Industria.png"
     }  else if (id === 1270){
-      return "http://opendata.aragon.es/static/public/i/temas/03-Cultura.png"
+      return "https://opendata.aragon.es/static/public/i/temas/03-Cultura.png"
     }  else if (id === 1271){
-      return "http://opendata.aragon.es/static/public/i/temas/22-Vivienda.png"
+      return "https://opendata.aragon.es/static/public/i/temas/22-Vivienda.png"
     }  else if (id === 1272){
-      return "http://opendata.aragon.es/static/public/i/temas/19-Transporte.png"
+      return "https://opendata.aragon.es/static/public/i/temas/19-Transporte.png"
     } 
 
   }
