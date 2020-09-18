@@ -52,6 +52,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
   listCkanNames: string[];
 
   listGaodc: string[];
+  listGaodcID: any;
 
   packagesInfo: string;
   resourceInfo: string; //Selected resource from a package
@@ -99,6 +100,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
     this.listCkan = ['Cargando Espere'];
     this.listCkanNames = ['Cargando Espere'];
     this.listGaodc = ['Cargando Espere'];
+    this.listGaodcID = [];
     
     // this.packagesSelCKAN = '';
     // this.packagesSelURL = '';
@@ -188,6 +190,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       data.forEach(element => {
         if(!this.gaodcDataExcluded.includes(element[0])){
           this.listGaodc.push(element[1]);
+          this.listGaodcID.push(element[0]);
         }
       });
       this.loading[1] = false;
@@ -245,8 +248,7 @@ export class SelectDataComponent implements OnInit, OnDestroy {
       if (exist > -1) {
         // Missing this.packagesSelGAODC != ""
         this.loading[1] = true;
-
-        this.gaodcCall(this.navigationService.gaodcPackagesInfo, exist + 1);
+        this.gaodcCall(this.navigationService.gaodcPackagesInfo, this.listGaodcID[exist]);
       }
     } else if (this.navigationService.opened === 'URL') {
       this.navigationService.tableToShow = 0;
