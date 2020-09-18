@@ -28,7 +28,7 @@ export class EditHistoryComponent implements OnInit {
   isFirstSelected = false;
   categories: Category[];
   scrollTo: string;
-  imageUrl: string = 'http://opendata.aragon.es/static/public/focus/abstracto.jpg';
+  imageUrl: string = 'https://opendata.aragon.es/static/public/focus/abstracto.jpg';
 
   contents: Content[]=[];
   contentsGeneral:Content[];
@@ -828,7 +828,7 @@ export class EditHistoryComponent implements OnInit {
       if(response.image.route && response.image.route!=null){
         this.imageUrl=response.image.route;
       }else{
-        this.imageUrl="http://opendata.aragon.es/static/public/focus/abstracto.jpg";
+        this.imageUrl="https://opendata.aragon.es/static/public/focus/abstracto.jpg";
       }
     })
   }

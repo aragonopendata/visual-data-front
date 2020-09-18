@@ -166,11 +166,11 @@ export class ViewHistoryComponent implements OnInit {
         if(response.image.route && response.image.route!=null){
           this.imageUrl=response.image.route;
         }else{
-          this.imageUrl="http://opendata.aragon.es/static/public/focus/abstracto.jpg";
+          this.imageUrl="https://opendata.aragon.es/static/public/focus/abstracto.jpg";
         }
       })
     }else{
-      this.imageUrl="http://opendata.aragon.es/static/public/focus/abstracto.jpg";
+      this.imageUrl="https://opendata.aragon.es/static/public/focus/abstracto.jpg";
     }
   }
 
