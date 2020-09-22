@@ -50,6 +50,7 @@ export class Constants {
     'https://aragon.uservoice.com/forums/192552-datos-que-me-gustar%C3%ADa-reutilizar'; 
   public static AOD_GITHUB_URL = 'http://github.com/aragonopendata';
   public static USE_CONDITIONS_URL = 'https://opendata.aragon.es/informacion/open-data#terminos-licencias';
+  public static VIDEO_TUTORIAL_URL = 'https://youtu.be/AnNnt6weWx4';
   public static CKAN_URL = 'http://ckan.org/';
   public static MEDIA_WIKI_URL = 'http://mediawiki.org/';
   public static VIRTUOSO_URL = 'http://virtuoso.openlinksw.com/';
