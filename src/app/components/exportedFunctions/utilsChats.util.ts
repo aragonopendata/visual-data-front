@@ -47,22 +47,33 @@ export class UtilsGraphService {
       );
     }
     // Preparing the initial table with the correct columns and order
+    let error = false;
     checkedData.forEach(element => {
       const i = headerTable.indexOf(element);
-      const groupIndex = headerTable.indexOf(dataProcess.groupRow);
+      if(i != -1){
+        const groupIndex = headerTable.indexOf(dataProcess.groupRow);
 
-      const auxArray = [];
-      const auxArrayGroup = [];
-      for (let index = 0; index < dataTable.length; index++) {
-        auxArray.push(dataTable[index][i]);
+        const auxArray = [];
+        const auxArrayGroup = [];
+        for (let index = 0; index < dataTable.length; index++) {
+          auxArray.push(dataTable[index][i]);
 
-        if (groupIndex != -1) {
-          auxArrayGroup.push(dataTable[index][groupIndex]);
+          if (groupIndex != -1) {
+            auxArrayGroup.push(dataTable[index][groupIndex]);
+          }
         }
+        dataSelected.push(auxArray);
+        dataGroup = auxArrayGroup;
+      }else{
+        error = true;
       }
-      dataSelected.push(auxArray);
-      dataGroup = auxArrayGroup;
     });
+
+    if(error){
+      console.log("Error: Column mismatch encountered, column names are not the same as previous saved");
+      this.loading.next(false);
+      return;
+    }
 
     // Prepare the two arrays of data
     // Labels Array and the Data array with the Legend
